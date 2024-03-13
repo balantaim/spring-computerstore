@@ -1,0 +1,18 @@
+        * {
+
+        }
+        body{
+            min-height: 100vh;
+        }
+        button{
+            min-height: 40px;
+            width: 145px;
+        }
+        img{
+            height: 200px;
+            width: 80%
+        }
+        input{
+            height: 30px
+            width: 145px;
+        }
