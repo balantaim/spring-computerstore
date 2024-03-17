@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.user;
+package com.martinatanasov.computerstore.model;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
@@ -28,8 +28,12 @@ public class WebUser {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#!?@\\-])\\S{3,50}$")
     private String email;
 
-    @Max(value = 50, message = "Full name with maximum 50 characters")
-    private String fullName;
+    @Max(value = 50, message = "Firstname with maximum 50 characters")
+    private String firstName;
+
+    @Max(value = 50, message = "Lastname with maximum 50 characters")
+    private String lastName;
+
     @NotNull(message = "Valid Password is required")
     @Size(min = 6, max = 30,message = "Password should be between 6 and 30 characters")
     private String password;

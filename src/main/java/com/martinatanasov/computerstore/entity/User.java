@@ -35,8 +35,20 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "county")
+    private String county;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     @Column(name = "enabled")
     private boolean enabled;
@@ -53,19 +65,24 @@ public class User {
 
     public User() {}
 
-    public User(String email, String fullName, String password, boolean enabled, boolean verifiedProfile, Timestamp creationDate) {
+    public User(String email, String firstName, String lastName, String password, boolean enabled, boolean verifiedProfile) {
         this.email = email;
-        this.fullName = fullName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.enabled = enabled;
         this.verifiedProfile = verifiedProfile;
-        this.creationDate = creationDate;
+        //this.creationDate = creationDate;
     }
 
-    public User(String email, String fullName, String password, boolean enabled, boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
+    public User(String email, String firstName, String lastName, String password, String county, String address, String phoneNumber, boolean enabled, boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
         this.email = email;
-        this.fullName = fullName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
+        this.county = county;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
         this.enabled = enabled;
         this.verifiedProfile = verifiedProfile;
         this.creationDate = creationDate;
@@ -96,12 +113,44 @@ public class User {
         this.password = password;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public boolean isEnabled() {
@@ -142,7 +191,11 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", userName='" + fullName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", county='" + county + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", enabled=" + enabled +
                 ", verifiedProfile=" + verifiedProfile +
                 ", creationDate=" + creationDate +
