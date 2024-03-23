@@ -16,3 +16,9 @@
             height: 30px
             width: 145px;
         }
+
+        @media (prefers-color-scheme: dark) {
+          :root {
+            /* Update CSS variables */
+          }
+        }
