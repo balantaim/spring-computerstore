@@ -18,7 +18,7 @@ package com.martinatanasov.computerstore.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Table(name = "authorities")
 public class Role {
 
     @Id
@@ -26,13 +26,13 @@ public class Role {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "authority")
+    private String authority;
 
     public Role() {}
 
-    public Role(String name) {
-        this.name = name;
+    public Role(String authority) {
+        this.authority = authority;
     }
 
     public Long getId() {
@@ -43,19 +43,19 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getAuthority() {
+        return authority;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", authority='" + authority + '\'' +
                 '}';
     }
 }
