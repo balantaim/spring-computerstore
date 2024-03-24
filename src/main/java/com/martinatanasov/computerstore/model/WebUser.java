@@ -29,10 +29,10 @@ public class WebUser {
     private String email;
 
     @Max(value = 50, message = "Firstname with maximum 50 characters")
-    private String firstName;
+    private String firstName = "";
 
     @Max(value = 50, message = "Lastname with maximum 50 characters")
-    private String lastName;
+    private String lastName = "";
 
     @NotNull(message = "Valid Password is required")
     @Size(min = 6, max = 30,message = "Password should be between 6 and 30 characters")
@@ -40,4 +40,44 @@ public class WebUser {
 
     @Max(value = 30, message = "Repeat password should be less or equal than 30 characters")
     private String repeatPassword = "";
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
 }

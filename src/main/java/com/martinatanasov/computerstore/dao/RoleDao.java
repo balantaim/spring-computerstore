@@ -13,23 +13,10 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.controller;
+package com.martinatanasov.computerstore.dao;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.martinatanasov.computerstore.entity.Role;
 
-@Controller
-public class LoginController {
-
-    @GetMapping("/Login")
-    public String login(){
-        return "Login/login";
-    }
-
-    //Add request mapping for access denied
-    @GetMapping("/access-denied")
-    public String showAccessDenied(){
-        return "/AccessDenied/access-denied";
-    }
-
+public interface RoleDao {
+    public Role findRoleByName(String roleName);
 }

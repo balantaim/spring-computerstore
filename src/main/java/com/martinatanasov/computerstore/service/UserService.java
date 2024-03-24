@@ -13,23 +13,16 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.controller;
+package com.martinatanasov.computerstore.service;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.martinatanasov.computerstore.entity.User;
+import com.martinatanasov.computerstore.model.WebUser;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-@Controller
-public class LoginController {
+public interface UserService extends UserDetailsService {
 
-    @GetMapping("/Login")
-    public String login(){
-        return "Login/login";
-    }
+    User findByUserName(String userName);
 
-    //Add request mapping for access denied
-    @GetMapping("/access-denied")
-    public String showAccessDenied(){
-        return "/AccessDenied/access-denied";
-    }
+    void save(WebUser webUser);
 
 }
