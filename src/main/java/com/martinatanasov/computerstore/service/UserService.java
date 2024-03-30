@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
-    User findByUserName(String userName);
+    User findByUserName(String email);
 
     void save(WebUser webUser);
 

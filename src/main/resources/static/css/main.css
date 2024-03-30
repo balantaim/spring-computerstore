@@ -1,8 +1,7 @@
         * {
-/*            box-sizing: border-box;*/
+
         }
         body{
-
             min-height: 100vh;
         }
         button{
@@ -14,18 +13,19 @@
             width: 80%
         }
         input{
-            height: 30px
+            height: 30px;
             width: 145px;
         }
         .space{
             height: 90px;
         }
         .main{
-            height: 100vh;
+            min-height: calc(100vh - 68px);
         }
         footer{
             padding-top: 8px !important;
             padding-bottom: 8px !important;
+/*            background-color: #00d1b2 !important;*/
         }
 
 

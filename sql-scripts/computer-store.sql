@@ -11,7 +11,7 @@ USE computer_store;
 CREATE TABLE users (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(50) NOT NULL,
-  password CHAR(68) NOT NULL,
+  password CHAR(60) NOT NULL,
   first_name VARCHAR(30) DEFAULT NULL,
   last_name VARCHAR(30) DEFAULT NULL,
   country VARCHAR(50) DEFAULT NULL,
@@ -29,9 +29,9 @@ CREATE TABLE users (
 INSERT INTO users 
 (email, password, first_name, last_name, country, address, phone_number, enabled, verified_profile)
 VALUES 
-('customer@abv.bg','{bcrypt}$2a$10$eSt387qrIapOL6slIOEmwO2oHCqD.MRDySCHumJhs6bcAeC2YY5hW','Мартин','Атанасов', null,null,null,1,1),
-('manager@abv.bg','{bcrypt}$2a$10$eSt387qrIapOL6slIOEmwO2oHCqD.MRDySCHumJhs6bcAeC2YY5hW','инж Киров',null, null,null,null,1,1),
-('admin@abv.bg','{bcrypt}$2a$10$eSt387qrIapOL6slIOEmwO2oHCqD.MRDySCHumJhs6bcAeC2YY5hW','the BOSS',null, null,null,null,1,1);
+('abv@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','Мартин','Атанасов', null,null,null,1,1),
+('manager@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','инж Киров',null, null,null,null,1,1),
+('admin@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','the BOSS',null, null,null,null,1,1);
 
 -- Create table authorities 
 

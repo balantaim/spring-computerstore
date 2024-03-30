@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,9 +35,9 @@ import java.util.Collection;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
 
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -48,13 +49,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserName(String userName) {
+    public User findByUserName(String email) {
         // check the database if the user already exists
-        return userDao.findByUserName(userName);
+        return userDao.findByUserName(email);
     }
 
     @Override
     public void save(WebUser webUser) {
+
         User user = new User();
 
         // assign user details to the user object
@@ -66,6 +68,10 @@ public class UserServiceImpl implements UserService {
         //The default new profile is set to verified by email
         user.setVerifiedProfile(true);
 
+        //Set creation date
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        user.setCreationDate(timestamp);
+
         // give user default role of "employee"
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
 
@@ -74,8 +80,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userDao.findByUserName(userName);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        User user = userDao.findByUserName(email);
 
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");

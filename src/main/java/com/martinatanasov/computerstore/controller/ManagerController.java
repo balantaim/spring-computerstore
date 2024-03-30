@@ -19,17 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class LoginController {
+public class ManagerController {
 
-    @GetMapping("/Login")
-    public String login(){
-        return "Login/login";
+    @GetMapping("/Manager")
+    public String manager(){
+        return "Manager/manager";
     }
-
-    //Add request mapping for access denied
-    @GetMapping("/access-denied")
-    public String showAccessDenied(){
-        return "AccessDenied/access-denied";
-    }
-
 }

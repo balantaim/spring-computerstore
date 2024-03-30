@@ -21,11 +21,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
+//@EnableWebSecurity
 public class GlobalSecurityConfig {
     //bcrypt bean definition
     @Bean
@@ -46,14 +48,15 @@ public class GlobalSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception{
         //Setup permission by role and methods
         http.authorizeHttpRequests(config -> config
-                                .requestMatchers(HttpMethod.GET, "/processRegistrationForm/**").hasAnyRole("CUSTOMER")
-                                .requestMatchers(HttpMethod.GET, "/Profile/**").hasAnyRole("CUSTOMER")
+                                .requestMatchers(HttpMethod.GET, "/processRegistrationForm/**").hasRole("CUSTOMER")
+                                .requestMatchers(HttpMethod.GET, "/Profile/**").hasRole("CUSTOMER")
+                                .requestMatchers(HttpMethod.GET, "/Manager/**").hasRole("MANAGER")
 //                                .requestMatchers(HttpMethod.GET, "/customer/**").hasRole("CUSTOMER")
 //                                .requestMatchers(HttpMethod.GET, "/control-panel/**").hasRole("MANAGER")
 //                                .requestMatchers(HttpMethod.GET, "/systems/**").hasRole("ADMIN")
 
-                                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**").permitAll()
-                                .requestMatchers( "/**", "/Login/**", "/Register/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**", "/actuator-page/**").permitAll()
+                                .requestMatchers( "/", "/register/**").permitAll()
                                 .anyRequest().authenticated()
 
 //                        .requestMatchers(HttpMethod.GET, "/employees").hasAnyRole("GUEST")
@@ -63,13 +66,17 @@ public class GlobalSecurityConfig {
 //                        .requestMatchers(HttpMethod.DELETE, "/employees/**").hasAnyRole("ADMIN")
                 )
                 .formLogin(form -> form
+                        //Redirect to login form if no authorisation
                         .loginPage("/Login")
-                        //wrong!!!!!!!!!!!
+                        //Login method used in html
                         .loginProcessingUrl("/authenticateTheUser")
                         .successHandler(customAuthenticationSuccessHandler)
                         .permitAll()
                 )
-                .logout(logout -> logout.permitAll()
+                .logout(logout -> logout
+                        .permitAll()
+                        .logoutSuccessUrl("/Login")
+
                 )
 
                 //From security project
@@ -86,7 +93,7 @@ public class GlobalSecurityConfig {
 
         //Disable Cross Site Request Forgery (CSRF)
         //Not required for REST operations like POST, PUT, DELETE and/or PATCH
-        //http.csrf(csrf -> csrf.disable());
+        http.csrf(csrf -> csrf.disable());
 
         return http.build();
     }

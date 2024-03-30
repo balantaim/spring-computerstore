@@ -24,20 +24,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <script defer th:src="@{/js/navbar.js}"></script>
+    <script defer th:src="@{/js/main.js}"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         body {
-          background-image: url('/images/pexels-tima-miroshnichenko-5380792.jpg');
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
+            background: black;
+            background-image: url('/images/pexels-tima-miroshnichenko-5380792.jpg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
         }
     </style>
 </head>
 <body>
 <!--NAVBAR Start-->
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="#">
             <img width="640" height="160" src="/images/brand_logo.svg" alt="Computer store logo"/>
@@ -86,6 +88,11 @@
 </nav>
 <!--NAVBAR End-->
 
+<!--MAIN Content Start-->
+<div class="main">
+
+
+
 <div class="space"></div>
 
 <div class="columns is-centered">
@@ -95,33 +102,26 @@
         <p class="has-text-danger mt-2 mb-2">Fields with '<bold>*</bold>' are mandatory!</p>
 
         <!-- Login Form -->
-        <form action="#" th:action="@{/processRegistrationForm}" th:object="${webUser}" method="POST" class="form-horizontal">
+        <form action="#" th:action="@{/register/processRegistrationForm}" th:object="${webUser}" method="POST">
 
             <!-- Place for messages: error, alert etc ... -->
-            <div class="form-group">
-                <div class="col-xs-15">
-                    <div>
-                        <!-- Check for login error -->
-                        <div th:if="${param.error}">
-                            <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                                Invalid username and password!
-                            </div>
-                        </div>
-                        <!-- Logout info -->
-                        <div th:if="${param.logout}">
-                            <div class="alert alert-success col-xs-offset-1 col-xs-10">
-                                You have been log out.
-                            </div>
-                        </div>
-                    </div>
+            <div>
+                <!-- Check for login error -->
+                <div class="has-text-danger has-text-centered mt-3 mb-3 is-size-21" th:if="${param.error}">
+                    <p>Invalid username and password!</p>
+                </div>
+                <!-- Logout info -->
+                <div class="has-text-success has-text-centered mt-3 mb-3 is-size-2" th:if="${param.logout}">
+                    <p>You have been log out.</p>
                 </div>
             </div>
 
             <!--            EMAIL-->
             <div class="field ml-1 mr-1">
-                <label class="label">Enter your email*</label>
+                <label class="label">Enter your email<span class="has-text-danger">*</span></label>
                 <div class="control has-icons-left">
-                    <input class="input" type="text" name="email" placeholder="Enter email">
+<!--                    <input th:field="*{email}" class="input is-skeleton" type="text" name="email" placeholder="Enter email">-->
+                    <input th:field="*{email}" class="input is-skeleton" type="text" placeholder="Enter email">
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                     </span>
@@ -132,7 +132,8 @@
             <div class="field ml-1 mr-1">
                 <label class="label">Enter your first name</label>
                 <div class="control has-icons-left">
-                    <input class="input" type="text" name="firstName" placeholder="First name">
+<!--                    <input th:field="*{firstName}" class="input is-skeleton" type="text" name="firstName" placeholder="First name">-->
+                    <input th:field="*{firstName}" class="input is-skeleton" type="text" placeholder="First name">
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
@@ -143,7 +144,8 @@
             <div class="field ml-1 mr-1">
                 <label class="label">Enter your last name</label>
                 <div class="control has-icons-left">
-                    <input class="input" type="text" name="lastName" placeholder="Last name">
+<!--                    <input th:field="*{lastName}" class="input is-skeleton" type="text" name="lastName" placeholder="Last name">-->
+                    <input th:field="*{lastName}" class="input is-skeleton" type="text" placeholder="Last name">
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
@@ -152,9 +154,10 @@
             </div>
             <!--            PASS-->
             <div class="field ml-1 mr-1">
-                <label class="label">Enter your password*</label>
+                <label class="label">Enter your password<span class="has-text-danger">*</span></label>
                 <div class="control  has-icons-left">
-                    <input class="input" type="password" name="password" placeholder="Password">
+<!--                    <input th:field="*{password}" class="input is-skeleton" type="password" name="password" placeholder="Password">-->
+                    <input th:field="*{password}" class="input is-skeleton" type="password" placeholder="Password">
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
@@ -163,9 +166,10 @@
             </div>
 
             <div class="field ml-1 mr-1">
-                <label class="label">Enter re-password*</label>
+                <label class="label">Enter re-password<span class="has-text-danger">*</span></label>
                 <div class="control  has-icons-left">
-                    <input class="input" type="password" name="rePassword" placeholder="Re-password">
+<!--                    <input th:field="*{repeatPassword}" class="input is-skeleton" type="password" name="repeatPassword" placeholder="Re-password">-->
+                    <input th:field="*{repeatPassword}" class="input is-skeleton" type="password" placeholder="Re-password">
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
@@ -175,7 +179,9 @@
 
             <!-- Register/Submit Button -->
             <div class="has-text-centered">
-                <button type="submit" class="button mt-2 mb-4 is-rounded is-centered">Register</button>
+<!--                Register Button-->
+                <button type="submit" class="button mt-2 mb-4 is-rounded is-centered is-skeleton">Register</button>
+<!--                Return to Login-->
                 <div class="mt-2 mb-4">
                     <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">Go back to log-in.</a>
                 </div>
@@ -187,7 +193,10 @@
     <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 </div>
 
-<!--<div class="space"></div>-->
+<div class="space"></div>
+
+</div>
+<!--MAIN Content End-->
 
 <!--FOOTER Start-->
 <footer class="footer">

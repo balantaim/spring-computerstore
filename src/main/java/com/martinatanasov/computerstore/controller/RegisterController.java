@@ -20,22 +20,23 @@ import com.martinatanasov.computerstore.model.WebUser;
 import com.martinatanasov.computerstore.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/register")
 public class RegisterController {
 
 
     private final UserService userService;
+
+    private final Logger logger = java.util.logging.Logger.getLogger(getClass().getName());
 
     @Autowired
     public RegisterController(UserService userService) {
@@ -48,7 +49,7 @@ public class RegisterController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @GetMapping("/Register")
+    @GetMapping("/RegisterForm")
     public String register(Model model){
         model.addAttribute("webUser", new WebUser());
         return "Register/register";
@@ -58,10 +59,12 @@ public class RegisterController {
     public String processRegistrationForm(
             @Valid @ModelAttribute("webUser") WebUser webUser,
             BindingResult bindingResult,
-            HttpSession session, Model model) {
+            HttpSession session,
+            Model model) {
 
+        logger.info("\tProcessing registration form for webUser:Email: " + webUser.getEmail());
         String userName = webUser.getEmail();
-        //logger.info("Processing registration form for: " + userName);
+        logger.info("\tProcessing registration form for: " + userName);
 
         // form validation
         if (bindingResult.hasErrors()){
@@ -76,14 +79,14 @@ public class RegisterController {
             model.addAttribute("webUser", new WebUser());
             model.addAttribute("registrationError", "User name already exists.");
 
-            //logger.warning("User name already exists.");
+            logger.warning("\tUser name already exists.");
             return "Register/register";
         }
 
         // create user account and store in the database
         userService.save(webUser);
 
-        //logger.info("Successfully created user: " + userName);
+        logger.info("\tSuccessfully created user: " + userName);
 
         // place user in the web http session for later use
         session.setAttribute("user", webUser);

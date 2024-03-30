@@ -15,31 +15,33 @@
 
 package com.martinatanasov.computerstore.model;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class WebUser {
 
-//    @NotNull(message = "{email.notnull}")
+    //@NotNull(message = "{email.notnull}")
     @NotNull(message = "Email is required")
     @Size(min = 3, max = 50, message = "Valid email is required")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#!?@\\-])\\S{3,50}$")
+    //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#!?@\\-])\\S{3,50}$")
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     private String email;
 
-    @Max(value = 50, message = "Firstname with maximum 50 characters")
-    private String firstName = "";
+    @Size(max = 50, message = "Firstname with maximum 50 characters")
+    private String firstName;
 
-    @Max(value = 50, message = "Lastname with maximum 50 characters")
-    private String lastName = "";
+    @Size(max = 50, message = "Lastname with maximum 50 characters")
+    private String lastName;
 
     @NotNull(message = "Valid Password is required")
-    @Size(min = 6, max = 30,message = "Password should be between 6 and 30 characters")
+    @Size(min = 4, max = 30, message = "Password should be between 4 and 30 characters")
     private String password;
 
-    @Max(value = 30, message = "Repeat password should be less or equal than 30 characters")
-    private String repeatPassword = "";
+    @NotNull(message = "Valid Repeat password is required")
+    @Size(min = 4, max = 30, message = "Repeat password should be between 4 and 30 characters")
+    private String repeatPassword;
+
 
     public String getEmail() {
         return email;
@@ -79,5 +81,16 @@ public class WebUser {
 
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
+    }
+
+    @Override
+    public String toString() {
+        return "WebUser{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", repeatPassword='" + repeatPassword + '\'' +
+                '}';
     }
 }

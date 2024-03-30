@@ -18,7 +18,7 @@ package com.martinatanasov.computerstore.dao;
 import com.martinatanasov.computerstore.entity.User;
 
 public interface UserDao {
-    User findByUserName(String userName);
+    User findByUserName(String email);
 
     void save(User user);
 }

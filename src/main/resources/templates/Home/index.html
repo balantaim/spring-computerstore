@@ -14,7 +14,9 @@
   -->
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,12 +26,31 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <script defer th:src="@{/js/navbar.js}"></script>
+    <script defer th:src="@{/js/main.js}"></script>
 </head>
 <body>
 
 <h1>[[#{app.title}]]</h1>
 
+<p>User: <span sec:authenication="principal.email"></span></p>
+<p>Role: <span sec:authenication="principal.authorities"></span></p>
+
 <p> Main view </p>
+<div class="has-text-centered">
+    <div class="mt-2 mb-4">
+        <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">Go back to log-in.</a>
+    </div>
+</div>
+
+<div class="has-text-centered">
+    <div class="mt-2 mb-4">
+        <a th:href="@{/Manager}" class="is-info" role="button" aria-pressed="true">Go to Manager</a>
+    </div>
+</div>
+
+<form action="#" th:action="@{/logout}" method="POST">
+    <input type="submit" value="Logout"/>
+</form>
 
 </body>
 </html>
