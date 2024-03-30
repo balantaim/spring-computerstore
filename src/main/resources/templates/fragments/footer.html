@@ -13,16 +13,11 @@
   ~ limitations under the License.
   -->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-<!-- NAVBAR -->
-<div th:replace="~{fragments/top-navigation-bar :: nav}"></div>
-
-</body>
-</html>
+<div th:fragment="footer">
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p><strong>[[#{footer.product}]]</strong> [[#{footer.creator}]]
+                <a href="http://www.apache.org/licenses/LICENSE-2.0">[[#{footer.license}]]</a>.</p>
+        </div>
+    </footer>
+</div>

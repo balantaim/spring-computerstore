@@ -6,3 +6,4 @@ window.addEventListener('load', function(){
         item.classList.remove('is-skeleton');
     });
 });
+

@@ -29,6 +29,8 @@
     <script defer th:src="@{/js/main.js}"></script>
 </head>
 <body>
+<!-- NAVBAR -->
+<div th:replace="~{fragments/top-navigation-bar :: nav}"></div>
 
 <h1>[[#{app.title}]]</h1>
 
@@ -51,6 +53,9 @@
 <form action="#" th:action="@{/logout}" method="POST">
     <input type="submit" value="Logout"/>
 </form>
+
+<!--FOOTER-->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

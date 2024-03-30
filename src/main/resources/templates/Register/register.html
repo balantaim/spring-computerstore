@@ -38,55 +38,9 @@
     </style>
 </head>
 <body>
-<!--NAVBAR Start-->
-<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="#">
-            <img width="640" height="160" src="/images/brand_logo.svg" alt="Computer store logo"/>
-        </a>
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item">Home</a>
-
-            <a class="navbar-item">Documentation</a>
-
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">Products</a>
-
-                <div class="navbar-dropdown">
-                    <a class="navbar-item">About</a>
-                    <a class="navbar-item is-selected">Jobs</a>
-                    <a class="navbar-item">Contact</a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item">Report an issue</a>
-                </div>
-            </div>
-        </div>
-
-        <!--        <div class="navbar-end">-->
-        <!--            <div class="navbar-item">-->
-        <!--                <div class="buttons">-->
-        <!--                    <a class="button is-primary">-->
-        <!--                        <strong>Sign up</strong>-->
-        <!--                    </a>-->
-        <!--                    <a class="button is-light">-->
-        <!--                        Log in-->
-        <!--                    </a>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
-    </div>
-</nav>
-<!--NAVBAR End-->
+<!-- NAVBAR -->
+<div th:replace="~{fragments/top-navigation-bar :: nav}"></div>
 
 <!--MAIN Content Start-->
 <div class="main">
@@ -198,14 +152,8 @@
 </div>
 <!--MAIN Content End-->
 
-<!--FOOTER Start-->
-<footer class="footer">
-    <div class="content has-text-centered">
-        <p><strong>Computer Store</strong> by Martin Atanasov. The source code is licensed
-            <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>.</p>
-    </div>
-</footer>
-<!--FOOTER End-->
+<!--FOOTER-->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>
