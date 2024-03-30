@@ -1,0 +1,303 @@
+{
+	"info": {
+		"_postman_id": "f4e24e76-e386-40ac-96ab-03597ae99e9c",
+		"name": "computer-store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33334519"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "bg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/register/RegisterForm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"register",
+								"RegisterForm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"webUser\": [{\r\n    \"email\": \"anna@abv.bg\",\r\n    \"firstName\": \"ssd\",\r\n    \"lastName\": \"aaa\",\r\n    \"password\": \"test\",\r\n    \"repeatPassword\": \"test\"\r\n}]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/register/processRegistrationForm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"register",
+								"processRegistrationForm"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "anna@abv.bg",
+									"disabled": true
+								},
+								{
+									"key": "firstName",
+									"value": "Anna",
+									"disabled": true
+								},
+								{
+									"key": "lastName",
+									"value": "Ziky",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "repeatPassword",
+									"value": "test",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login with user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/authenticateTheUser?username=admin@abv.bg&password=test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"authenticateTheUser"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "admin@abv.bg"
+								},
+								{
+									"key": "password",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login with user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"customer@abv.bg\",\r\n    \"password\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/authenticateTheUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"authenticateTheUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/logout?username=admin@abv.bg&password=test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"logout"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "admin@abv.bg"
+								},
+								{
+									"key": "password",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Content",
+			"item": [
+				{
+					"name": "Manager",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Manager",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Manager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Public Content",
+			"item": [
+				{
+					"name": "actuator-page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/actuator-page",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"actuator-page"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Home",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Home BG Lang",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "bg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000"
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
