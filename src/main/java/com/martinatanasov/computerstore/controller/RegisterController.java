@@ -17,6 +17,7 @@ package com.martinatanasov.computerstore.controller;
 
 import com.martinatanasov.computerstore.entity.User;
 import com.martinatanasov.computerstore.model.WebUser;
+import com.martinatanasov.computerstore.service.PasswordValidationService;
 import com.martinatanasov.computerstore.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -26,6 +27,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,11 +38,13 @@ public class RegisterController {
 
     private final UserService userService;
 
-    private final Logger logger = java.util.logging.Logger.getLogger(getClass().getName());
+    //private final Logger logger = java.util.logging.Logger.getLogger(getClass().getName());
+    private final PasswordValidationService validatePassword;
 
     @Autowired
-    public RegisterController(UserService userService) {
+    public RegisterController(UserService userService, PasswordValidationService validatePassword) {
         this.userService = userService;
+        this.validatePassword = validatePassword;
     }
 
     @InitBinder
@@ -51,6 +55,7 @@ public class RegisterController {
 
     @GetMapping("/RegisterForm")
     public String register(Model model){
+        model.addAttribute("active","Register");
         model.addAttribute("webUser", new WebUser());
         return "Register/register";
     }
@@ -62,31 +67,30 @@ public class RegisterController {
             HttpSession session,
             Model model) {
 
-        logger.info("\tProcessing registration form for webUser:Email: " + webUser.getEmail());
         String userName = webUser.getEmail();
-        logger.info("\tProcessing registration form for: " + userName);
 
+        String errorMessage = "";
+        if(!validatePassword.validateUserPassword(webUser)){
+            errorMessage = "Password and Re-password does not match";
+            ObjectError error = new ObjectError("globalError", errorMessage);
+            bindingResult.addError(error);
+        }
         // form validation
         if (bindingResult.hasErrors()){
-            model.addAttribute("webUser", new WebUser());
-            model.addAttribute("registrationError", "User name already exists.");
             return "Register/register";
         }
-
         // check the database if user already exists
         User existing = userService.findByUserName(userName);
         if (existing != null){
-            model.addAttribute("webUser", new WebUser());
-            model.addAttribute("registrationError", "User name already exists.");
-
-            logger.warning("\tUser name already exists.");
+            //model.addAttribute("webUser", new WebUser());
+            errorMessage = "User already exist!";
+            ObjectError error = new ObjectError("globalError", errorMessage);
+            bindingResult.addError(error);
             return "Register/register";
         }
 
         // create user account and store in the database
         userService.save(webUser);
-
-        logger.info("\tSuccessfully created user: " + userName);
 
         // place user in the web http session for later use
         session.setAttribute("user", webUser);

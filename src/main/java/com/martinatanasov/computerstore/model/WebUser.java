@@ -38,7 +38,7 @@ public class WebUser {
     @Size(min = 4, max = 30, message = "Password should be between 4 and 30 characters")
     private String password;
 
-    @NotNull(message = "Valid Repeat password is required")
+    @NotNull(message = "Valid Re-password is required")
     @Size(min = 4, max = 30, message = "Repeat password should be between 4 and 30 characters")
     private String repeatPassword;
 

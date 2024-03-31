@@ -16,13 +16,15 @@
 package com.martinatanasov.computerstore.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
 
     @GetMapping("/Login")
-    public String login(){
+    public String login(Model model){
+        model.addAttribute("Login","active");
         return "Login/login";
     }
 

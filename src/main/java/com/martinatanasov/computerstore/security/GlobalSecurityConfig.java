@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +29,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @Configuration
 //@EnableWebSecurity
+@EnableMethodSecurity
 public class GlobalSecurityConfig {
     //bcrypt bean definition
     @Bean
@@ -48,7 +50,6 @@ public class GlobalSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception{
         //Setup permission by role and methods
         http.authorizeHttpRequests(config -> config
-                                .requestMatchers(HttpMethod.GET, "/processRegistrationForm/**").hasRole("CUSTOMER")
                                 .requestMatchers(HttpMethod.GET, "/Profile/**").hasRole("CUSTOMER")
                                 .requestMatchers(HttpMethod.GET, "/Manager/**").hasRole("MANAGER")
 //                                .requestMatchers(HttpMethod.GET, "/customer/**").hasRole("CUSTOMER")

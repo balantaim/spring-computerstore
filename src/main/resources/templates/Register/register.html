@@ -45,45 +45,41 @@
 <!--MAIN Content Start-->
 <div class="main">
 
-
-
 <div class="space"></div>
 
 <div class="columns is-centered">
     <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
     <div class="column box">
         <h1 class="has-text-centered is-size-2">Register Form</h1>
-        <p class="has-text-danger mt-2 mb-2">Fields with '<bold>*</bold>' are mandatory!</p>
+        <p class="has-text-danger mt-2 mb-2 ml-4 mr-4">Fields with '<bold>*</bold>' are mandatory!</p>
 
         <!-- Login Form -->
         <form action="#" th:action="@{/register/processRegistrationForm}" th:object="${webUser}" method="POST">
 
-            <!-- Place for messages: error, alert etc ... -->
-            <div>
-                <!-- Check for login error -->
-                <div class="has-text-danger has-text-centered mt-3 mb-3 is-size-21" th:if="${param.error}">
-                    <p>Invalid username and password!</p>
-                </div>
-                <!-- Logout info -->
-                <div class="has-text-success has-text-centered mt-3 mb-3 is-size-2" th:if="${param.logout}">
-                    <p>You have been log out.</p>
-                </div>
+            <!-- Check for login error -->
+            <div th:if="${#fields.hasErrors('global')}">
+                <h3>Global errors:</h3>
+                <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
             </div>
 
-            <!--            EMAIL-->
-            <div class="field ml-1 mr-1">
+            <!--EMAIL-->
+            <div class="field ml-4 mr-4">
                 <label class="label">Enter your email<span class="has-text-danger">*</span></label>
                 <div class="control has-icons-left">
-<!--                    <input th:field="*{email}" class="input is-skeleton" type="text" name="email" placeholder="Enter email">-->
                     <input th:field="*{email}" class="input is-skeleton" type="text" placeholder="Enter email">
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                     </span>
                 </div>
-                <p class="help is-success">This EMAIL is available</p>
+                <!--Error Message-->
+                <div th:if="${#fields.hasErrors('email')}" style="margin-bottom: 25px" class="text-danger">
+                    <ul>
+                        <li class="help is-danger" th:each="err : ${#fields.errors('email')}" th:text="${err}" />
+                    </ul>
+                </div>
             </div>
 
-            <div class="field ml-1 mr-1">
+            <div class="field ml-4 mr-4">
                 <label class="label">Enter your first name</label>
                 <div class="control has-icons-left">
 <!--                    <input th:field="*{firstName}" class="input is-skeleton" type="text" name="firstName" placeholder="First name">-->
@@ -92,10 +88,15 @@
                         <i class="fas fa-user"></i>
                     </span>
                 </div>
-                <p class="help is-success">This f name is available</p>
+                <!--Error Message-->
+                <div th:if="${#fields.hasErrors('firstName')}" style="margin-bottom: 25px" class="text-danger">
+                    <ul>
+                        <li class="help is-danger" th:each="err : ${#fields.errors('firstName')}" th:text="${err}" />
+                    </ul>
+                </div>
             </div>
 
-            <div class="field ml-1 mr-1">
+            <div class="field ml-4 mr-4">
                 <label class="label">Enter your last name</label>
                 <div class="control has-icons-left">
 <!--                    <input th:field="*{lastName}" class="input is-skeleton" type="text" name="lastName" placeholder="Last name">-->
@@ -104,10 +105,15 @@
                         <i class="fas fa-user"></i>
                     </span>
                 </div>
-                <p class="help is-success">This l name is available</p>
+                <!--Error Message-->
+                <div th:if="${#fields.hasErrors('lastName')}" style="margin-bottom: 25px" class="text-danger">
+                    <ul>
+                        <li class="help is-danger" th:each="err : ${#fields.errors('lastName')}" th:text="${err}" />
+                    </ul>
+                </div>
             </div>
-            <!--            PASS-->
-            <div class="field ml-1 mr-1">
+            <!--PASS-->
+            <div class="field ml-4 mr-4">
                 <label class="label">Enter your password<span class="has-text-danger">*</span></label>
                 <div class="control  has-icons-left">
 <!--                    <input th:field="*{password}" class="input is-skeleton" type="password" name="password" placeholder="Password">-->
@@ -116,10 +122,15 @@
                         <i class="fas fa-lock"></i>
                     </span>
                 </div>
-                <p class="help is-success">This l name is available</p>
+                <!--Error Message-->
+                <div th:if="${#fields.hasErrors('password')}" style="margin-bottom: 25px" class="text-danger">
+                    <ul>
+                        <li class="help is-danger" th:each="err : ${#fields.errors('password')}" th:text="${err}" />
+                    </ul>
+                </div>
             </div>
 
-            <div class="field ml-1 mr-1">
+            <div class="field ml-4 mr-4">
                 <label class="label">Enter re-password<span class="has-text-danger">*</span></label>
                 <div class="control  has-icons-left">
 <!--                    <input th:field="*{repeatPassword}" class="input is-skeleton" type="password" name="repeatPassword" placeholder="Re-password">-->
@@ -128,7 +139,12 @@
                         <i class="fas fa-lock"></i>
                     </span>
                 </div>
-                <p class="help is-danger">This l name is available</p>
+                <!--Error Message-->
+                <div th:if="${#fields.hasErrors('repeatPassword')}" style="margin-bottom: 25px" class="text-danger">
+                    <ul>
+                        <li class="help is-danger" th:each="err : ${#fields.errors('repeatPassword')}" th:text="${err}" />
+                    </ul>
+                </div>
             </div>
 
             <!-- Register/Submit Button -->

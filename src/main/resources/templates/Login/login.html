@@ -59,7 +59,7 @@
                 <!-- Place for messages: error, alert etc ... -->
                 <div>
                     <!-- Check for login error -->
-                    <div class="has-text-danger has-text-centered mt-3 mb-3 is-size-21" th:if="${param.error}">
+                    <div class="has-text-danger has-text-centered mt-3 mb-3 is-size-2" th:if="${param.error}">
                         <p>Invalid username and password!</p>
                     </div>
                     <!-- Logout info -->
@@ -69,7 +69,7 @@
                 </div>
 
                 <!--            EMAIL-->
-                <div class="field ml-1 mr-1">
+                <div class="field ml-4 mr-4">
                     <label class="label">Enter your email</label>
                     <div class="control has-icons-left">
                         <input class="input is-skeleton" type="text" name="username" placeholder="Enter email">
@@ -81,7 +81,7 @@
                 </div>
 
                 <!--            PASS-->
-                <div class="field ml-1 mr-1">
+                <div class="field ml-4 mr-4">
                     <label class="label">Enter your password</label>
                     <div class="control has-icons-left">
                         <input class="input is-skeleton" type="password" name="password" placeholder="Password">

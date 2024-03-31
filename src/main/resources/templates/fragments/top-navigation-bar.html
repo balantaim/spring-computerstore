@@ -30,21 +30,21 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" th:href="@{/}">[[#{nav.home}]]</a>
+                <a th:href="@{/}" th:class="${param.active == 'Home'} ? 'navbar-item active':'navbar-item active'">[[#{nav.home}]]</a>
+
+                <a class="navbar-item">[[#{nav.about-us}]]</a>
 
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">[[#{nav.products}]]</a>
 
                     <div class="navbar-dropdown">
                         <a class="navbar-item">[[#{nav.products.monitors}]]</a>
-<!--                        <a class="navbar-item is-selected">Jobs</a>-->
+                        <!--                        <a class="navbar-item is-selected">Jobs</a>-->
                         <a class="navbar-item">[[#{nav.products.video-card}]]</a>
                         <hr class="navbar-divider">
-                        <a class="navbar-item">[[#{nav.products.cpu}]]</a>
+                        <a class="navbar-item is-selected">[[#{nav.products.cpu}]]</a>
                     </div>
                 </div>
-
-                <a class="navbar-item">[[#{nav.about-us}]]</a>
             </div>
 
             <div class="navbar-end">
