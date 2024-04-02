@@ -50,8 +50,10 @@
 
 <h1>[[#{app.title}]]</h1>
 
-<p>User: <span sec:authentication="principal.username"></span></p>
-<p>Role: <span sec:authentication="principal.authorities"></span></p>
+    <div sec:authorize="isAuthenticated()">
+        <p>User: <span sec:authentication="principal.username"></span></p>
+        <p>Role: <span sec:authentication="principal.authorities"></span></p>
+    </div>
 
 <p> Main view </p>
 <div class="has-text-centered">

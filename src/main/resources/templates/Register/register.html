@@ -47,9 +47,9 @@
 
 <div class="space"></div>
 
-<div class="columns is-centered">
+<div class="columns is-centered  is-gapless">
     <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-    <div class="column box">
+    <div class="column box mr-1 ml-1">
         <h1 class="has-text-centered is-size-2">Register Form</h1>
         <p class="has-text-danger mt-2 mb-2 ml-4 mr-4">Fields with '<bold>*</bold>' are mandatory!</p>
 
@@ -57,8 +57,7 @@
         <form action="#" th:action="@{/register/processRegistrationForm}" th:object="${webUser}" method="POST">
 
             <!-- Check for login error -->
-            <div th:if="${#fields.hasErrors('global')}">
-                <h3>Global errors:</h3>
+            <div class="notification is-danger has-text-centered ml-4 mr-4" th:if="${#fields.hasErrors('global')}">
                 <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
             </div>
 
@@ -152,7 +151,7 @@
 <!--                Register Button-->
                 <button type="submit" class="button mt-2 mb-4 is-rounded is-centered is-skeleton">Register</button>
 <!--                Return to Login-->
-                <div class="mt-2 mb-4">
+                <div class="mt-4 mb-4 pt-4 pb-4">
                     <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">Go back to log-in.</a>
                 </div>
             </div>
