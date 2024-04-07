@@ -21,7 +21,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profile</title>
+    <title>About</title>
     <link rel="icon" type="image/svg+xml" href="/images/computer-svgrepo-com.svg">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
@@ -44,16 +44,28 @@
 <!-- NAVBAR -->
 <div th:replace="~{fragments/top-navigation-bar :: nav}"></div>
 
-
 <!--MAIN Content Start-->
-<div class="main">
+<div class="main container text-black">
     <div class="space"></div>
 
-    <div class="text-black has-text-centered">
-        <h1>Profile Page</h1>
-        <p>User: <span sec:authentication="principal.username"></span></p>
-        <p>Role: <span sec:authentication="principal.authorities"></span></p>
-    </div>
+    <h1 class="has-text-centered text-black">About Us</h1>
+
+    <div class="space"></div>
+
+    <p>Computer Store is a leading e-commerce platform dedicated to providing top-quality computers and computer components. We pride ourselves on offering a wide range of products, excellent customer service, and competitive prices.</p>
+
+    <h2>Our Mission</h2>
+    <p>Our mission at Computer Store is to make purchasing computers and computer components convenient, reliable, and affordable for everyone. We strive to exceed customer expectations by offering a seamless shopping experience and delivering products that meet the highest standards of quality.</p>
+
+    <p>Welcome to Computer Store, your ultimate destination for all your computing needs. We are dedicated to providing high-quality computers and computer components to customers worldwide.</p>
+
+    <p>At Computer Store, we understand the importance of technology in today's world. Whether you're a professional in need of a powerful workstation, a gamer looking for the latest gaming rig, or a student searching for a reliable laptop, we've got you covered.</p>
+
+    <p>With a vast selection of products ranging from desktops and laptops to CPUs, GPUs, motherboards, and more, Computer Store is your one-stop shop for all things computing. Our team of experts carefully selects each product to ensure reliability, performance, and value for money.</p>
+
+    <p>Customer satisfaction is our top priority. We strive to provide an exceptional shopping experience with fast shipping, secure payment options, and responsive customer support. Whether you're a seasoned tech enthusiast or a first-time buyer, we're here to assist you every step of the way.</p>
+
+    <p>Thank you for choosing Computer Store. We look forward to serving you and helping you unleash the full potential of your digital world.</p>
 
     <div class="space"></div>
 </div>
@@ -65,3 +77,4 @@
 
 
 </body>
+</html>

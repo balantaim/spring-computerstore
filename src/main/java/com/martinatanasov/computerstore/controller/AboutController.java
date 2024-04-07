@@ -13,17 +13,16 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.service;
+package com.martinatanasov.computerstore.controller;
 
-import com.martinatanasov.computerstore.model.WebUser;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@Service
-public class PasswordValidationService {
-    public Boolean validateUserPassword(WebUser webUser){
-        if(webUser.getPassword() != null && webUser.getRepeatPassword() != null){
-            return webUser.getPassword().equals(webUser.getRepeatPassword());
-        }
-        return false;
+@Controller
+public class AboutController {
+
+    @GetMapping("/About")
+    public String about(){
+        return "About/about";
     }
 }

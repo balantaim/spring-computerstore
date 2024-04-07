@@ -15,7 +15,9 @@
 
 <!DOCTYPE html>
 <!-- data-theme="light" -->
-<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +34,7 @@
     <style>
         body {
             background: white;
-            background-image: url('/images/pexels-christina-morillo-1181210.jpg');
+<!--            background-image: url('/images/pexels-christina-morillo-1181210.jpg');-->
             background-repeat: no-repeat;
             background-size: 100% 100%;
         }

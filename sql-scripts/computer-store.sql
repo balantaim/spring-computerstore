@@ -40,6 +40,7 @@ CREATE TABLE authorities (
   authority varchar(50) NOT NULL,
   constraint fk_authorities_users foreign key(id) references users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 create unique index ix_auth_username on authorities (id, authority);
 
 -- Insert base roles

@@ -14,7 +14,9 @@
   -->
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,105 +45,121 @@
 <div th:replace="~{fragments/top-navigation-bar :: nav}"></div>
 
 <!--MAIN Content Start-->
-<div class="main">
+<div class="main container">
 
 <div class="space"></div>
 
-<div class="columns is-centered  is-gapless">
+<div class="columns is-centered is-gapless">
     <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
     <div class="column box mr-1 ml-1">
-        <h1 class="has-text-centered is-size-2">Register Form</h1>
-        <p class="has-text-danger mt-2 mb-2 ml-4 mr-4">Fields with '<bold>*</bold>' are mandatory!</p>
+        <h1 class="has-text-centered pt-5 pb-5 is-size-2">[[#{form.register}]]</h1>
+        <p class="has-text-danger mt-2 mb-2 ml-4 mr-4">[[#{form.info.start}]]<bold>*</bold>[[#{form.info.end}]]</p>
 
         <!-- Login Form -->
         <form action="#" th:action="@{/register/processRegistrationForm}" th:object="${webUser}" method="POST">
 
             <!-- Check for login error -->
-            <div class="notification is-danger has-text-centered ml-4 mr-4" th:if="${#fields.hasErrors('global')}">
-                <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
+            <div class="notification is-danger has-text-centered ml-4 mr-4 mt-4" th:if="${#fields.hasErrors('global')}">
+                <div th:each="err : ${#fields.errors('global')}">
+                    <p th:if="${err} == PassMatcher">[[#{error.global.pass.matcher}]]</p>
+                    <p th:if="${err} == UserExist">[[#{error.global.user.exist}]]</p>
+<!--                <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />-->
+                </div>
             </div>
 
             <!--EMAIL-->
             <div class="field ml-4 mr-4">
-                <label class="label">Enter your email<span class="has-text-danger">*</span></label>
-                <div class="control has-icons-left">
-                    <input th:field="*{email}" class="input is-skeleton" type="text" placeholder="Enter email">
+                <label class="label">[[#{form.label.email}]]<span class="has-text-danger">*</span></label>
+                <div class="control has-icons-left has-icons-right pb-4">
+                    <input th:field="*{email}" class="input is-skeleton" th:classappend="${#fields.hasErrors('email')} ? 'is-danger' : ''" type="text" placeholder="Enter email">
+                    <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                     </span>
+                    <!--Right icon-->
+                    <span th:if="${#fields.hasErrors('email')}" class="icon is-small is-right">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </span>
                 </div>
                 <!--Error Message-->
-                <div th:if="${#fields.hasErrors('email')}" style="margin-bottom: 25px" class="text-danger">
+                <div th:if="${#fields.hasErrors('email')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('email')}" th:text="${err}" />
+                        <li class="help is-danger" th:each="err : ${#fields.errors('email')}"><p>[[#{error.email}]]</p></li>
                     </ul>
                 </div>
             </div>
 
             <div class="field ml-4 mr-4">
-                <label class="label">Enter your first name</label>
-                <div class="control has-icons-left">
-<!--                    <input th:field="*{firstName}" class="input is-skeleton" type="text" name="firstName" placeholder="First name">-->
+                <label class="label">[[#{form.label.firstname}]]</label>
+                <div class="control has-icons-left pb-4">
                     <input th:field="*{firstName}" class="input is-skeleton" type="text" placeholder="First name">
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
                 </div>
                 <!--Error Message-->
-                <div th:if="${#fields.hasErrors('firstName')}" style="margin-bottom: 25px" class="text-danger">
+                <div th:if="${#fields.hasErrors('firstName')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('firstName')}" th:text="${err}" />
+                        <li class="help is-danger" th:each="err : ${#fields.errors('firstName')}"><p>[[#{error.firstname}]]</p></li>
                     </ul>
                 </div>
             </div>
 
             <div class="field ml-4 mr-4">
-                <label class="label">Enter your last name</label>
-                <div class="control has-icons-left">
-<!--                    <input th:field="*{lastName}" class="input is-skeleton" type="text" name="lastName" placeholder="Last name">-->
+                <label class="label">[[#{form.label.lastname}]]</label>
+                <div class="control has-icons-left pb-4">
                     <input th:field="*{lastName}" class="input is-skeleton" type="text" placeholder="Last name">
+                    <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
                 </div>
                 <!--Error Message-->
-                <div th:if="${#fields.hasErrors('lastName')}" style="margin-bottom: 25px" class="text-danger">
+                <div th:if="${#fields.hasErrors('lastName')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('lastName')}" th:text="${err}" />
+                        <li class="help is-danger" th:each="err : ${#fields.errors('lastName')}"><p>[[#{error.lastname}]]</p></li>
                     </ul>
                 </div>
             </div>
             <!--PASS-->
             <div class="field ml-4 mr-4">
-                <label class="label">Enter your password<span class="has-text-danger">*</span></label>
-                <div class="control  has-icons-left">
-<!--                    <input th:field="*{password}" class="input is-skeleton" type="password" name="password" placeholder="Password">-->
-                    <input th:field="*{password}" class="input is-skeleton" type="password" placeholder="Password">
+                <label class="label">[[#{form.label.password}]]<span class="has-text-danger">*</span></label>
+                <div class="control has-icons-left has-icons-right pb-4">
+                    <input th:field="*{password}" class="input is-skeleton" th:classappend="${#fields.hasErrors('password')} ? 'is-danger' : ''" type="password" placeholder="Password">
+                    <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
+                    <!--Right icon-->
+                    <span th:if="${#fields.hasErrors('password')}" class="icon is-small is-right">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </span>
                 </div>
                 <!--Error Message-->
-                <div th:if="${#fields.hasErrors('password')}" style="margin-bottom: 25px" class="text-danger">
+                <div th:if="${#fields.hasErrors('password')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('password')}" th:text="${err}" />
+                        <li class="help is-danger" th:each="err : ${#fields.errors('password')}"><p>[[#{error.password}]]</p></li>
                     </ul>
                 </div>
             </div>
 
             <div class="field ml-4 mr-4">
-                <label class="label">Enter re-password<span class="has-text-danger">*</span></label>
-                <div class="control  has-icons-left">
-<!--                    <input th:field="*{repeatPassword}" class="input is-skeleton" type="password" name="repeatPassword" placeholder="Re-password">-->
-                    <input th:field="*{repeatPassword}" class="input is-skeleton" type="password" placeholder="Re-password">
+                <label class="label">[[#{form.label.re-password}]]<span class="has-text-danger">*</span></label>
+                <div class="control has-icons-left has-icons-right pb-4">
+                    <input th:field="*{repeatPassword}" class="input is-skeleton" th:classappend="${#fields.hasErrors('repeatPassword')} ? 'is-danger' : ''" type="password" placeholder="Re-password">
+                    <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
+                    <!--Right icon-->
+                    <span th:if="${#fields.hasErrors('repeatPassword')}" class="icon is-small is-right">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </span>
                 </div>
                 <!--Error Message-->
-                <div th:if="${#fields.hasErrors('repeatPassword')}" style="margin-bottom: 25px" class="text-danger">
+                <div class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('repeatPassword')}" th:text="${err}" />
+                        <li class="help is-danger" th:each="err : ${#fields.errors('repeatPassword')}"><p>[[#{error.re-password}]]</p></li>
                     </ul>
                 </div>
             </div>
@@ -149,10 +167,10 @@
             <!-- Register/Submit Button -->
             <div class="has-text-centered">
 <!--                Register Button-->
-                <button type="submit" class="button mt-2 mb-4 is-rounded is-centered is-skeleton">Register</button>
+                <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">[[#{form.button.register}]]</button>
 <!--                Return to Login-->
-                <div class="mt-4 mb-4 pt-4 pb-4">
-                    <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">Go back to log-in.</a>
+                <div class="mt-4 pt-4 pb-4">
+                    <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">[[#{form.button.to-login}]]</a>
                 </div>
             </div>
         </form>

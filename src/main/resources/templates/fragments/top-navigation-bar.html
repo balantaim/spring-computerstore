@@ -16,8 +16,9 @@
 <div th:fragment="nav">
     <nav class="navbar is-light has-shadow" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" th:href="@{/}">
-                <img width="640" height="160" src="/images/brand_logo.svg" alt="Computer store logo"/>
+            <a class="navbar-item is-flex" th:href="@{/}">
+                <img class="pr-2" width="640" height="460" src="/images/computer-store-logo.svg" alt="Computer store logo"/>
+                <p class="text-black logo-text">Computer Store</p>
             </a>
 
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -32,25 +33,53 @@
             <div class="navbar-start">
                 <a th:href="@{/}" th:class="${param.active == 'Home'} ? 'navbar-item active':'navbar-item active'">[[#{nav.home}]]</a>
 
-                <a class="navbar-item">[[#{nav.about-us}]]</a>
+                <a th:href="@{/About}" class="navbar-item">[[#{nav.about-us}]]</a>
 
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">[[#{nav.products}]]</a>
+                    <a th:href="@{/Products}" class="navbar-link">[[#{nav.products}]]</a>
 
                     <div class="navbar-dropdown">
-                        <a class="navbar-item">[[#{nav.products.monitors}]]</a>
-                        <!--                        <a class="navbar-item is-selected">Jobs</a>-->
-                        <a class="navbar-item">[[#{nav.products.video-card}]]</a>
+                        <a class="navbar-item is-selected">Category</a>
                         <hr class="navbar-divider">
-                        <a class="navbar-item is-selected">[[#{nav.products.cpu}]]</a>
+                        <a th:href="@{/Products/monitors}" class="navbar-item">[[#{nav.products.monitors}]]</a>
+                        <!--                        <a class="navbar-item is-selected">Jobs</a>-->
+                        <a th:href="@{/Products/video-cards}" class="navbar-item">[[#{nav.products.video-card}]]</a>
+                        <a th:href="@{/Products/cpu}" class="navbar-item">[[#{nav.products.cpu}]]</a>
                     </div>
                 </div>
             </div>
 
             <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="">
-                        <a class="is-primary" th:href="@{/Login}"><strong>[[#{nav.login}]]</strong></a>
+                <div class="navbar-item profile-container">
+                    <div sec:authorize="!isAuthenticated()" class="is-flex is-align-content-center">
+
+                        <img class="pr-2" width="50" height="50" src="https://img.icons8.com/ios-filled/50/login-rounded-right.png" alt="login-rounded-right"/>
+                        <a class="is-primary nav-link" th:href="@{/Login}"><strong>[[#{nav.login}]]</strong></a>
+                    </div>
+                    <div sec:authorize="isAuthenticated()" class="is-flex is-align-content-center">
+                        <div class="dropdown is-right is-hoverable">
+                            <div class="dropdown-trigger">
+                                <div class="is-flex is-align-content-center" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                    <img class="pr-2" width="50" height="50" src="https://img.icons8.com/ios-filled/50/user.png" alt="user"/>
+                                    <p class="nav-link" sec:authentication="principal.username"></p>
+                                </div>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                <div class="dropdown-content">
+                                    <div class="dropdown-item">
+                                        <div class="profile-link">Profile</div>
+                                        <hr class="dropdown-divider" />
+                                        <div class="cart-item">Cart items</div>
+                                        <hr class="dropdown-divider" />
+                                        <form action="#" th:action="@{/logout}" method="POST">
+                                            <input class="input is-danger is-small" type="submit" value="Logout"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--                        <img class="pr-2" width="50" height="50" src="https://img.icons8.com/ios-filled/50/user.png" alt="user"/>-->
+<!--                        <p class="nav-link" sec:authentication="principal.username"></p>-->
                     </div>
                 </div>
             </div>

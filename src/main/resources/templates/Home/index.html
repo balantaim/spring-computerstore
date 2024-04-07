@@ -48,29 +48,26 @@
 <!--MAIN Content Start-->
 <div class="main">
 
-<h1>[[#{app.title}]]</h1>
+<h1 class="text-black">[[#{app.title}]]</h1>
 
-    <div sec:authorize="isAuthenticated()">
-        <p>User: <span sec:authentication="principal.username"></span></p>
-        <p>Role: <span sec:authentication="principal.authorities"></span></p>
-    </div>
+<!--    <div sec:authorize="isAuthenticated()">-->
+<!--        <p>User: <span sec:authentication="principal.username"></span></p>-->
+<!--        <p>Role: <span sec:authentication="principal.authorities"></span></p>-->
+<!--    </div>-->
 
-<p> Main view </p>
-<div class="has-text-centered">
-    <div class="mt-2 mb-4">
-        <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">Go back to log-in.</a>
-    </div>
-</div>
+<p class="text-black">Main view</p>
 
-<div class="has-text-centered">
-    <div class="mt-2 mb-4">
-        <a th:href="@{/Manager}" class="is-info" role="button" aria-pressed="true">Go to Manager</a>
-    </div>
-</div>
 
-<form action="#" th:action="@{/logout}" method="POST">
-    <input type="submit" value="Logout"/>
-</form>
+
+<!--<div class="has-text-centered">-->
+<!--    <div class="mt-2 mb-4">-->
+<!--        <a th:href="@{/Manager}" class="is-info" role="button" aria-pressed="true">Go to Manager</a>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<form action="#" th:action="@{/logout}" method="POST">-->
+<!--    <input type="submit" value="Logout"/>-->
+<!--</form>-->
 
 </div>
 <!--MAIN Content End-->

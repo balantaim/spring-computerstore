@@ -17,11 +17,9 @@ package com.martinatanasov.computerstore.controller;
 
 import com.martinatanasov.computerstore.entity.User;
 import com.martinatanasov.computerstore.model.WebUser;
-import com.martinatanasov.computerstore.service.PasswordValidationService;
 import com.martinatanasov.computerstore.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -39,12 +37,10 @@ public class RegisterController {
     private final UserService userService;
 
     //private final Logger logger = java.util.logging.Logger.getLogger(getClass().getName());
-    private final PasswordValidationService validatePassword;
 
     @Autowired
-    public RegisterController(UserService userService, PasswordValidationService validatePassword) {
+    public RegisterController(UserService userService) {
         this.userService = userService;
-        this.validatePassword = validatePassword;
     }
 
     @InitBinder
@@ -70,10 +66,12 @@ public class RegisterController {
         String userName = webUser.getEmail();
 
         String errorMessage = "";
-        if(!validatePassword.validateUserPassword(webUser)){
-            errorMessage = "Password and Re-password does not match";
-            ObjectError error = new ObjectError("globalError", errorMessage);
-            bindingResult.addError(error);
+        if(webUser.getPassword() != null && webUser.getRepeatPassword() != null){
+            if(!webUser.getRepeatPassword().equals(webUser.getPassword())){
+                errorMessage = "PassMatcher";
+                ObjectError error = new ObjectError("globalError", errorMessage);
+                bindingResult.addError(error);
+            }
         }
         // form validation
         if (bindingResult.hasErrors()){
@@ -83,7 +81,7 @@ public class RegisterController {
         User existing = userService.findByUserName(userName);
         if (existing != null){
             //model.addAttribute("webUser", new WebUser());
-            errorMessage = "User already exist!";
+            errorMessage = "UserExist";
             ObjectError error = new ObjectError("globalError", errorMessage);
             bindingResult.addError(error);
             return "Register/register";

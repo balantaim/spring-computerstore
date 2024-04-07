@@ -1,8 +1,9 @@
-        * {
 
-        }
         body{
             min-height: 100vh;
+            /*mobile version*/
+            min-height: 100svh;
+            /*min-height: 100dvh;*/
         }
         button{
             min-height: 40px;
@@ -14,7 +15,7 @@
         }
         input{
             height: 30px;
-            width: 145px;
+            min-width: 145px;
         }
         .space{
             height: 90px;
@@ -22,22 +23,35 @@
         .rounded-img{
             border-radius: 50%;
         }
+        .text-black{
+            color: black;
+        }
         .active{
-            color: red;
+            color: teal;
+            font-weight: bold;
+        }
+        .profile-container{
+            width: auto;
+            max-width: 220px;
+        }
+        .logo-text{
+            white-space: nowrap;
+            font-family: cursive;
+        }
+        .nav-link{
+            width: auto;
+            max-width: 120px;
+            color: teal;
+            white-space: nowrap;
         }
         .main{
             min-height: calc(100vh - 220px);
         }
         footer{
-/*            padding-top: 8px !important;*/
-/*            padding-bottom: 8px !important;*/
 /*            background-color: #00d1b2 !important;*/
         }
 
 
-        @media (min-width: 600px) and (max-width: 768px){
-
-        }
 /*
 320px — 480px: Mobile devices
 481px — 768px: iPads, Tablets
@@ -46,6 +60,25 @@
 1201px and more —  Extra large screens, TV
 */
 
+        @media only screen and (max-width: 480px){
+            button {
+                width: 78%;
+            }
+        }
+        @media (min-width: 481px) and (max-width: 768px){
+            button {
+                width: 60%;
+            }
+        }
+        @media (min-width: 769px) and (max-width: 1024px){
+
+        }
+        @media (min-width: 1025px) and (max-width: 1200px){
+
+        }
+        @media only screen and (min-width: 1201px){
+
+        }
 
         @media (prefers-color-scheme: dark) {
           :root {

@@ -34,7 +34,7 @@
     <style>
         body {
             background: white;
-            background-image: url('/images/pexels-christina-morillo-1181210.jpg');
+<!--            background-image: url('/images/pexels-christina-morillo-1181210.jpg');-->
             background-repeat: no-repeat;
             background-size: 100% 100%;
         }
@@ -49,8 +49,20 @@
 <div class="main">
     <div class="space"></div>
 
-    <p>User: <span sec:authentication="principal.username"></span></p>
-    <p>Role: <span sec:authentication="principal.authorities"></span></p>
+    <div class="text-black has-text-centered">
+        <ul>
+            <li th:text="'User name: ' + ${webUser.email}"></li>
+            <li th:text="'First name: ' + ${webUser.firstName}"></li>
+            <li th:text="'Last name: ' + ${webUser.lastName}"></li>
+        </ul>
+    </div>
+
+    <div class="has-text-centered">
+        <!--Go to Login-->
+        <div class="mt-4 pt-4 pb-4">
+            <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">[[#{form.button.to-login}]]</a>
+        </div>
+    </div>
 
 
     <div class="space"></div>

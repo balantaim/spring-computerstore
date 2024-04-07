@@ -246,14 +246,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/actuator-page",
+							"raw": "http://localhost:5000/page/actuator",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"actuator-page"
+								"page",
+								"actuator"
 							]
 						}
 					},
