@@ -17,29 +17,12 @@ package com.martinatanasov.computerstore.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/Products")
-public class ProductController {
+public class CartItemsController {
 
-    @GetMapping("")
-    public String products(){
-        return "/Products/products";
-    }
-
-    @GetMapping("/cpu")
-    public String cpu(){
-        return "/Products/cpu";
-    }
-
-    @GetMapping("/monitors")
-    public String monitors(){
-        return "/Products/monitors";
-    }
-
-    @GetMapping("/video-cards")
-    public String videoCards(){
-        return "/Products/video-cards";
+    @GetMapping("/Cart-items")
+    public String cartItems(){
+        return "/Cart/cart-items";
     }
 }

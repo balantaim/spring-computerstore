@@ -56,8 +56,8 @@ public class GlobalSecurityConfig {
 //                                .requestMatchers(HttpMethod.GET, "/control-panel/**").hasRole("MANAGER")
 //                                .requestMatchers(HttpMethod.GET, "/systems/**").hasRole("ADMIN")
 
-                                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**", "/page/actuator/**", "/About").permitAll()
-                                .requestMatchers( "/", "/register/**", "/Products/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**", "/page/actuator/**", "/Products/**", "/About").permitAll()
+                                .requestMatchers( "/", "/register/**").permitAll()
                                 .anyRequest().authenticated()
 
 //                        .requestMatchers(HttpMethod.GET, "/employees").hasAnyRole("GUEST")
@@ -77,7 +77,6 @@ public class GlobalSecurityConfig {
                 .logout(logout -> logout
                         .permitAll()
                         .logoutSuccessUrl("/Login")
-
                 )
 
                 //From security project

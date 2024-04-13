@@ -9,9 +9,16 @@
             min-height: 40px;
             width: 145px;
         }
-        img{
+        .nav-logo{
             height: 200px;
             width: 80%
+        }
+        .text-profile a{
+            color: white !important;
+        }
+        .text-profile a:hover{
+            color: teal !important;
+            background: black;
         }
         input{
             height: 30px;

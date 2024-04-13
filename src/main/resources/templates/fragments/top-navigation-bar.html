@@ -17,7 +17,7 @@
     <nav class="navbar is-light has-shadow" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item is-flex" th:href="@{/}">
-                <img class="pr-2" width="640" height="460" src="/images/computer-store-logo.svg" alt="Computer store logo"/>
+                <img class="nav-logo pr-2" width="640" height="460" src="/images/computer-store-logo.svg" alt="Computer store logo"/>
                 <p class="text-black logo-text">Computer Store</p>
             </a>
 
@@ -53,23 +53,29 @@
                 <div class="navbar-item profile-container">
                     <div sec:authorize="!isAuthenticated()" class="is-flex is-align-content-center">
 
-                        <img class="pr-2" width="50" height="50" src="https://img.icons8.com/ios-filled/50/login-rounded-right.png" alt="login-rounded-right"/>
+                        <img class="pr-2" width="40" height="50" src="https://img.icons8.com/ios-filled/50/login-rounded-right.png" alt="login-rounded-right"/>
                         <a class="is-primary nav-link" th:href="@{/Login}"><strong>[[#{nav.login}]]</strong></a>
                     </div>
                     <div sec:authorize="isAuthenticated()" class="is-flex is-align-content-center">
-                        <div class="dropdown is-right is-hoverable">
+                        <div id="dropdown-position" class="dropdown is-hoverable">
                             <div class="dropdown-trigger">
                                 <div class="is-flex is-align-content-center" aria-haspopup="true" aria-controls="dropdown-menu4">
-                                    <img class="pr-2" width="50" height="50" src="https://img.icons8.com/ios-filled/50/user.png" alt="user"/>
+                                    <img class="pr-2" width="40" height="50" src="https://img.icons8.com/ios-filled/50/user.png" alt="user"/>
                                     <p class="nav-link" sec:authentication="principal.username"></p>
                                 </div>
                             </div>
                             <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                 <div class="dropdown-content">
                                     <div class="dropdown-item">
-                                        <div class="profile-link">Profile</div>
+                                        <div class="profile-link is-flex text-profile">
+                                            <img class="pr-2" width="38" height="48" src="/images/profile-settings-48.png" alt="admin-settings-male">
+                                            <a th:href="@{/Profile}" class="navbar-item">[[#{nav.profile}]]</a>
+                                        </div>
                                         <hr class="dropdown-divider" />
-                                        <div class="cart-item">Cart items</div>
+                                        <div class="cart-item is-flex text-profile">
+                                            <img class="pr-2" width="38" height="48" src="/images/cart-48.png" alt="shopping-cart--v1"/>
+                                            <a th:href="@{/Cart-items}" class="navbar-item">[[#{nav.cart-items}]]</a>
+                                        </div>
                                         <hr class="dropdown-divider" />
                                         <form action="#" th:action="@{/logout}" method="POST">
                                             <input class="input is-danger is-small" type="submit" value="Logout"/>
