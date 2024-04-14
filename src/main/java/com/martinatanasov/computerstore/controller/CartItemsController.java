@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CartItemsController {
 
     @GetMapping("/Cart-items")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('MANAGER') or hasRole('ADMIN')")
     public String cartItems(){
-        return "/Cart/cart-items";
+        return "Cart/cart-items";
     }
 }

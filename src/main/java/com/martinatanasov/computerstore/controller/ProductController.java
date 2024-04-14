@@ -25,21 +25,21 @@ public class ProductController {
 
     @GetMapping("")
     public String products(){
-        return "/Products/products";
+        return "Products/products";
     }
 
     @GetMapping("/cpu")
     public String cpu(){
-        return "/Products/cpu";
+        return "Products/cpu";
     }
 
     @GetMapping("/monitors")
     public String monitors(){
-        return "/Products/monitors";
+        return "Products/monitors";
     }
 
     @GetMapping("/video-cards")
     public String videoCards(){
-        return "/Products/video-cards";
+        return "Products/video-cards";
     }
 }

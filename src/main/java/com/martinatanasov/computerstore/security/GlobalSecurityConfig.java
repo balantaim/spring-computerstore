@@ -22,7 +22,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -50,8 +49,12 @@ public class GlobalSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception{
         //Setup permission by role and methods
         http.authorizeHttpRequests(config -> config
-                                .requestMatchers(HttpMethod.GET, "/Profile/**").hasRole("CUSTOMER")
-                                .requestMatchers(HttpMethod.GET, "/Manager/**").hasRole("MANAGER")
+                                .requestMatchers( "/Profile/**").hasRole("CUSTOMER")
+                                .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
+                                .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
+                                .requestMatchers(HttpMethod.DELETE, "/Products/**").hasRole("CUSTOMER")
+                                .requestMatchers( "/Cart-items/**").hasRole("CUSTOMER")
+                                .requestMatchers( "/Manager/**").hasRole("MANAGER")
 //                                .requestMatchers(HttpMethod.GET, "/customer/**").hasRole("CUSTOMER")
 //                                .requestMatchers(HttpMethod.GET, "/control-panel/**").hasRole("MANAGER")
 //                                .requestMatchers(HttpMethod.GET, "/systems/**").hasRole("ADMIN")
