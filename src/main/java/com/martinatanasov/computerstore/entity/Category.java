@@ -17,44 +17,38 @@ package com.martinatanasov.computerstore.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "products")
-public class Product {
+@Table(name = "categories")
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "product_name")
-    private String productName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "price")
-    private double price;
-
-    @Column(name = "stock")
-    private int stock;
-
     @Column(name = "image_url")
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "category",
+            fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private List<Product> products;
 
-    public Product(){}
+    public Category(){}
 
-    public Product(String productName, String description, double price, int stock, String imageUrl, Category category) {
-        this.productName = productName;
+    public Category(String name, String description, String imageUrl, List<Product> products) {
+        this.name = name;
         this.description = description;
-        this.price = price;
-        this.stock = stock;
         this.imageUrl = imageUrl;
-        this.category = category;
+        this.products = products;
     }
 
     public Long getId() {
@@ -65,12 +59,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -81,22 +75,6 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -105,24 +83,22 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public Category getCategory() {
-        return category;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "Category{" +
                 "id=" + id +
-                ", productName='" + productName + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
-                ", stock=" + stock +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", category=" + category +
+                ", products=" + products +
                 '}';
     }
 }

@@ -39,7 +39,7 @@
                     <a th:href="@{/Products}" class="navbar-link">[[#{nav.products}]]</a>
 
                     <div class="navbar-dropdown">
-                        <a class="navbar-item is-selected">Category</a>
+                        <a class="navbar-item is-selected">[[#{nav.products.category}]]</a>
                         <hr class="navbar-divider">
                         <a th:href="@{/Products/monitors}" class="navbar-item">[[#{nav.products.monitors}]]</a>
                         <!--                        <a class="navbar-item is-selected">Jobs</a>-->
@@ -77,8 +77,13 @@
                                             <a th:href="@{/Cart-items}" class="navbar-item">[[#{nav.cart-items}]]</a>
                                         </div>
                                         <hr class="dropdown-divider" />
+                                        <div class="cart-item is-flex text-profile">
+                                            <img class="pr-2" width="38" height="48" src="/images/delivery-60.png" alt="delivery--v1"/>
+                                            <a th:href="@{/Orders}" class="navbar-item">[[#{nav.orders}]]</a>
+                                        </div>
+                                        <hr class="dropdown-divider" />
                                         <form action="#" th:action="@{/logout}" method="POST">
-                                            <input class="input is-danger is-small" type="submit" value="Logout"/>
+                                            <button class="button input is-danger is-small" type="submit">[[#{nav.logout}]]</button>
                                         </form>
                                     </div>
                                 </div>

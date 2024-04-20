@@ -1,4 +1,29 @@
+        :root{
+           --light: #fdffc4;
+           --dark: #00332a;
 
+           --primary: teal;
+           --secondary: rgb(121, 245, 158);
+           --accent: rgb(206, 188, 28);
+           --hover-background: var(--light);
+           --txt-color: black;
+
+           --foreground: var(--light);
+           --background: var(--dark);
+        }
+        @media (prefers-color-scheme: dark) {
+            --light: #fdffc4;
+            --dark: #00332a;
+
+            --primary: teal;
+            --secondary: rgb(121, 245, 158);
+            --accent: rgb(206, 188, 28);
+            --hover-background: var(--dark);
+            --txt-color: white;
+
+            --foreground: var(--light);
+            --background: var(--dark);
+        }
         body{
             min-height: 100vh;
             /*mobile version*/
@@ -14,11 +39,11 @@
             width: 80%
         }
         .text-profile a{
-            color: white !important;
+            color: var(--text-color) !important;
         }
         .text-profile a:hover{
-            color: teal !important;
-            background: black;
+            color: var(--primary) !important;
+            background: var(--hover-background);
         }
         input{
             height: 30px;
@@ -36,6 +61,9 @@
         .active{
             color: teal;
             font-weight: bold;
+        }
+        .is-selected:hover{
+            cursor: auto;
         }
         .profile-container{
             width: auto;
@@ -87,8 +115,4 @@
 
         }
 
-        @media (prefers-color-scheme: dark) {
-          :root {
-            /* Update CSS variables */
-          }
-        }
+
