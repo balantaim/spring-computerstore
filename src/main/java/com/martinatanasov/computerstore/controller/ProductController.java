@@ -15,16 +15,34 @@
 
 package com.martinatanasov.computerstore.controller;
 
+import com.martinatanasov.computerstore.entity.Category;
+import com.martinatanasov.computerstore.service.CategoryService;
+import com.martinatanasov.computerstore.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/Products")
 public class ProductController {
 
+    private final CategoryService categoryService;
+    private final ProductService productService;
+
+    @Autowired
+    public ProductController(CategoryService categoryService, ProductService productService){
+        this.categoryService = categoryService;
+        this.productService = productService;
+    }
+
     @GetMapping("")
-    public String products(){
+    public String products(Model model){
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
         return "Products/products";
     }
 

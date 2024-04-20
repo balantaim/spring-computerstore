@@ -79,6 +79,9 @@
             color: teal;
             white-space: nowrap;
         }
+        #btnLogout{
+            font-size: .875rem;
+        }
         .main{
             min-height: calc(100vh - 220px);
         }

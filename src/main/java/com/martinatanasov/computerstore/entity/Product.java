@@ -42,7 +42,7 @@ public class Product {
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+            cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 
