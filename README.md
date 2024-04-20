@@ -9,3 +9,7 @@
 <p>AWSElasticBeanstalkWebTier</p>
 <p>AWSElasticBeanstalkWorkerTier</p>
 <p>AWSElasticBeanstalkMulticontainerDocker</p>
+
+### You could check latest changes on production link
+
+<p>AWS Elastic Beanstalk: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com/">computer-store.eu-north-1.elasticbeanstalk.com</a></p>
