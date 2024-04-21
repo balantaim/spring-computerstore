@@ -21,12 +21,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ManagerController {
+public class AdministrationController {
 
-    @GetMapping("/Management")
-    @PreAuthorize("hasRole('MANAGER')")
-    public String manager(Model model){
-        model.addAttribute("active","Manager");
-        return "Management/management";
+    @GetMapping("/Administration")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String administration(Model model){
+        model.addAttribute("active","Administration");
+        return "Administration/administration";
     }
 }

@@ -1,6 +1,6 @@
         :root{
-           --light: #fdffc4;
-           --dark: #00332a;
+           --light: white;
+           --dark: black;
 
            --primary: teal;
            --secondary: rgb(121, 245, 158);
@@ -8,23 +8,28 @@
            --hover-background: var(--light);
            --txt-color: black;
 
-           --foreground: var(--light);
-           --background: var(--dark);
+           --foreground: var(--dark);
+           --background: var(--light);
         }
         @media (prefers-color-scheme: dark) {
-            --light: #fdffc4;
-            --dark: #00332a;
+            :root{
+                --light: white;
+                --dark: black;
 
-            --primary: teal;
-            --secondary: rgb(121, 245, 158);
-            --accent: rgb(206, 188, 28);
-            --hover-background: var(--dark);
-            --txt-color: white;
+                --primary: teal;
+                --secondary: rgb(121, 245, 158);
+                --accent: rgb(206, 188, 28);
+                --hover-background: var(--dark);
+                --txt-color: white;
 
-            --foreground: var(--light);
-            --background: var(--dark);
+                --foreground: var(--light);
+                --background: var(--dark);
+            }
         }
         body{
+            background: var(--background);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
             min-height: 100vh;
             /*mobile version*/
             min-height: 100svh;
@@ -44,6 +49,7 @@
         .text-profile a:hover{
             color: var(--primary) !important;
             background: var(--hover-background);
+            border-radius: 16%;
         }
         input{
             height: 30px;
@@ -56,7 +62,7 @@
             border-radius: 50%;
         }
         .text-black{
-            color: black;
+            color: black !important;
         }
         .active{
             color: teal;
@@ -76,8 +82,9 @@
         .nav-link{
             width: auto;
             max-width: 120px;
-            color: teal;
+            color: var(--primary);
             white-space: nowrap;
+            overflow: hidden;
         }
         #btnLogout{
             font-size: .875rem;

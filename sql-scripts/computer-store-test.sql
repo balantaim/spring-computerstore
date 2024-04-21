@@ -20,7 +20,7 @@ CREATE TABLE users (
   enabled TINYINT NOT NULL,
   verified_profile TINYINT NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Enter some test users
 -- The test password is 'test'
