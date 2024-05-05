@@ -8,7 +8,7 @@
 
 ## Software Stack
 
-<p><b>Software tools:</b> Java 21 (<span style="color: red;">mandatory for Virtual Threads</span>), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Aspect Oriented Programming), Lombok, Bulma (Boostrap competitor), Maven</p>
+<p><b>Software tools:</b> Java 21 ($${\color{red}mandatory for Virtual Threads}$$), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Aspect Oriented Programming), Lombok, Bulma (Boostrap competitor), Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
 
