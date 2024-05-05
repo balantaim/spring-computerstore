@@ -16,9 +16,14 @@
 package com.martinatanasov.computerstore.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "order_item")
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class OrderItem {
 
     @Id
@@ -40,8 +45,6 @@ public class OrderItem {
     @Column(name = "price_per_unit")
     private double pricePerUnit;
 
-    public OrderItem(){}
-
     public OrderItem(Long orderId, Long productId, int quantity, double pricePerUnit) {
         this.orderId = orderId;
         this.productId = productId;
@@ -49,54 +52,4 @@ public class OrderItem {
         this.pricePerUnit = pricePerUnit;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getPricePerUnit() {
-        return pricePerUnit;
-    }
-
-    public void setPricePerUnit(double pricePerUnit) {
-        this.pricePerUnit = pricePerUnit;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "id=" + id +
-                ", orderId=" + orderId +
-                ", productId=" + productId +
-                ", quantity=" + quantity +
-                ", pricePerUnit=" + pricePerUnit +
-                '}';
-    }
 }

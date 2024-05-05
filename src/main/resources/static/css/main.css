@@ -93,7 +93,16 @@
             min-height: calc(100vh - 220px);
         }
         footer{
-/*            background-color: #00d1b2 !important;*/
+            /* background-color: #00d1b2 !important;*/
+        }
+        p.form-text{
+            color: var(--txt-color);
+        }
+        select{
+            min-width: 180px;
+        }
+        div.field-select{
+            min-height: 40px;
         }
 
 

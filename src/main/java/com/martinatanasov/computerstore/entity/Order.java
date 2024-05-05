@@ -16,11 +16,19 @@
 package com.martinatanasov.computerstore.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "orders")
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Order {
 
     @Id
@@ -41,8 +49,6 @@ public class Order {
     @Column(name = "status")
     private String status;
 
-    public Order(){}
-
     public Order(Long customerId, Timestamp orderDate, double totalAmount, String status) {
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -50,54 +56,4 @@ public class Order {
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public Timestamp getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Timestamp orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", customerId=" + customerId +
-                ", orderDate=" + orderDate +
-                ", totalAmount=" + totalAmount +
-                ", status='" + status + '\'' +
-                '}';
-    }
 }

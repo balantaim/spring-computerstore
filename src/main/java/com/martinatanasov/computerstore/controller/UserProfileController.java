@@ -16,9 +16,15 @@
 package com.martinatanasov.computerstore.controller;
 
 
+import com.martinatanasov.computerstore.model.Country;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class UserProfileController {
@@ -28,4 +34,33 @@ public class UserProfileController {
         model.addAttribute("active","Profile");
         return "UserProfile/profile";
     }
+
+    @GetMapping("/Profile/manage-password")
+    public String managePassword(){
+        return "UserProfile/manage-password";
+    }
+
+    @GetMapping("/Profile/address")
+    public String addressInfo(Model model){
+        List<Country> countries = new ArrayList<>();
+        countries.add(new Country("Bulgaria", "BG"));
+        countries.add(new Country("USA", "US"));
+        countries.add(new Country("England", "EN"));
+        model.addAttribute("countries", countries);
+        return "UserProfile/manage-address";
+    }
+
+//    @Bean
+//    public void getCountries(){
+//        String[] locales = Locale.getISOCountries();
+//        Locale locale = null;
+//        for(String country : locales) {
+//            locale = new Locale("", country);
+//            System.out.println(locale.getDisplayCountry());
+//            System.out.println(locale.getCountry());
+//            System.out.println(locale.getDisplayLanguage());
+//            System.out.println(locale.getDisplayName() + "\n");
+//        }
+//    }
+
 }

@@ -136,34 +136,6 @@
 					"response": []
 				},
 				{
-					"name": "Login with user",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"customer@abv.bg\",\r\n    \"password\": \"test\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5000/authenticateTheUser",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"authenticateTheUser"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "logout",
 					"request": {
 						"method": "POST",

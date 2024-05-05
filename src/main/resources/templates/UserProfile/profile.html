@@ -47,9 +47,22 @@
     <div class="space"></div>
 
     <div class="has-text-centered">
-        <h1>Profile Page</h1>
+        <h1>Profile</h1>
         <p>User: <span sec:authentication="principal.username"></span></p>
         <p>Role: <span sec:authentication="principal.authorities"></span></p>
+
+        <div class="columns">
+            <div class="column is-half">
+                <div class="box">
+                    <a th:href="@{/Profile/manage-password}">Change Password</a>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="box">
+                    <a th:href="@{/Profile/address}">Add Order Address</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="space"></div>

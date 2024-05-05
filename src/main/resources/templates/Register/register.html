@@ -68,7 +68,7 @@
             <div class="field ml-4 mr-4">
                 <label class="label">[[#{form.label.email}]]<span class="has-text-danger">*</span></label>
                 <div class="control has-icons-left has-icons-right pb-4">
-                    <input th:field="*{email}" class="input is-skeleton" th:classappend="${#fields.hasErrors('email')} ? 'is-danger' : ''" type="text" placeholder="Enter email">
+                    <input th:field="*{email}" class="input is-skeleton" th:classappend="${#fields.hasErrors('email')} ? 'is-danger' : ''" type="email" placeholder="Enter email">
                     <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
