@@ -21,32 +21,42 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 @Controller
+@RequestMapping("/Profile")
 public class UserProfileController {
 
-    @GetMapping("/Profile")
+    @GetMapping("")
     public String profile(Model model){
         model.addAttribute("active","Profile");
         return "UserProfile/profile";
     }
 
-    @GetMapping("/Profile/manage-password")
+    @GetMapping("/manage-password")
     public String managePassword(){
         return "UserProfile/manage-password";
     }
 
-    @GetMapping("/Profile/address")
+    @GetMapping("/address")
     public String addressInfo(Model model){
         List<Country> countries = new ArrayList<>();
         countries.add(new Country("Bulgaria", "BG"));
         countries.add(new Country("USA", "US"));
         countries.add(new Country("England", "EN"));
         model.addAttribute("countries", countries);
+        return "UserProfile/manage-address";
+    }
+
+    @PostMapping("/update-address")
+    public String updateOrderAddress(){
+//        TODO
+
         return "UserProfile/manage-address";
     }
 

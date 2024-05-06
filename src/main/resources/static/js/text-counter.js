@@ -1,5 +1,6 @@
 const textarea = document.getElementById("textarea");
 const textCounter = document.getElementById("text-counter");
+const buttonSave = document.getElementById("save");
 const maxTextCharacter = 150;
 
 textCounter.textContent = 0 + "/" + maxTextCharacter;
@@ -9,10 +10,18 @@ textarea.addEventListener("input", function(){
     textCounter.textContent = textLength + "/" + maxTextCharacter;
 
     if(textLength > maxTextCharacter){
-        textarea.style.borderColor = "#ff2851";
-        textCounter.style.color = "#ff2851";
+        if(!textarea.classList.contains("is-danger"))
+        {
+            textarea.classList.add("is-danger");
+            textCounter.classList.add("has-text-danger");
+            buttonSave.disabled = true;
+        }
     }else{
-        textarea.style.borderColor = "black";
-        textCounter.style.color = "black";
+        if(textarea.classList.contains("is-danger"))
+        {
+            textarea.classList.remove("is-danger");
+            textCounter.classList.remove("has-text-danger");
+            buttonSave.disabled = false;
+        }
     }
 });

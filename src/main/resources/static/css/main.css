@@ -35,6 +35,9 @@
             min-height: 100svh;
             /*min-height: 100dvh;*/
         }
+        a:hover{
+            color: var(--primary);
+        }
         button{
             min-height: 40px;
             width: 145px;
@@ -44,7 +47,7 @@
             width: 80%
         }
         .text-profile a{
-            color: var(--text-color) !important;
+            color: var(--text-color);
         }
         .text-profile a:hover{
             color: var(--primary) !important;
@@ -88,6 +91,12 @@
         }
         #btnLogout{
             font-size: .875rem;
+        }
+        #profile-container:hover p{
+            border: 0px solid;
+            border-radius: 6px;
+            background: var(--primary);
+            color: var(--light) !important;
         }
         .main{
             min-height: calc(100vh - 220px);
