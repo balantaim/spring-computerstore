@@ -8,7 +8,7 @@
 
 ## Software Stack
 
-<p><b>Software tools:</b> Java 21 (<span style="color: red;">mandatory for Virtual Threads</span>), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Aspect Oriented Programming), Lombok, Bulma (Boostrap competitor), Maven</p>
+<p><b>Software tools:</b> Java 21 (<span style="color: red;">mandatory for Virtual Threads</span>), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Aspect Oriented Programming), Thymeleaf, Lombok, Bulma (Boostrap competitor), Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
 
@@ -60,11 +60,27 @@
     <li>AWSElasticBeanstalkMulticontainerDocker</li>
 </ul>
 
-### Useful tools:
+### Test users
+
+1. Role: customer; <br>Username: <i>abv@abv.bg</i>
+2. Role: customer, manager; <br>Username: <i>manager@abv.bg</i>
+3. Role: customer, manager, admin; <br>Username: <i>admin@abv.bg</i>
+
+### Actuator endpoint
+
+<p>Actuator link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com/page/actuator">/page/actuator</a></p>
+
+### Useful tools
 
 1. MySQL Workbench user interface tool URL: [MySQL Workbench](https://dev.mysql.com/downloads/workbench)
 2. Multiple DB user interface tool URL: [DBever - Universal Database Tool](https://dbeaver.io/download)
 
-### You could check latest changes online on the production link below
+### Limitations
+
+<ul>
+    <li><b>Email Sender</b> is not implemented for this project. New user profiles are verified by default. You could check how to implement Email Sender from this project: <a href="https://github.com/balantaim/EmailSender">EmailSenderRepository</a></li>
+</ul>
+
+### You could check the latest changes online on the production link below
 
 <p>AWS Elastic Beanstalk production link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com/">computer-store.eu-north-1.elasticbeanstalk.com</a></p>
