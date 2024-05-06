@@ -60,6 +60,8 @@
     <li>AWSElasticBeanstalkMulticontainerDocker</li>
 </ul>
 
+## Test Information
+
 ### Test users
 
 1. Role: customer; <br>Username: <i>abv@abv.bg</i>
@@ -80,6 +82,8 @@
 <ul>
     <li><b>Email Sender</b> is not implemented for this project. New user profiles are verified by default. You could check how to implement Email Sender from this project: <a href="https://github.com/balantaim/EmailSender">EmailSenderRepository</a></li>
 </ul>
+
+## Production Website
 
 ### You could check the latest changes online on the production link below
 
