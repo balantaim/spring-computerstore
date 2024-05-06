@@ -44,7 +44,26 @@
 <div class="main">
     <div class="space"></div>
 
-    <h1>Products</h1>
+    <h1 class="has-text-centered is-size-1">[[#{nav.products.category}]]</h1>
+    
+    <div class="columns is-centered is-gapless mt-6">
+
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+
+        <div class="column mr-1 ml-1">
+            <div class="container" th:if="${categories}" th:each="category : ${categories}">
+                <a class="is-flex m-2 p-3" th:href="@{ '/Products/' + ${category.name} }">
+                    <img height="150px" width="150px" th:src="@{${category.imageUrl}}" th:alt="${category.description}"/>
+                    <div class="" style="display: flex; justify-content: center; align-items: center; min-height: 150px; width: 100%;">
+                        <h2 class="is-size-2" th:text="${category.name}"></h2>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+        
+    </div>
 
     <div class="space"></div>
 </div>

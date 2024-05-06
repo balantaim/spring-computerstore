@@ -80,7 +80,7 @@
 ### Limitations
 
 <ul>
-    <li><b>Email Sender</b> is not implemented for this project. New user profiles are verified by default. You could check how to implement Email Sender from this project: <a href="https://github.com/balantaim/EmailSender">EmailSenderRepository</a></li>
+    <li><b>Email Sender</b> is not implemented for this project! New user profiles are verified by default. You could check how to implement Email Sender from this project: <a href="https://github.com/balantaim/EmailSender">EmailSenderRepository</a></li>
 </ul>
 
 ## Production Website
