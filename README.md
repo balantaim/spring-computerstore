@@ -35,8 +35,9 @@
     <li>Run SQL query "computer-store-test.sql"</li>
     <li>Select profile from "application.properties" (test/prod profile)</li>
     <li>Test the project in your favorite IDE</li>
+    <li>Optionally run "fake-data.sql" in your database for fake products</li>
     <li>Create execution jar from the terminal by using "mvn clean package"</li>
-    <li>You project is ready in ./target directory</li>
+    <li>Your project is ready in ./target directory</li>
 </ol>
 
 ## Prepare cloud platform
@@ -60,27 +61,36 @@
     <li>AWSElasticBeanstalkMulticontainerDocker</li>
 </ul>
 
+## Project optimisations
+
+<ul>
+    <li>Gzip conversion for files: text/html,text/xml,text/plain,text/css,application/json,image/jpeg</li>
+    <li>Enable cacheable static assets: *.js, *.css, image/**</li>
+</ul>
+
 ## Test Information
 
 ### Test users
 
-1. Role: customer; <br>Username: <i>abv@abv.bg</i>
-2. Role: customer, manager; <br>Username: <i>manager@abv.bg</i>
-3. Role: customer, manager, admin; <br>Username: <i>admin@abv.bg</i>
+1. Role: customer; <br>Username: <i>abv@abv.bg</i><br>Password: <i>test</i>
+2. Role: customer, manager; <br>Username: <i>manager@abv.bg</i><br>Password: <i>test</i>
+3. Role: customer, manager, admin; <br>Username: <i>admin@abv.bg</i><br>Password: <i>test</i>
 
 ### Actuator endpoint
 
 <p>Actuator link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com/page/actuator">/page/actuator</a></p>
 
-### Useful tools
-
-1. MySQL Workbench user interface tool URL: [MySQL Workbench](https://dev.mysql.com/downloads/workbench)
-2. Multiple DB user interface tool URL: [DBever - Universal Database Tool](https://dbeaver.io/download)
-
 ### Limitations
 
 <ul>
     <li><b>Email Sender</b> is not implemented for this project! New user profiles are verified by default. You could check how to implement Email Sender from this project: <a href="https://github.com/balantaim/EmailSender">EmailSenderRepository</a></li>
+</ul>
+
+## Useful tools
+
+<ul>
+    <li>MySQL Workbench user interface tool URL: <a href="https://dev.mysql.com/downloads/workbench">MySQL Workbench</a></li>
+    <li>Multiple DB user interface tool URL: <a href="https://dbeaver.io/download">DBever - Universal Database Tool</a></li>
 </ul>
 
 ## Production Website

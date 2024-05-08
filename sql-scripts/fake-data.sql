@@ -1,4 +1,4 @@
-SELECT * FROM categories;
+USE computer_store;
 
 INSERT INTO categories
 (description, image_url, name)
