@@ -8,7 +8,7 @@
 
 ## Software Stack
 
-<p><b>Software tools:</b> Java 21 (<span style="color: red;">mandatory for Virtual Threads</span>), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Aspect Oriented Programming), Thymeleaf, Lombok, Bulma (Boostrap competitor), Maven</p>
+<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Aspect Oriented Programming), Thymeleaf, Lombok, Bulma (Boostrap competitor), Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
 
@@ -80,8 +80,6 @@
 
 > [!CAUTION]
 > Use only for TEST profile! Be sure CORS is disabled!
-
-<code style="color : red">Use only for TEST profile! Be sure CORS is disabled!</code>
 
 <p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
 
