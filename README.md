@@ -78,6 +78,10 @@
 
 ### API testing
 
+```diff
+- red color
+```
+
 <code style="color : red">Use only for TEST profile! Be sure CORS is disabled!</code>
 
 <p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
