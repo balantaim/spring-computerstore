@@ -64,7 +64,7 @@
 ## Project optimisations
 
 <ul>
-    <li>Gzip conversion for files: text/html,text/xml,text/plain,text/css,application/json,image/jpeg</li>
+    <li>Gzip conversion</li>
     <li>Enable cacheable static assets: *.js, *.css, image/**</li>
 </ul>
 
@@ -75,6 +75,14 @@
 1. Role: customer; <br>Username: <i>abv@abv.bg</i><br>Password: <i>test</i>
 2. Role: customer, manager; <br>Username: <i>manager@abv.bg</i><br>Password: <i>test</i>
 3. Role: customer, manager, admin; <br>Username: <i>admin@abv.bg</i><br>Password: <i>test</i>
+
+### API testing
+
+<p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
+
+$${\color{red}Use \space only \space for \space test \space profile!}$$
+
+$${\color{red}CORS \space should \space be \space disabled!}$$
 
 ### Actuator endpoint
 
