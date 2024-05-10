@@ -78,11 +78,9 @@
 
 ### API testing
 
+$${\color{red}Use \space only \space for \space test \space profile! \space Be \space sure \space CORS \space is \space disabled!}$$
+
 <p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
-
-$${\color{red}Use \space only \space for \space test \space profile!}$$
-
-$${\color{red}CORS \space should \space be \space disabled!}$$
 
 ### Actuator endpoint
 
