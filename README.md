@@ -78,9 +78,8 @@
 
 ### API testing
 
-```diff
-- red color
-```
+> [!CAUTION]
+> Use only for TEST profile! Be sure CORS is disabled!
 
 <code style="color : red">Use only for TEST profile! Be sure CORS is disabled!</code>
 
