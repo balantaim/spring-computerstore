@@ -16,15 +16,18 @@
 package com.martinatanasov.computerstore.controller;
 
 import com.martinatanasov.computerstore.entity.Category;
+import com.martinatanasov.computerstore.entity.Product;
 import com.martinatanasov.computerstore.service.CategoryService;
 import com.martinatanasov.computerstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/Products")
@@ -47,17 +50,33 @@ public class ProductController {
     }
 
     @GetMapping("/cpu")
-    public String cpu(){
+    public String cpu(Model model){
+        List<Product> products = productService.findAllByCategoryId(1L);
+        if(!CollectionUtils.isEmpty(products)){
+//            List<Product> p = products
+//                    .stream()
+//                    .filter(index -> index.getProductName().equals("Intel Core i9-13900KS (2.4GHz)"))
+//                    .collect(Collectors.toList());
+            model.addAttribute("products", products);
+        }
         return "Products/cpu";
     }
 
     @GetMapping("/monitors")
-    public String monitors(){
+    public String monitors(Model model){
+        List<Product> products = productService.findAllByCategoryId(2L);
+        if(!CollectionUtils.isEmpty(products)){
+            model.addAttribute("products", products);
+        }
         return "Products/monitors";
     }
 
     @GetMapping("/video-cards")
-    public String videoCards(){
+    public String videoCards(Model model){
+        List<Product> products = productService.findAllByCategoryId(3L);
+        if(!CollectionUtils.isEmpty(products)){
+            model.addAttribute("products", products);
+        }
         return "Products/video-cards";
     }
 }

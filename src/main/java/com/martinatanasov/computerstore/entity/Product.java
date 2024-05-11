@@ -26,7 +26,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Product {
 
     @Id
@@ -39,6 +38,9 @@ public class Product {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "producer")
+    private String producer;
 
     @Column(name = "price")
     private double price;
@@ -54,9 +56,10 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Product(String productName, String description, double price, int stock, String imageUrl, Category category) {
+    public Product(String productName, String description, String producer, double price, int stock, String imageUrl, Category category) {
         this.productName = productName;
         this.description = description;
+        this.producer = producer;
         this.price = price;
         this.stock = stock;
         this.imageUrl = imageUrl;
