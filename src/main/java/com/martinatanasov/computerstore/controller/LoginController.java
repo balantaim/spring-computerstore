@@ -15,22 +15,18 @@
 
 package com.martinatanasov.computerstore.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 public class LoginController {
 
     @GetMapping("/Login")
+    @PostAuthorize("!isAuthenticated()")
     public String login(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated()) {
-            // User is already authenticated, redirect to home page
-            return "redirect:/";
-        }
         model.addAttribute("Login","active");
         return "Login/login";
     }
