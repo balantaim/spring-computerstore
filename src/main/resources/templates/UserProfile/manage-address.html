@@ -55,8 +55,8 @@
 
                 <div class="field ml-4 mr-4">
                     <label class="label">[[#{form.firstname}]]</label>
-                    <div class="control has-icons-left pb-4">
-                        <input class="input is-skeleton" type="text" name="firstName" placeholder="First name">
+                    <div class="control has-icons-left">
+                        <input class="input is-skeleton" type="text" name="firstName" th:placeholder="#{form.firstname}">
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-user"></i>
                     </span>
@@ -64,10 +64,10 @@
                     <!--<p class="help is-success">This EMAIL is available</p>-->
                 </div>
 
-                <div class="field ml-4 mr-4">
+                <div class="field ml-4 mr-4 pt-4">
                     <label class="label">[[#{form.lastname}]]</label>
-                    <div class="control has-icons-left pb-4">
-                        <input class="input is-skeleton" type="text" name="lastName" placeholder="Last name">
+                    <div class="control has-icons-left">
+                        <input class="input is-skeleton" type="text" name="lastName" th:placeholder="#{form.lastname}">
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-users"></i>
                     </span>
@@ -75,10 +75,10 @@
                     <!--<p class="help is-danger">This l name is available</p>-->
                 </div>
 
-                <div class="field ml-4 mr-4">
+                <div class="field ml-4 mr-4 pt-4">
                     <label class="label">[[#{form.phone}]]</label>
                     <div class="control has-icons-left pb-2">
-                        <input class="input is-skeleton" type="tel" name="phone" placeholder="Phone number">
+                        <input class="input is-skeleton" type="tel" name="phone" th:placeholder="#{form.phone}">
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-phone"></i>
                     </span>
@@ -100,7 +100,7 @@
 
                 <div class="field ml-4 mr-4 pt-6">
                     <p class="form-text has-text-weight-bold pt-2 pb-2 mr-4">[[#{form.address}]]</p>
-                    <textarea id="textarea" class="textarea" maxlength="255" placeholder="City, street, floor..."></textarea>
+                    <textarea id="textarea" class="textarea" maxlength="255" th:placeholder="#{form.placeholder.address}"></textarea>
                     <div class="container" style="min-height: 24px;">
                         <p id="text-counter" class="is-pulled-right">0/150</p>
                     </div>

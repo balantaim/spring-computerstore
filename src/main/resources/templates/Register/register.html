@@ -28,7 +28,8 @@
     <script defer th:src="@{/js/navbar.js}"></script>
     <script defer th:src="@{/js/main.js}"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 <body>
@@ -62,8 +63,10 @@
             <!--EMAIL-->
             <div class="field ml-4 mr-4">
                 <label class="label">[[#{form.label.email}]]<span class="has-text-danger">*</span></label>
-                <div class="control has-icons-left has-icons-right pb-4">
-                    <input th:field="*{email}" class="input is-skeleton" th:classappend="${#fields.hasErrors('email')} ? 'is-danger' : ''" type="email" placeholder="Enter email">
+                <div class="control has-icons-left has-icons-right">
+                    <input th:field="*{email}" class="input is-skeleton"
+                           th:classappend="${#fields.hasErrors('email')} ? 'is-danger' : ''"
+                           type="email" th:placeholder="#{form.placeholder.enterEmail}">
                     <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
@@ -81,10 +84,10 @@
                 </div>
             </div>
 
-            <div class="field ml-4 mr-4">
+            <div class="field ml-4 mr-4 pt-4">
                 <label class="label">[[#{form.label.firstname}]]</label>
                 <div class="control has-icons-left pb-4">
-                    <input th:field="*{firstName}" class="input is-skeleton" type="text" placeholder="First name">
+                    <input th:field="*{firstName}" class="input is-skeleton" type="text" th:placeholder="#{form.placeholder.firstName}">
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
@@ -100,7 +103,7 @@
             <div class="field ml-4 mr-4">
                 <label class="label">[[#{form.label.lastname}]]</label>
                 <div class="control has-icons-left pb-4">
-                    <input th:field="*{lastName}" class="input is-skeleton" type="text" placeholder="Last name">
+                    <input th:field="*{lastName}" class="input is-skeleton" type="text" th:placeholder="#{form.placeholder.lastName}">
                     <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
@@ -116,8 +119,10 @@
             <!--PASS-->
             <div class="field ml-4 mr-4">
                 <label class="label">[[#{form.label.password}]]<span class="has-text-danger">*</span></label>
-                <div class="control has-icons-left has-icons-right pb-4">
-                    <input th:field="*{password}" class="input is-skeleton" th:classappend="${#fields.hasErrors('password')} ? 'is-danger' : ''" type="password" placeholder="Password">
+                <div class="control has-icons-left has-icons-right">
+                    <input th:field="*{password}" class="input is-skeleton"
+                           th:classappend="${#fields.hasErrors('password')} ? 'is-danger' : ''"
+                           type="password" th:placeholder="#{form.placeholder.password}">
                     <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
@@ -135,10 +140,12 @@
                 </div>
             </div>
 
-            <div class="field ml-4 mr-4">
+            <div class="field ml-4 mr-4 pt-4">
                 <label class="label">[[#{form.label.re-password}]]<span class="has-text-danger">*</span></label>
-                <div class="control has-icons-left has-icons-right pb-4">
-                    <input th:field="*{repeatPassword}" class="input is-skeleton" th:classappend="${#fields.hasErrors('repeatPassword')} ? 'is-danger' : ''" type="password" placeholder="Re-password">
+                <div class="control has-icons-left has-icons-right">
+                    <input th:field="*{repeatPassword}" class="input is-skeleton"
+                           th:classappend="${#fields.hasErrors('repeatPassword')} ? 'is-danger' : ''"
+                           type="password" th:placeholder="#{form.placeholder.rePassword}">
                     <!--Left icon-->
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>

@@ -54,9 +54,15 @@ public class UserProfileController {
     }
 
     @PostMapping("/update-address")
-    public String updateOrderAddress(){
+    public String updateOrderAddress(Model model){
 //        TODO
 
+
+        List<Country> countries = new ArrayList<>();
+        countries.add(new Country("Bulgaria", "BG"));
+        countries.add(new Country("USA", "US"));
+        countries.add(new Country("England", "EN"));
+        model.addAttribute("countries", countries);
         return "UserProfile/manage-address";
     }
 

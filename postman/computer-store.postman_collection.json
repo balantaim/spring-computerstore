@@ -271,6 +271,50 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Products/cpu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Products/cpu",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Products",
+								"cpu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
