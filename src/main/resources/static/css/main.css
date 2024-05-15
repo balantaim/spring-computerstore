@@ -113,6 +113,28 @@
         div.field-select{
             min-height: 40px;
         }
+        .absolute-center{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .absolute-top{
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .absolute-bottom{
+            position: absolute;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .width-90{
+            min-width: 84%;
+        }
+
 
 
 /*
@@ -127,20 +149,32 @@
             button {
                 width: 78%;
             }
+            .width-90{
+                min-width: 96%;
+            }
         }
         @media (min-width: 481px) and (max-width: 768px){
             button {
                 width: 60%;
             }
+            .width-90{
+                min-width: 90%;
+            }
         }
         @media (min-width: 769px) and (max-width: 1024px){
-
+            .width-90{
+                min-width: 86%;
+            }
         }
         @media (min-width: 1025px) and (max-width: 1200px){
-
+            .width-90{
+                min-width: 84%;
+            }
         }
         @media only screen and (min-width: 1201px){
-
+            .width-90{
+                min-width: 60%;
+            }
         }
 
 

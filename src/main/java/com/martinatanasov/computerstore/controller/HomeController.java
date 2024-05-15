@@ -15,15 +15,33 @@
 
 package com.martinatanasov.computerstore.controller;
 
+import com.martinatanasov.computerstore.entity.Product;
+import com.martinatanasov.computerstore.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 public class HomeController {
 
+    private ProductService productService;
+
+    @Autowired
+    HomeController(ProductService productService){
+        this.productService = productService;
+    }
+
     @GetMapping("/")
     public String home(Model model){
+        List<Product> getProducts = productService.getAllProducts();
+        List<Product> filteredProducts = getProducts.stream()
+                        .filter(index -> index.getId() > 3 && index.getId() <= 6)
+                        .collect(Collectors.toList());
+        model.addAttribute("products", filteredProducts);
         model.addAttribute("active","Home");
         return "Home/index";
     }

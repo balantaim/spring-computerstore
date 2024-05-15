@@ -43,31 +43,92 @@
 <!--MAIN Content Start-->
 <div class="main">
 
+    <div class="columns is-mobile is-centered">
+        <div class="column">
+            <img style="min-width: 60%;" alt="Computers and hardware parts" loading="lazy"
+                 th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +
+    @{/images/home/home1920x1280.jpg} + ' 1920w, ' +
+    @{/images/home/home2400x1600.jpg} + ' 2400w'"
+                 th:src="@{/images/home/home2400x1600.jpg}">
 
-<!--    <div sec:authorize="isAuthenticated()">-->
-<!--        <p>User: <span sec:authentication="principal.username"></span></p>-->
-<!--        <p>Role: <span sec:authentication="principal.authorities"></span></p>-->
-<!--    </div>-->
+            <h1 class="absolute-top has-text-centered is-size-1 p-2 mt-2" style="color: teal;"><b>[[#{home.header}]]</b></h1>
 
+            <!-- Search -->
+            <div class="field has-addons absolute-center width-90">
+                <p class="control is-expanded has-icons-left">
+                    <input id="textSearch" class="input" type="text" th:placeholder="#{search.placeholder}">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-search fa-xs"></i>
+                    </span>
+                </p>
+                <p class="control">
+                    <button class="button is-primary">[[#{search.text}]]</button>
+                </p>
+            </div>
 
+        </div>
+    </div>
 
+    <!-- Items-->
 
-<!--<div class="has-text-centered">-->
-<!--    <div class="mt-2 mb-4">-->
-<!--        <a th:href="@{/Manager}" class="is-info" role="button" aria-pressed="true">Go to Manager</a>-->
-<!--    </div>-->
-<!--</div>-->
+    <div class="columns is-centered mr-4 ml-4">
+        <div class="column is-gapless is-mobile-12 is-desktop-2"
+             th:if="${products}" th:each="product : ${products}">
 
-<!--<form action="#" th:action="@{/logout}" method="POST">-->
-<!--    <input type="submit" value="Logout"/>-->
-<!--</form>-->
+            <div class="card mr-2 ml-2 mb-6" style="max-height: 42%;">
+                <div class="card-image" style="">
+                    <figure class="image is-4by3">
+                        <img
+                                th:src="${product.imageUrl}"
+                                th:alt="${product.description}"/>
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img
+                                        src="https://bulma.io/assets/images/placeholders/96x96.png"
+                                        alt="Placeholder image"
+                                />
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-4" th:text="${product.productName}"></p>
+                            <p class="subtitle is-6">@johnsmith</p>
+                        </div>
+                    </div>
+
+                    <div class="content"><p th:text="${product.description}"></p></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="space"></div>
 
 </div>
 <!--MAIN Content End-->
 
-
 <!--FOOTER-->
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<!--<script th:inline="javascript">-->
+<!--    /*<![CDATA[*/-->
+<!--    var data = /*[[${products}]]*/;-->
+<!--    /*]]>*/-->
+
+<!--    $('#textSearch').on('keyup', function(){-->
+<!--        var value = $(this).val();-->
+<!--    });-->
+
+<!--    function filterText(data, value){-->
+<!--        value.toLowerCase();-->
+<!--        let filtere-->
+<!--    }-->
+
+<!--</script>-->
 
 
 </body>
