@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,19 @@ public class HomeController {
         model.addAttribute("active","Home");
         return "Home/index";
     }
+
+    @GetMapping("/Search")
+    public String filterByKeyword(Model model, String keyword){
+        List<Product> getProducts = new ArrayList<>();
+        if(keyword != null){
+            getProducts = productService.getAllByKeyword(keyword);
+        }
+        if(getProducts != null){
+            model.addAttribute("products", getProducts);
+        }
+        return "Home/search";
+    }
+
 
     //Remove white spaces
 //    @InitBinder

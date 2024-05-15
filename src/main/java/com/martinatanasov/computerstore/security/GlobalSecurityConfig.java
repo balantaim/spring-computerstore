@@ -59,7 +59,7 @@ public class GlobalSecurityConfig {
 //                                .requestMatchers(HttpMethod.GET, "/control-panel/**").hasRole("MANAGER")
 //                                .requestMatchers(HttpMethod.GET, "/systems/**").hasRole("ADMIN")
 
-                                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**", "/page/actuator/**", "/Products/**", "/About").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**", "/page/actuator/**", "/Products/**", "/About", "/Search").permitAll()
                                 .requestMatchers( "/", "/register/**").permitAll()
                                 .anyRequest().authenticated()
 

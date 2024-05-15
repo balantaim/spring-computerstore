@@ -54,17 +54,19 @@
             <h1 class="absolute-top has-text-centered is-size-1 p-2 mt-2" style="color: teal;"><b>[[#{home.header}]]</b></h1>
 
             <!-- Search -->
-            <div class="field has-addons absolute-center width-90">
-                <p class="control is-expanded has-icons-left">
-                    <input id="textSearch" class="input" type="text" th:placeholder="#{search.placeholder}">
-                    <span class="icon is-small is-left">
+            <form action="#" method="GET" th:action="@{/Search}">
+                <div class="field has-addons absolute-center width-90">
+                    <p class="control is-expanded has-icons-left">
+                        <input id="textSearch" class="input" type="text" name="keyword" th:value="${keyword}" th:placeholder="#{search.placeholder}">
+                        <span class="icon is-small is-left">
                         <i class="fas fa-search fa-xs"></i>
                     </span>
-                </p>
-                <p class="control">
-                    <button class="button is-primary">[[#{search.text}]]</button>
-                </p>
-            </div>
+                    </p>
+                    <p class="control">
+                        <button class="button is-primary">[[#{search.text}]]</button>
+                    </p>
+                </div>
+            </form>
 
         </div>
     </div>
@@ -86,16 +88,16 @@
                 <div class="card-content">
                     <div class="media">
                         <div class="media-left">
-                            <figure class="image is-48x48">
-                                <img
-                                        src="https://bulma.io/assets/images/placeholders/96x96.png"
-                                        alt="Placeholder image"
-                                />
-                            </figure>
+<!--                            <figure class="image is-48x48">-->
+<!--                                <img-->
+<!--                                        src="https://bulma.io/assets/images/placeholders/96x96.png"-->
+<!--                                        alt="Placeholder image"-->
+<!--                                />-->
+<!--                            </figure>-->
                         </div>
                         <div class="media-content">
                             <p class="title is-4" th:text="${product.productName}"></p>
-                            <p class="subtitle is-6">@johnsmith</p>
+                            <p class="subtitle is-6">test product</p>
                         </div>
                     </div>
 

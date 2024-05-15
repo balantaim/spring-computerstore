@@ -40,4 +40,8 @@ public class ProductService {
     public List<Product> findAllByCategoryId(Long categoryId){
         return productRepository.findAllByCategory(categoryId);
     }
+
+    public List<Product> getAllByKeyword(String keyword) {
+        return productRepository.findAllByKeyword(keyword);
+    }
 }

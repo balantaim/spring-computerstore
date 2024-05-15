@@ -36,7 +36,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/public/", "classpath:/static/css/")
-                .setCacheControl(CacheControl.maxAge(3, TimeUnit.DAYS))
+                .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
                 .resourceChain(true)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"))
                 //Solve problem with imported css
@@ -44,13 +44,13 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/public/", "classpath:/static/js/")
-                .setCacheControl(CacheControl.maxAge(3, TimeUnit.DAYS))
+                .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
                 .resourceChain(true)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
 
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("/public/", "classpath:/static/images/")
-                .setCacheControl(CacheControl.maxAge(3, TimeUnit.DAYS))
+                .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
                 .resourceChain(true)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
 

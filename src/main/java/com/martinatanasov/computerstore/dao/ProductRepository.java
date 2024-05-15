@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.dao;
 import com.martinatanasov.computerstore.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,5 +28,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT * FROM products p WHERE p.category_id = :id", nativeQuery = true)
     List<Product> findAllByCategory(Long id);
+
+    @Query(value = "SELECT * FROM products p WHERE p.product_name LIKE %:keyword% " +
+            "OR p.description LIKE %:keyword% " +
+            "OR p.producer LIKE %:keyword% " +
+            "OR p.price LIKE %:keyword%",
+            nativeQuery = true)
+    List<Product> findAllByKeyword(@Param("keyword") String keyword);
 
 }
