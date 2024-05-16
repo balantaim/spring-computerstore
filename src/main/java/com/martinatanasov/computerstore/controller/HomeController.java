@@ -40,7 +40,7 @@ public class HomeController {
     public String home(Model model){
         List<Product> getProducts = productService.getAllProducts();
         List<Product> filteredProducts = getProducts.stream()
-                        .filter(index -> index.getId() > 3 && index.getId() <= 6)
+                        .filter(i -> i.getCategory().getId() == 2 || (i.getId() > 5 && i.getId() <= 7))
                         .collect(Collectors.toList());
         model.addAttribute("products", filteredProducts);
         model.addAttribute("active","Home");

@@ -43,7 +43,7 @@
 <!--MAIN Content Start-->
 <div class="main">
 
-    <div class="columns is-mobile is-centered">
+    <div class="columns is-mobile is-gapless is-centered">
         <div class="column">
             <img style="min-width: 60%;" alt="Computers and hardware parts" loading="lazy"
                  th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +
@@ -73,17 +73,19 @@
 
     <!-- Items-->
 
-    <div class="columns is-centered mr-4 ml-4">
-        <div class="column is-gapless is-mobile-12 is-desktop-2"
+    <div class="columns is-centered is-gapless mr-4 ml-4">
+        <div class="column is-mobile-8 is-desktop-10"
              th:if="${products}" th:each="product : ${products}">
 
             <div class="card mr-2 ml-2 mb-6" style="max-height: 42%;">
                 <div class="card-image" style="">
-                    <figure class="image is-4by3">
-                        <img
-                                th:src="${product.imageUrl}"
-                                th:alt="${product.description}"/>
-                    </figure>
+                    <a th:href="@{/Products/{id}(id=${product.id})}">
+                        <figure class="image is-4by3">
+                            <img
+                                    th:src="${product.imageUrl}"
+                                    th:alt="${product.description}"/>
+                        </figure>
+                    </a>
                 </div>
                 <div class="card-content">
                     <div class="media">

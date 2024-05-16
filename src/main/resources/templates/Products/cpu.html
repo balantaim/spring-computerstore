@@ -51,11 +51,13 @@
         <div class="column mr-1 ml-1">
             <div class="container" th:if="${products}" th:each="product : ${products}">
 
+                <a th:href="@{/Products/{id}(id=${product.id})}">
                     <img th:if="${product.imageUrl}" height="150px" width="150px" th:src="@{${product.imageUrl}}" th:alt="${product.description}"/>
                     <p th:if="${product.imageUrl}" th:text="${product.imageUrl}"></p>
                     <div class="" style="display: flex; justify-content: center; align-items: center; min-height: 150px; width: 100%;">
                         <h2 class="is-size-2" th:text="${product.productName}"></h2>
                     </div>
+                </a>
 
             </div>
         </div>

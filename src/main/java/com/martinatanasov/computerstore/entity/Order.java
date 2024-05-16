@@ -16,16 +16,14 @@
 package com.martinatanasov.computerstore.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -48,12 +46,5 @@ public class Order {
 
     @Column(name = "status")
     private String status;
-
-    public Order(Long customerId, Timestamp orderDate, double totalAmount, String status) {
-        this.customerId = customerId;
-        this.orderDate = orderDate;
-        this.totalAmount = totalAmount;
-        this.status = status;
-    }
 
 }

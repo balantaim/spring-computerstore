@@ -21,6 +21,7 @@ import lombok.*;
 @Entity
 @Table(name = "order_item")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -44,12 +45,5 @@ public class OrderItem {
 
     @Column(name = "price_per_unit")
     private double pricePerUnit;
-
-    public OrderItem(Long orderId, Long productId, int quantity, double pricePerUnit) {
-        this.orderId = orderId;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.pricePerUnit = pricePerUnit;
-    }
 
 }

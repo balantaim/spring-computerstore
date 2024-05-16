@@ -23,10 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -78,5 +80,15 @@ public class ProductController {
             model.addAttribute("products", products);
         }
         return "Products/video-cards";
+    }
+
+    @GetMapping("/{productId}")
+    public String itemReview(@PathVariable(value = "productId") Long productId,
+                             Model model){
+        Optional<Product> product = productService.getProductById(productId);
+        if(product.isPresent()){
+            model.addAttribute("product", product.get());
+        }
+        return "Products/review";
     }
 }

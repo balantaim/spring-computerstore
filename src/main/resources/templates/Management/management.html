@@ -44,8 +44,12 @@
 <div class="main">
     <div class="space"></div>
 
-    <p>User: <span sec:authentication="principal.username"></span></p>
-    <p>Role: <span sec:authentication="principal.authorities"></span></p>
+    <div class="has-text-centered">
+        <h1>[[#{nav.profile}]]</h1>
+        <p>[[#{text.user}]]: <span sec:authentication="principal.username"></span></p>
+        <p>[[#{text.role}]]: <span th:each="authority : ${#authentication.getAuthorities()}"
+                                   th:if="${authority.getAuthority().startsWith('ROLE_')}"
+                                   th:text="${authority.getAuthority().replaceFirst('ROLE_', '') + ' '}"></span></p>
 
 
     <div class="space"></div>

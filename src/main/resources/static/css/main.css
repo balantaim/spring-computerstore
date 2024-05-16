@@ -89,6 +89,9 @@
             white-space: nowrap;
             overflow: hidden;
         }
+        .custom-link{
+            color: #2e333d;
+        }
         #btnLogout{
             font-size: .875rem;
         }

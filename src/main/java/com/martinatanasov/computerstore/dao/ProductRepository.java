@@ -22,6 +22,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -35,5 +36,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "OR p.price LIKE %:keyword%",
             nativeQuery = true)
     List<Product> findAllByKeyword(@Param("keyword") String keyword);
+
+    Optional<Product> findProductById(Long id);
 
 }

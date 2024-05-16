@@ -16,10 +16,7 @@
 package com.martinatanasov.computerstore.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -27,6 +24,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString

@@ -35,6 +35,14 @@
 
                 <a th:href="@{/About}" class="navbar-item">[[#{nav.about-us}]]</a>
 
+                <span sec:authorize="hasRole('ROLE_MANAGER')" class="navbar-item">
+                    <a class="custom-link" th:href="@{/Management}">[[#{nav.management}]]</a>
+                </span>
+
+                <span sec:authorize="hasRole('ROLE_ADMIN')" class="navbar-item">
+                    <a class="custom-link" th:href="@{/Administration}">[[#{nav.administration}]]</a>
+                </span>
+
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a th:href="@{/Products}" class="navbar-link">[[#{nav.products}]]</a>
 
@@ -47,14 +55,6 @@
                         <a th:href="@{/Products/cpu}" class="navbar-item">[[#{nav.products.cpu}]]</a>
                     </div>
                 </div>
-
-                <span sec:authorize="hasRole('ROLE_MANAGER')" class="navbar-item">
-                    <a class="text-black" th:href="@{/Management}">[[#{nav.management}]]</a>
-                </span>
-
-                <span sec:authorize="hasRole('ROLE_ADMIN')" class="navbar-item">
-                    <a class="text-black" th:href="@{/Administration}">[[#{nav.administration}]]</a>
-                </span>
 
             <!-- navbar-start end-->
             </div>

@@ -16,16 +16,15 @@
 package com.martinatanasov.computerstore.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "products")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Product {
 
     @Id
@@ -54,16 +53,7 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
+    @ToString.Exclude
     private Category category;
-
-    public Product(String productName, String description, String producer, double price, int stock, String imageUrl, Category category) {
-        this.productName = productName;
-        this.description = description;
-        this.producer = producer;
-        this.price = price;
-        this.stock = stock;
-        this.imageUrl = imageUrl;
-        this.category = category;
-    }
 
 }

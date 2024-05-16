@@ -16,18 +16,18 @@
 package com.martinatanasov.computerstore.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "categories")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Category {
 
     @Id
@@ -47,13 +47,6 @@ public class Category {
     @OneToMany(mappedBy = "category",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<Product> products;
-
-    public Category(String name, String description, String imageUrl, List<Product> products) {
-        this.name = name;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.products = products;
-    }
+    private List<Product> products = new ArrayList<>();
 
 }
