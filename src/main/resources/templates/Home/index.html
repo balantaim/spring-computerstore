@@ -45,11 +45,17 @@
 
     <div class="columns is-mobile is-gapless is-centered">
         <div class="column">
-            <img style="min-width: 60%;" alt="Computers and hardware parts" loading="lazy"
+
+<!--            <img style="min-width: 60%;" alt="Computers and hardware parts" loading="lazy"-->
+<!--                 th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +-->
+<!--    @{/images/home/home1920x1280.jpg} + ' 1920w, ' +-->
+<!--    @{/images/home/home2400x1600.jpg} + ' 2400w'"-->
+<!--                 th:src="@{/images/home/home2400x1600.jpg}">-->
+
+            <img style="min-width: 100%;" alt="Computers and hardware parts" loading="lazy"
                  th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +
-    @{/images/home/home1920x1280.jpg} + ' 1920w, ' +
-    @{/images/home/home2400x1600.jpg} + ' 2400w'"
-                 th:src="@{/images/home/home2400x1600.jpg}">
+    @{/images/home/home1140x640.jpg} + ' 2400w'"
+                 th:src="@{/images/home/home1140x640.jpg}">
 
             <h1 class="absolute-top has-text-centered is-size-1 p-2 mt-2" style="color: teal;"><b>[[#{home.header}]]</b></h1>
 

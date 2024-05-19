@@ -49,10 +49,7 @@ public class HomeController {
 
     @GetMapping("/Search")
     public String filterByKeyword(Model model, String keyword){
-        List<Product> getProducts = new ArrayList<>();
-        if(keyword != null){
-            getProducts = productService.getAllByKeyword(keyword);
-        }
+        List<Product> getProducts = productService.getAllByKeyword(keyword);
         if(getProducts != null){
             model.addAttribute("products", getProducts);
         }

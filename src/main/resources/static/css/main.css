@@ -137,6 +137,9 @@
         .width-90{
             min-width: 84%;
         }
+        .vertical-card-item{
+            height: 400px;
+        }
 
 
 
@@ -163,20 +166,32 @@
             .width-90{
                 min-width: 90%;
             }
+            .vertical-card-item{
+                height: 300px;
+            }
         }
         @media (min-width: 769px) and (max-width: 1024px){
             .width-90{
                 min-width: 86%;
+            }
+            .vertical-card-item{
+                height: 260px;
             }
         }
         @media (min-width: 1025px) and (max-width: 1200px){
             .width-90{
                 min-width: 84%;
             }
+            .vertical-card-item{
+                height: 260px;
+            }
         }
         @media only screen and (min-width: 1201px){
             .width-90{
                 min-width: 60%;
+            }
+            .vertical-card-item{
+                height: 260px;
             }
         }
 

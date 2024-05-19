@@ -52,7 +52,7 @@
         <p th:text="${product.description}"></p>
     </div>
     <div th:unless="${product}" class="has-text-centered">
-        <h1  class="is-size-1 has-text-danger">[[#{error.went.wrong}]]</h1>
+        <h1  class="is-size-1 has-text-danger">[[#{product.not-found}]]</h1>
         <div class="space"></div>
         <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
     </div>
