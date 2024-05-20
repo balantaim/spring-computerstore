@@ -20,7 +20,7 @@
 
             <div class="column is-two-fifths">
                 <figure class="is-3by2">
-                    <img th:if="${product.imageUrl}" height="150px" width="150px" th:src="@{${product.imageUrl}}" th:alt="${product.description}"/>
+                    <img th:if="${product.imageUrl}" height="150px" width="200px" th:src="@{${product.imageUrl}}" th:alt="${product.description}"/>
                 </figure>
                 <!-- Stars rating here-->
             </div>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="is-flex is-vcentered is-justify-content-flex-end" style="width: 100%">
                     <a th:href="@{/Products/{id}(id=${product.id})}"
-                       class="button is-primary is-rounded is-centered is-skeleton">[[#{btn.details}]]</a>
+                       class="button is-primary is-rounded is-centered is-skeleton ml-2 mr-2">[[#{btn.details}]]</a>
                 </div>
             </div>
         </div>

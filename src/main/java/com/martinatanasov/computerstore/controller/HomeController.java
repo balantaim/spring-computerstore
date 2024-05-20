@@ -17,10 +17,14 @@ package com.martinatanasov.computerstore.controller;
 
 import com.martinatanasov.computerstore.entity.Product;
 import com.martinatanasov.computerstore.service.ProductService;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +58,13 @@ public class HomeController {
             model.addAttribute("products", getProducts);
         }
         return "Home/search";
+    }
+
+    @GetMapping("/Live-search")
+    public String liveSearch(@RequestParam("query") String query, Model model){
+        List<Product> getProducts = productService.getAllByKeyword(query);
+        model.addAttribute("products", getProducts);
+        return "Home/liveSearch";
     }
 
 

@@ -49,12 +49,12 @@
 
 
     <div th:if="${#lists.isEmpty(products)}" class="has-text-centered">
-        <h1  class="is-size-1 has-text-danger">[[#{product.not-found}]]</h1>
+        <h1  class="is-size-1">[[#{product.not-found}]]</h1>
         <div class="space"></div>
         <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
     </div>
 
-    <div th:unless="${#lists.isEmpty(products)}">
+    <span th:unless="${#lists.isEmpty(products)}">
         <div class="columns is-centered is-gapless mt-6">
 
             <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
@@ -66,7 +66,7 @@
             <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
         </div>
-    </div>
+    </span>
 
 
     <div class="space"></div>
