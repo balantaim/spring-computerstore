@@ -3,6 +3,8 @@ function showResult(query) {
         document.getElementById("livesearch").innerHTML = "";
         document.getElementById("livesearch").style.border = "0px";
         return;
+    } else if (query.length == 1) {
+        return;
     }
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {

@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Controller
 public class HomeController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     @Autowired
     HomeController(ProductService productService){

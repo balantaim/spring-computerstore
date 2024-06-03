@@ -32,4 +32,5 @@ public class LocaleResolverConfig {
         localeResolver.setDefaultLocale(Locale.ENGLISH);
         return localeResolver;
     }
+
 }

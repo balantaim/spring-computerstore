@@ -16,6 +16,7 @@
 package com.martinatanasov.computerstore.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -28,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebMvc
-//@Profile(value = "test")
+@Profile(value = "prod")
 public class WebConfig implements WebMvcConfigurer {
 
     @Override

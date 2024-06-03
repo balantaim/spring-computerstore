@@ -14,15 +14,22 @@
   -->
 
 <span th:if="${products}" th:each="product : ${products}">
-    <div class="container">
-        <a th:href="@{/Products/{id}(id=${product.id})}" class="m-2">
-            <div class="container is-flex is-vcentered">
+    <a th:href="@{/Products/{id}(id=${product.id})}" class="m-2">
+        <div class="columns is-gapless is-centered is-vcentered">
+            <div class="column is-1">
                 <figure class="image is-48x48">
                     <img th:src="${product.imageUrl}"
                          th:alt="${product.description}"/>
                 </figure>
+            </div>
+            <div class="column is-9">
                 <p th:text="${product.productName}" class="ml-2"></p>
             </div>
-        </a>
-    </div>
+            <div class="column is-2">
+<!--                <span th:if="${product.price.substring(product.price.length() - 2)).equals('.')}"><p th:text="${product.price + '0'}" class="ml-2"></p></span>-->
+<!--                <span th:unless="${product.price.substring(product.price.length() - 2)).equals('.')}"><p th:text="${product.price}" class="ml-2"></p></span>-->
+                <p th:text="${product.price}" class="ml-2 has-text-weight-bold"></p>
+            </div>
+        </div>
+    </a>
 </span>

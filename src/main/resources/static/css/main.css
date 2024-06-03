@@ -140,6 +140,11 @@
         .vertical-card-item{
             height: 400px;
         }
+        #livesearch{
+            position: absolute;
+            max-width: 50%;
+            z-index: 100;
+        }
 
 
 
@@ -158,6 +163,9 @@
             .width-90{
                 min-width: 96%;
             }
+            #livesearch{
+                max-width: 96%;
+            }
         }
         @media (min-width: 481px) and (max-width: 768px){
             button {
@@ -168,6 +176,9 @@
             }
             .vertical-card-item{
                 height: 300px;
+            }
+            #livesearch{
+                max-width: 90%;
             }
         }
         @media (min-width: 769px) and (max-width: 1024px){
