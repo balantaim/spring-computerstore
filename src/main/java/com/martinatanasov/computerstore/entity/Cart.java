@@ -13,23 +13,35 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.dao;
+package com.martinatanasov.computerstore.entity;
 
-import com.martinatanasov.computerstore.entity.Cart;
-import com.martinatanasov.computerstore.entity.Payment;
-import com.martinatanasov.computerstore.entity.Shipment;
-import com.martinatanasov.computerstore.entity.User;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.List;
+@Entity
+@Table(name = "carts")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class Cart {
 
-public interface UserDao {
-    User findByUserName(String email);
 
-    List<Shipment> findShipmentsByUserId(Long id);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    List<Cart> findCartsByUserId(Long id);
+    @Column(name = "quantity")
+    private Integer quantity;
 
-    List<Payment> findPaymentsByUserId(Long id);
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    void save(User user);
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
 }

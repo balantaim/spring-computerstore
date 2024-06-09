@@ -15,12 +15,18 @@
 
 package com.martinatanasov.computerstore.dao;
 
+import com.martinatanasov.computerstore.entity.Cart;
+import com.martinatanasov.computerstore.entity.Payment;
+import com.martinatanasov.computerstore.entity.Shipment;
 import com.martinatanasov.computerstore.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -43,11 +49,34 @@ public class UserDaoImpl implements UserDao {
         try {
             user = theQuery.getSingleResult();
 
-            System.out.println(user);
+//            System.out.println( "User email: " + user.getEmail());
+//            List<Shipment> data = findShipmentsByUserId(user.getId());
+//            System.out.println( "User shipments: " + data);
         } catch (Exception e) {
             user = null;
         }
         return user;
+    }
+
+    @Override
+    public List<Shipment> findShipmentsByUserId(Long id) {
+        TypedQuery<Shipment> query = entityManager.createQuery("FROM Shipment WHERE user_id=:userId", Shipment.class);
+        query.setParameter("userId", id);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Cart> findCartsByUserId(Long id) {
+        TypedQuery<Cart> query = entityManager.createQuery("FROM Cart WHERE user_id=:userId", Cart.class);
+        query.setParameter("userId", id);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Payment> findPaymentsByUserId(Long id) {
+        TypedQuery<Payment> query = entityManager.createQuery("FROM Payment WHERE user_id=:userId", Payment.class);
+        query.setParameter("userId", id);
+        return query.getResultList();
     }
 
     @Override

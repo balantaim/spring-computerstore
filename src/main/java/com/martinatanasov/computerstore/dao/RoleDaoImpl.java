@@ -24,9 +24,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RoleDaoImpl implements RoleDao {
 
-    @Autowired
+
     private final EntityManager entityManager;
 
+    @Autowired
     public RoleDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

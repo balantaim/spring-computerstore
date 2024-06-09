@@ -18,19 +18,26 @@ package com.martinatanasov.computerstore.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
+
 @Entity
-@Table(name = "order_item")
+@Table(name = "shipments")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class OrderItem {
+public class Shipment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "product_id")
+    private Long productId;
 
     @Column(name = "quantity")
     private int quantity;
@@ -38,14 +45,27 @@ public class OrderItem {
     @Column(name = "price_per_unit")
     private double pricePerUnit;
 
-    //FK referencing Order
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column(name = "tracking_number")
+    private String trackingNumber;
 
-    //FK referencing Product
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Column(name = "carrier", length = 50)
+    private String carrier;
+
+//    @Column(name = "county")
+//    private String county;
+//
+//    @Column(name = "address")
+//    private String address;
+//
+//    @Column(name = "phone_number")
+//    private String phoneNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "shipment")
+    @ToString.Exclude
+    private Set<Order> orders = new HashSet<>();
 
 }

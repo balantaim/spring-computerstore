@@ -18,6 +18,9 @@ package com.martinatanasov.computerstore.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "products")
 @NoArgsConstructor
@@ -38,11 +41,11 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "producer")
+    @Column(name = "producer", length = 50)
     private String producer;
 
     @Column(name = "price")
-    private double price;
+    private Double price;
 
     @Column(name = "stock")
     private int stock;
@@ -55,5 +58,13 @@ public class Product {
     @JoinColumn(name = "category_id")
     @ToString.Exclude
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    @ToString.Exclude
+    private Set<OrderItem> orderItems = new HashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    @ToString.Exclude
+    private Set<Cart> carts = new HashSet<>();
 
 }

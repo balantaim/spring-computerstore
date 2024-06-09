@@ -35,7 +35,7 @@ public class Category {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 50)
     private String name;
 
     @Column(name = "description")
@@ -47,6 +47,7 @@ public class Category {
     @OneToMany(mappedBy = "category",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ToString.Exclude
     private List<Product> products = new ArrayList<>();
 
 }

@@ -19,33 +19,36 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "order_item")
+@Table(name = "payments")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class OrderItem {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "payment_type", length = 20)
+    private String paymentType;
 
-    @Column(name = "price_per_unit")
-    private double pricePerUnit;
+    @Column(name = "amount")
+    private Double amount;
 
-    //FK referencing Order
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @Column(name = "payment_status", length = 20)
+    private String paymentStatus;
+
+    @Column(name = "transaction_id")
+    private String transactionId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
-
-    //FK referencing Product
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "product_id")
-    private Product product;
-
 }

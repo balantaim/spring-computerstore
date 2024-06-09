@@ -19,6 +19,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -42,9 +44,23 @@ public class Order {
     private Timestamp orderDate;
 
     @Column(name = "total_amount")
-    private double totalAmount;
+    private Double totalAmount;
 
     @Column(name = "status")
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "shipment_id")
+    private Shipment shipment;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "order")
+    @ToString.Exclude
+    private Set<OrderItem> orderItems = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "order")
+    @ToString.Exclude
+    private Set<Payment> payments = new HashSet<>();
 
 }

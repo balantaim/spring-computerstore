@@ -20,6 +20,8 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -69,6 +71,27 @@ public class User {
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
+    //Added Shipments oneToMany
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ToString.Exclude
+    private Set<Shipment> shipments = new HashSet<>();
+
+    //Added Carts oneToMany
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ToString.Exclude
+    private Set<Cart> carts = new HashSet<>();
+
+    //Added Payments oneToMany
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ToString.Exclude
+    private Set<Payment> payments = new HashSet<>();
+
     public User(String email, String firstName, String lastName, String password, boolean enabled, boolean verifiedProfile) {
         this.email = email;
         this.firstName = firstName;
@@ -76,7 +99,6 @@ public class User {
         this.password = password;
         this.enabled = enabled;
         this.verifiedProfile = verifiedProfile;
-        //this.creationDate = creationDate;
     }
 
     public User(String email, String firstName, String lastName, String password, String county, String address, String phoneNumber, boolean enabled, boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {

@@ -63,8 +63,13 @@
                 <div class="navbar-item profile-container">
                     <div sec:authorize="!isAuthenticated()" class="is-flex is-align-content-center">
 
-                        <img class="pr-2" width="40" height="50" src="https://img.icons8.com/ios-filled/50/login-rounded-right.png" alt="login-rounded-right"/>
-                        <a class="is-primary nav-link" th:href="@{/Login}"><strong>[[#{nav.login}]]</strong></a>
+
+                        <a class="is-primary nav-link" th:href="@{/Login}">
+                            <div class="is-flex is-align-content-center">
+                                <img class="pr-2" width="40" height="50" src="https://img.icons8.com/ios-filled/50/login-rounded-right.png" alt="login-rounded-right"/>
+                                <span><strong>[[#{nav.login}]]</strong></span>
+                            </div>
+                        </a>
                     </div>
                     <div sec:authorize="isAuthenticated()" class="is-flex is-align-content-center">
                         <div id="dropdown-position" class="dropdown is-hoverable">
