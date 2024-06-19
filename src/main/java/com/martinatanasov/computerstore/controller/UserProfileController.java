@@ -16,21 +16,33 @@
 package com.martinatanasov.computerstore.controller;
 
 
+import com.martinatanasov.computerstore.entity.User;
 import com.martinatanasov.computerstore.model.Country;
-import org.springframework.context.annotation.Bean;
+import com.martinatanasov.computerstore.model.ProfileAddress;
+import com.martinatanasov.computerstore.service.ProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @RequestMapping("/Profile")
 public class UserProfileController {
+
+    private final ProfileService profileService;
+
+    @Autowired
+    public UserProfileController(ProfileService profileService){
+        this.profileService = profileService;
+    }
 
     @GetMapping("")
     public String profile(Model model){
@@ -45,38 +57,50 @@ public class UserProfileController {
 
     @GetMapping("/address")
     public String addressInfo(Model model){
-        List<Country> countries = new ArrayList<>();
-        countries.add(new Country("Bulgaria", "BG"));
-        countries.add(new Country("USA", "US"));
-        countries.add(new Country("England", "EN"));
-        model.addAttribute("countries", countries);
+        //Get user name/email
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName(); // Get logged-in username
+        User user = profileService.getUserData(userName);
+
+        //System.out.println("-...........  "+user);
+        model.addAttribute("profileAddress", new ProfileAddress());
+        model.addAttribute("countries", getSupportedCountries());
+        model.addAttribute("user", user);
         return "UserProfile/manage-address";
     }
 
     @PostMapping("/update-address")
-    public String updateOrderAddress(Model model){
-//        TODO
+    public String updateOrderAddress(@ModelAttribute("profileAddress") ProfileAddress profileAddress,
+                                     Model model){
+        //Get user name/email
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName(); // Get logged-in username
+        User user = profileService.getUserData(userName);
+        //Update user's data
+        if(profileAddress != null){
+            user.setFirstName(profileAddress.getFirstName());
+            user.setLastName(profileAddress.getLastName());
+            user.setPhoneNumber(profileAddress.getPhoneNumber());
+            user.setCountry(profileAddress.getCountyName());
+            user.setAddress(profileAddress.getAddress());
+            profileService.updateUserAddress(user);
+        }else{
+            System.out.println("Error! User's address not saved!");
+        }
 
+        //Redirect to manage-address
+        model.addAttribute("profileAddress", new ProfileAddress());
+        model.addAttribute("countries", getSupportedCountries());
+        model.addAttribute("user", user);
+        return "UserProfile/manage-address";
+    }
 
+    private List<Country> getSupportedCountries(){
         List<Country> countries = new ArrayList<>();
         countries.add(new Country("Bulgaria", "BG"));
         countries.add(new Country("USA", "US"));
         countries.add(new Country("England", "EN"));
-        model.addAttribute("countries", countries);
-        return "UserProfile/manage-address";
+        return countries;
     }
-
-//    @Bean
-//    public void getCountries(){
-//        String[] locales = Locale.getISOCountries();
-//        Locale locale = null;
-//        for(String country : locales) {
-//            locale = new Locale("", country);
-//            System.out.println(locale.getDisplayCountry());
-//            System.out.println(locale.getCountry());
-//            System.out.println(locale.getDisplayLanguage());
-//            System.out.println(locale.getDisplayName() + "\n");
-//        }
-//    }
 
 }

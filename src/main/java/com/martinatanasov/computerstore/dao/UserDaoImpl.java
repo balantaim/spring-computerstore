@@ -25,7 +25,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -83,6 +82,25 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public void save(User user) {
         // create the user
+        entityManager.merge(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserShippingDetails(User user) {
+//        int rowsUpdated = entityManager.createQuery("UPDATE User WHERE id=`"
+//                        + user.getId() +
+//                        "` SET first_name=`" +
+//                user.getFirstName() +
+//                "`, last_name=`" +
+//                user.getLastName() +
+//                "`, phone_number=`" +
+//                user.getPhoneNumber() +
+//                "`, country=`" +
+//                user.getCounty() +
+//                "`")
+//                .executeUpdate();
+
         entityManager.merge(user);
     }
 

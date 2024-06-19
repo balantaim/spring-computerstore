@@ -20,6 +20,7 @@ import com.martinatanasov.computerstore.entity.Payment;
 import com.martinatanasov.computerstore.entity.Shipment;
 import com.martinatanasov.computerstore.entity.User;
 
+
 import java.util.List;
 
 public interface UserDao {
@@ -32,4 +33,7 @@ public interface UserDao {
     List<Payment> findPaymentsByUserId(Long id);
 
     void save(User user);
+
+    void updateUserShippingDetails(User user);
+
 }

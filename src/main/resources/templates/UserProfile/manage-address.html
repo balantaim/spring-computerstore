@@ -51,12 +51,12 @@
             <h1 class="has-text-centered pt-5 pb-5 is-size-2">[[#{form.order.address}]]</h1>
 
             <!-- Login Form -->
-            <form action="#" th:action="@{/Profile/update-address}" method="POST">
+            <form action="#" th:action="@{/Profile/update-address}" th:object="${profileAddress}" method="POST">
 
                 <div class="field ml-4 mr-4">
                     <label class="label">[[#{form.firstname}]]</label>
                     <div class="control has-icons-left">
-                        <input class="input is-skeleton" type="text" name="firstName" th:placeholder="#{form.firstname}">
+                        <input class="input is-skeleton" type="text" name="firstName" th:placeholder="#{form.firstname}" th:value="${user.firstName} ?: ''">
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-user"></i>
                     </span>
@@ -67,7 +67,7 @@
                 <div class="field ml-4 mr-4 pt-4">
                     <label class="label">[[#{form.lastname}]]</label>
                     <div class="control has-icons-left">
-                        <input class="input is-skeleton" type="text" name="lastName" th:placeholder="#{form.lastname}">
+                        <input class="input is-skeleton" type="text" name="lastName" th:placeholder="#{form.lastname}" th:value="${user.lastName} ?: ''">
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-users"></i>
                     </span>
@@ -78,7 +78,7 @@
                 <div class="field ml-4 mr-4 pt-4">
                     <label class="label">[[#{form.phone}]]</label>
                     <div class="control has-icons-left pb-2">
-                        <input class="input is-skeleton" type="tel" name="phone" th:placeholder="#{form.phone}">
+                        <input class="input is-skeleton" type="tel" name="phoneNumber" th:placeholder="#{form.phone}" th:value="${user.phoneNumber} ?: ''">
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-phone"></i>
                     </span>
@@ -89,18 +89,19 @@
                 <div class="field ml-4 mr-4 mt-6 field-select">
                         <p class="form-text has-text-weight-bold pt-2 pb-2 mr-4 is-pulled-left">[[#{form.country}]]</p>
                         <div class="select is-pulled-right">
-                            <select>
+                            <select name="countyName">
                                 <option th:each="country, iStat : ${countries}"
                                         th:id="${iStat.index}"
                                         th:text="${country.name}"
-                                        th:value="${country.code}"></option>
+                                        th:value="${country.code}"
+                                th:selected="${country.code == user.country}"></option>
                             </select>
                         </div>
                 </div>
 
                 <div class="field ml-4 mr-4 pt-6">
                     <p class="form-text has-text-weight-bold pt-2 pb-2 mr-4">[[#{form.address}]]</p>
-                    <textarea id="textarea" class="textarea" maxlength="255" th:placeholder="#{form.placeholder.address}"></textarea>
+                    <textarea id="textarea" class="textarea is-skeleton" maxlength="255" th:placeholder="#{form.placeholder.address}" name="address" th:text="${user.address} ?: ''"></textarea>
                     <div class="container" style="min-height: 24px;">
                         <p id="text-counter" class="is-pulled-right">0/150</p>
                     </div>

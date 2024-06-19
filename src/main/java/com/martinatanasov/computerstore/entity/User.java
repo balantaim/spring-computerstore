@@ -37,25 +37,25 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email")
+    @Column(name = "email", length = 50)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 60)
     private String password;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", length = 30)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", length = 30)
     private String lastName;
 
-    @Column(name = "county")
-    private String county;
+    @Column(name = "country", length = 50)
+    private String country;
 
-    @Column(name = "address")
+    @Column(name = "address", length = 150)
     private String address;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
     @Column(name = "enabled")
@@ -101,12 +101,12 @@ public class User {
         this.verifiedProfile = verifiedProfile;
     }
 
-    public User(String email, String firstName, String lastName, String password, String county, String address, String phoneNumber, boolean enabled, boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
+    public User(String email, String firstName, String lastName, String password, String country, String address, String phoneNumber, boolean enabled, boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.county = county;
+        this.country = country;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.enabled = enabled;

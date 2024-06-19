@@ -13,32 +13,19 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.entity;
+package com.martinatanasov.computerstore.model;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Entity
-@Table(name = "authorities")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "authority", length = 50)
-    private String authority;
-
-    public Role(String authority) {
-        this.authority = authority;
-    }
-
+public class ProfileAddress {
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String countyName;
+    private String address;
 }

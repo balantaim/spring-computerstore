@@ -50,7 +50,7 @@
         <p>[[#{text.role}]]: <span th:each="authority : ${#authentication.getAuthorities()}"
                                    th:if="${authority.getAuthority().startsWith('ROLE_')}"
                                    th:text="${authority.getAuthority().replaceFirst('ROLE_', '') + ' '}"></span></p>
-
+    </div>
 
     <div class="space"></div>
 </div>

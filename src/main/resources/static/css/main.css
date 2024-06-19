@@ -52,7 +52,7 @@
         .text-profile a:hover{
             color: var(--primary) !important;
             background: var(--hover-background);
-            border-radius: 16%;
+            border-radius: 6px;
         }
         input{
             height: 30px;
@@ -94,6 +94,10 @@
         }
         #btnLogout{
             font-size: .875rem;
+        }
+        #btnLogout:hover{
+             background: red;
+             color: var(--dark);
         }
         #profile-container:hover p{
             border: 0px solid;
