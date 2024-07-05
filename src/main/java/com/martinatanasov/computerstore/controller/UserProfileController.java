@@ -20,16 +20,19 @@ import com.martinatanasov.computerstore.entity.User;
 import com.martinatanasov.computerstore.model.Country;
 import com.martinatanasov.computerstore.model.ProfileAddress;
 import com.martinatanasov.computerstore.service.ProfileService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +65,6 @@ public class UserProfileController {
         String userName = authentication.getName(); // Get logged-in username
         User user = profileService.getUserData(userName);
 
-        //System.out.println("-...........  "+user);
         model.addAttribute("profileAddress", new ProfileAddress());
         model.addAttribute("countries", getSupportedCountries());
         model.addAttribute("user", user);
@@ -70,22 +72,27 @@ public class UserProfileController {
     }
 
     @PostMapping("/update-address")
-    public String updateOrderAddress(@ModelAttribute("profileAddress") ProfileAddress profileAddress,
+    public String updateOrderAddress(@Valid @ModelAttribute("profileAddress") ProfileAddress profileAddress,
+                                     BindingResult bindingResult,
                                      Model model){
         //Get user name/email
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName(); // Get logged-in username
         User user = profileService.getUserData(userName);
         //Update user's data
-        if(profileAddress != null){
+        if(profileAddress == null || bindingResult.hasErrors()){
+            model.addAttribute("status", "error");
+        }else{
             user.setFirstName(profileAddress.getFirstName());
             user.setLastName(profileAddress.getLastName());
             user.setPhoneNumber(profileAddress.getPhoneNumber());
             user.setCountry(profileAddress.getCountyName());
             user.setAddress(profileAddress.getAddress());
+            user.setModifyDate(new Timestamp(System.currentTimeMillis()));
+            //Update user's address information
             profileService.updateUserAddress(user);
-        }else{
-            System.out.println("Error! User's address not saved!");
+            //Add status success to model
+            model.addAttribute("status", "success");
         }
 
         //Redirect to manage-address

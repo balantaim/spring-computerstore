@@ -28,23 +28,27 @@ import lombok.ToString;
 public class WebUser {
 
     @NotNull(message = "Email is required")
-    @Size(min = 3, max = 50, message = "Valid email is required")
-    //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#!?@\\-])\\S{3,50}$")
-    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+    //@Size(min = 3, max = 50, message = "Valid email is required")
+    //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#!?@\\-])\\S{2,50}$")
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,50})$")
     private String email;
 
-    @Size(max = 50, message = "Firstname maximum 50 characters")
+    @Size(max = 30, message = "Firstname maximum 30 characters")
     private String firstName;
 
-    @Size(max = 50, message = "Lastname maximum 50 characters")
+    @Size(max = 30, message = "Lastname maximum 30 characters")
     private String lastName;
 
     @NotNull(message = "Valid Password is required")
-    @Size(min = 4, max = 50, message = "Password should be between 4 and 50 characters")
+    @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
+            message = "Password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")
     private String password;
 
     @NotNull(message = "Valid Re-password is required")
-    @Size(min = 4, max = 50, message = "Repeat password should be between 4 and 50 characters")
+    @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
+            message = "Repeat password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")
+    //This regex is for password with minimal 8 characters and at least 1 lower case, 1 upper case letter and at least 1 special symbol
+    //@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
     private String repeatPassword;
 
 }

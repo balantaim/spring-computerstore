@@ -40,11 +40,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-
-
         String userName = authentication.getName();
 
-        System.out.println("\tuserName= " + userName);
+//        System.out.println("\tuserName= " + userName);
 
         User user = userService.findByUserName(userName);
 

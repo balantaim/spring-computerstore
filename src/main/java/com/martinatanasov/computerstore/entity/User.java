@@ -67,6 +67,9 @@ public class User {
     @Column(name = "creation_date")
     private Timestamp creationDate;
 
+    @Column(name = "modify_date")
+    private Timestamp modifyDate;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;

@@ -26,6 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+
 @Configuration
 //@EnableWebSecurity
 @EnableMethodSecurity
@@ -98,6 +99,10 @@ public class GlobalSecurityConfig {
         //Disable Cross Site Request Forgery (CSRF)
         //Not required for REST operations like POST, PUT, DELETE and/or PATCH
         http.csrf(csrf -> csrf.disable());
+
+        //Enable csrf token
+//        http.csrf(csrf -> csrf
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
 
         return http.build();
     }

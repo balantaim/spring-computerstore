@@ -75,6 +75,7 @@ public class RegisterController {
         }
         // form validation
         if (bindingResult.hasErrors()){
+            model.addAttribute("status", "error");
             return "Register/register";
         }
         // check the database if user already exists
@@ -84,6 +85,7 @@ public class RegisterController {
             errorMessage = "UserExist";
             ObjectError error = new ObjectError("globalError", errorMessage);
             bindingResult.addError(error);
+            model.addAttribute("status", "error");
             return "Register/register";
         }
 

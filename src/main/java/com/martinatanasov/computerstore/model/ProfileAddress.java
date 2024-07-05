@@ -15,6 +15,9 @@
 
 package com.martinatanasov.computerstore.model;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @NoArgsConstructor
@@ -23,9 +26,26 @@ import lombok.*;
 @Setter
 @ToString
 public class ProfileAddress {
+
+    @Size(max = 30, message = "Lastname maximum 30 characters")
     private String firstName;
+
+    @Size(max = 30, message = "Lastname maximum 30 characters")
     private String lastName;
+
+    // International "+12345678901234"
+    // North American "+1 123-456-7890"
+    // North American without country code "123-456-7890"
+    // International "+44 7911 123456"
+    // North American without country code "555-555-5555"
+    //@Pattern(regexp = "^(?:\\+?[1-9]\\d{1,14}|\\+1\\s?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4})$", message = "Valid phone number is required")
+    @Size(max = 20, message = "Phone number maximum 20 characters")
     private String phoneNumber;
+
+    @NotNull(message = "Country code is required")
+    @Size(min = 2, max = 3)
     private String countyName;
+
+    @Pattern(regexp = "^.{0,150}$", message = "Max characters for address 150")
     private String address;
 }

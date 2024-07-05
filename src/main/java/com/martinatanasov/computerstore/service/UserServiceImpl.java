@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
         //Set creation date
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         user.setCreationDate(timestamp);
+        user.setModifyDate(timestamp);
 
         // give user default role of "employee"
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));

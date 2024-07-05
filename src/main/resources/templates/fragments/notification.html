@@ -1,0 +1,62 @@
+<!--
+  ~ Copyright 2024 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<span th:fragment="notification (status, message)">
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+
+    function notification() {
+      const toastStatus = [[${ status }]];
+      const userMessage = [[${ message }]];
+
+      const notyf = new Notyf({
+        duration: 6000,
+        ripple: false,
+        position: {
+          x: 'center',
+          y: 'top',
+        },
+        types: [
+          {
+            type: toastStatus,
+            //background: 'orange',
+            icon:
+            {
+              className: 'material-icons',
+              tagName: 'i',
+              text: toastStatus
+            }
+          },
+          {
+            type: toastStatus,
+            //background: 'indianred',
+            duration: 2000,
+            dismissible: true
+          }
+        ]
+      });
+
+      if (toastStatus === 'success') {
+        notyf.success(userMessage);
+      } else {
+        notyf.error(userMessage);
+      }
+
+    }
+    notification();
+
+    /*]]>*/
+  </script>
+</span>
