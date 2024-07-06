@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     private final RoleDao roleDao;
 
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder passwordEncoder) {
@@ -78,6 +78,24 @@ public class UserServiceImpl implements UserService {
 
         // save user in the database
         userDao.save(user);
+    }
+
+    @Override
+    public boolean changePassword(String userName, String oldPassword, String newPassword) {
+        //Get the current user
+        User user = userDao.findByUserName(userName);
+        if(user != null){
+            if(passwordEncoder.matches(oldPassword, user.getPassword())){
+                //Set the new password with bcrypt to the object
+                user.setPassword(passwordEncoder.encode(newPassword));
+                //Change the modification date
+                user.setModifyDate(new Timestamp(System.currentTimeMillis()));
+                //Save the object to the DB
+                userDao.save(user);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

@@ -79,7 +79,7 @@
 ### API testing
 
 > [!IMPORTANT]
-> Use only for TEST profile! Be sure CORS is disabled!
+> Use only for TEST profile! Be sure CSRF is disabled!
 
 <p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
 

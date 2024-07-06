@@ -25,4 +25,6 @@ public interface UserService extends UserDetailsService {
 
     void save(WebUser webUser);
 
+    boolean changePassword(String userName,String oldPassword, String newPassword);
+
 }

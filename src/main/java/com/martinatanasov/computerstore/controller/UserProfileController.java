@@ -19,17 +19,17 @@ package com.martinatanasov.computerstore.controller;
 import com.martinatanasov.computerstore.entity.User;
 import com.martinatanasov.computerstore.model.Country;
 import com.martinatanasov.computerstore.model.ProfileAddress;
+import com.martinatanasov.computerstore.model.ProfilePassword;
 import com.martinatanasov.computerstore.service.ProfileService;
+import com.martinatanasov.computerstore.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -41,10 +41,12 @@ import java.util.List;
 public class UserProfileController {
 
     private final ProfileService profileService;
+    private final UserService userService;
 
     @Autowired
-    public UserProfileController(ProfileService profileService){
+    public UserProfileController(ProfileService profileService, UserService userService){
         this.profileService = profileService;
+        this.userService = userService;
     }
 
     @GetMapping("")
@@ -100,6 +102,33 @@ public class UserProfileController {
         model.addAttribute("countries", getSupportedCountries());
         model.addAttribute("user", user);
         return "UserProfile/manage-address";
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@Valid @ModelAttribute("profilePassword") ProfilePassword profilePassword,
+                                     BindingResult bindingResult,
+                                     Model model){
+        //Get username
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        //Check if newPassword and confirmPassword are equal
+        if(!profilePassword.getNewPassword().equals(profilePassword.getOldPassword())){
+            ObjectError error = new ObjectError("globalError", "ConfirmPass");
+            bindingResult.addError(error);
+        }
+        //Check for validation errors or global errors
+        if(bindingResult.hasErrors()){
+            model.addAttribute("status", "error");
+            return "UserProfile/manage-password";
+        }
+        boolean isPasswordUpdated = userService.changePassword(userName, profilePassword.getOldPassword(), profilePassword.getNewPassword());
+        //Check if the password is updated successfully
+        if(!isPasswordUpdated){
+            model.addAttribute("status", "PassMatcher");
+            return "UserProfile/manage-password";
+        }
+        model.addAttribute("status", "pass-updated");
+        return "UserProfile/profile";
     }
 
     private List<Country> getSupportedCountries(){

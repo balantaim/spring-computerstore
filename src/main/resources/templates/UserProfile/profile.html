@@ -29,6 +29,10 @@
     <script defer th:src="@{/js/navbar.js}"></script>
     <script defer th:src="@{/js/main.js}"></script>
 
+    <!--    Toast Notifications Library-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
 </head>
 <body>
 <!-- NAVBAR -->
@@ -52,12 +56,12 @@
         <div class="columns is-gapless">
             <div class="column is-half m-2">
                 <div class="box">
-                    <a th:href="@{/Profile/manage-password}">[[#{text.change.pass}]]</a>
+                    <a class="is-skeleton" th:href="@{/Profile/manage-password}">[[#{text.change.pass}]]</a>
                 </div>
             </div>
             <div class="column is-half m-2">
                 <div class="box">
-                    <a th:href="@{/Profile/address}">[[#{text.add.address}]]</a>
+                    <a class="is-skeleton" th:href="@{/Profile/address}">[[#{text.add.address}]]</a>
                 </div>
             </div>
         </div>
@@ -70,6 +74,12 @@
 </div>
 <!--MAIN Content End-->
 
+<!--Show toast status notification-->
+<span th:if="${status}">
+    <span th:if="${status} == 'pass-updated'">
+        <span th:replace="~{fragments/notification :: notification('success', #{notification.password.updated})}"></span>-->
+    </span>
+</span>
 
 <!--FOOTER-->
 <div th:replace="~{fragments/footer :: footer}"></div>

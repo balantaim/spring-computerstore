@@ -17,8 +17,8 @@
     <nav class="navbar is-light has-shadow" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item is-flex" th:href="@{/}">
-                <img class="nav-logo pr-2" width="640" height="460" src="/images/computer-store-logo.svg" alt="Computer store logo"/>
-                <p class="text-black logo-text">Computer Store</p>
+                <img class="nav-logo is-skeleton" width="640" height="460" src="/images/computer-store-logo.svg" alt="Computer store logo"/>
+                <p class="text-black logo-text pl-2">Computer Store</p>
             </a>
 
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -115,6 +115,7 @@
                                         <form action="#" th:action="@{/logout}" method="POST">
                                             <button id="btnLogout" class="button input is-danger" type="submit">[[#{nav.logout}]]</button>
                                         </form>
+<!--                                        <button id="btnLogout" class="button input is-danger btnLogout" type="button" data-target="modalLogout">[[#{nav.logout}]]</button>-->
                                     </div>
                                 </div>
                             </div>
