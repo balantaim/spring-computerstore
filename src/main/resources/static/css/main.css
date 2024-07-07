@@ -10,6 +10,11 @@
 
            --foreground: var(--dark);
            --background: var(--light);
+
+           /* Override Pagination Color
+           --bulma-link-h: 171deg;
+           --bulma-link-l: 41%;
+           */
         }
         @media (prefers-color-scheme: dark) {
             :root{
@@ -138,6 +143,16 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        .absolute-bottom-right{
+            position: absolute;
+            top: 90%;
+            left: 80%;
+            transform: translate(-50%, -50%);
+            background-color: #751c60;
+            border: 0px solid black;
+            border-top-left-radius: 52px;
+            text-align: center;
+        }
         .width-90{
             min-width: 84%;
         }
@@ -149,6 +164,45 @@
             max-width: 50%;
             z-index: 100;
         }
+        .card-content{
+            background-color: var(--background);
+        }
+        .media-content{
+            /* multi lines */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .card-content  > .content{
+             /* single lines */
+             text-overflow: ellipsis;
+             overflow: hidden;
+             white-space: nowrap;
+        }
+        .img-container{
+             /*width: 300px;*/
+             height: 300px;
+             background-color: #0a0a23;
+             position: relative;
+             overflow: hidden;
+             margin: 8px;
+        }
+        .img-container img {
+            width: 100%;
+            height: 300px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 1s ease-in-out;
+        }
+        .img-container img:hover{
+            scale: 1.08;
+        }
+
+
         .dropdown-menu, .navbar-dropdown{
             animation: .18s drop-anim forwards;
         }
