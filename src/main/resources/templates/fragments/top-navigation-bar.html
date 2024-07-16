@@ -13,7 +13,7 @@
   ~ limitations under the License.
   -->
 
-<div th:fragment="nav">
+<div th:fragment="nav (selected)">
     <nav class="navbar is-light has-shadow" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item is-flex" th:href="@{/}">
@@ -31,28 +31,28 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a th:href="@{/}" th:class="${param.active == 'Home'} ? 'navbar-item active':'navbar-item active'">[[#{nav.home}]]</a>
+                <a th:href="@{/}" th:class="${selected == 'home'} ? 'navbar-item active':'navbar-item'">[[#{nav.home}]]</a>
 
-                <a th:href="@{/About}" class="navbar-item">[[#{nav.about-us}]]</a>
+                <a th:href="@{/About}" th:class="${selected == 'about'} ? 'navbar-item active':'navbar-item'">[[#{nav.about-us}]]</a>
 
-                <span sec:authorize="hasRole('ROLE_MANAGER')" class="navbar-item">
+                <span sec:authorize="hasRole('ROLE_MANAGER')" th:class="${selected == 'manager'} ? 'navbar-item active':'navbar-item'">
                     <a class="custom-link" th:href="@{/Management}">[[#{nav.management}]]</a>
                 </span>
 
-                <span sec:authorize="hasRole('ROLE_ADMIN')" class="navbar-item">
+                <span sec:authorize="hasRole('ROLE_ADMIN')" th:class="${selected == 'admin'} ? 'navbar-item active':'navbar-item'">
                     <a class="custom-link" th:href="@{/Administration}">[[#{nav.administration}]]</a>
                 </span>
 
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a th:href="@{/Products}" class="navbar-link">[[#{nav.products}]]</a>
+                    <a th:href="@{/Products}" th:class="${selected == 'products'} ? 'navbar-item active':'navbar-item'">[[#{nav.products}]]</a>
 
                     <div class="navbar-dropdown">
                         <!-- <a class="navbar-item is-selected">[[#{nav.products.category}]]</a>-->
                         <hr class="navbar-divider">
-                        <a th:href="@{/Products/monitors}" class="navbar-item">[[#{nav.products.monitors}]]</a>
+                        <a th:href="@{/Products/monitors}" th:class="${selected == 'monitors'} ? 'navbar-item active':'navbar-item'">[[#{nav.products.monitors}]]</a>
                         <!-- <a class="navbar-item is-selected">Jobs</a>-->
-                        <a th:href="@{/Products/video-cards}" class="navbar-item">[[#{nav.products.video-card}]]</a>
-                        <a th:href="@{/Products/cpu}" class="navbar-item">[[#{nav.products.cpu}]]</a>
+                        <a th:href="@{/Products/video-cards}" th:class="${selected == 'video-cards'} ? 'navbar-item active':'navbar-item'">[[#{nav.products.video-card}]]</a>
+                        <a th:href="@{/Products/cpu}" th:class="${selected == 'cpu'} ? 'navbar-item active':'navbar-item'">[[#{nav.products.cpu}]]</a>
                     </div>
                 </div>
 

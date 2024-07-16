@@ -94,8 +94,12 @@
             white-space: nowrap;
             overflow: hidden;
         }
-        .custom-link{
+        span > .custom-link{
             color: #2e333d;
+        }
+        span.active > a.custom-link{
+           /* parent span with class 'active' and child a with class 'custom-link' */
+           color: var(--primary);
         }
         #btnLogout{
             font-size: .875rem;
@@ -153,6 +157,10 @@
             border-top-left-radius: 52px;
             text-align: center;
         }
+        .img-container:hover .absolute-bottom-right{
+            transition: all 200ms ease-in-out;
+            background-color: #eb3443;
+        }
         .width-90{
             min-width: 84%;
         }
@@ -201,7 +209,6 @@
         .img-container img:hover{
             scale: 1.08;
         }
-
 
         .dropdown-menu, .navbar-dropdown{
             animation: .18s drop-anim forwards;

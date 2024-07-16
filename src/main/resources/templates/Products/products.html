@@ -37,7 +37,7 @@
 </head>
 <body>
 <!-- NAVBAR -->
-<div th:replace="~{fragments/top-navigation-bar :: nav}"></div>
+<div th:replace="~{fragments/top-navigation-bar :: nav('products')}"></div>
 
 
 <!--MAIN Content Start-->
@@ -50,7 +50,7 @@
 
         <div class="column mr-1 ml-1">
             <div class="img-container" th:if="${categories}" th:each="category : ${categories}">
-                <a class="" th:href="@{ '/Products/' + ${category.name} }">
+                <a th:href="@{ '/Products/' + ${category.name} }">
                     <img style="max-height: 300px; object-fit: cover;" th:src="@{${category.imageUrl}}" th:alt="${category.description}"/>
 <!--                    <div class="" style="display: flex; justify-content: center; align-items: center; min-height: 150px; width: 100%;">-->
                         <div class="absolute-bottom-right" style="min-width: 40%; max-width: 80%; min-height: 44px;">

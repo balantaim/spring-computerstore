@@ -16,17 +16,15 @@
 package com.martinatanasov.computerstore.controller;
 
 import com.martinatanasov.computerstore.entity.Product;
+import com.martinatanasov.computerstore.model.StoreItem;
 import com.martinatanasov.computerstore.service.ProductService;
-import org.hibernate.annotations.Parameter;
+import com.martinatanasov.computerstore.util.converter.ProductConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,20 +32,31 @@ import java.util.stream.Collectors;
 public class HomeController {
 
     private final ProductService productService;
+    private final ProductConverter productConverter;
 
     @Autowired
-    HomeController(ProductService productService){
+    HomeController(ProductService productService, ProductConverter productConverter){
         this.productService = productService;
+        this.productConverter = productConverter;
     }
 
     @GetMapping("/")
     public String home(Model model){
         List<Product> getProducts = productService.getAllProducts();
-        List<Product> filteredProducts = getProducts.stream()
+        //Convert product items to StoreItems
+        List<StoreItem> filteredProducts = getProducts.stream()
                         .filter(i -> i.getCategory().getId() == 2 || (i.getId() > 5 && i.getId() <= 7))
+                        .map(i -> new StoreItem(i.getId(),
+                        i.getProductName(),
+                        i.getDescription(),
+                        i.getProducer(),
+                        //Convert Double to string with exponent 2
+                        String.format("%.2f", i.getPrice() ),
+                        i.getStock(),
+                        i.getImageUrl()))
                         .collect(Collectors.toList());
+
         model.addAttribute("products", filteredProducts);
-        model.addAttribute("active","Home");
         return "Home/index";
     }
 
@@ -55,7 +64,8 @@ public class HomeController {
     public String filterByKeyword(Model model, String keyword){
         List<Product> getProducts = productService.getAllByKeyword(keyword);
         if(getProducts != null){
-            model.addAttribute("products", getProducts);
+            //Convert Product items to StoreItems
+            model.addAttribute("products", productConverter.convertToStoreItems(getProducts));
         }
         return "Home/search";
     }
@@ -63,7 +73,8 @@ public class HomeController {
     @GetMapping("/Live-search")
     public String liveSearch(@RequestParam("query") String query, Model model){
         List<Product> getProducts = productService.getAllByKeyword(query);
-        model.addAttribute("products", getProducts);
+        //Convert Product items to StoreItems
+        model.addAttribute("products", productConverter.convertToStoreItems(getProducts));
         return "Home/liveSearch";
     }
 
