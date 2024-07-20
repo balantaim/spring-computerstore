@@ -1,4 +1,4 @@
-User-agentL *
+User-agent: *
 Disallow: /Administration/
 Disallow: /Management/
 Disallow: /Profile/
