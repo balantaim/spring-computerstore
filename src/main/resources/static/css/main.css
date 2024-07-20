@@ -40,8 +40,23 @@
             min-height: 100svh;
             /*min-height: 100dvh;*/
         }
-        a:hover{
+        a{
+            color: #00d1b2;
+        }
+        .footer_links a{
+            color: var(--foreground);
+        }
+        a:hover, .footer_links a:hover{
             color: var(--primary);
+        }
+        .social_links a{
+            color: var(--foreground);
+        }
+        .social_links a:hover{
+            color: var(--primary);
+        }
+        .social_links i:hover{
+            transform: scale(0.95);
         }
         button{
             min-height: 40px;
@@ -117,8 +132,9 @@
         .main{
             min-height: calc(100vh - 220px);
         }
-        footer{
+        .footer{
             /* background-color: #00d1b2 !important;*/
+            padding-bottom: 28px;
         }
         p.form-text{
             color: var(--txt-color);
@@ -213,6 +229,7 @@
         .dropdown-menu, .navbar-dropdown{
             animation: .18s drop-anim forwards;
         }
+
         @keyframes drop-anim {
           0% {
             transform: scaleY(.1) translateY(-100px);

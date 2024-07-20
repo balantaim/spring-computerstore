@@ -1,0 +1,9 @@
+User-agentL *
+Disallow: /Administration/
+Disallow: /Management/
+Disallow: /Profile/
+Allow: /
+
+Crawl-delay: 20
+
+# Sitemap: http://

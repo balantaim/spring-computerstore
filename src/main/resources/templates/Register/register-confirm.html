@@ -21,6 +21,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" th:content="#{home.header}">
+    <meta name="description" th:content="#{meta.description}">
+    <meta name="author" th:content="#{meta.author}">
+
     <title>Account Confirmation</title>
     <link rel="icon" type="image/svg+xml" href="/images/computer-svgrepo-com.svg">
 
@@ -29,6 +33,9 @@
     <script defer th:src="@{/js/navbar.js}"></script>
     <script defer th:src="@{/js/main.js}"></script>
     <script defer th:src="@{/js/notification.js}"></script>
+
+    <!-- Manifest for Android-->
+    <link rel="manifest" th:href="@{'/other/manifest_' + ${lang} + '.json'}"/>
 
 
 </head>

@@ -32,9 +32,16 @@ import java.util.concurrent.TimeUnit;
 @Profile(value = "prod")
 public class WebConfig implements WebMvcConfigurer {
 
+    /**
+     * Registration for static resource
+     * @param registry
+     * @author Martin Atanasov
+     */
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
+        //Register CSS
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/public/", "classpath:/static/css/")
                 .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
@@ -43,15 +50,31 @@ public class WebConfig implements WebMvcConfigurer {
                 //Solve problem with imported css
                 .addTransformer(new CssLinkResourceTransformer());
 
+        //Register JS
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/public/", "classpath:/static/js/")
                 .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
                 .resourceChain(true)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
 
+        //Register Images
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("/public/", "classpath:/static/images/")
                 .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
+                .resourceChain(true)
+                .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
+
+        //Register Other files
+        registry.addResourceHandler("/other/**")
+                .addResourceLocations("/public/", "classpath:/static/other/")
+                .setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
+                .resourceChain(true)
+                .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
+
+        //Register robots.txt
+        registry.addResourceHandler("/robots.txt")
+                .addResourceLocations("/public/", "classpath:/static/robots.txt")
+                .setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
                 .resourceChain(true)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
 

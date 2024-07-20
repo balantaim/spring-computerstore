@@ -21,6 +21,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" th:content="#{meta.keywords}">
+
+    <meta name="title" th:content="#{home.header}">
+    <meta name="description" th:content="#{meta.description}">
+    <meta name="author" th:content="#{meta.author}">
+
     <title>Home</title>
     <link rel="icon" type="image/svg+xml" href="/images/computer-svgrepo-com.svg">
 
@@ -38,7 +44,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Manifest for Android-->
-    <link rel="manifest" href="/other/manifest.json"/>
+    <link rel="manifest" th:href="@{'/other/manifest_' + ${lang} + '.json'}"/>
 
     <style>
         body {

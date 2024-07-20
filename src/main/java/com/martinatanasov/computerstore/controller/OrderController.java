@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class OrderController {
 
     @GetMapping("/Orders")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public String orders(){
         return "Orders/orders";
     }

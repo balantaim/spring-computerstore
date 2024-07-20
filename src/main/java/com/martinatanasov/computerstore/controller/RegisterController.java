@@ -33,10 +33,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/register")
 public class RegisterController {
 
-
     private final UserService userService;
-
-    //private final Logger logger = java.util.logging.Logger.getLogger(getClass().getName());
 
     @Autowired
     public RegisterController(UserService userService) {

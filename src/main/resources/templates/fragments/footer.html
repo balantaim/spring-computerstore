@@ -15,9 +15,89 @@
 
 <div th:fragment="footer">
     <footer class="footer">
+
+        <div class="footer_section columns is-gapless mt-2 mb-2">
+
+            <div class="footer_company column is-4 mb-4">
+                <h3 class="is-size-4 mb-5 mt-5">[[#{footer.company}]]</h3>
+                <p class="mb-2 pr-6">[[#{footer.company.text}]]</p>
+                <p>[[#{footer.product}]]&copy;[[#{footer.copyrights}]]</p>
+            </div>
+
+            <div class="footer_links column is-2 mb-4">
+                <h3 class="is-size-4 mb-5 mt-5">[[#{footer.quick.links}]]</h3>
+                <ul>
+                    <li class="mb-2">
+                        <a th:href="@{/}">[[#{nav.home}]]</a>
+                    </li>
+                    <li class="mb-2">
+                        <a th:href="@{/About}">[[#{nav.about-us}]]</a>
+                    </li>
+                    <li class="mb-2">
+                        <a th:href="@{/Products}">[[#{nav.products}]]</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer_contact column is-4 mb-4">
+                <h3 class="is-size-4 mb-5 mt-5">[[#{footer.contact}]]</h3>
+
+                <ul>
+                    <li class="is-flex mb-2">
+                        <span class="is-flex is-justify-content-center" style="width: 16px;"><i
+                                class="fa-solid fa-location-dot"></i></span>
+                        <p class="ml-2">[[#{footer.location}]]</p>
+                    </li>
+                    <li class="is-flex mb-2">
+                        <span><i class="fa-solid fa-envelope"></i></span>
+                        <a href="mailto:computer-store@support.com" class="ml-2">computer-store@support.com</a>
+                    </li>
+                    <li class="is-flex mb-2">
+                        <span><i class="fa-solid fa-phone"></i></span>
+                        <a href="tel:+359999999999" class="ml-2">+359 999 999 999</a>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="social_links column is-2 mb-4">
+                <h3 class="is-size-4 mb-5 mt-5">[[#{footer.social.links}]]</h3>
+
+                <div class="is-flex is-justify-content-space-between">
+                    <span class="icon is-medium mr-2">
+                        <a href="https://www.facebook.com/">
+                            <i class="fa-brands fa-square-facebook fas fa-2x"></i>
+                        </a>
+                    </span>
+                    <span class="icon is-medium mr-2">
+                        <a href="https://www.instagram.com/">
+                            <i class="fa-brands fa-instagram fas fa-2x"></i>
+                        </a>
+                    </span>
+                    <span class="icon is-medium mr-2">
+                        <a href="https://www.linkedin.com/">
+                            <i class="fa-brands fa-linkedin fas fa-2x"></i>
+                        </a>
+                    </span>
+                    <span class="icon is-medium">
+                        <a href="https://www.youtube.com/">
+                            <i class="fa-brands fa-square-youtube fas fa-2x"></i>
+                        </a>
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End of footer_section-->
+
+        <hr>
+
         <div class="content has-text-centered">
             <p><strong>[[#{footer.product}]]</strong> [[#{footer.creator}]]
-                <a href="http://www.apache.org/licenses/LICENSE-2.0">[[#{footer.license}]]</a>.</p>
+                <a href="http://www.apache.org/licenses/LICENSE-2.0">[[#{footer.license}]]</a>.
+            </p>
         </div>
+
     </footer>
 </div>
