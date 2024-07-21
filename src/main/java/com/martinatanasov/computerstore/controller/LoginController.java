@@ -17,7 +17,6 @@ package com.martinatanasov.computerstore.controller;
 
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -26,8 +25,7 @@ public class LoginController {
 
     @GetMapping("/Login")
     @PostAuthorize("!isAuthenticated()")
-    public String login(Model model){
-        model.addAttribute("Login","active");
+    public String login(){
         return "Login/login";
     }
 

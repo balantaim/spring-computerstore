@@ -26,7 +26,7 @@
             </div>
 
             <div class="column">
-                <a th:href="@{/Products/{id}(id=${product.id})}">
+                <a th:href="@{/Products/{id}(id=${product.id})}" class="card-link-text">
                     <h3 th:if="${product.productName}" th:text="${product.productName}" class="is-size-3"></h3>
                     <hr>
                     <p th:if="${product.description}" th:text="${product.description}"></p>

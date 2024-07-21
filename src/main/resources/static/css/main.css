@@ -43,7 +43,7 @@
         a{
             color: #00d1b2;
         }
-        .footer_links a{
+        .footer_links a, .card-link-text{
             color: var(--foreground);
         }
         a:hover, .footer_links a:hover{
@@ -225,9 +225,11 @@
         .img-container img:hover{
             scale: 1.08;
         }
-
         .dropdown-menu, .navbar-dropdown{
             animation: .18s drop-anim forwards;
+        }
+        .hidden{
+            visibility: hidden;
         }
 
         @keyframes drop-anim {
