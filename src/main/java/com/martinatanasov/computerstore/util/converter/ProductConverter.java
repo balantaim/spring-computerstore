@@ -15,9 +15,9 @@
 
 package com.martinatanasov.computerstore.util.converter;
 
+
 import com.martinatanasov.computerstore.entity.Product;
 import com.martinatanasov.computerstore.model.StoreItem;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 @Component
 public class ProductConverter {
 
-    @Bean
     public List<StoreItem> convertToStoreItems(final List<Product> products){
         return products.stream()
                 .map(i -> new StoreItem(i.getId(),
@@ -40,7 +39,6 @@ public class ProductConverter {
                 .collect(Collectors.toList());
     }
 
-    @Bean
     public StoreItem convertToSingleItem(final Product product){
         return new StoreItem(product.getId(),
                 product.getProductName(),

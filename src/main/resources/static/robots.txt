@@ -1,8 +1,16 @@
 User-agent: *
+
 Disallow: /Administration/
 Disallow: /Management/
 Disallow: /Profile/
+Disallow: /Orders/
+Disallow: /Cart-items/
+Disallow: /register/
+
 Allow: /
+Allow: /Products/
+Allow: /About/
+Allow: /Login/
 
 Crawl-delay: 20
 
