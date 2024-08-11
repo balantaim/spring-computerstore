@@ -61,6 +61,26 @@
     <li>AWSElasticBeanstalkMulticontainerDocker</li>
 </ul>
 
+## Override the default GC (Optional)
+
+<p><b>Path:</b> Elastic Beanstalk > Environments > {Your env name} > Configuration</p>
+
+<ol>
+    <li><p>Find "Updates, monitoring, and logging" and click Edit button</p></li>
+    <li><p>Click "Add environment properties" at the bottom of the view</p></li>
+    <li>Fill the Name and Value with correct data</li>
+</ol>
+
+<p><b>Name:</b> "JVM Options"</p>
+
+<p><b>Value:</b> for regular ZGC use "-XX:+UseZGC"</p>
+
+<p>OR</p>
+
+<p><b>Value:</b> for Generational ZGC use "-XX:+UseZGC -XX:+ZGenerational"</p>
+
+<p><i>ZGC and Generational ZGC are used for low latency application. Choice what works for you better.</i></p>
+
 ## Project optimisations
 
 <ul>

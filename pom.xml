@@ -28,6 +28,28 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store Demo</description>
+
+	<!--	<url/>-->
+	<licenses>
+		<license>
+			<name>Apache 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Martin Atanasov</name>
+			<url>https://github.com/balantaim</url>
+		</developer>
+	</developers>
+	<!--	<scm>-->
+	<!--		<connection/>-->
+	<!--		<developerConnection/>-->
+	<!--		<tag/>-->
+	<!--		<url/>-->
+	<!--	</scm>-->
+
 	<properties>
 		<java.version>21</java.version>
 	</properties>
