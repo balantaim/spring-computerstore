@@ -8,6 +8,7 @@
 
 ## Software Stack
 
+<p><b>Software architecture:</b> MVC</p>
 <p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Aspect Oriented Programming), Thymeleaf, JS, Lombok, Bulma (Boostrap competitor), Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
@@ -63,6 +64,9 @@
 
 ## Override the default GC (Optional)
 
+> [!NOTE]  
+> ZGC and Generational ZGC are used for low latency application. Choice what works for you better.
+
 <p><b>Path:</b> Elastic Beanstalk > Environments > {Your env name} > Configuration</p>
 
 <ol>
@@ -78,8 +82,6 @@
 <p>OR</p>
 
 <p><b>Value:</b> for Generational ZGC use "-XX:+UseZGC -XX:+ZGenerational"</p>
-
-<p><i>ZGC and Generational ZGC are used for low latency application. Choice what works for you better.</i></p>
 
 ## Project optimisations
 
