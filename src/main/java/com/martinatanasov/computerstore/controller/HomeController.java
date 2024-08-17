@@ -20,9 +20,12 @@ import com.martinatanasov.computerstore.model.StoreItem;
 import com.martinatanasov.computerstore.service.ProductService;
 import com.martinatanasov.computerstore.util.converter.ProductConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -62,7 +65,12 @@ public class HomeController {
 
     @GetMapping("/Search")
     public String filterByKeyword(Model model, String keyword){
-        List<Product> getProducts = productService.getAllByKeyword(keyword);
+        List<Product> getProducts;
+        if(keyword == null || keyword.isEmpty()){
+            getProducts = productService.getAllProducts();
+        } else {
+            getProducts = productService.getAllByKeyword(keyword);
+        }
         if(getProducts != null){
             //Convert Product items to StoreItems
             model.addAttribute("products", productConverter.convertToStoreItems(getProducts));
@@ -78,12 +86,11 @@ public class HomeController {
         return "Home/liveSearch";
     }
 
-
     //Remove white spaces
-//    @InitBinder
-//    public void initBinder(WebDataBinder webDataBinder){
-//        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-//        webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-//    }
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder){
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
 
 }

@@ -33,10 +33,10 @@ public class OrderItem {
     private Long id;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "price_per_unit")
-    private double pricePerUnit;
+    private Double pricePerUnit;
 
     //FK referencing Order
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

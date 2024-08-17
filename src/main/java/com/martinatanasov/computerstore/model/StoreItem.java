@@ -32,7 +32,7 @@ public class StoreItem {
 
     private String price;
 
-    private int stock;
+    private Integer stock;
 
     private String imageUrl;
 }

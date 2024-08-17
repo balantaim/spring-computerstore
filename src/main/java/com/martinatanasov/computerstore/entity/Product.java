@@ -48,7 +48,7 @@ public class Product {
     private Double price;
 
     @Column(name = "stock")
-    private int stock;
+    private Integer stock;
 
     @Column(name = "image_url")
     private String imageUrl;

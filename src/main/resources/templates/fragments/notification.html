@@ -18,8 +18,12 @@
     /*<![CDATA[*/
 
     function notification() {
-      const toastStatus = [[${ status }]];
-      const userMessage = [[${ message }]];
+      let toastStatus = /*[[${ status }]]*/ 'error';
+      const userMessage = /*[[${ message }]]*/ 'Error';
+
+      if(toastStatus == null || toastStatus == undefined){
+        toastStatus = 'error';
+      }
 
       const notyf = new Notyf({
         duration: 6000,

@@ -59,10 +59,10 @@ public class User {
     private String phoneNumber;
 
     @Column(name = "enabled")
-    private boolean enabled;
+    private Boolean enabled;
 
     @Column(name = "verified_profile")
-    private boolean verifiedProfile;
+    private Boolean verifiedProfile;
 
     @Column(name = "creation_date")
     private Timestamp creationDate;
@@ -95,7 +95,7 @@ public class User {
     @ToString.Exclude
     private Set<Payment> payments = new HashSet<>();
 
-    public User(String email, String firstName, String lastName, String password, boolean enabled, boolean verifiedProfile) {
+    public User(String email, String firstName, String lastName, String password, Boolean enabled, Boolean verifiedProfile) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -104,7 +104,7 @@ public class User {
         this.verifiedProfile = verifiedProfile;
     }
 
-    public User(String email, String firstName, String lastName, String password, String country, String address, String phoneNumber, boolean enabled, boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
+    public User(String email, String firstName, String lastName, String password, String country, String address, String phoneNumber, Boolean enabled, Boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

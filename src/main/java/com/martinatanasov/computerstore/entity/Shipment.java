@@ -40,10 +40,10 @@ public class Shipment {
     private Long productId;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "price_per_unit")
-    private double pricePerUnit;
+    private Double pricePerUnit;
 
     @Column(name = "tracking_number")
     private String trackingNumber;
