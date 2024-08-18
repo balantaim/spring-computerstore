@@ -17,16 +17,18 @@ package com.martinatanasov.computerstore.controller;
 
 import com.martinatanasov.computerstore.entity.Category;
 import com.martinatanasov.computerstore.entity.Product;
+import com.martinatanasov.computerstore.model.StoreItem;
 import com.martinatanasov.computerstore.service.CategoryService;
 import com.martinatanasov.computerstore.service.ProductService;
 import com.martinatanasov.computerstore.util.converter.ProductConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,28 +56,48 @@ public class ProductController {
     }
 
     @GetMapping("/cpu")
-    public String cpu(Model model){
-        List<Product> products = productService.findAllByCategoryId(1L);
-        if(!CollectionUtils.isEmpty(products)){
-            model.addAttribute("products", productConverter.convertToStoreItems(products));
+    public String cpu(Model model,
+                      @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                      @RequestParam(required = false, defaultValue = "2") Integer pageSize,
+                      @RequestParam(required = false, defaultValue = "asc") String sortValue){
+        Page<Product> products = productService.findAllByCategoryId(1L, pageNumber, pageSize, sortValue);
+        if(!products.isEmpty()){
+            Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
+            model.addAttribute("pageNumber", pageNumber);
+            model.addAttribute("pageSize", pageSize);
+            model.addAttribute("sortValue", sortValue);
+
+            model.addAttribute("products", dtoProducts);
+            model.addAttribute("totalPages", dtoProducts.getTotalPages());
+            model.addAttribute("totalItems", dtoProducts.getTotalElements());
         }
         return "Products/cpu";
     }
 
-    @GetMapping("/monitors")
-    public String monitors(Model model){
-        List<Product> products = productService.findAllByCategoryId(2L);
-        if(!CollectionUtils.isEmpty(products)){
-            model.addAttribute("products", productConverter.convertToStoreItems(products));
-        }
-        return "Products/monitors";
-    }
+//    @GetMapping("/monitors")
+//    public String monitors(Model model){
+//        List<Product> products = productService.findAllByCategoryId(2L);
+//        if(!CollectionUtils.isEmpty(products)){
+//            model.addAttribute("products", productConverter.convertToStoreItems(products));
+//        }
+//        return "Products/monitors";
+//    }
 
     @GetMapping("/video-cards")
-    public String videoCards(Model model){
-        List<Product> products = productService.findAllByCategoryId(3L);
-        if(!CollectionUtils.isEmpty(products)){
-            model.addAttribute("products", productConverter.convertToStoreItems(products));
+    public String videoCards(Model model,
+                             @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                             @RequestParam(required = false, defaultValue = "2") Integer pageSize,
+                             @RequestParam(required = false, defaultValue = "asc") String sortValue){
+        Page<Product> products = productService.findAllByCategoryId(3L, pageNumber, pageSize, sortValue);
+        if(!products.isEmpty()){
+            Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
+            model.addAttribute("pageNumber", pageNumber);
+            model.addAttribute("pageSize", pageSize);
+            model.addAttribute("sortValue", sortValue);
+
+            model.addAttribute("products", dtoProducts);
+            model.addAttribute("totalPages", dtoProducts.getTotalPages());
+            model.addAttribute("totalItems", dtoProducts.getTotalElements());
         }
         return "Products/video-cards";
     }

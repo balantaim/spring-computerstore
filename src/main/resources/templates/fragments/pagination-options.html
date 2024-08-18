@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright 2024 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div th:fragment="pagination-options (maxItems)" class="container box mb-6 is-flex is-align-items-center is-justify-content-space-between">
+
+    <p th:text="#{pagination.all.items} + ' ' + ${maxItems}"></p>
+
+    <div class="select">
+        <select id="sortValue" name="sort"
+                        th:onchange="'updatePage(' + ${pageNumber} + ')'">
+            <option value="asc" th:selected="${sortValue == 'asc'}">[[#{pagination.sort.asc}]]</option>
+            <option value="desc" th:selected="${sortValue == 'desc'}">[[#{pagination.sort.desc}]]</option>
+            <option value="0-9" th:selected="${sortValue == '0-9'}">[[#{pagination.sort.price}]]</option>
+            <option value="9-0" th:selected="${sortValue == '9-0'}">[[#{pagination.sort.reverse-price}]]</option>
+        </select>
+    </div>
+
+    <div class="select">
+        <select id="pageSize" name="size" style="min-width: 60px;"
+                th:onchange="location.href='?pageNumber=1&pageSize=' + this.value + '&sortValue=' + sortValue.value">
+            <option value="2" th:selected="${pageSize == 2}">2</option>
+            <option value="4" th:selected="${pageSize == 4}">4</option>
+            <option value="6" th:selected="${pageSize == 6}">6</option>
+        </select>
+    </div>
+
+    <script type="text/javascript" defer>
+        function updatePage(pageNumber) {
+            const size = document.getElementById('pageSize').value;
+            const sort = document.getElementById('sortValue').value;
+            window.location.href = window.location.pathname + '?pageNumber=' + pageNumber + '&pageSize=' + size + '&sortValue=' + sort;
+        }
+    </script>
+
+</div>

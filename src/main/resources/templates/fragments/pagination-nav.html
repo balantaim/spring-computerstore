@@ -1,0 +1,58 @@
+<!--
+  ~ Copyright 2024 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div th:fragment="pagination (baseUrl)" class="container box mt-6">
+
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+
+        <p th:if="${pageNumber == 1}" class="pagination-previous" th:classappend="'is-disabled'">[[#{pagination.previous}]]</p>
+        <a th:unless="${pageNumber == 1}" class="pagination-previous" th:href="@{${baseUrl}(pageNumber=${pageNumber - 1})}">[[#{pagination.previous}]]</a>
+
+        <p th:if="${pageNumber == totalPages}" class="pagination-next" th:classappend="'is-disabled'">[[#{pagination.next}]]</p>
+        <a th:unless="${pageNumber == totalPages}" class="pagination-next" th:href="@{${baseUrl}(pageNumber=${pageNumber + 1})}">[[#{pagination.next}]]</a>
+
+        <ul class="pagination-list">
+
+            <li th:if="${(pageNumber - 2) >= 1}"><a th:href="@{${baseUrl}(pageNumber=1)}" class="pagination-link" aria-label="Goto page 1">1</a></li>
+            <li th:if="${(pageNumber - 2) >= 1}"><span class="pagination-ellipsis">&hellip;</span></li>
+
+            <li th:if="${pageNumber - 1  > 0}"><a th:href="@{${baseUrl}(pageNumber=${pageNumber - 1})}"
+                                                  class="pagination-link" th:aria-label="'Goto page ' + ${pageNumber - 1}" th:text="${pageNumber - 1}"></a></li>
+            <li>
+                <a class="pagination-link is-current"
+                   aria-current="page"
+                   id="currentPageNumber"
+                   th:aria-label="'Page ' + ${pageNumber}"
+                   th:text="${pageNumber}"></a>
+            </li>
+            <li  th:if="${pageNumber + 1 <= totalPages}"><a th:href="@{${baseUrl}(pageNumber=${pageNumber + 1})}"
+                                                            class="pagination-link" th:aria-label="'Goto page ' + ${pageNumber + 1}" th:text="${pageNumber + 1}"></a></li>
+
+            <li th:if="${(pageNumber + 2) <= totalPages}"><span class="pagination-ellipsis">&hellip;</span></li>
+            <li th:if="${(pageNumber + 2) <= totalPages}"><a th:href="@{${baseUrl}(pageNumber=${totalPages})}"
+                                                             class="pagination-link" th:aria-label="'Goto page ' + ${totalPages}" th:text="${totalPages}"></a></li>
+
+<!--            <li th:each="i : ${#numbers.sequence(1, totalPages)}">-->
+<!--                <a class="pagination-link"-->
+<!--                   th:href="@{|/Products/cpu?pageNumber=${i}&pageSize=${pageSize}&sortValue=${sortValue}|}"-->
+<!--                   th:classappend="${i == pageNumber} ? 'is-current' : ''"-->
+<!--                   th:aria-label="'Goto page ' + ${i}"-->
+<!--                   th:text="${i}">1</a>-->
+<!--            </li>-->
+
+        </ul>
+    </nav>
+
+</div>

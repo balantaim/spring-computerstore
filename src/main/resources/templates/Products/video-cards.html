@@ -56,7 +56,11 @@
         <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
         <div class="column mr-1 ml-1">
+            <div th:replace="~{fragments/pagination-options :: pagination-options(${totalItems})}"></div>
+
             <div th:replace="~{fragments/horizontal-card-item :: vertical-item}"></div>
+
+            <div th:replace="~{fragments/pagination-nav :: pagination('/Products/video-cards')}"></div>
         </div>
 
         <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
