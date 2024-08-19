@@ -21,21 +21,24 @@ import com.martinatanasov.computerstore.model.StoreItem;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ProductConverter {
 
-//    public List<StoreItem> convertToStoreItems(final List<Product> products){
-//        return products.stream()
-//                .map(i -> new StoreItem(i.getId(),
-//                        i.getProductName(),
-//                        i.getDescription(),
-//                        i.getProducer(),
-//                        //Convert Double to string with exponent 2
-//                        String.format("%.2f", i.getPrice()),
-//                        i.getStock(),
-//                        i.getImageUrl()))
-//                .collect(Collectors.toList());
-//    }
+    public List<StoreItem> convertToStoreItems(final List<Product> products){
+        return products.stream()
+                .map(i -> new StoreItem(i.getId(),
+                        i.getProductName(),
+                        i.getDescription(),
+                        i.getProducer(),
+                        //Convert Double to string with exponent 2
+                        String.format("%.2f", i.getPrice()),
+                        i.getStock(),
+                        i.getImageUrl()))
+                .collect(Collectors.toList());
+    }
 
     public Page<StoreItem> convertToStoreItems(final Page<Product> products){
         return products
@@ -47,7 +50,6 @@ public class ProductConverter {
                         String.format("%.2f", i.getPrice()),
                         i.getStock(),
                         i.getImageUrl()));
-
     }
 
     public StoreItem convertToSingleItem(final Product product){

@@ -15,10 +15,26 @@
 
 package com.martinatanasov.computerstore.service;
 
+import com.martinatanasov.computerstore.dao.CategoryRepository;
 import com.martinatanasov.computerstore.entity.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface CategoryService {
-    List<Category> getAllCategories();
+@Service
+public class CategoryServiceImpl implements CategoryService{
+
+    private final CategoryRepository categoryRepository;
+
+    @Autowired
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
+    // Example method to retrieve all categories
+    @Override
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
+    }
 }

@@ -30,9 +30,10 @@
     <div class="select">
         <select id="pageSize" name="size" style="min-width: 60px;"
                 th:onchange="location.href='?pageNumber=1&pageSize=' + this.value + '&sortValue=' + sortValue.value">
-            <option value="2" th:selected="${pageSize == 2}">2</option>
-            <option value="4" th:selected="${pageSize == 4}">4</option>
+            <option value="3" th:selected="${pageSize == 3}">3</option>
             <option value="6" th:selected="${pageSize == 6}">6</option>
+            <option value="8" th:selected="${pageSize == 8}">8</option>
+            <option value="12" th:selected="${pageSize == 12}">12</option>
         </select>
     </div>
 

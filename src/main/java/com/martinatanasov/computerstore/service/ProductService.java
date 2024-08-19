@@ -15,38 +15,22 @@
 
 package com.martinatanasov.computerstore.service;
 
-import com.martinatanasov.computerstore.dao.ProductRepository;
 import com.martinatanasov.computerstore.entity.Product;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class ProductService {
+public interface ProductService {
 
-    private final ProductRepository productRepository;
+    Page<Product> getAllProducts();
 
-    @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    Page<Product> findAllByCategoryId(Long categoryId,  Integer pageNumber, Integer pageSize, String sortValue);
 
-    // Example method to retrieve all products
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
+    Page<Product> getAllByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortValue);
 
-    public List<Product> findAllByCategoryId(Long categoryId){
-        return productRepository.findAllByCategory(categoryId);
-    }
+    List<Product> getAllByKeyword(String keyword);
 
-    public List<Product> getAllByKeyword(String keyword) {
-        return productRepository.findAllByKeyword(keyword);
-    }
+    Optional<Product> getProductById(Long id);
 
-    public Optional<Product> getProductById(Long id){
-        return productRepository.findProductById(id);
-    }
 }

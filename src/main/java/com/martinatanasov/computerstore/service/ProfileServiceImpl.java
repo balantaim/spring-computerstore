@@ -15,11 +15,29 @@
 
 package com.martinatanasov.computerstore.service;
 
+import com.martinatanasov.computerstore.dao.UserDao;
 import com.martinatanasov.computerstore.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface ProfileService {
+@Service
+public class ProfileServiceImpl implements ProfileService{
 
-    User getUserData(String userName);
+    private final UserDao userDao;
 
-    void updateUserAddress(User user);
+    @Autowired
+    public ProfileServiceImpl(UserDao userDao){
+        this.userDao = userDao;
+    }
+
+    @Override
+    public User getUserData(String userName){
+        return userDao.findByUserName(userName);
+    }
+
+    @Override
+    public void updateUserAddress(User user){
+        userDao.updateUserShippingDetails(user);
+    }
+
 }

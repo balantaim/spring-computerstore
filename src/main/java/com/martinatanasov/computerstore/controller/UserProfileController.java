@@ -20,7 +20,7 @@ import com.martinatanasov.computerstore.entity.User;
 import com.martinatanasov.computerstore.model.Country;
 import com.martinatanasov.computerstore.model.ProfileAddress;
 import com.martinatanasov.computerstore.model.ProfilePassword;
-import com.martinatanasov.computerstore.service.ProfileService;
+import com.martinatanasov.computerstore.service.ProfileServiceImpl;
 import com.martinatanasov.computerstore.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +40,11 @@ import java.util.List;
 @RequestMapping("/Profile")
 public class UserProfileController {
 
-    private final ProfileService profileService;
+    private final ProfileServiceImpl profileService;
     private final UserService userService;
 
     @Autowired
-    public UserProfileController(ProfileService profileService, UserService userService){
+    public UserProfileController(ProfileServiceImpl profileService, UserService userService){
         this.profileService = profileService;
         this.userService = userService;
     }
