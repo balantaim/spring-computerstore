@@ -30,8 +30,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -49,36 +47,37 @@ public class HomeController {
     public String home(Model model){
         Page<Product> getProducts = productService.getAllProducts();
         //Convert product items to StoreItems
-        Set<StoreItem> filteredProducts = getProducts.stream()
-                        .filter(i -> i.getCategory().getId() < 4)
-                        .map(i -> new StoreItem(i.getId(),
-                        i.getProductName(),
-                        i.getDescription(),
-                        i.getProducer(),
-                        //Convert Double to string with exponent 2
-                        String.format("%.2f", i.getPrice() ),
-                        i.getStock(),
-                        i.getImageUrl()))
-                        .collect(Collectors.toSet());
-
-        model.addAttribute("products", filteredProducts);
+        Page<StoreItem> filteredProducts = productConverter.convertToStoreItems(getProducts);
+        if (filteredProducts != null){
+            model.addAttribute("products", filteredProducts);
+        }
         return "Home/index";
     }
 
     @GetMapping("/Search")
     public String filterByKeyword(Model model,
-                                  String keyword,
                                   @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                                  @RequestParam(required = false, defaultValue = "3") Integer pageSize){
-        Page<Product> getProducts;
+                                  @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+                                  @RequestParam(required = false, defaultValue = "asc") String sortValue,
+                                  @RequestParam(required = false, defaultValue = "") String keyword){
+        Page<Product> products;
         if(keyword == null || keyword.isEmpty()){
-            getProducts = productService.getAllProducts();
-        } else {
-            getProducts = productService.getAllByKeyword(keyword, 1, 3, "acs");
+            keyword = "";
         }
-        if(getProducts != null){
-            //Convert Product items to StoreItems
-            model.addAttribute("products", productConverter.convertToStoreItems(getProducts));
+        products = productService.getAllByKeyword(keyword, pageNumber, pageSize, sortValue);
+        if(products != null){
+            Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
+            if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
+                return "/error";
+            }
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("pageNumber", pageNumber);
+            model.addAttribute("pageSize", pageSize);
+            model.addAttribute("sortValue", sortValue);
+
+            model.addAttribute("products", dtoProducts);
+            model.addAttribute("totalPages", dtoProducts.getTotalPages());
+            model.addAttribute("totalItems", dtoProducts.getTotalElements());
         }
         return "Home/search";
     }

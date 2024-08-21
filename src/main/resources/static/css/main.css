@@ -1,4 +1,9 @@
         :root{
+        /* Bulma Defaults */
+          --bulma-primary-h: 164deg;
+          --bulma-link-h: 171deg;
+          --bulma-link-l: 41%;
+
            --light: white;
            --dark: black;
 

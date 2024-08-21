@@ -3,9 +3,9 @@ USE computer_store;
 INSERT INTO categories
 (description, image_url, name)
 VALUES
-('The Central Processing Unit (CPU)', '/images/category/category-cpu.jpg', 'cpu'),
-('A computer monitor is an output device that displays information in pictorial or textual form', '/images/category/category-monitors.jpg', 'monitors'),
-('A video card, also known as a graphics card or graphics processing unit (GPU)', '/images/category/category-video-card.jpg', 'video-cards');
+('The Central Processing Unit (CPU)', '/images/category/category-cpu.webp', 'cpu'),
+('A computer monitor is an output device that displays information in pictorial or textual form', '/images/category/category-monitors.webp', 'monitors'),
+('A video card, also known as a graphics card or graphics processing unit (GPU)', '/images/category/category-video-card.webp', 'video-cards');
 
 INSERT INTO products
 (product_name, description, producer, price, stock, image_url, category_id)
@@ -102,4 +102,11 @@ VALUES
 1515.00,
 55,
 'https://ardes.bg/uploads/original/gigabytegeforce-rtx-4080-super-16gb-aero-oc-dlss-3-532388.jpg',
+'3'),
+('GIGABYTE GeForce RTX 8090 Duper + Air conditioner 2 in 1',
+'RAM: GDDR9 80 GB, Price: at least 50 kidneys',
+'Nvidia',
+1500000.00,
+1,
+'https://preview.redd.it/rtx-8090-leaked-v0-5in0wggx17tb1.jpg?auto=webp&s=ffde545282f3106d58441fea4acf0521bd804998',
 '3');

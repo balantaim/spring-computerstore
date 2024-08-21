@@ -9,7 +9,7 @@
 ## Software Stack
 
 <p><b>Software architecture:</b> MVC</p>
-<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Aspect Oriented Programming), Thymeleaf, JS, Lombok, Bulma (Boostrap competitor), Maven</p>
+<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming), Thymeleaf, JS, Lombok, Bulma (Boostrap competitor), Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
 
@@ -88,6 +88,7 @@
 <ul>
     <li>Gzip conversion</li>
     <li>Enable cacheable static assets: *.js, *.css, image/**</li>
+    <li>Enable data caching with Spring: products</li>
 </ul>
 
 ## Test Information

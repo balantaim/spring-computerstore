@@ -13,12 +13,12 @@
   ~ limitations under the License.
   -->
 
-<div th:fragment="pagination-options" class="container box mb-6 is-flex is-align-items-center is-justify-content-space-between">
+<div th:fragment="pagination-options-keyword" class="container box mb-6 is-flex is-align-items-center is-justify-content-space-between">
 
     <p th:text="#{pagination.all.items} + ' ' + ${totalItems}"></p>
 
     <div class="select">
-        <select id="sortValue" name="sort" style="min-width: 140px; max-width: 170px;" th:onchange="'updatePage(' + ${pageNumber} + ')'">
+        <select id="sortValue" name="sort" style="min-width: 140px; max-width: 170px;" onchange="updatePage()">
             <option value="asc" th:selected="${sortValue == 'asc'}">[[#{pagination.sort.asc}]]</option>
             <option value="desc" th:selected="${sortValue == 'desc'}">[[#{pagination.sort.desc}]]</option>
             <option value="0-9" th:selected="${sortValue == '0-9'}">[[#{pagination.sort.price}]]</option>
@@ -27,8 +27,7 @@
     </div>
 
     <div class="select">
-        <select id="pageSize" name="size" style="min-width: 58px; max-width: 74px;"
-                th:onchange="location.href='?pageNumber=1&pageSize=' + this.value + '&sortValue=' + sortValue.value">
+        <select id="pageSize" name="size" style="min-width: 58px; max-width: 74px;" onchange="updatePage()">
             <option value="3" th:selected="${pageSize == 3}">3</option>
             <option value="6" th:selected="${pageSize == 6}">6</option>
             <option value="8" th:selected="${pageSize == 8}">8</option>
@@ -36,12 +35,19 @@
         </select>
     </div>
 
-    <script type="text/javascript" defer>
-        function updatePage(pageNumber) {
+    <script th:inline="javascript" defer>
+        /*<![CDATA[*/
+
+        const keyword = /*[[${ keyword }]]*/ '';
+        const pageNumber = /*[[${ pageNumber }]]*/ '1';
+
+        function updatePage() {
             const size = document.getElementById('pageSize').value;
             const sort = document.getElementById('sortValue').value;
-            window.location.href = window.location.pathname + '?pageNumber=' + pageNumber + '&pageSize=' + size + '&sortValue=' + sort;
+            window.location.href = window.location.pathname + '?pageNumber=' + pageNumber + '&pageSize=' + size + '&sortValue=' + sort + '&keyword=' + keyword;
         }
+
+        /*]]>*/
     </script>
 
 </div>

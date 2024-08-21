@@ -63,9 +63,9 @@ public class ProductController {
         Page<Product> products = productService.findAllByCategoryId(1L, pageNumber, pageSize, sortValue);
         if(!products.isEmpty()){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
-//            if(pageNumber < 1 || pageNumber > dtoProducts.getTotalPages()){
-//
-//            }
+            if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
+                return "/error";
+            }
             model.addAttribute("pageNumber", pageNumber);
             model.addAttribute("pageSize", pageSize);
             model.addAttribute("sortValue", sortValue);
@@ -85,9 +85,9 @@ public class ProductController {
         Page<Product> products = productService.findAllByCategoryId(2L, pageNumber, pageSize, sortValue);
         if(!products.isEmpty()){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
-//            if(pageNumber < 1 || pageNumber > dtoProducts.getTotalPages()){
-//
-//            }
+            if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
+                return "/error";
+            }
             model.addAttribute("pageNumber", pageNumber);
             model.addAttribute("pageSize", pageSize);
             model.addAttribute("sortValue", sortValue);
@@ -107,9 +107,9 @@ public class ProductController {
         Page<Product> products = productService.findAllByCategoryId(3L, pageNumber, pageSize, sortValue);
         if(!products.isEmpty()){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
-//            if(pageNumber < 1 || pageNumber > dtoProducts.getTotalPages()){
-//
-//            }
+            if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
+                return "/error";
+            }
             model.addAttribute("pageNumber", pageNumber);
             model.addAttribute("pageSize", pageSize);
             model.addAttribute("sortValue", sortValue);
@@ -128,4 +128,5 @@ public class ProductController {
         product.ifPresent(value -> model.addAttribute("product", productConverter.convertToSingleItem(value)));
         return "Products/review";
     }
+
 }

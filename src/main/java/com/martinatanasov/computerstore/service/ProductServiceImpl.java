@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.service;
 import com.martinatanasov.computerstore.dao.ProductRepository;
 import com.martinatanasov.computerstore.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -30,19 +31,20 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final int DEFAULT_PAGE = 0;
-    private final int DEFAULT_PAGE_SIZE = 25;
+    //private final CacheManager cacheManager;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
+        //this.cacheManager = cacheManager;
     }
 
     @Override
     public Page<Product> getAllProducts() {
-        return productRepository.findAll(PageRequest.of(1, 10));
+        return productRepository.findAll(PageRequest.of(2, 5));
     }
 
+    @Cacheable(cacheNames = "productListCache")
     @Override
     public Page<Product> findAllByCategoryId(Long categoryId,  Integer pageNumber, Integer pageSize, String sortValue){
         return productRepository.findAllByCategory(categoryId, buildPageRequest(pageNumber, pageSize, sortValue));
@@ -58,19 +60,20 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAllByKeyword(keyword);
     }
 
+    @Cacheable(cacheNames = "productCache", key = "#id")
     @Override
     public Optional<Product> getProductById(Long id){
         return productRepository.findProductById(id);
     }
 
     public PageRequest buildPageRequest(Integer pageNumber, Integer pageSize, String sortValue) {
-        int queryPageNumber;
-        int queryPageSize;
+        final int DEFAULT_PAGE_NUMBER = 0, DEFAULT_PAGE_SIZE = 25;
+        int queryPageNumber, queryPageSize;
 
         if (pageNumber != null && pageNumber > 0) {
             queryPageNumber = pageNumber - 1;
         } else {
-            queryPageNumber = DEFAULT_PAGE;
+            queryPageNumber = DEFAULT_PAGE_NUMBER;
         }
         if (pageSize == null) {
             queryPageSize = DEFAULT_PAGE_SIZE;
@@ -91,7 +94,6 @@ public class ProductServiceImpl implements ProductService {
         } else {
             sort = Sort.by(Sort.Order.desc("price"));
         }
-
         return PageRequest.of(queryPageNumber, queryPageSize, sort);
     }
 

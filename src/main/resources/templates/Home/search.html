@@ -61,19 +61,23 @@
         <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
     </div>
 
-    <span th:unless="${#lists.isEmpty(products)}">
+    <div th:unless="${#lists.isEmpty(products)}">
         <div class="columns is-centered is-gapless mt-6">
 
             <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
             <div class="column mr-1 ml-1">
+                <div th:replace="~{fragments/pagination-options-keyword :: pagination-options-keyword}"></div>
+
                 <div th:replace="~{fragments/horizontal-card-item :: vertical-item}"></div>
+
+                <div th:replace="~{fragments/pagination-nav-keyword :: pagination-keyword('/Search')}"></div>
             </div>
 
             <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
         </div>
-    </span>
+    </div>
 
 
     <div class="space"></div>

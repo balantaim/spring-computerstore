@@ -51,20 +51,28 @@
 <div class="main">
     <div class="space"></div>
 
-    <div class="columns is-centered is-gapless mt-6">
+    <div th:if="${#lists.isEmpty(products)}" class="has-text-centered">
+        <h1  class="is-size-1">[[#{product.not-found}]]</h1>
+        <div class="space"></div>
+        <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+    </div>
 
-        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+    <div th:unless="${#lists.isEmpty(products)}">
+        <div class="columns is-centered is-gapless mt-6">
 
-        <div class="column mr-1 ml-1">
-            <div th:replace="~{fragments/pagination-options :: pagination-options(${totalItems})}"></div>
+            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
-            <div th:replace="~{fragments/horizontal-card-item :: vertical-item}"></div>
+            <div class="column mr-1 ml-1">
+                <div th:replace="~{fragments/pagination-options :: pagination-options}"></div>
 
-            <div th:replace="~{fragments/pagination-nav :: pagination('/Products/cpu')}"></div>
+                <div th:replace="~{fragments/horizontal-card-item :: vertical-item}"></div>
+
+                <div th:replace="~{fragments/pagination-nav :: pagination('/Products/cpu')}"></div>
+            </div>
+
+            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+
         </div>
-
-        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-
     </div>
 
     <div class="space"></div>
