@@ -15,10 +15,10 @@
 
 <div th:fragment="pagination-options" class="container box mb-6 is-flex is-align-items-center is-justify-content-space-between">
 
-    <p th:text="#{pagination.all.items} + ' ' + ${totalItems}"></p>
+    <p th:text="#{pagination.all.items} + ' ' + ${totalItems}" class="is-skeleton"></p>
 
     <div class="select">
-        <select id="sortValue" name="sort" style="min-width: 140px; max-width: 170px;" th:onchange="'updatePage(' + ${pageNumber} + ')'">
+        <select id="sortValue" name="sort" style="min-width: 140px; max-width: 170px;" th:onchange="'updatePage(' + ${pageNumber} + ')'" class="is-skeleton">
             <option value="asc" th:selected="${sortValue == 'asc'}">[[#{pagination.sort.asc}]]</option>
             <option value="desc" th:selected="${sortValue == 'desc'}">[[#{pagination.sort.desc}]]</option>
             <option value="0-9" th:selected="${sortValue == '0-9'}">[[#{pagination.sort.price}]]</option>
@@ -28,7 +28,7 @@
 
     <div class="select">
         <select id="pageSize" name="size" style="min-width: 58px; max-width: 74px;"
-                th:onchange="location.href='?pageNumber=1&pageSize=' + this.value + '&sortValue=' + sortValue.value">
+                th:onchange="location.href='?pageNumber=1&pageSize=' + this.value + '&sortValue=' + sortValue.value" class="is-skeleton">
             <option value="3" th:selected="${pageSize == 3}">3</option>
             <option value="6" th:selected="${pageSize == 6}">6</option>
             <option value="8" th:selected="${pageSize == 8}">8</option>

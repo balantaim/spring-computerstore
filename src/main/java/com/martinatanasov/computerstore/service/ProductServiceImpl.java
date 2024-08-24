@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getAllProducts() {
-        return productRepository.findAll(PageRequest.of(2, 5));
+        return productRepository.findAll(PageRequest.of(1, 5));
     }
 
     @Cacheable(cacheNames = "productListCache")

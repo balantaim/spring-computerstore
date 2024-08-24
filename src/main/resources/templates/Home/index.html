@@ -46,6 +46,10 @@
     <!-- Manifest for Android-->
     <link rel="manifest" th:href="@{'/other/manifest_' + ${lang} + '.json'}"/>
 
+    <!-- Sweeper css-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/custom-swiper.css}"/>
+
     <style>
         body {
             background-image: url('/images/home/home1140x640.jpg');
@@ -91,7 +95,7 @@
 
             <div class="space"></div>
 
-            <h1 class="has-text-centered is-size-1 p-2 mt-2" style="color: teal; text-shadow: 0 0 6px black;"><b>[[#{home.header}]]</b></h1>
+            <h1 class="has-text-centered is-size-1 p-2" style="color: teal; text-shadow: 0 0 6px black;"><b>[[#{home.header}]]</b></h1>
 
             <div class="space"></div>
 
@@ -125,9 +129,41 @@
 
     <div class="space"></div>
 
+    <!-- Swiper -->
+    <div class="slider-container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="/images/category/category-monitors.webp"
+                                               alt="Category monitors" th:onclick="location.href='/Products/monitors'" th:title="#{nav.products.monitors}"/></div>
+                <div class="swiper-slide"><img src="/images/category/category-video-card.webp"
+                                               alt="Category video card" th:onclick="location.href='/Products/video-cards'" th:title="#{nav.products.video-card}"/></div>
+                <div class="swiper-slide"><img src="/images/category/category-cpu.webp"
+                                               alt="Category CPU" th:onclick="location.href='/Products/cpu'" th:title="#{nav.products.cpu}"/></div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+            <div class="autoplay-progress">
+                <svg viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="20"></circle>
+                </svg>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="space"></div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script defer th:src="@{/js/custom-swiper.js}"></script>
+
+    <!-- Banner products-->
     <div class="has-text-centered" style="width: 100%;">
         <div class="mr-5 ml-5" style="background-color: teal; border: 0px solid black; border-radius: 12px;">
-            <h2 class="is-size-4 p-2 mt-4 mb-6" style="color: white;"><b>[[#{home.products}]]</b></h2>
+            <h2 class="is-size-4 p-2 mt-4 mb-6 is-skeleton" style="color: white;"><b>[[#{home.products}]]</b></h2>
         </div>
     </div>
 
@@ -139,8 +175,8 @@
             <div class="card mr-2 ml-2 mb-6" style="max-height: 42%;">
                 <div class="card-image">
                     <a th:href="@{/Products/{id}(id=${product.id})}">
-                        <figure class="image is-4by3">
-                            <img
+                        <figure class="image is-skeleton">
+                            <img class="custom-image"
                                     th:src="${product.imageUrl}"
                                     th:alt="${product.description}"/>
                         </figure>
@@ -157,11 +193,18 @@
 <!--                        </div>-->
 
                         <div class="media-content">
-                            <p class="title is-4" th:text="${product.productName}"></p>
+                            <p class="title is-4 is-skeleton" th:text="${product.productName}"></p>
                         </div>
                     </div>
 
-                    <div class="content"><p th:text="${product.description}"></p></div>
+                    <div class="content">
+                        <p th:text="${product.description}" class="is-skeleton"></p>
+                        <div class="is-flex is-vcentered is-skeleton">
+                            <p class="is-size-5 has-text-weight-bold pr-2">[[#{product.price.text}]]</p>
+                            <p class="is-size-5 has-text-weight-bold" th:if="${product.price}" th:text="${product.price}"></p>
+                            <p class="is-size-5 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- End Card-->

@@ -236,6 +236,16 @@
         .hidden{
             visibility: hidden;
         }
+        .media-content{
+            height: 140px;
+        }
+        .card > .content{
+            height: 60px;
+        }
+        .slider-container{
+            margin: 0 12px 0 12px;
+        }
+
 
         @keyframes drop-anim {
           0% {
@@ -269,6 +279,9 @@
             #livesearch{
                 max-width: 96%;
             }
+            .slider-container{
+                margin: 0 6px 0 6px;
+            }
         }
         @media (min-width: 481px) and (max-width: 768px){
             button {
@@ -283,6 +296,15 @@
             #livesearch{
                 max-width: 90%;
             }
+            .custom-image{
+                min-height: calc(100vh * 0.36);
+                max-height: calc(100vh * 0.36);
+                position: relative;
+                overflow: hidden;
+            }
+            .slider-container{
+                margin: 0 20px 0 20px;
+            }
         }
         @media (min-width: 769px) and (max-width: 1024px){
             .width-90{
@@ -290,6 +312,18 @@
             }
             .vertical-card-item{
                 height: 260px;
+            }
+            .card{
+                max-width: calc(100vw * 0.18);
+            }
+            .custom-image{
+                min-height: calc(100vh * 0.36);
+                max-height: calc(100vh * 0.36);
+                position: relative;
+                overflow: hidden;
+            }
+            .slider-container{
+                margin: 0 40px 0 40px;
             }
         }
         @media (min-width: 1025px) and (max-width: 1200px){
@@ -299,6 +333,18 @@
             .vertical-card-item{
                 height: 260px;
             }
+            .card{
+                max-width: calc(100vw * 0.19);
+            }
+            .custom-image{
+                min-height: calc(100vh * 0.33);
+                max-height: calc(100vh * 0.33);
+                position: relative;
+                overflow: hidden;
+            }
+            .slider-container{
+                margin: 0 68px 0 68px;
+            }
         }
         @media only screen and (min-width: 1201px){
             .width-90{
@@ -306,6 +352,15 @@
             }
             .vertical-card-item{
                 height: 260px;
+            }
+            .custom-image{
+                min-height: calc(100vh * 0.28);
+                max-height: calc(100vh * 0.28);
+                position: relative;
+                overflow: hidden;
+            }
+            .slider-container{
+                margin: 0 98px 0 98px;
             }
         }
 

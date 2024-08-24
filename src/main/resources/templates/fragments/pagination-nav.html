@@ -17,33 +17,33 @@
 
     <nav class="pagination is-centered" role="navigation" aria-label="pagination">
 
-        <p th:if="${pageNumber == 1}" class="pagination-previous" th:classappend="'is-disabled'">[[#{pagination.previous}]]</p>
-        <a th:unless="${pageNumber == 1}" class="pagination-previous"
+        <p th:if="${pageNumber == 1}" class="pagination-previous is-skeleton" th:classappend="'is-disabled'">[[#{pagination.previous}]]</p>
+        <a th:unless="${pageNumber == 1}" class="pagination-previous is-skeleton"
            th:href="@{${baseUrl}(pageNumber=${pageNumber - 1}, pageSize=${pageSize}, sortValue=${sortValue})}">[[#{pagination.previous}]]</a>
 
-        <p th:if="${pageNumber == totalPages}" class="pagination-next" th:classappend="'is-disabled'">[[#{pagination.next}]]</p>
-        <a th:unless="${pageNumber == totalPages}" class="pagination-next"
+        <p th:if="${pageNumber == totalPages}" class="pagination-next is-skeleton" th:classappend="'is-disabled'">[[#{pagination.next}]]</p>
+        <a th:unless="${pageNumber == totalPages}" class="pagination-next is-skeleton"
            th:href="@{${baseUrl}(pageNumber=${pageNumber + 1}, pageSize=${pageSize}, sortValue=${sortValue})}">[[#{pagination.next}]]</a>
 
         <ul class="pagination-list">
 
-            <li th:if="${(pageNumber - 2) >= 1}"><a th:href="@{${baseUrl}(pageNumber=1, pageSize=${pageSize}, sortValue=${sortValue})}" class="pagination-link" aria-label="Goto page 1">1</a></li>
+            <li th:if="${(pageNumber - 2) >= 1}"><a th:href="@{${baseUrl}(pageNumber=1, pageSize=${pageSize}, sortValue=${sortValue})}" class="pagination-link is-skeleton" aria-label="Goto page 1">1</a></li>
             <li th:if="${(pageNumber - 2) >= 1}"><span class="pagination-ellipsis">&hellip;</span></li>
 
             <li th:if="${pageNumber - 1  > 0}"><a th:href="@{${baseUrl}(pageNumber=${pageNumber - 1}, pageSize=${pageSize}, sortValue=${sortValue})}"
-                                                  class="pagination-link" th:aria-label="'Goto page ' + ${pageNumber - 1}" th:text="${pageNumber - 1}"></a></li>
+                                                  class="pagination-link is-skeleton" th:aria-label="'Goto page ' + ${pageNumber - 1}" th:text="${pageNumber - 1}"></a></li>
             <li>
-                <a class="pagination-link is-current"
+                <a class="pagination-link is-current is-skeleton"
                    aria-current="page"
                    th:aria-label="'Page ' + ${pageNumber}"
                    th:text="${pageNumber}"></a>
             </li>
             <li  th:if="${pageNumber + 1 <= totalPages}"><a th:href="@{${baseUrl}(pageNumber=${pageNumber + 1}, pageSize=${pageSize}, sortValue=${sortValue})}"
-                                                            class="pagination-link" th:aria-label="'Goto page ' + ${pageNumber + 1}" th:text="${pageNumber + 1}"></a></li>
+                                                            class="pagination-link is-skeleton" th:aria-label="'Goto page ' + ${pageNumber + 1}" th:text="${pageNumber + 1}"></a></li>
 
             <li th:if="${(pageNumber + 2) <= totalPages}"><span class="pagination-ellipsis">&hellip;</span></li>
             <li th:if="${(pageNumber + 2) <= totalPages}"><a th:href="@{${baseUrl}(pageNumber=${totalPages}, pageSize=${pageSize}, sortValue=${sortValue})}"
-                                                             class="pagination-link" th:aria-label="'Goto page ' + ${totalPages}" th:text="${totalPages}"></a></li>
+                                                             class="pagination-link is-skeleton" th:aria-label="'Goto page ' + ${totalPages}" th:text="${totalPages}"></a></li>
 
         </ul>
     </nav>
