@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
     private final EntityManager entityManager;
 
     @Autowired
-    public UserDaoImpl(EntityManager entityManager) {
+    UserDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

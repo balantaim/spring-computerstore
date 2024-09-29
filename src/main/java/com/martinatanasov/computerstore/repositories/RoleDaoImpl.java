@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.dao;
+package com.martinatanasov.computerstore.repositories;
 
-import com.martinatanasov.computerstore.entity.Role;
+import com.martinatanasov.computerstore.entities.Role;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class RoleDaoImpl implements RoleDao {
     private final EntityManager entityManager;
 
     @Autowired
-    public RoleDaoImpl(EntityManager entityManager) {
+    RoleDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.dao;
+package com.martinatanasov.computerstore.repositories;
 
-import com.martinatanasov.computerstore.entity.Role;
+import com.martinatanasov.computerstore.entities.Role;
 
 public interface RoleDao {
-    public Role findRoleByName(String roleName);
+    Role findRoleByName(String roleName);
 }
