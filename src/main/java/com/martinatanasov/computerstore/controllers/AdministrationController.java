@@ -13,16 +13,20 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.controllers;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
+@Controller
+public class AdministrationController {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @GetMapping("/Administration")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String administration(Model model){
+        model.addAttribute("active","Administration");
+        return "Administration/administration";
+    }
 }

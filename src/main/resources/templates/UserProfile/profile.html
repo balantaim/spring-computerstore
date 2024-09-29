@@ -62,20 +62,32 @@
                                    th:if="${authority.getAuthority().startsWith('ROLE_')}"
                                    th:text="${authority.getAuthority().replaceFirst('ROLE_', '') + ' '}"></span></p>
 
-
         <div class="space"></div>
 
-        <div class="columns is-gapless">
-            <div class="column is-half m-2">
-                <div class="box">
-                    <a class="is-skeleton" th:href="@{/Profile/manage-password}">[[#{text.change.pass}]]</a>
+        <div class="columns is-centered is-gapless">
+            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+
+            <div class="column is-mobile-8 is-desktop-10">
+
+                <div class="columns is-centered is-gapless">
+
+                    <div class="column m-2">
+                        <div class="box">
+                            <a class="is-skeleton" th:href="@{/Profile/manage-password}">[[#{text.change.pass}]]</a>
+                        </div>
+                    </div>
+
+                    <div class="column m-2">
+                        <div class="box">
+                            <a class="is-skeleton" th:href="@{/Profile/address}">[[#{text.add.address}]]</a>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
-            <div class="column is-half m-2">
-                <div class="box">
-                    <a class="is-skeleton" th:href="@{/Profile/address}">[[#{text.add.address}]]</a>
-                </div>
-            </div>
+
+            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
         </div>
 
         <div class="space"></div>

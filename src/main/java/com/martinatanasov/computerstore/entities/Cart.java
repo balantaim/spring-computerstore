@@ -13,16 +13,35 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.entities;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import jakarta.persistence.*;
+import lombok.*;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
+@Entity
+@Table(name = "carts")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class Cart {
 
-	@Test
-	void contextLoads() {
-	}
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
 }

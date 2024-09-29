@@ -13,16 +13,10 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.services;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.martinatanasov.computerstore.entities.Category;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+public interface CategoryService {
+    Iterable<Category> getAllCategories();
 }

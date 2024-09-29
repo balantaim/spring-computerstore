@@ -15,7 +15,7 @@
 
 package com.martinatanasov.computerstore.security;
 
-import com.martinatanasov.computerstore.service.UserService;
+import com.martinatanasov.computerstore.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

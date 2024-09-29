@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.util.converter;
 
 
-import com.martinatanasov.computerstore.entity.Product;
+import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.StoreItem;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

@@ -13,16 +13,16 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.controllers;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
+@Controller
+public class AboutController {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @GetMapping("/About")
+    public String about(){
+        return "About/about";
+    }
 }

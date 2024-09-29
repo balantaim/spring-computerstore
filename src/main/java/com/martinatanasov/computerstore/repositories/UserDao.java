@@ -13,16 +13,27 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.repositories;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.martinatanasov.computerstore.entities.Cart;
+import com.martinatanasov.computerstore.entities.Payment;
+import com.martinatanasov.computerstore.entities.Shipment;
+import com.martinatanasov.computerstore.entities.User;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+import java.util.List;
+
+public interface UserDao {
+    User findByUserName(String email);
+
+    List<Shipment> findShipmentsByUserId(Long id);
+
+    List<Cart> findCartsByUserId(Long id);
+
+    List<Payment> findPaymentsByUserId(Long id);
+
+    void save(User user);
+
+    void updateUserShippingDetails(User user);
 
 }

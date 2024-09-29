@@ -15,8 +15,8 @@
 
 package com.martinatanasov.computerstore.security;
 
-import com.martinatanasov.computerstore.entity.User;
-import com.martinatanasov.computerstore.service.UserService;
+import com.martinatanasov.computerstore.entities.User;
+import com.martinatanasov.computerstore.services.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

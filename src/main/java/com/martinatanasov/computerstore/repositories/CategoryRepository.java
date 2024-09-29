@@ -13,16 +13,12 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.repositories;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.martinatanasov.computerstore.entities.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+@Repository
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }

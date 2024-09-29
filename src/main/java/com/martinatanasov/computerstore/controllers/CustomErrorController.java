@@ -13,16 +13,19 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.controllers;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-	@Test
-	void contextLoads() {
-	}
+@Controller
+public class CustomErrorController implements ErrorController {
+
+    @RequestMapping("/error")
+    public String handleError() {
+        return "error/global-error";
+    }
 
 }

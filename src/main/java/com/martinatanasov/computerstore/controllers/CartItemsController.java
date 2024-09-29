@@ -13,16 +13,17 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.controllers;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
+@Controller
+public class CartItemsController {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @GetMapping("/Cart-items")
+    //@PreAuthorize("hasRole('CUSTOMER') or hasRole('MANAGER') or hasRole('ADMIN')")
+    public String cartItems(){
+        return "Cart/cart-items";
+    }
 }

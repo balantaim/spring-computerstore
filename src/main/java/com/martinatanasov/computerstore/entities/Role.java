@@ -13,16 +13,32 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.entities;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
+@Entity
+@Table(name = "authorities")
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+public class Role {
 
-	@Test
-	void contextLoads() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "authority", length = 50)
+    private String authority;
+
+    public Role(String authority) {
+        this.authority = authority;
+    }
 
 }

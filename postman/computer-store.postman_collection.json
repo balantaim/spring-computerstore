@@ -110,9 +110,16 @@
 					"name": "Login with user",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "af6bd562-017f-4aba-ba81-1846829386ef",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"url": {
-							"raw": "http://localhost:5000/authenticateTheUser?username=admin@abv.bg&password=test",
+							"raw": "http://localhost:5000/authenticateTheUser?username=admin@abv.bg&password=test&X-XSRF-TOKEN=af6bd562-017f-4aba-ba81-1846829386ef",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -129,6 +136,10 @@
 								{
 									"key": "password",
 									"value": "test"
+								},
+								{
+									"key": "X-XSRF-TOKEN",
+									"value": "af6bd562-017f-4aba-ba81-1846829386ef"
 								}
 							]
 						}
@@ -202,6 +213,104 @@
 							"port": "5000",
 							"path": [
 								"Profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User profile Change Password",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Profile/manage-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Profile",
+								"manage-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User profile Update Address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"1234\",\r\n    \"lastName\": \"4321\",\r\n    \"phoneNumber\": \"8888888\",\r\n    \"countyName\": \"BG\",\r\n    \"address\": \"new address\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/Profile/update-address",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Profile",
+								"update-address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User profile Change Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"1234\",\r\n    \"newPassword\": \"4321\",\r\n    \"confirmPassword\": \"4321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/Profile/manage-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Profile",
+								"manage-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User profile Address",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Profile/address",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Profile",
+								"address"
 							]
 						}
 					},

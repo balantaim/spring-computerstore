@@ -15,24 +15,29 @@
 
 package com.martinatanasov.computerstore.model;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+//@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class ProfilePassword {
 
+    @NotNull(message = "Valid Password is required")
     @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
             message = "Password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")
     private String oldPassword;
 
+    @NotNull(message = "Valid Password is required")
     @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
             message = "Password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")
     private String newPassword;
 
+    @NotNull(message = "Valid Password is required")
     @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
             message = "Password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")
     private String confirmPassword;

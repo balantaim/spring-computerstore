@@ -13,16 +13,18 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.services;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.martinatanasov.computerstore.entities.User;
+import com.martinatanasov.computerstore.model.WebUser;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
+public interface UserService extends UserDetailsService {
 
-	@Test
-	void contextLoads() {
-	}
+    User findByUserName(String email);
+
+    void save(WebUser webUser);
+
+    boolean changePassword(String userName,String oldPassword, String newPassword);
 
 }

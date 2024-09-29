@@ -13,16 +13,26 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.controllers;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+@Controller
+public class LoginController {
+
+    @GetMapping("/Login")
+    @PostAuthorize("!isAuthenticated()")
+    public String login(){
+        return "Login/login";
+    }
+
+    //Add request mapping for access denied
+    @GetMapping("/access-denied")
+    public String showAccessDenied(){
+        return "AccessDenied/access-denied";
+    }
 
 }

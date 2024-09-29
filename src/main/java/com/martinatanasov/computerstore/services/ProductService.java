@@ -13,16 +13,24 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore;
+package com.martinatanasov.computerstore.services;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.martinatanasov.computerstore.entities.Product;
+import org.springframework.data.domain.Page;
 
-@SpringBootTest
-class ComputerstoreApplicationTests {
+import java.util.List;
+import java.util.Optional;
 
-	@Test
-	void contextLoads() {
-	}
+public interface ProductService {
+
+    Page<Product> getAllProducts();
+
+    Page<Product> findAllByCategoryId(Long categoryId, Integer pageNumber, Integer pageSize, String sortValue);
+
+    Page<Product> getAllByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortValue);
+
+    List<Product> getAllByKeyword(String keyword);
+
+    Optional<Product> getProductById(Long id);
 
 }
