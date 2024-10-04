@@ -18,26 +18,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="title" th:content="#{home.header}">
-    <meta name="description" th:content="#{meta.description}">
-    <meta name="author" th:content="#{meta.author}">
-
+<head th:replace="~{fragments/head-js-extras :: head(~{::title}, ~{::script})}">
     <title>Account Confirmation</title>
-    <link rel="icon" type="image/svg+xml" href="/images/computer-svgrepo-com.svg">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <script defer th:src="@{/js/navbar.js}"></script>
-    <script defer th:src="@{/js/main.js}"></script>
     <script defer th:src="@{/js/notification.js}"></script>
-
-    <!-- Manifest for Android-->
-    <link rel="manifest" th:href="@{'/other/manifest_' + ${lang} + '.json'}"/>
-
-
 </head>
 <body>
 <!-- NAVBAR -->
@@ -51,10 +34,6 @@
 
         <div class="columns is-centered is-gapless">
             <div class="column is-4">
-
-<!--                <div class="notification is-info has-text-centered m-4">-->
-<!--                    <p>[[#{notification.login.confirm}]]</p>-->
-<!--                </div>-->
 
                 <div class="notification is-info">
                     <button class="delete"></button>
@@ -78,14 +57,11 @@
         </div>
     </div>
 
-
     <div class="space"></div>
 </div>
 <!--MAIN Content End-->
 
-
 <!--FOOTER-->
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 
 </body>

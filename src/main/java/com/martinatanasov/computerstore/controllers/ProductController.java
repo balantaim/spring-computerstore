@@ -125,7 +125,13 @@ public class ProductController {
                              Model model){
         Optional<Product> product = productService.getProductById(productId);
         product.ifPresent(value -> model.addAttribute("product", productConverter.convertToSingleItem(value)));
-        return "Products/review";
+        product.ifPresent(value -> {
+            String categoryName = product.get().getCategory().getName();
+            model.addAttribute("categoryName", categoryName);
+        });
+        return "Products/product-details";
     }
+
+
 
 }

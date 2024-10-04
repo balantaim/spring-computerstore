@@ -245,6 +245,20 @@
         .slider-container{
             margin: 0 12px 0 12px;
         }
+        .text-one-line{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+        .text-three-line{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
 
 
         @keyframes drop-anim {

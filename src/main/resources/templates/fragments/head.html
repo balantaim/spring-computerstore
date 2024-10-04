@@ -13,28 +13,23 @@
   ~ limitations under the License.
   -->
 
-<!DOCTYPE html>
-<!-- data-theme="light" -->
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
-<head>
+<head th:fragment="head(title)">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="title" th:content="#{home.header}">
-    <meta name="description" th:content="#{meta.description}">
     <meta name="author" th:content="#{meta.author}">
+    <meta name="description" th:content="#{meta.description}">
+    <meta name="keywords" th:content="#{meta.keywords}">
 
-    <title>Review</title>
+    <title th:replace="${title}">Computer Store</title>
+
     <link rel="icon" type="image/svg+xml" href="/images/computer-svgrepo-com.svg">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <script defer th:src="@{/js/navbar.js}"></script>
     <script defer th:src="@{/js/main.js}"></script>
-
-    <meta name="keywords" content="Computer Store, Computers, Hardware parts, Computer accessories">
-    <meta name="description" content="Computer store is a cutting-edge e-commerce platform. The best online experience for shopping computer hardware and accessories.">
 
     <!-- Icons style-->
     <link rel="stylesheet"
@@ -45,33 +40,8 @@
     <!-- Manifest for Android-->
     <link rel="manifest" th:href="@{'/other/manifest_' + ${lang} + '.json'}"/>
 
+    <!-- Toast Notifications Library-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
 </head>
-<body>
-<!-- NAVBAR -->
-<div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
-
-<!--MAIN Content Start-->
-<div class="main container">
-    <div class="space"></div>
-
-    <div th:if="${product}" class="has-text-centered">
-        <h1 th:text="${product.productName}" class="is-size-1"></h1>
-        <p th:text="${product.description}"></p>
-    </div>
-    <div th:unless="${product}" class="has-text-centered">
-        <h1  class="is-size-1 has-text-danger">[[#{product.not-found}]]</h1>
-        <div class="space"></div>
-        <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
-    </div>
-
-    <div class="space"></div>
-</div>
-<!--MAIN Content End-->
-
-
-<!--FOOTER-->
-<div th:replace="~{fragments/footer :: footer}"></div>
-
-
-</body>
-</html>

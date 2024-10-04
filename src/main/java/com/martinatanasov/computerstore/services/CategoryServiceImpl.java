@@ -35,4 +35,5 @@ public class CategoryServiceImpl implements CategoryService{
     public Iterable<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
 }

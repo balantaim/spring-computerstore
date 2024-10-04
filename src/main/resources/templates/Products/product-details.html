@@ -1,0 +1,91 @@
+<!--
+  ~ Copyright 2024 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<!-- data-theme="light" -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<head th:replace="~{fragments/head :: head(~{::title})}">
+    <title>Product Details</title>
+</head>
+<body>
+<!-- NAVBAR -->
+<div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
+
+<!--MAIN Content Start-->
+<div class="main container">
+
+    <!-- Breadcrumb-->
+    <div th:replace="~{fragments/breadcrumb :: breadcrumb}"></div>
+
+    <div th:if="${product}" class="columns is-gapless is-centered">
+        <div class="column is-mobile-12 is-8 mt-6 mb-2">
+
+            <p>Golqma snimka</p>
+            <p>Galeriq</p>
+
+        </div>
+
+        <div class="column is-mobile-12 is-4 mt-6 mb-2">
+
+        <div class="box">
+            <form action="#" th:action="@{/order-item}" method="POST">
+
+                <div class="has-text-centered">
+                    <h1 th:text="${product.productName}" class="is-size-5 text-three-line"></h1>
+                </div>
+                <h6>Cena</h6>
+                <p>Kod za otstupka</p>
+
+                <div class="has-text-centered">
+                    <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">[[#{form.button.buy}]]</button>
+                </div>
+
+                <hr>
+                <p>Glasuvane (5 start max)</p>
+
+            </form>
+        </div>
+
+        </div>
+    </div>
+    <!-- END COLUMNS-->
+
+    <div th:if="${product}">
+        <h1>Pulni harakteristiki</h1>
+        <p>random text</p>
+
+        <p th:text="${product.description}"></p>
+    </div>
+
+    <!-- Product Not Found-->
+    <div th:unless="${product}" class="has-text-centered">
+        <h1  class="is-size-1 has-text-danger">[[#{product.not-found}]]</h1>
+        <div class="space"></div>
+        <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+    </div>
+
+    <div class="space"></div>
+</div>
+<!--MAIN Content End-->
+
+
+<!--FOOTER-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+</html>

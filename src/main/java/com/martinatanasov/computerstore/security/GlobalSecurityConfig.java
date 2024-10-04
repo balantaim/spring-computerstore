@@ -48,6 +48,12 @@ public class GlobalSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception{
+        //Enable Iframe for same origin
+//        http.headers(headers -> headers
+//                .frameOptions(frameOptions -> frameOptions.sameOrigin()
+//                )
+//        );
+
         //Setup permission by role and methods
         http.authorizeHttpRequests(config -> config
                                 .requestMatchers( "/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")

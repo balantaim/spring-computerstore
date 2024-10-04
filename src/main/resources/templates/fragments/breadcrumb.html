@@ -1,0 +1,39 @@
+<!--
+  ~ Copyright 2024 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div th:fragment="breadcrumb">
+    <nav class="breadcrumb has-arrow-separator mt-4 p-3" aria-label="breadcrumbs">
+        <ul style="--bulma-breadcrumb-item-color: var(--accent); --bulma-breadcrumb-item-active-color: var(--accent); --bulma-breadcrumb-item-hover-color: var(--accent);">
+            <li><a href="/">
+                <span class="icon is-small">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                </span>
+                <span>[[#{nav.home}]]</span>
+            </a></li>
+            <li th:if="${categoryName}"><a th:href="@{'/Products/' + ${categoryName}}">
+                <span class="icon is-small">
+                    <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
+                </span>
+                <span>[[${categoryName}]]</span>
+            </a></li>
+            <li th:if="${product.productName}" class="is-active"><a href="#" aria-current="page">
+                <span class="icon is-small">
+                    <i class="fas fa-puzzle-piece" aria-hidden="true"></i>
+                </span>
+                <span>[[${product.productName}]]</span>
+            </a></li>
+        </ul>
+    </nav>
+</div>

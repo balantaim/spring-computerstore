@@ -22,7 +22,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" th:content="#{meta.keywords}">
-
     <meta name="title" th:content="#{home.header}">
     <meta name="description" th:content="#{meta.description}">
     <meta name="author" th:content="#{meta.author}">
@@ -38,6 +37,7 @@
     <!-- Live Search with AJAX-->
     <script defer th:src="@{/js/ajax-live-search.js}"></script>
 
+    <!-- Icons style-->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -69,7 +69,6 @@
             }
         }
     </style>
-
 </head>
 <body>
 <!-- NAVBAR -->
@@ -80,7 +79,7 @@
 <div class="main">
 
     <div class="columns is-mobile is-gapless is-centered">
-        <div class="column">
+        <div class="column mt-6 mb-2">
 
 <!--            <img style="min-width: 60%;" alt="Computers and hardware parts" loading="lazy"-->
 <!--                 th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +-->
@@ -92,12 +91,6 @@
 <!--                 th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +-->
 <!--    @{/images/home/home1140x640.jpg} + ' 2400w'"-->
 <!--                 th:src="@{/images/home/home1140x640.jpg}">-->
-
-            <div class="space"></div>
-
-            <h1 class="has-text-centered is-size-1 p-2" style="color: teal; text-shadow: 0 0 6px black;"><b>[[#{home.header}]]</b></h1>
-
-            <div class="space"></div>
 
             <div class="columns is-gapless">
                 <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
@@ -127,8 +120,6 @@
         </div>
     </div>
 
-    <div class="space"></div>
-
     <!-- Swiper -->
     <div class="slider-container">
         <div class="swiper mySwiper">
@@ -152,8 +143,6 @@
         </div>
     </div>
 
-    <div class="space"></div>
-
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -163,7 +152,7 @@
     <!-- Banner products-->
     <div class="has-text-centered" style="width: 100%;">
         <div class="mr-5 ml-5" style="background-color: teal; border: 0px solid black; border-radius: 12px;">
-            <h2 class="is-size-4 p-2 mt-4 mb-6 is-skeleton" style="color: white;"><b>[[#{home.products}]]</b></h2>
+            <h2 class="is-size-4 p-2 mt-6 mb-6 is-skeleton" style="color: white;"><b>[[#{home.products}]]</b></h2>
         </div>
     </div>
 
