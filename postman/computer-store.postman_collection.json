@@ -74,33 +74,6 @@
 							"path": [
 								"register",
 								"processRegistrationForm"
-							],
-							"query": [
-								{
-									"key": "email",
-									"value": "anna@abv.bg",
-									"disabled": true
-								},
-								{
-									"key": "firstName",
-									"value": "Anna",
-									"disabled": true
-								},
-								{
-									"key": "lastName",
-									"value": "Ziky",
-									"disabled": true
-								},
-								{
-									"key": "password",
-									"value": "test",
-									"disabled": true
-								},
-								{
-									"key": "repeatPassword",
-									"value": "test",
-									"disabled": true
-								}
 							]
 						}
 					},
@@ -110,16 +83,9 @@
 					"name": "Login with user",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "af6bd562-017f-4aba-ba81-1846829386ef",
-								"type": "text",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/authenticateTheUser?username=admin@abv.bg&password=test&X-XSRF-TOKEN=af6bd562-017f-4aba-ba81-1846829386ef",
+							"raw": "http://localhost:5000/authenticateTheUser?username=abv@abv.bg&password=test",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -131,15 +97,11 @@
 							"query": [
 								{
 									"key": "username",
-									"value": "admin@abv.bg"
+									"value": "abv@abv.bg"
 								},
 								{
 									"key": "password",
 									"value": "test"
-								},
-								{
-									"key": "X-XSRF-TOKEN",
-									"value": "af6bd562-017f-4aba-ba81-1846829386ef"
 								}
 							]
 						}

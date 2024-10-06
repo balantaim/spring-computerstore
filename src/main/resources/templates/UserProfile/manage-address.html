@@ -18,7 +18,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
-<head th:replace="~{fragments/head-extras :: head(~{::title})}">
+<head th:replace="~{fragments/head :: head(~{::title})}">
     <title>Manage Address</title>
 </head>
 <body>
