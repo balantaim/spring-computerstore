@@ -48,7 +48,7 @@ public class GlobalSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception{
-        //Enable Iframe for same origin
+        //Enable Iframe for the same origin (default value is disabled)
 //        http.headers(headers -> headers
 //                .frameOptions(frameOptions -> frameOptions.sameOrigin()
 //                )
