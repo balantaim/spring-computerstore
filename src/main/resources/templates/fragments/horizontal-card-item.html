@@ -19,9 +19,11 @@
         <div class="columns is-gapless vertical-card-item">
 
             <div class="column is-two-fifths">
-                <figure class="is-3by2 m-1 is-skeleton">
-                    <img th:if="${product.imageUrl}" height="150px" width="200px" th:src="@{${product.imageUrl}}" th:alt="${product.description}"/>
-                </figure>
+                <a th:href="@{/Products/{id}(id=${product.id})}">
+                    <figure class="is-3by2 m-1 is-skeleton">
+                        <img th:if="${product.imageUrl}" height="150px" width="200px" th:src="@{${product.imageUrl}}" th:alt="${product.description}"/>
+                    </figure>
+                </a>
                 <!-- Stars rating here-->
             </div>
 

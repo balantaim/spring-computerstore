@@ -112,19 +112,26 @@ public class UserProfileController {
     public String changePassword(@Valid @ModelAttribute("profilePassword") ProfilePassword profilePassword,
                                      BindingResult bindingResult,
                                      Model model){
-        //Get username
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        //Check if newPassword and confirmPassword are equal
-        if(!profilePassword.getNewPassword().equals(profilePassword.getOldPassword())){
-            ObjectError error = new ObjectError("globalError", "ConfirmPass");
-            bindingResult.addError(error);
-        }
         //Check for validation errors or global errors
         if(bindingResult.hasErrors()){
             model.addAttribute("status", "error");
             return "UserProfile/manage-password";
         }
+        //Check if the newPassword is different from the oldPassword
+        if(profilePassword.getNewPassword().equals(profilePassword.getOldPassword())) {
+            ObjectError error = new ObjectError("globalError", "SameAsOld");
+            bindingResult.addError(error);
+            return "UserProfile/manage-password";
+        }
+        //Check if newPassword and confirmPassword are not equal
+        if(!profilePassword.getNewPassword().equals(profilePassword.getConfirmPassword())){
+            ObjectError error = new ObjectError("globalError", "ConfirmPass");
+            bindingResult.addError(error);
+            return "UserProfile/manage-password";
+        }
+        //Get username
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         boolean isPasswordUpdated = userService.changePassword(userName, profilePassword.getOldPassword(), profilePassword.getNewPassword());
         //Check if the password is updated successfully
         if(!isPasswordUpdated){

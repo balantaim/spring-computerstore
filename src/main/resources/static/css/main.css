@@ -259,6 +259,14 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
         }
+        /*Scroll Horizontal*/
+        .scroll-x {
+            display: flex;
+            overflow-x: auto;
+        }
+        .scroll-x::-webkit-scrollbar {
+            width: 0;
+        }
 
 
         @keyframes drop-anim {
@@ -271,9 +279,6 @@
              opacity: 1;
           }
         }
-
-
-
 
 /*
 320px — 480px: Mobile devices
@@ -374,7 +379,7 @@
                 overflow: hidden;
             }
             .slider-container{
-                margin: 0 98px 0 98px;
+                margin: 0 28px 0 28px;
             }
         }
 
