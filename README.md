@@ -128,3 +128,7 @@
 ### You could check the latest changes online on the production link below
 
 <p>AWS Elastic Beanstalk production link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com/">computer-store.eu-north-1.elasticbeanstalk.com</a></p>
+
+## Gallery
+
+![EER diagram](images/EER-diagram.PNG)
