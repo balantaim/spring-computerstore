@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,13 +38,13 @@ public class Shipment {
     private Long id;
 
     @Column(name = "product_id")
-    private Long productId;
+    private Integer productId;
 
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "price_per_unit")
-    private Double pricePerUnit;
+    @Column(name = "price_per_unit", precision = 9, scale = 2)
+    private BigDecimal pricePerUnit;
 
     @Column(name = "tracking_number")
     private String trackingNumber;

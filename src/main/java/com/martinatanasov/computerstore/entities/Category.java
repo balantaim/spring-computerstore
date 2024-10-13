@@ -33,7 +33,8 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    //Stores whole numbers from -32,768 to 32,767 similar to SMALLINT in MySQL
+    private Short id;
 
     @Column(name = "name", length = 50)
     private String name;

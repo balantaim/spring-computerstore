@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,7 +34,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "product_name")
     private String productName;
@@ -44,8 +45,8 @@ public class Product {
     @Column(name = "producer", length = 50)
     private String producer;
 
-    @Column(name = "price")
-    private Double price;
+    @Column(name = "price", precision = 9, scale = 2)
+    private BigDecimal price;
 
     @Column(name = "stock")
     private Integer stock;

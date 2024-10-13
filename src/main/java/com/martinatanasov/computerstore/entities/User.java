@@ -37,7 +37,7 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email", length = 50)
+    @Column(name = "email", unique = true, length = 50)
     private String email;
 
     @Column(name = "password", length = 60)
@@ -58,6 +58,9 @@ public class User {
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
+    @Column(name = "attempts")
+    private Byte attempts;
+
     @Column(name = "enabled")
     private Boolean enabled;
 
@@ -69,6 +72,9 @@ public class User {
 
     @Column(name = "modify_date")
     private Timestamp modifyDate;
+
+    @Column(name = "lock_date")
+    private Timestamp lockDate;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

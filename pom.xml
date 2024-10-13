@@ -108,6 +108,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Flyway for data migrations-->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+		</dependency>
+
 		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

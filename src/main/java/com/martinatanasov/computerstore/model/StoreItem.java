@@ -22,7 +22,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class StoreItem {
 
-    private Long id;
+    private Integer id;
 
     private String productName;
 

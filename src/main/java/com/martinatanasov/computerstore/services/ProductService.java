@@ -25,12 +25,12 @@ public interface ProductService {
 
     Page<Product> getAllProducts();
 
-    Page<Product> findAllByCategoryId(Long categoryId, Integer pageNumber, Integer pageSize, String sortValue);
+    Page<Product> findAllByCategoryId(Short categoryId, Integer pageNumber, Integer pageSize, String sortValue);
 
     Page<Product> getAllByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortValue);
 
     List<Product> getAllByKeyword(String keyword);
 
-    Optional<Product> getProductById(Long id);
+    Optional<Product> getProductById(Integer id);
 
 }

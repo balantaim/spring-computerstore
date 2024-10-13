@@ -59,7 +59,7 @@ public class ProductController {
                       @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
                       @RequestParam(required = false, defaultValue = "3") Integer pageSize,
                       @RequestParam(required = false, defaultValue = "asc") String sortValue){
-        Page<Product> products = productService.findAllByCategoryId(1L, pageNumber, pageSize, sortValue);
+        Page<Product> products = productService.findAllByCategoryId((short) 1, pageNumber, pageSize, sortValue);
         if(!products.isEmpty()){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
             if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
@@ -81,7 +81,7 @@ public class ProductController {
                            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
                            @RequestParam(required = false, defaultValue = "3") Integer pageSize,
                            @RequestParam(required = false, defaultValue = "asc") String sortValue){
-        Page<Product> products = productService.findAllByCategoryId(2L, pageNumber, pageSize, sortValue);
+        Page<Product> products = productService.findAllByCategoryId((short) 2, pageNumber, pageSize, sortValue);
         if(!products.isEmpty()){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
             if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
@@ -103,7 +103,7 @@ public class ProductController {
                              @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
                              @RequestParam(required = false, defaultValue = "3") Integer pageSize,
                              @RequestParam(required = false, defaultValue = "asc") String sortValue){
-        Page<Product> products = productService.findAllByCategoryId(3L, pageNumber, pageSize, sortValue);
+        Page<Product> products = productService.findAllByCategoryId((short) 3, pageNumber, pageSize, sortValue);
         if(!products.isEmpty()){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
             if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
@@ -121,7 +121,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public String itemReview(@PathVariable(value = "productId") Long productId,
+    public String itemReview(@PathVariable(value = "productId") Integer productId,
                              Model model){
         Optional<Product> product = productService.getProductById(productId);
         product.ifPresent(value -> model.addAttribute("product", productConverter.convertToSingleItem(value)));

@@ -1,12 +1,20 @@
-DROP DATABASE IF EXISTS computer_store;
 
-CREATE DATABASE computer_store;
+SET foreign_key_checks = 0;
 
-USE computer_store;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS authorities;
+DROP TABLE IF EXISTS users_roles;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS order_item;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS payments;
+DROP TABLE IF EXISTS shipments;
+DROP TABLE IF EXISTS carts;
 
--- Create table users with encoding utf-8
--- Check Spring security documentation for more info
--- https://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/html/appendix-schema.html
+SET foreign_key_checks = 1;
+
+
 
 CREATE TABLE users (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -25,18 +33,16 @@ CREATE TABLE users (
   lock_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Enter some test users
--- The test password is 'test'
--- You could create your own password from here https://www.bcryptcalculator.com/
 
-INSERT INTO users 
+
+INSERT INTO users
 (email, password, first_name, last_name, country, address, phone_number, enabled, verified_profile)
-VALUES 
+VALUES
 ('abv@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','Мартин','Атанасов', null,null,null,1,1),
 ('manager@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','инж Киров',null, null,null,null,1,1),
 ('admin@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','the BOSS',null, null,null,null,1,1);
 
--- Create table authorities 
+
 
 CREATE TABLE authorities (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -46,33 +52,33 @@ CREATE TABLE authorities (
 
 create unique index ix_auth_username on authorities (id, authority);
 
--- Insert base roles
+
 
 INSERT INTO authorities (authority)
-VALUES 
+VALUES
 ('ROLE_CUSTOMER'),('ROLE_MANAGER'),('ROLE_ADMIN');
 
 CREATE TABLE users_roles (
   user_id BIGINT NOT NULL,
   role_id BIGINT NOT NULL,
-  
+
   PRIMARY KEY (user_id, role_id),
-  
+
   KEY FK_ROLE_idx (role_id),
-  
-  CONSTRAINT FK_USER_05 FOREIGN KEY (user_id) 
-  REFERENCES users (id) 
+
+  CONSTRAINT FK_USER_05 FOREIGN KEY (user_id)
+  REFERENCES users (id)
   ON DELETE NO ACTION ON UPDATE NO ACTION,
-  
-  CONSTRAINT FK_ROLE FOREIGN KEY (role_id) 
-  REFERENCES authorities (id) 
+
+  CONSTRAINT FK_ROLE FOREIGN KEY (role_id)
+  REFERENCES authorities (id)
   ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Set authorities to the base users
+
 
 INSERT INTO users_roles (user_id,role_id)
-VALUES 
+VALUES
 (1, 1),
 (2, 1),
 (2, 2),

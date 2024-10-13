@@ -33,7 +33,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //    List<Product> findAllByCategory(Long id);
 
     @Query(value = "SELECT * FROM products p WHERE p.category_id = :id", nativeQuery = true)
-    Page<Product> findAllByCategory(Long id, PageRequest pageRequest);
+    Page<Product> findAllByCategory(Short id, PageRequest pageRequest);
 
     @Query(value = "SELECT * FROM products p WHERE p.product_name LIKE %:keyword% " +
             "OR p.description LIKE %:keyword% " +
@@ -49,6 +49,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             nativeQuery = true)
     List<Product> findAllByKeyword(@Param("keyword") String keyword);
 
-    Optional<Product> findProductById(Long id);
+    Optional<Product> findProductById(Integer id);
 
 }

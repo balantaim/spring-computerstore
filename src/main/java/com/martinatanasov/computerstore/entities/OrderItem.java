@@ -18,6 +18,8 @@ package com.martinatanasov.computerstore.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "order_item")
 @NoArgsConstructor
@@ -35,8 +37,8 @@ public class OrderItem {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "price_per_unit")
-    private Double pricePerUnit;
+    @Column(name = "price_per_unit", precision = 9, scale = 2)
+    private BigDecimal pricePerUnit;
 
     //FK referencing Order
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

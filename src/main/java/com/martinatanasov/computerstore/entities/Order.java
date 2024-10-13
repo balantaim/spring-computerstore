@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,18 +37,18 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    //FK from Customer
-    @Column(name = "customer_id")
-    private Long customerId;
-
     @Column(name = "order_date")
     private Timestamp orderDate;
 
-    @Column(name = "total_amount")
-    private Double totalAmount;
+    @Column(name = "total_amount", precision = 9, scale = 2)
+    private BigDecimal totalAmount;
 
     @Column(name = "status")
     private String status;
+
+    //FK from User
+    @Column(name = "customer_id")
+    private Long customerId;
 
     @ManyToOne
     @JoinColumn(name = "shipment_id")

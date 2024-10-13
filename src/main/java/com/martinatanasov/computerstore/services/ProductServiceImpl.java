@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Cacheable(cacheNames = "productListCache")
     @Override
-    public Page<Product> findAllByCategoryId(Long categoryId,  Integer pageNumber, Integer pageSize, String sortValue){
+    public Page<Product> findAllByCategoryId(Short categoryId, Integer pageNumber, Integer pageSize, String sortValue){
         return productRepository.findAllByCategory(categoryId, buildPageRequest(pageNumber, pageSize, sortValue));
     }
 
@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Cacheable(cacheNames = "productCache", key = "#id")
     @Override
-    public Optional<Product> getProductById(Long id){
+    public Optional<Product> getProductById(Integer id){
         return productRepository.findProductById(id);
     }
 

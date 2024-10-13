@@ -91,7 +91,6 @@ public class RegisterController {
 
         // place user in the web http session for later use
         session.setAttribute("user", webUser);
-
         return "Register/register-confirm";
     }
 

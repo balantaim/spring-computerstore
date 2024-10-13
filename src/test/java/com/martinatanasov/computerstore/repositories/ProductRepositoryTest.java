@@ -35,7 +35,7 @@ class ProductRepositoryTest {
 
     @Test
     void getCPU(){
-        Page<Product> products = repository.findAllByCategory(1L, PageRequest.of(1, 3,
+        Page<Product> products = repository.findAllByCategory((short) 1, PageRequest.of(1, 3,
                 Sort.by(Sort.Order.asc("product_name"))));
 
         assertThat(products.get()).isNotNull();
@@ -45,7 +45,7 @@ class ProductRepositoryTest {
 
     @Test
     void getMonitors(){
-        Page<Product> products = repository.findAllByCategory(2L, PageRequest.of(1, 3,
+        Page<Product> products = repository.findAllByCategory((short) 2, PageRequest.of(1, 3,
                 Sort.by(Sort.Order.asc("product_name"))));
 
         assertThat(products.get()).isNotNull();
@@ -55,7 +55,7 @@ class ProductRepositoryTest {
 
     @Test
     void getVideoCards(){
-        Page<Product> products = repository.findAllByCategory(3L, PageRequest.of(1, 3,
+        Page<Product> products = repository.findAllByCategory((short) 3, PageRequest.of(1, 3,
                 Sort.by(Sort.Order.asc("product_name"))));
 
         assertThat(products.get()).isNotNull();

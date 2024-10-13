@@ -18,6 +18,8 @@ package com.martinatanasov.computerstore.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "payments")
 @NoArgsConstructor
@@ -35,8 +37,8 @@ public class Payment {
     @Column(name = "payment_type", length = 20)
     private String paymentType;
 
-    @Column(name = "amount")
-    private Double amount;
+    @Column(name = "amount", precision = 9, scale = 2)
+    private BigDecimal amount;
 
     @Column(name = "payment_status", length = 20)
     private String paymentStatus;

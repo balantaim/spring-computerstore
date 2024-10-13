@@ -16,8 +16,10 @@
 package com.martinatanasov.computerstore.security;
 
 import com.martinatanasov.computerstore.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -25,11 +27,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+import java.util.Arrays;
 
 
 @Configuration
 @EnableMethodSecurity
 public class GlobalSecurityConfig {
+
+    @Autowired
+    private Environment environment;
 
     //bcrypt bean definition
     @Bean
@@ -47,7 +55,7 @@ public class GlobalSecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
         //Enable Iframe for the same origin (default value is disabled)
 //        http.headers(headers -> headers
 //                .frameOptions(frameOptions -> frameOptions.sameOrigin()
@@ -56,18 +64,18 @@ public class GlobalSecurityConfig {
 
         //Setup permission by role and methods
         http.authorizeHttpRequests(config -> config
-                                .requestMatchers( "/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
-                                .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
-                                .requestMatchers(HttpMethod.DELETE, "/Products/**").hasRole("CUSTOMER")
-                                .requestMatchers( "/Cart-items/**").hasRole("CUSTOMER")
-                //Permit all on GET request for static content
-                                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**",
-                                        "/other/**", "/page/actuator/**", "/Products/**",
-                                        "/About", "/Search", "/Live-search",
-                                        "/robots.txt", "/error/**").permitAll()
-                                .requestMatchers( "/", "/register/**").permitAll()
-                                .anyRequest().authenticated()
+                        .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/Products/**").hasRole("CUSTOMER")
+                        .requestMatchers("/Cart-items/**").hasRole("CUSTOMER")
+                        //Permit all on GET request for static content
+                        .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**",
+                                "/other/**", "/page/actuator/**", "/Products/**",
+                                "/About", "/Search", "/Live-search",
+                                "/robots.txt", "/error/**").permitAll()
+                        .requestMatchers("/", "/register/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         //Redirect to login form if no authorisation
@@ -94,14 +102,20 @@ public class GlobalSecurityConfig {
         //Use Http basic authentication
 //        http.httpBasic(Customizer.withDefaults());
 
-        //Disable Cross Site Request Forgery (CSRF)
-        //Not required for REST operations like POST, PUT, DELETE and/or PATCH
-        http.csrf(csrf -> csrf.disable());
-
-        //Enable csrf token
-//        http.csrf(csrf -> csrf
-//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+        if (isTestProfile()) {
+            //Disable Cross Site Request Forgery (CSRF)
+            //Not required for REST operations like POST, PUT, DELETE and/or PATCH
+            http.csrf(csrf -> csrf.disable());
+        } else {
+            //Enable csrf token
+            http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+        }
 
         return http.build();
     }
+
+    private boolean isTestProfile() {
+        return Arrays.asList(environment.getActiveProfiles()).contains("test");
+    }
+
 }

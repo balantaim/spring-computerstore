@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(webUser.getFirstName());
         user.setLastName(webUser.getLastName());
         user.setEnabled(true);
+        user.setAttempts((byte) 0);
         //The default new profile is set to verified by email
         user.setVerifiedProfile(true);
 
@@ -72,6 +73,7 @@ public class UserServiceImpl implements UserService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         user.setCreationDate(timestamp);
         user.setModifyDate(timestamp);
+        user.setLockDate(timestamp);
 
         // give user default role of "employee"
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
