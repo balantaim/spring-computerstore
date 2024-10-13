@@ -33,10 +33,10 @@
 <ol>
     <li>Install Java 21 LTS (OpenJDK Corretto)</li>
     <li>Connect to your MySQL DB</li>
-    <li>Run SQL query "computer-store-test.sql"</li>
+    <!-- <li>Run SQL query "computer-store-test.sql"</li> -->
     <li>Select profile from "application.properties" (test/prod profile)</li>
     <li>Test the project in your favorite IDE</li>
-    <li>Optionally run "fake-data.sql" in your database for fake products</li>
+    <!-- <li>Optionally run "fake-data.sql" in your database for fake products</li> -->
     <li>Create execution jar from the terminal by using "mvn clean package"</li>
     <li>Your project is ready in ./target directory</li>
 </ol>
