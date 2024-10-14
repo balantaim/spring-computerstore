@@ -30,62 +30,75 @@
 <div class="main">
     <div class="space"></div>
 
-    <div class="has-text-centered">
-        <h1>[[#{nav.profile}]]</h1>
-        <p>[[#{text.user}]]: <span sec:authentication="principal.username"></span></p>
-        <p>[[#{text.role}]]: <span th:each="authority : ${#authentication.getAuthorities()}"
-                                   th:if="${authority.getAuthority().startsWith('ROLE_')}"
-                                   th:text="${authority.getAuthority().replaceFirst('ROLE_', '') + ' '}"></span></p>
+    <!-- Title-->
+    <div class="columns is-gapless">
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
-        <div class="space"></div>
+        <div class="column is-mobile-8 is-desktop-10">
+            <div class="m-2">
+                <h1 class="title">[[#{nav.profile}]]</h1>
+                <hr class="horizontal-line">
+                <p>[[#{text.user}]]: <span sec:authentication="principal.username"></span></p>
+                <p>[[#{text.role}]]: <span th:each="authority : ${#authentication.getAuthorities()}"
+                                           th:if="${authority.getAuthority().startsWith('ROLE_')}"
+                                           th:text="${authority.getAuthority().replaceFirst('ROLE_', '') + ' '}"></span>
+                </p>
+            </div>
+        </div>
 
-        <div class="columns is-centered is-gapless">
-            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+    </div>
 
-            <div class="column is-mobile-8 is-desktop-10">
+    <div class="space"></div>
 
-                <div class="columns is-centered is-gapless">
+    <!-- Menu-->
+    <div class="columns is-centered is-gapless">
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
-                    <div class="column m-2">
-                        <div class="box">
-                            <a class="is-skeleton" th:href="@{/Profile/manage-password}">
+        <div class="column is-mobile-8 is-desktop-10">
+
+            <div class="columns is-centered is-gapless">
+
+                <div class="column m-2">
+
+                    <div class="box has-text-centered">
+                        <a class="is-skeleton" th:href="@{/Profile/manage-password}">
                                 <span class="icon-text">
                                     <span class="icon">
                                         <i class="fa-solid fa-key"></i>
                                     </span>
                                     <span>[[#{text.change.pass}]]</span>
                                 </span>
-                            </a>
-                        </div>
+                        </a>
                     </div>
+                </div>
 
-                    <div class="column m-2">
-                        <div class="box">
-                            <a class="is-skeleton" th:href="@{/Profile/address}">
+                <div class="column m-2">
+                    <div class="box has-text-centered">
+                        <a class="is-skeleton" th:href="@{/Profile/address}">
                                 <span class="icon-text">
                                     <span class="icon">
                                         <i class="fa-solid fa-house"></i>
                                     </span>
                                     <span>[[#{text.add.address}]]</span>
                                 </span>
-                            </a>
-                        </div>
+                        </a>
                     </div>
-
                 </div>
 
             </div>
 
-            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
         </div>
 
-        <div class="space"></div>
-
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
     </div>
 
     <div class="space"></div>
+
 </div>
 <!--MAIN Content End-->
+
+<div class="space"></div>
 
 <!--Show toast status notification-->
 <span th:if="${status}">

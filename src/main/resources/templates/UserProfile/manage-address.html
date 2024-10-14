@@ -42,10 +42,15 @@
 
             <!-- Address Form -->
             <form action="#" th:action="@{/Profile/update-address}" th:object="${profileAddress}" method="POST">
+
                 <div class="field ml-4 mr-4">
                     <label class="label">[[#{form.firstname}]]</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-skeleton" id="firstName" type="text" name="firstName"
+                        <input class="input is-skeleton"
+                               id="firstName"
+                               type="text"
+                               name="firstName"
+                               autocomplete="cc-given-name"
                                th:placeholder="#{form.firstname}"
                                th:value="${user.firstName} ?: ''"
                                th:classappend="${#fields.hasErrors('firstName')} ? 'is-danger' : ''">
@@ -70,7 +75,11 @@
                     <label class="label">[[#{form.lastname}]]</label>
                     <!--Left icon-->
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-skeleton" id="lastName" type="text" name="lastName"
+                        <input class="input is-skeleton"
+                               id="lastName"
+                               type="text"
+                               name="lastName"
+                               autocomplete="cc-family-name"
                                th:placeholder="#{form.lastname}"
                                th:value="${user.lastName} ?: ''"
                                th:classappend="${#fields.hasErrors('lastName')} ? 'is-danger' : ''">
@@ -91,7 +100,11 @@
                 <div class="field ml-4 mr-4 pt-4">
                     <label class="label">[[#{form.phone}]]</label>
                     <div class="control has-icons-left has-icons-right pb-2">
-                        <input class="input is-skeleton" id="phoneNumber" type="tel" name="phoneNumber"
+                        <input class="input is-skeleton"
+                               id="phoneNumber"
+                               type="tel"
+                               name="phoneNumber"
+                               autocomplete="tel"
                                th:placeholder="#{form.phone}"
                                th:value="${user.phoneNumber} ?: ''"
                                th:classappend="${#fields.hasErrors('phoneNumber')} ? 'is-danger' : ''">
@@ -118,14 +131,20 @@
                                         th:id="${iStat.index}"
                                         th:text="${country.name}"
                                         th:value="${country.code}"
-                                th:selected="${country.code == user.country}"></option>
+                                        th:selected="${country.code == user.country}"></option>
                             </select>
                         </div>
                 </div>
 
                 <div class="field ml-4 mr-4 pt-6">
                     <p class="form-text has-text-weight-bold pt-2 pb-2 mr-4">[[#{form.address}]]</p>
-                    <textarea id="textarea" class="textarea is-skeleton" maxlength="255" th:placeholder="#{form.placeholder.address}" name="address" th:text="${user.address} ?: ''"></textarea>
+                    <textarea id="textarea"
+                              class="textarea is-skeleton"
+                              maxlength="255"
+                              th:placeholder="#{form.placeholder.address}"
+                              name="address"
+                              autocomplete="street-address"
+                              th:text="${user.address} ?: ''"></textarea>
                     <div class="container" style="min-height: 24px;">
                         <p id="text-counter" class="is-pulled-right">0/150</p>
                     </div>
