@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.model;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -25,25 +26,28 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class WebUser {
+public class AppUserDTO {
 
+    @NotBlank
     @NotNull(message = "Email is required")
-    //@Size(min = 3, max = 50, message = "Valid email is required")
-    //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#!?@\\-])\\S{2,50}$")
-    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,50})$")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#!?@\\-])\\S{2,50}$")
     private String email;
 
+    @NotNull
     @Size(max = 30, message = "Firstname maximum 30 characters")
     private String firstName;
 
+    @NotNull
     @Size(max = 30, message = "Lastname maximum 30 characters")
     private String lastName;
 
+    @NotBlank
     @NotNull(message = "Valid Password is required")
     @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
             message = "Password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")
     private String password;
 
+    @NotBlank
     @NotNull(message = "Valid Re-password is required")
     @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
             message = "Repeat password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")

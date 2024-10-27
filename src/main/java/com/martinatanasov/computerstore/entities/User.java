@@ -37,10 +37,10 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email", unique = true, length = 50)
+    @Column(name = "email", length = 50, unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password", length = 60)
+    @Column(name = "password", length = 60, columnDefinition = "CHAR(60)", nullable = false)
     private String password;
 
     @Column(name = "first_name", length = 30)

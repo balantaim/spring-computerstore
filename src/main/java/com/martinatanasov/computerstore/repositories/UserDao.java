@@ -19,7 +19,7 @@ import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.entities.Payment;
 import com.martinatanasov.computerstore.entities.Shipment;
 import com.martinatanasov.computerstore.entities.User;
-
+import com.martinatanasov.computerstore.model.UserFailedAttempts;
 
 import java.util.List;
 
@@ -35,5 +35,10 @@ public interface UserDao {
     void save(User user);
 
     void updateUserShippingDetails(User user);
+
+    //@Query(value = "SELECT attempts, enabled, lock_date FROM users u WHERE u.email=:email%", nativeQuery = true)
+    Object[] getUserLoginAttempts(final String name);
+
+    void setLoginFailedAttempt(final String name, UserFailedAttempts info);
 
 }

@@ -29,9 +29,6 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-//    @Query(value = "SELECT * FROM products p WHERE p.category_id = :id", nativeQuery = true)
-//    List<Product> findAllByCategory(Long id);
-
     @Query(value = "SELECT * FROM products p WHERE p.category_id = :id", nativeQuery = true)
     Page<Product> findAllByCategory(Short id, PageRequest pageRequest);
 

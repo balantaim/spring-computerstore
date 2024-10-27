@@ -22,4 +22,5 @@ public interface ProfileService {
     User getUserData(String userName);
 
     void updateUserAddress(User user);
+
 }

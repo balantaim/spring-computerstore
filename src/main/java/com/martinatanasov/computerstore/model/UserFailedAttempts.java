@@ -15,11 +15,9 @@
 
 package com.martinatanasov.computerstore.model;
 
-import lombok.*;
+import java.sql.Timestamp;
 
-@Data
-@AllArgsConstructor
-public class Country {
-    private String name;
-    private String code;
-}
+
+public record UserFailedAttempts (Byte attempts,
+                                  Boolean enabled,
+                                  Timestamp lockDate){}

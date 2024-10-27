@@ -28,6 +28,12 @@
     <li><b>Admin Panel:</b> Administrators have access to a robust admin panel for managing products, categories, users, orders, and other aspects of the platform. Advanced analytics and reporting tools enable data-driven decision-making and performance monitoring.</li>
 </ol>
 
+### Additional Security Features
+
+<ul>
+    <li>Brute force protection for Login form (Locks account after three failed logins).</li>
+</ul>
+
 ## Setup the project
 
 <ol>
@@ -48,6 +54,7 @@
     <li>Disable DB services (We are using database outside from AWS cloud)</li>
     <li>Disable Alarm service</li>
     <li>Add role to the environment (Check how to create a new role below)</li>
+    <li>Configure: Processor type x86_64 and Instance types t3.nano (2 CPU and 512mgb RAM). This is recommended setup for this project.</li>
     <li>Upload the jar file when the environment is ready</li>
 </ol>
 

@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.WebUser;
+import com.martinatanasov.computerstore.model.AppUserDTO;
 import com.martinatanasov.computerstore.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -49,22 +49,22 @@ public class RegisterController {
     @GetMapping("/RegisterForm")
     public String register(Model model){
         model.addAttribute("active","Register");
-        model.addAttribute("webUser", new WebUser());
+        model.addAttribute("appUserDTO", new AppUserDTO());
         return "Register/register";
     }
 
     @PostMapping("/processRegistrationForm")
     public String processRegistrationForm(
-            @Valid @ModelAttribute("webUser") WebUser webUser,
+            @Valid @ModelAttribute("appUserDTO") AppUserDTO appUserDTO,
             BindingResult bindingResult,
             HttpSession session,
             Model model) {
 
-        String userName = webUser.getEmail();
+        String userName = appUserDTO.getEmail();
 
         String errorMessage = "";
-        if(webUser.getPassword() != null && webUser.getRepeatPassword() != null){
-            if(!webUser.getRepeatPassword().equals(webUser.getPassword())){
+        if(appUserDTO.getPassword() != null && appUserDTO.getRepeatPassword() != null){
+            if(!appUserDTO.getRepeatPassword().equals(appUserDTO.getPassword())){
                 errorMessage = "PassMatcher";
                 ObjectError error = new ObjectError("globalError", errorMessage);
                 bindingResult.addError(error);
@@ -87,10 +87,10 @@ public class RegisterController {
         }
 
         // create user account and store in the database
-        userService.save(webUser);
+        userService.save(appUserDTO);
 
         // place user in the web http session for later use
-        session.setAttribute("user", webUser);
+        session.setAttribute("user", appUserDTO);
         return "Register/register-confirm";
     }
 

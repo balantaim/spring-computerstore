@@ -272,8 +272,11 @@
             display: flex;
             overflow-x: auto;
         }
-        .scroll-x::-webkit-scrollbar {
+        .scroll-x::-webkit-scrollbar{
             width: 0;
+        }
+        .text-hover-underscore:hover{
+            text-decoration: underline;
         }
 
 

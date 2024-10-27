@@ -43,12 +43,16 @@
                 <div>
                     <!-- Check for login error -->
                     <div class="notification is-danger has-text-centered m-4" th:if="${param.error}">
+
                         <p>[[#{username.or.password}]]</p>
+                        <p>[[#{username.attempts}]]</p>
+
                         <span th:replace="~{fragments/notification :: notification('error', #{notification.login.error})}"></span>
+
                     </div>
                     <!-- Logout info -->
                     <div class="notification is-success has-text-centered m-4" th:if="${param.logout}">
-                        <p>[[#{logout.success}]</p>
+                        <p>[[#{logout.success}]]</p>
                     </div>
                 </div>
 
@@ -61,7 +65,8 @@
                                name="username"
                                id="username"
                                autocomplete="username"
-                               th:placeholder="#{form.placeholder.email}">
+                               th:placeholder="#{form.placeholder.email}"
+                               oninput="checkInput()">
                         <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                     </span>
@@ -78,7 +83,8 @@
                                name="password"
                                id="password"
                                autocomplete="current-password"
-                               th:placeholder="#{form.placeholder.password}">
+                               th:placeholder="#{form.placeholder.password}"
+                               oninput="checkInput()">
                         <!-- Left Icon-->
                         <span class="icon is-small is-left">
                             <i class="fas fa-lock"></i>
@@ -93,10 +99,21 @@
 
                 <!-- Login/Submit Button -->
                 <div class="has-text-centered">
-                    <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">[[#{form.button.login}]]</button>
+                    <button type="submit" id="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton" disabled>[[#{form.button.login}]]</button>
                     <div class="mt-4 pt-4 pb-4">
                         <a th:href="@{/register/RegisterForm}" class="is-info" role="button" aria-pressed="true">[[#{form.button.to-register}]]</a>
                     </div>
+
+                    <script defer>
+                        function checkInput() {
+                            const inputUsername = document.getElementById('username');
+                            const inputPassword = document.getElementById('password');
+                            const submitButton = document.getElementById('submit');
+
+                            submitButton.disabled = (inputUsername.value.length < 3 || inputUsername.value.length > 50 ) ||
+                            (inputPassword.value.length < 4 || inputPassword.value.length > 50);
+                        }
+                    </script>
                 </div>
             </form>
             <!--End Form-->
@@ -108,6 +125,15 @@
     <div class="space"></div>
 </div>
 <!--MAIN Content End-->
+
+
+<!--Show toast status notification-->
+<span th:if="${param.logout}">
+    <span th:replace="~{fragments/notification :: notification('success', #{logout.success})}"></span>
+</span>
+<span th:if="${param.error}">
+    <span th:replace="~{fragments/notification :: notification('error', #{login.denied})}"></span>
+</span>
 
 
 <!--FOOTER-->

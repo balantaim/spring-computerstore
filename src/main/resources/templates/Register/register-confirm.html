@@ -44,9 +44,9 @@
         </div>
 
         <ul>
-            <li th:text="'User name: ' + ${webUser.email}"></li>
-            <li th:if="${webUser.firstName}" th:text="'First name: ' + ${webUser.firstName}"></li>
-            <li th:if="${webUser.lastName}" th:text="'Last name: ' + ${webUser.lastName}"></li>
+            <li th:text="'User name: ' + ${appUserDTO.email}"></li>
+            <li th:if="${appUserDTO.firstName}" th:text="'First name: ' + ${appUserDTO.firstName}"></li>
+            <li th:if="${appUserDTO.lastName}" th:text="'Last name: ' + ${appUserDTO.lastName}"></li>
         </ul>
     </div>
 

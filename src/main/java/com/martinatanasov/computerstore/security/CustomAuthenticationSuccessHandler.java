@@ -39,11 +39,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
         String userName = authentication.getName();
-
-//        System.out.println("\tuserName= " + userName);
-
         User user = userService.findByUserName(userName);
 
         //Place in the session
@@ -51,7 +47,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         session.setAttribute("user", user);
 
         // Forward to home page
-//        response.sendRedirect(request.getContextPath() + "/");
         response.sendRedirect(request.getContextPath() + "/Profile");
     }
 

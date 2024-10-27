@@ -13,13 +13,14 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.model;
+package com.martinatanasov.computerstore.services;
 
-import lombok.*;
+public interface BruteForceProtectionService {
 
-@Data
-@AllArgsConstructor
-public class Country {
-    private String name;
-    private String code;
+    void registerLoginFailure(final String username);
+
+    void resetLoginFailureCounter(final String username);
+
+//    boolean isBruteForceAttack(final String username);
+
 }

@@ -37,14 +37,13 @@
         <p class="has-text-danger mt-2 mb-2 ml-4 mr-4">[[#{form.info.start}]]<bold>*</bold>[[#{form.info.end}]]</p>
 
         <!-- Login Form -->
-        <form action="#" th:action="@{/register/processRegistrationForm}" th:object="${webUser}" method="POST">
+        <form action="#" th:action="@{/register/processRegistrationForm}" th:object="${appUserDTO}" method="POST">
 
             <!-- Check for login error -->
             <div class="notification is-danger has-text-centered ml-4 mr-4 mt-4" th:if="${#fields.hasErrors('global')}">
                 <div th:each="err : ${#fields.errors('global')}">
                     <p th:if="${err} == PassMatcher">[[#{error.global.pass.matcher}]]</p>
                     <p th:if="${err} == UserExist">[[#{error.global.user.exist}]]</p>
-<!--                <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />-->
                 </div>
             </div>
 
@@ -72,7 +71,7 @@
                 <!--Error Message-->
                 <div th:if="${#fields.hasErrors('email')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('email')}"><p>[[#{error.email}]]</p></li>
+                        <li class="help is-danger" th:if="${#fields.errors('email')}"><p>[[#{error.email}]]</p></li>
                     </ul>
                 </div>
             </div>
@@ -100,7 +99,7 @@
                 <!--Error Message-->
                 <div th:if="${#fields.hasErrors('firstName')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('firstName')}"><p>[[#{error.firstname}]]</p></li>
+                        <li class="help is-danger" th:if="${#fields.errors('firstName')}"><p>[[#{error.firstname}]]</p></li>
                     </ul>
                 </div>
             </div>
@@ -128,7 +127,7 @@
                 <!--Error Message-->
                 <div th:if="${#fields.hasErrors('lastName')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('lastName')}"><p>[[#{error.lastname}]]</p></li>
+                        <li class="help is-danger" th:if="${#fields.errors('lastName')}"><p>[[#{error.lastname}]]</p></li>
                     </ul>
                 </div>
             </div>
@@ -156,7 +155,7 @@
                 <!--Error Message-->
                 <div th:if="${#fields.hasErrors('password')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('password')}"><p>[[#{error.password}]]</p></li>
+                        <li class="help is-danger" th:if="${#fields.errors('password')}"><p>[[#{error.password}]]</p></li>
                     </ul>
                 </div>
             </div>
@@ -182,9 +181,9 @@
                     </span>
                 </div>
                 <!--Error Message-->
-                <div class="text-danger">
+                <div th:if="${#fields.hasErrors('repeatPassword')}" class="text-danger">
                     <ul>
-                        <li class="help is-danger" th:each="err : ${#fields.errors('repeatPassword')}"><p>[[#{error.re-password}]]</p></li>
+                        <li class="help is-danger" th:if="${#fields.errors('repeatPassword')}"><p>[[#{error.re-password}]]</p></li>
                     </ul>
                 </div>
             </div>

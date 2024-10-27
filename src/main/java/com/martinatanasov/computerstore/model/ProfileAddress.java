@@ -15,21 +15,21 @@
 
 package com.martinatanasov.computerstore.model;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
 public class ProfileAddress {
 
+    @NotNull
     @Size(max = 30, message = "Lastname maximum 30 characters")
     private String firstName;
 
+    @NotNull
     @Size(max = 30, message = "Lastname maximum 30 characters")
     private String lastName;
 
@@ -39,9 +39,11 @@ public class ProfileAddress {
     // International "+44 7911 123456"
     // North American without country code "555-555-5555"
     //@Pattern(regexp = "^(?:\\+?[1-9]\\d{1,14}|\\+1\\s?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4})$", message = "Valid phone number is required")
+    @NotNull
     @Size(max = 20, message = "Phone number maximum 20 characters")
     private String phoneNumber;
 
+    @NotBlank
     @NotNull(message = "Country code is required")
     @Size(min = 2, max = 3)
     private String countyName;

@@ -23,12 +23,15 @@
                 </figure>
             </div>
             <div class="column is-9">
-                <p th:text="${product.productName}" class="ml-2"></p>
+                <p th:text="${product.productName}" class="ml-2 text-hover-underscore"></p>
             </div>
             <div class="column is-2">
 <!--                <span th:if="${product.price.substring(product.price.length() - 2)).equals('.')}"><p th:text="${product.price + '0'}" class="ml-2"></p></span>-->
 <!--                <span th:unless="${product.price.substring(product.price.length() - 2)).equals('.')}"><p th:text="${product.price}" class="ml-2"></p></span>-->
-                <p th:text="${product.price}" class="ml-2 has-text-weight-bold"></p>
+<!--                <p th:text="${product.price}" class="ml-2 has-text-weight-bold"></p>-->
+                <p class="ml-2 has-text-weight-bold" style="color: var(--accent);">
+                    <span>[[${product.price}]]</span> [[#{product.currency}]]
+                </p>
             </div>
         </div>
     </a>

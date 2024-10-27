@@ -16,6 +16,7 @@
 package com.martinatanasov.computerstore.security;
 
 import com.martinatanasov.computerstore.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,15 +28,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import java.util.Arrays;
 
 
 @Configuration
 @EnableMethodSecurity
+@AllArgsConstructor
 public class GlobalSecurityConfig {
 
+    //Get Active Profile
     @Autowired
     private Environment environment;
 
@@ -56,6 +58,7 @@ public class GlobalSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
+
         //Enable Iframe for the same origin (default value is disabled)
 //        http.headers(headers -> headers
 //                .frameOptions(frameOptions -> frameOptions.sameOrigin()
@@ -80,36 +83,29 @@ public class GlobalSecurityConfig {
                 .formLogin(form -> form
                         //Redirect to login form if no authorisation
                         .loginPage("/Login")
-                        //Login method used in html
+                        //.defaultSuccessUrl("/Profile", true)
+                        //Login method used in the html
                         .loginProcessingUrl("/authenticateTheUser")
+                        .failureUrl("/Login?error=true")
                         .successHandler(customAuthenticationSuccessHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
+                        .logoutSuccessUrl("/Login?logout=true")
                         .permitAll()
-                        .logoutSuccessUrl("/Login")
                 )
-
-                //From security project
-//              logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-//              logout.logoutSuccessUrl("/");
-//              logout.deleteCookies("JSESSIONID");
-//              logout.invalidateHttpSession(true);
-
                 .exceptionHandling(config -> config
                         .accessDeniedPage("/access-denied")
                 );
-        //Use Http basic authentication
-//        http.httpBasic(Customizer.withDefaults());
 
         if (isTestProfile()) {
             //Disable Cross Site Request Forgery (CSRF)
-            //Not required for REST operations like POST, PUT, DELETE and/or PATCH
             http.csrf(csrf -> csrf.disable());
-        } else {
-            //Enable csrf token
-            http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
         }
+//        else {
+//            //Enable csrf token
+//            //http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+//        }
 
         return http.build();
     }

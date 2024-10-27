@@ -15,11 +15,11 @@
 
 package com.martinatanasov.computerstore.services;
 
-import com.martinatanasov.computerstore.repositories.RoleDao;
-import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.entities.Role;
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.WebUser;
+import com.martinatanasov.computerstore.model.AppUserDTO;
+import com.martinatanasov.computerstore.repositories.RoleDao;
+import com.martinatanasov.computerstore.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,15 +55,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(WebUser webUser) {
+    public void save(AppUserDTO appUserDTO) {
 
         User user = new User();
 
         // assign user details to the user object
-        user.setEmail(webUser.getEmail());
-        user.setPassword(passwordEncoder.encode(webUser.getPassword()));
-        user.setFirstName(webUser.getFirstName());
-        user.setLastName(webUser.getLastName());
+        user.setEmail(appUserDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
+        user.setFirstName(appUserDTO.getFirstName());
+        user.setLastName(appUserDTO.getLastName());
         user.setEnabled(true);
         user.setAttempts((byte) 0);
         //The default new profile is set to verified by email
@@ -102,7 +102,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
         User user = userDao.findByUserName(email);
 
         if (user == null) {
@@ -110,7 +109,6 @@ public class UserServiceImpl implements UserService {
         }
 
         Collection<SimpleGrantedAuthority> authorities = mapRolesToAuthorities(user.getRoles());
-
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 

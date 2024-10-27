@@ -19,10 +19,13 @@ import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.entities.Payment;
 import com.martinatanasov.computerstore.entities.Shipment;
 import com.martinatanasov.computerstore.entities.User;
+import com.martinatanasov.computerstore.model.UserFailedAttempts;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -39,18 +42,16 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUserName(String email) {
-
+        User user = null;
+        if (email == null || email.length() < 3 || email.length() > 50){
+            return user;
+        }
         // retrieve/read from database using username
         TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE email=:userEmail AND enabled=true", User.class);
         theQuery.setParameter("userEmail", email);
 
-        User user = null;
         try {
             user = theQuery.getSingleResult();
-
-//            System.out.println( "User email: " + user.getEmail());
-//            List<Shipment> data = findShipmentsByUserId(user.getId());
-//            System.out.println( "User shipments: " + data);
         } catch (Exception e) {
             user = null;
         }
@@ -102,6 +103,38 @@ public class UserDaoImpl implements UserDao {
 //                .executeUpdate();
 
         entityManager.merge(user);
+    }
+
+    @Override
+    public Object[] getUserLoginAttempts(final String email) {
+        if(email == null || email.length() < 3 || email.length() > 50){
+            return null;
+        }
+        Query query = entityManager.createQuery(
+                "SELECT attempts, enabled, lockDate FROM User u WHERE u.email=:email"
+        );
+        query.setParameter("email", email);
+        return (Object[]) query.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public void setLoginFailedAttempt(final String email, UserFailedAttempts info) throws EmptyResultDataAccessException {
+        if(email == null || email.length() < 3 || email.length() > 50){
+            return;
+        }
+        User user = findByUserName(email);
+        if(user != null){
+            Query query = entityManager.createNativeQuery(
+                    "UPDATE users SET attempts = :attempts, enabled = :enabled, lock_date = :lock_date WHERE email = :email"
+            );
+            query.setParameter("attempts", info.attempts());
+            query.setParameter("enabled", info.enabled());
+            query.setParameter("lock_date", info.lockDate());
+            query.setParameter("email", email);
+            // Execute the update to insert the record
+            query.executeUpdate();
+        }
     }
 
 }
