@@ -40,6 +40,7 @@
     <li>Install Java 21 LTS (OpenJDK Corretto)</li>
     <li>Connect to your MySQL DB</li>
     <li>Select profile from "application.properties" (test/prod profile)</li>
+    <li>Optional: Add Database url, user and pass as VM options to prod profile: <p>" --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass"</p></li>
     <li>Test the project in your favorite IDE</li>
     <li>Create execution jar from the terminal by using "mvn clean package"</li>
     <li>Your project is ready in ./target directory</li>
