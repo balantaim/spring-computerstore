@@ -26,6 +26,8 @@ import java.util.List;
 public interface UserDao {
     User findByUserName(String email);
 
+    Iterable<User> getAllUsers();
+
     List<Shipment> findShipmentsByUserId(Long id);
 
     List<Cart> findCartsByUserId(Long id);
@@ -35,6 +37,8 @@ public interface UserDao {
     void save(User user);
 
     void updateUserShippingDetails(User user);
+
+    void deleteByUserEmail(String email);
 
     //@Query(value = "SELECT attempts, enabled, lock_date FROM users u WHERE u.email=:email%", nativeQuery = true)
     Object[] getUserLoginAttempts(final String name);

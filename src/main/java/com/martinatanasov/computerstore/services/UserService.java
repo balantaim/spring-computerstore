@@ -17,14 +17,25 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.AppUserDTO;
+import com.martinatanasov.computerstore.model.UserInfoDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.Set;
 
 public interface UserService extends UserDetailsService {
 
-    User findByUserName(String email);
+    User findByUserName(final String email);
 
     void save(AppUserDTO appUserDTO);
 
-    boolean changePassword(String userName,String oldPassword, String newPassword);
+    boolean changePassword(final String userName, final String oldPassword, final String newPassword);
+
+    boolean setNewPassword(final String userName, final String newPassword);
+
+    void delete(final String email);
+
+    void setAccountStatus(final String email, final Boolean enabled);
+
+    Set<UserInfoDTO> getUsersInfo();
 
 }

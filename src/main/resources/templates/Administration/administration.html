@@ -27,9 +27,63 @@
 
 <!--MAIN Content Start-->
 <div class="main container">
-    <div class="space"></div>
 
-    <h1>Administration</h1>
+    <div class="columns is-centered is-gapless mt-6">
+        <div class="column is-mobile-1 is-table-1 is-desktop-1 is-widescreen-1 is-1"></div>
+        <div class="column mr-1 ml-1">
+
+            <h1 class="has-text-centered pt-5 pb-5 is-size-2 mb-6">[[#{form.users.administration}]]</h1>
+
+            <!-- Users Table Container -->
+            <div th:if="${users}" class="table-container m-2">
+                <table class="table is-narrow is-bordered is-striped is-hoverable is-fullwidth">
+                    <!-- T-HEAD-->
+                    <thead>
+                    <tr>
+                        <th><abbr>#</abbr></th>
+                        <th><abbr th:title="#{form.placeholder.email}">[[#{form.placeholder.email}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.id}">[[#{table.user.id}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.enabled}">[[#{table.user.enabled}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.verified}">[[#{table.user.verified}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.created}">[[#{table.user.created}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.modified}">[[#{table.user.modified}]]</abbr></th>
+                    </tr>
+                    </thead>
+                    <!-- T-FOOTER-->
+                    <tfoot>
+                    <tr>
+                        <th><abbr>#</abbr></th>
+                        <th><abbr th:title="#{form.placeholder.email}">[[#{form.placeholder.email}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.id}">[[#{table.user.id}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.enabled}">[[#{table.user.enabled}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.verified}">[[#{table.user.verified}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.created}">[[#{table.user.created}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.modified}">[[#{table.user.modified}]]</abbr></th>
+                    </tr>
+                    </tfoot>
+                    <span th:each="user, iterStat : ${users}">
+                        <!-- T-BODY-->
+                        <tbody>
+                        <tr>
+                            <th th:text="${iterStat.count}"></th>
+                            <td><a th:href="@{/Administration/profile/{id}(id=${user.id})}" th:text="${user.email}"></a></td>
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.enabled}"
+                                th:style="${user.enabled} == true ? 'color: green;':'color: red;'"></td>
+                            <td th:text="${user.verifiedProfile}"
+                                th:style="${user.verifiedProfile} == true ? 'color: green;':'color: red;'"></td>
+                            <td th:text="${user.creationDate}"></td>
+                            <td th:text="${user.modifyDate}"></td>
+                        </tr>
+                        </tbody>
+                    </span>
+                </table>
+            </div>
+            <!--End Form-->
+
+        </div>
+        <div class="column is-mobile-1 is-table-1 is-desktop-1 is-widescreen-1 is-1"></div>
+    </div>
 
     <div class="space"></div>
 </div>

@@ -103,7 +103,7 @@ public class GlobalSecurityConfig {
             http.csrf(csrf -> csrf.disable());
         }
 //        else {
-//            //Enable csrf token
+//            //Using the CookieCsrfTokenRepository
 //            //http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
 //        }
 

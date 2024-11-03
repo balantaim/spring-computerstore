@@ -59,6 +59,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public Iterable<User> getAllUsers() {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
+        return query.getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void deleteByUserEmail(String email) {
+        // retrieve/read from database using username
+        TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE email=:userEmail", User.class);
+        theQuery.setParameter("userEmail", email);
+        User user = theQuery.getSingleResult();
+        if(user != null){
+            entityManager.remove(user);
+        }
+    }
+
+    @Override
     public List<Shipment> findShipmentsByUserId(Long id) {
         TypedQuery<Shipment> query = entityManager.createQuery("FROM Shipment WHERE user_id=:userId", Shipment.class);
         query.setParameter("userId", id);

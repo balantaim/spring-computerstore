@@ -17,9 +17,13 @@ package com.martinatanasov.computerstore.repositories;
 
 import com.martinatanasov.computerstore.entities.User;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.sql.Timestamp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,6 +32,9 @@ class UserDaoImplTest {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Test
     @DisplayName(value = "Get basic user")
@@ -60,6 +67,45 @@ class UserDaoImplTest {
         assertThat(user.getId()).isNotNull();
         assertThat(role).isEqualTo("ROLE_ADMIN");
         assertThat(user.getVerifiedProfile()).isTrue();
+    }
+
+    @Test
+    @Order(1)
+    @DisplayName(value = "Create customer user")
+    void createCustomerUser(){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        User user = new User();
+        user.setEmail("testcustomer.default@abv.bg");
+        user.setPassword(passwordEncoder.encode("1234"));
+        user.setFirstName("First name");
+        user.setLastName("Last name");
+        user.setEnabled(true);
+        user.setAttempts((byte) 0);
+        //The default new profile is set to verified by email
+        user.setVerifiedProfile(true);
+        //Set creation date
+        user.setCreationDate(timestamp);
+        user.setModifyDate(timestamp);
+        user.setLockDate(timestamp);
+
+        userDao.save(user);
+        User returedUser = userDao.findByUserName(user.getEmail());
+
+        assertThat(returedUser).isNotNull();
+        assertThat(returedUser.getEnabled()).isTrue();
+        assertThat(user.getEmail()).isEqualTo(returedUser.getEmail());
+        assertThat(returedUser.getId()).isNotNull();
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName(value = "Delete customer account")
+    void deleteCustomerUser(){
+        final String email = "testcustomer.default@abv.bg";
+        userDao.deleteByUserEmail(email);
+        User returedUser = userDao.findByUserName(email);
+
+        assertThat(returedUser).isNull();
     }
 
 }

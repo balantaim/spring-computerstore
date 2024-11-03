@@ -15,29 +15,26 @@
 
 package com.martinatanasov.computerstore.model;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.validation.constraints.*;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppUserDTO {
 
     @NotBlank
     @NotNull(message = "Email is required")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#!?@\\-])\\S{2,50}$")
+    @Length(min = 4, max = 50)
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,50})$")
     private String email;
 
-    @NotNull
     @Size(max = 30, message = "Firstname maximum 30 characters")
     private String firstName;
 
-    @NotNull
     @Size(max = 30, message = "Lastname maximum 30 characters")
     private String lastName;
 
