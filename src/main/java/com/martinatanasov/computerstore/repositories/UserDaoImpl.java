@@ -41,7 +41,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByUserName(String email) {
+    public User findByUserName(final String email) {
         User user = null;
         if (email == null || email.length() < 3 || email.length() > 50){
             return user;
@@ -50,6 +50,19 @@ public class UserDaoImpl implements UserDao {
         TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE email=:userEmail AND enabled=true", User.class);
         theQuery.setParameter("userEmail", email);
 
+        try {
+            user = theQuery.getSingleResult();
+        } catch (Exception e) {
+            user = null;
+        }
+        return user;
+    }
+
+    @Override
+    public User findByUserId(final Long id) {
+        User user;
+        TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE id=:userId", User.class);
+        theQuery.setParameter("userId", id);
         try {
             user = theQuery.getSingleResult();
         } catch (Exception e) {

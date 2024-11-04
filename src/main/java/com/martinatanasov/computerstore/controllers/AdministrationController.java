@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.controllers;
 
+import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.UserInfoDTO;
 import com.martinatanasov.computerstore.services.UserService;
 import lombok.AllArgsConstructor;
@@ -26,11 +27,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @AllArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
+@RequestMapping("/Administration")
 public class AdministrationController {
 
     private final UserService userService;
 
-    @GetMapping("/Administration")
+    @GetMapping("")
     public String administration(Model model) {
         Iterable<UserInfoDTO> users = userService.getUsersInfo();
         if(users != null){
@@ -40,7 +42,17 @@ public class AdministrationController {
         return "Administration/administration";
     }
 
-    @DeleteMapping("/Administration")
+    @GetMapping("/profile/{id}")
+    public String userInfoPage(@PathVariable(value = "id") Long id,
+                               Model model) {
+        User user = userService.findByUserId(id);
+        if(user != null){
+            model.addAttribute("user", user);
+        }
+        return "Administration/user-info";
+    }
+
+    @DeleteMapping("")
     public String deleteUser(@RequestParam final String email, Model model) {
         if (email != null && email.length() > 3 && email.length() <= 50) {
             userService.delete(email);
@@ -51,7 +63,7 @@ public class AdministrationController {
         return "Administration/administration";
     }
 
-    @PatchMapping("/Administration/status")
+    @PatchMapping("/status")
     public String updateUserAccount(@RequestParam final String email,
                                     @RequestParam final Boolean enabled,
                                     Model model) {
@@ -61,7 +73,7 @@ public class AdministrationController {
         return "Administration/administration";
     }
 
-    @PutMapping("/Administration/newpassword")
+    @PutMapping("/new-password")
     public String setPassword(@RequestParam final String email,
                               @RequestParam final String newPassword,
                               Model model){

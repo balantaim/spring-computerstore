@@ -36,7 +36,7 @@
 
             <!-- Users Table Container -->
             <div th:if="${users}" class="table-container m-2">
-                <table class="table is-narrow is-bordered is-striped is-hoverable is-fullwidth">
+                <table class="table is-striped is-hoverable is-fullwidth" style="border-radius: 25px;">
                     <!-- T-HEAD-->
                     <thead>
                     <tr>
@@ -61,9 +61,9 @@
                         <th><abbr th:title="#{table.user.modified}">[[#{table.user.modified}]]</abbr></th>
                     </tr>
                     </tfoot>
+                    <!-- T-BODY-->
+                    <tbody>
                     <span th:each="user, iterStat : ${users}">
-                        <!-- T-BODY-->
-                        <tbody>
                         <tr>
                             <th th:text="${iterStat.count}"></th>
                             <td><a th:href="@{/Administration/profile/{id}(id=${user.id})}" th:text="${user.email}"></a></td>
@@ -75,8 +75,8 @@
                             <td th:text="${user.creationDate}"></td>
                             <td th:text="${user.modifyDate}"></td>
                         </tr>
-                        </tbody>
                     </span>
+                    </tbody>
                 </table>
             </div>
             <!--End Form-->

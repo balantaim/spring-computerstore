@@ -26,6 +26,8 @@ public interface UserService extends UserDetailsService {
 
     User findByUserName(final String email);
 
+    User findByUserId(final Long id);
+
     void save(AppUserDTO appUserDTO);
 
     boolean changePassword(final String userName, final String oldPassword, final String newPassword);

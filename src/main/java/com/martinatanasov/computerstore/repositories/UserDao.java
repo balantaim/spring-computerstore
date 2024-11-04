@@ -26,6 +26,8 @@ import java.util.List;
 public interface UserDao {
     User findByUserName(String email);
 
+    User findByUserId(Long id);
+
     Iterable<User> getAllUsers();
 
     List<Shipment> findShipmentsByUserId(Long id);
