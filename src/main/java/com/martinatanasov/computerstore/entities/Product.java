@@ -68,4 +68,10 @@ public class Product {
     @ToString.Exclude
     private Set<Cart> carts = new HashSet<>();
 
+    @OneToMany(mappedBy = "product",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private Set<Gallery> galleries = new HashSet<>();
+
 }
