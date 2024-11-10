@@ -1,4 +1,4 @@
-INSERT INTO computer_store.galleries
+INSERT INTO galleries
 (image_url, product_id)
 VALUES
 ('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495629.jpg', 4),
