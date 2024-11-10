@@ -16,7 +16,9 @@
 package com.martinatanasov.computerstore.util.converter;
 
 
+import com.martinatanasov.computerstore.entities.Gallery;
 import com.martinatanasov.computerstore.entities.Product;
+import com.martinatanasov.computerstore.model.GalleryDTO;
 import com.martinatanasov.computerstore.model.StoreItem;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -61,6 +63,10 @@ public class ProductConverter {
                 String.format("%.2f", product.getPrice()),
                 product.getStock(),
                 product.getImageUrl());
+    }
+
+    public GalleryDTO convertToGalleryItem(final Gallery gallery){
+        return new GalleryDTO(gallery.getId(), gallery.getImageUrl());
     }
 
 }

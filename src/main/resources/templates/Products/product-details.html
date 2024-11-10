@@ -32,26 +32,87 @@
     <div th:replace="~{fragments/breadcrumb :: breadcrumb}"></div>
 
     <div th:if="${product}" class="columns is-gapless is-centered">
-        <div class="column is-mobile-12 is-8 mt-6 mb-2">
 
-            <p>Golqma snimka</p>
-            <p>Galeriq</p>
+        <!-- https://cdnjs.com/libraries/viewerjs -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.css"
+              integrity="sha512-eG8C/4QWvW9MQKJNw2Xzr0KW7IcfBSxljko82RuSs613uOAg/jHEeuez4dfFgto1u6SRI/nXmTr9YPCjs1ozBg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"
+                integrity="sha512-EC3CQ+2OkM+ZKsM1dbFAB6OGEPKRxi6EDRnZW9ys8LghQRAq6cXPUgXCCujmDrXdodGXX9bqaaCRtwj4h4wgSQ=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <div class="column is-mobile-12 is-8 mt-6 mb-2">
+            <!-- MAIN IMAGE-->
+            <div class="container has-text-centered m-3" style="border-radius: 0.75rem;">
+                <figure class="is-centered is-inline-block m-1 is-skeleton">
+                    <img id="prime-image"
+                         style="cursor: pointer;"
+                         width="420px"
+                         th:if="${product.imageUrl}"
+                         th:src="@{${product.imageUrl}}"
+                         th:alt="${product.productName}"/>
+                </figure>
+            </div>
+
+            <!--  GALLERY-->
+            <div th:if="${gallery}" id="images" class="scroll-container-x horizontal-scroll is-flex is-align-items-center ml-4 mr-4">
+                <div th:if="${gallery.size() > 0}"
+                     th:each="img_item : ${gallery}"
+                     class="has-text-centered m-3 is-flex is-justify-content-center is-align-items-center"
+                     style="background-color: white; min-height: 150px; min-width: 150px;">
+                    <figure class="is-centered is-skeleton">
+                        <img th:if="${img_item.imageUrl}"
+                             style="cursor: pointer; object-fit: contain; max-height: 150px;"
+                             width="150px"
+                             th:src="@{${img_item.imageUrl}}"
+                             th:alt="${product.productName}"/>
+                    </figure>
+                </div>
+            </div>
+
+            <script src="/js/image-viewer.js" defer></script>
 
         </div>
 
         <div class="column is-mobile-12 is-4 mt-6 mb-2">
 
-        <div class="box">
+        <div class="box m-3">
             <form action="#" th:action="@{/order-item}" method="POST">
 
                 <div class="has-text-centered">
                     <h1 th:text="${product.productName}" class="is-size-5 text-three-line"></h1>
                 </div>
-                <h6>Cena</h6>
-                <p>Kod za otstupka</p>
+                <!-- PROMO CODE-->
+                <label class="label mt-3">[[#{promo.code}]]</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input class="input is-skeleton"
+                           id="promoCode"
+                           type="text"
+                           name="promoCode"
+                           th:placeholder="#{promo.code.placeholder}">
+                    <!--Left icon-->
+                    <span class="icon is-small is-left">
+                            <i class="fa-solid fa-gift"></i>
+                    </span>
+                    <!--Right icon-->
+                    <span id="errorIconPromoCode" class="icon is-small is-right hidden">
+                            <i class="fas fa-exclamation-triangle"></i>
+                    </span>
+                </div>
+
+
+                <div class="is-6 is-flex is-vcentered mt-2 has-skeleton" style="color: var(--accent);">
+                    <p class="is-size-3 has-text-weight-bold pr-2">[[#{product.price.text}]]</p>
+                    <p class="is-size-3 has-text-weight-bold" th:if="${product.price}" th:text="${product.price}"></p>
+                    <p class="is-size-3 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
+                </div>
 
                 <div class="has-text-centered">
-                    <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">[[#{form.button.buy}]]</button>
+                    <button type="submit"
+                            style="width: 98%;"
+                            class="button is-primary ml-1 mr-1 mb-2 mt-6 is-rounded is-centered is-skeleton"
+                            disabled>[[#{form.button.buy}]]</button>
                 </div>
 
                 <hr>
@@ -65,10 +126,9 @@
     <!-- END COLUMNS-->
 
     <div th:if="${product}">
-        <h1>Pulni harakteristiki</h1>
-        <p>random text</p>
-
-        <p th:text="${product.description}"></p>
+        <h1 class="title pl-5 pr-5 mt-3 is-skeleton">[[#{product.technical.details}]]</h1>
+        <hr>
+        <p class="pl-5 pr-5 is-skeleton" th:text="${product.description}"></p>
     </div>
 
     <!-- Product Not Found-->

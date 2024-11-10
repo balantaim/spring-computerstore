@@ -1,0 +1,25 @@
+INSERT INTO computer_store.galleries
+(image_url, product_id)
+VALUES
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495629.jpg', 4),
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495630.jpg', 4),
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495631.jpg', 4),
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495632.jpg', 4),
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495633.jpg', 4),
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495634.jpg', 4),
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495635.jpg', 4),
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495636.jpg', 4),
+('https://ardes.bg/uploads/original/57-samsung-odyssey-g9-495640.jpg', 4),
+('https://ardes.bg/uploads/original/samsung-ls57cg952nuxen-odyssey-g9-57inch-dwqhd-va-495628.jpg', 4),
+('https://ardes.bg/uploads/original/32-asus-rog-swift-pg32ucdm-541266.jpg', 5),
+('https://ardes.bg/uploads/original/32-asus-rog-swift-pg32ucdm-541267.jpg', 5),
+('https://ardes.bg/uploads/original/32-asus-rog-swift-pg32ucdm-541269.jpg', 5),
+('https://ardes.bg/uploads/original/32-asus-rog-swift-pg32ucdm-541270.jpg', 5),
+('https://ardes.bg/uploads/original/video-karta-pny-geforce-rtx-4060-8gb-gddr6-xlr8-ga-472132.jpg', 6),
+('https://ardes.bg/uploads/original/video-karta-pny-geforce-rtx-4060-8gb-gddr6-xlr8-ga-472133.jpg', 6),
+('https://ardes.bg/uploads/original/video-karta-pny-geforce-rtx-4060-8gb-gddr6-xlr8-ga-472134.jpg', 6),
+('https://ardes.bg/uploads/original/video-karta-asus-tuf-gaming-amd-radeon-rx-7900-xt-432098.jpg', 7),
+('https://ardes.bg/uploads/original/video-karta-asus-tuf-gaming-amd-radeon-rx-7900-xt-432099.jpg', 7),
+('https://ardes.bg/uploads/original/asus-geforce-rtx-4090-24gb-oc-tuf-gaming-413256.jpg', 8),
+('https://ardes.bg/uploads/original/asus-geforce-rtx-4090-24gb-oc-tuf-gaming-413257.jpg', 8),
+('https://ardes.bg/uploads/original/asus-geforce-rtx-4090-24gb-oc-tuf-gaming-413254.jpg', 8);

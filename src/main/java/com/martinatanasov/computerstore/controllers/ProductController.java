@@ -17,6 +17,7 @@ package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.Category;
 import com.martinatanasov.computerstore.entities.Product;
+import com.martinatanasov.computerstore.model.GalleryDTO;
 import com.martinatanasov.computerstore.model.StoreItem;
 import com.martinatanasov.computerstore.services.CategoryServiceImpl;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/Products")
@@ -128,6 +131,14 @@ public class ProductController {
         product.ifPresent(value -> {
             String categoryName = product.get().getCategory().getName();
             model.addAttribute("categoryName", categoryName);
+        });
+
+        product.ifPresent(value -> {
+            Set<GalleryDTO> images = value.getGalleries()
+                    .stream()
+                    .map(productConverter::convertToGalleryItem)
+                    .collect(Collectors.toSet());
+            model.addAttribute("gallery", images);
         });
         return "Products/product-details";
     }
