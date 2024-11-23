@@ -24,12 +24,10 @@ import com.martinatanasov.computerstore.services.ProductServiceImpl;
 import com.martinatanasov.computerstore.util.converter.ProductConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.Set;
@@ -57,17 +55,27 @@ public class ProductController {
         return "Products/products";
     }
 
-    @GetMapping("/cpu")
-    public String cpu(Model model,
-                      @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                      @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                      @RequestParam(required = false, defaultValue = "asc") String sortValue){
-        Page<Product> products = productService.findAllByCategoryId((short) 1, pageNumber, pageSize, sortValue);
+    @GetMapping("/{category}")
+    public String categoryItems(Model model,
+                               @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                               @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+                               @RequestParam(required = false, defaultValue = "asc") String sortValue,
+                               @PathVariable("category") String categoryName){
+        Optional<Category> category = categoryService.getCategoryByName(categoryName);
+        short categoryId;
+        if(category.isEmpty()){
+            return "error/404";
+        } else {
+            categoryId = category.get().getId();
+        }
+        Page<Product> products = productService.findAllByCategoryId(categoryId, pageNumber, pageSize, sortValue);
         if(!products.isEmpty()){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
             if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
-                return "/error";
+                return "error/404";
             }
+            model.addAttribute("categoryName", categoryName);
+
             model.addAttribute("pageNumber", pageNumber);
             model.addAttribute("pageSize", pageSize);
             model.addAttribute("sortValue", sortValue);
@@ -76,54 +84,10 @@ public class ProductController {
             model.addAttribute("totalPages", dtoProducts.getTotalPages());
             model.addAttribute("totalItems", dtoProducts.getTotalElements());
         }
-        return "Products/cpu";
+        return "Products/category-items";
     }
 
-    @GetMapping("/monitors")
-    public String monitors(Model model,
-                           @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                           @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                           @RequestParam(required = false, defaultValue = "asc") String sortValue){
-        Page<Product> products = productService.findAllByCategoryId((short) 2, pageNumber, pageSize, sortValue);
-        if(!products.isEmpty()){
-            Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
-            if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
-                return "/error";
-            }
-            model.addAttribute("pageNumber", pageNumber);
-            model.addAttribute("pageSize", pageSize);
-            model.addAttribute("sortValue", sortValue);
-
-            model.addAttribute("products", dtoProducts);
-            model.addAttribute("totalPages", dtoProducts.getTotalPages());
-            model.addAttribute("totalItems", dtoProducts.getTotalElements());
-        }
-        return "Products/monitors";
-    }
-
-    @GetMapping("/video-cards")
-    public String videoCards(Model model,
-                             @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                             @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                             @RequestParam(required = false, defaultValue = "asc") String sortValue){
-        Page<Product> products = productService.findAllByCategoryId((short) 3, pageNumber, pageSize, sortValue);
-        if(!products.isEmpty()){
-            Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
-            if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
-                return "/error";
-            }
-            model.addAttribute("pageNumber", pageNumber);
-            model.addAttribute("pageSize", pageSize);
-            model.addAttribute("sortValue", sortValue);
-
-            model.addAttribute("products", dtoProducts);
-            model.addAttribute("totalPages", dtoProducts.getTotalPages());
-            model.addAttribute("totalItems", dtoProducts.getTotalElements());
-        }
-        return "Products/video-cards";
-    }
-
-    @GetMapping("/{productId}")
+    @GetMapping("/item/{productId}")
     public String itemReview(@PathVariable(value = "productId") Integer productId,
                              Model model){
         Optional<Product> product = productService.getProductById(productId);
@@ -143,6 +107,10 @@ public class ProductController {
         return "Products/product-details";
     }
 
-
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @PostMapping("/add-stars-vote/{productId}")
+    public String voteForProduct(@PathVariable(value = "productId") Integer productId){
+        return "redirect:/Products/item/" + productId;
+    }
 
 }

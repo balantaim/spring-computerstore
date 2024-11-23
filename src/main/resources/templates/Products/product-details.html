@@ -44,10 +44,10 @@
 
         <div class="column is-mobile-12 is-8 mt-6 mb-2">
             <!-- MAIN IMAGE-->
-            <div class="container has-text-centered m-3" style="border-radius: 0.75rem;">
+            <div class="has-text-centered m-3" style="border-radius: 0.75rem; max-width: 96%;">
                 <figure class="is-centered is-inline-block m-1 is-skeleton">
                     <img id="prime-image"
-                         style="cursor: pointer;"
+                         style="cursor: pointer; max-width: 86%;"
                          width="420px"
                          th:if="${product.imageUrl}"
                          th:src="@{${product.imageUrl}}"
@@ -78,11 +78,13 @@
         <div class="column is-mobile-12 is-4 mt-6 mb-2">
 
         <div class="box m-3">
-            <form action="#" th:action="@{/order-item}" method="POST">
+
+            <form action="#" th:action="@{/Cart-add/{id}(id=${product.id})}" method="GET">
 
                 <div class="has-text-centered">
                     <h1 th:text="${product.productName}" class="is-size-5 text-three-line"></h1>
                 </div>
+
                 <!-- PROMO CODE-->
                 <label class="label mt-3">[[#{promo.code}]]</label>
                 <div class="control has-icons-left has-icons-right">
@@ -101,24 +103,32 @@
                     </span>
                 </div>
 
-
-                <div class="is-6 is-flex is-vcentered mt-2 has-skeleton" style="color: var(--accent);">
-                    <p class="is-size-3 has-text-weight-bold pr-2">[[#{product.price.text}]]</p>
-                    <p class="is-size-3 has-text-weight-bold" th:if="${product.price}" th:text="${product.price}"></p>
-                    <p class="is-size-3 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
+                <div class="is-flex is-vcentered mt-2 has-skeleton" style="color: var(--accent); font-size: 24px;">
+                    <p class="has-text-weight-bold pr-2">[[#{product.price.text}]]</p>
+                    <p class="has-text-weight-bold" th:if="${product.price}" th:text="${product.price}"></p>
+                    <p class="has-text-weight-bold pl-2">[[#{product.currency}]]</p>
                 </div>
 
                 <div class="has-text-centered">
                     <button type="submit"
                             style="width: 98%;"
-                            class="button is-primary ml-1 mr-1 mb-2 mt-6 is-rounded is-centered is-skeleton"
-                            disabled>[[#{form.button.buy}]]</button>
+                            class="button is-primary ml-1 mr-1 mb-2 mt-6 is-rounded is-centered is-skeleton">[[#{form.button.buy}]]</button>
                 </div>
-
-                <hr>
-                <p>Glasuvane (5 start max)</p>
-
             </form>
+
+            <hr>
+
+            <!-- Vote Section -->
+            <div sec:authorize="isAuthenticated()">
+                <form action="#" th:action="@{/Products/add-stars-vote/{id}(id=${product.id})}" method="POST">
+
+                    <div class="has-text-centered">
+                        <button type="submit"
+                                class="button is-primary is-outlined ml-1 mr-1 mb-2 mt-6 is-rounded is-centered is-skeleton">[[#{form.button.vote}]]</button>
+                    </div>
+                </form>
+                <!-- <p>Glasuvane (5 start max)</p>-->
+            </div>
         </div>
 
         </div>
@@ -133,7 +143,7 @@
 
     <!-- Product Not Found-->
     <div th:unless="${product}" class="has-text-centered">
-        <h1  class="is-size-1 has-text-danger">[[#{product.not-found}]]</h1>
+        <h1 class="is-size-1 has-text-danger">[[#{product.not-found}]]</h1>
         <div class="space"></div>
         <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
     </div>

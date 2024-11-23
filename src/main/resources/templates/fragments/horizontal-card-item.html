@@ -19,7 +19,7 @@
         <div class="columns is-gapless vertical-card-item">
 
             <div class="column is-two-fifths">
-                <a th:href="@{/Products/{id}(id=${product.id})}">
+                <a th:href="@{/Products/item/{id}(id=${product.id})}">
                     <figure class="is-3by2 m-1 is-skeleton">
                         <img th:if="${product.imageUrl}" height="150px" width="200px" th:src="@{${product.imageUrl}}" th:alt="${product.description}"/>
                     </figure>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="column">
-                <a th:href="@{/Products/{id}(id=${product.id})}" class="card-link-text">
+                <a th:href="@{/Products/item/{id}(id=${product.id})}" class="card-link-text">
                     <div class="m-1">
                         <h3 th:if="${product.productName}" th:text="${product.productName}" class="text-three-line is-size-3 is-skeleton"></h3>
                         <hr>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="column is-2 is-mobile-1">
-                    <a th:href="@{/Products/{id}(id=${product.id})}"
+                    <a th:href="@{/Products/item/{id}(id=${product.id})}"
                        class="button is-primary is-rounded is-centered is-skeleton">[[#{btn.details}]]</a>
                 </div>
             </div>

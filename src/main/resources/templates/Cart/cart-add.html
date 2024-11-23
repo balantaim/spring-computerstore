@@ -19,41 +19,32 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head th:replace="~{fragments/head :: head(~{::title})}">
-    <title>Video Cards</title>
+    <title>Add to Cart</title>
 </head>
 <body>
 <!-- NAVBAR -->
-<div th:replace="~{fragments/top-navigation-bar :: nav('video-cards')}"></div>
-
+<div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
 
 <!--MAIN Content Start-->
-<div class="main">
+<div class="main container">
     <div class="space"></div>
 
-    <div th:if="${#lists.isEmpty(products)}" class="has-text-centered">
-        <h1  class="is-size-1">[[#{product.not-found}]]</h1>
-        <div class="space"></div>
-        <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
-    </div>
+    <div class="columns is-gapless">
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
-    <div th:unless="${#lists.isEmpty(products)}">
-        <div class="columns is-centered is-gapless mt-6">
-
-            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-
-            <div class="column mr-1 ml-1">
-                <div th:replace="~{fragments/pagination-options :: pagination-options}"></div>
-
-                <div th:replace="~{fragments/horizontal-card-item :: vertical-item}"></div>
-
-                <div th:replace="~{fragments/pagination-nav :: pagination('/Products/video-cards')}"></div>
+        <div class="column is-mobile-8 is-desktop-10">
+            <div th:if="${product}" class="m-2 box">
+                <p th:text="${product.productId}"></p>
+                <p th:text="${product.productName}"></p>
+                <p th:text="${product.producer}"></p>
+                <p th:text="${'stock: ' + product.stock}"></p>
+                <p th:text="${'price: ' + product.price + ' lev'}"></p>
+                <p th:if="${promoCode}" th:text="${promoCode}"></p>
             </div>
-
-            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-
         </div>
-    </div>
 
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+    </div>
 
     <div class="space"></div>
 </div>
@@ -65,3 +56,4 @@
 
 
 </body>
+</html>

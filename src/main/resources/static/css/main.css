@@ -182,19 +182,6 @@
             transition: all 200ms ease-in-out;
             background-color: #eb3443;
         }
-        .scroll-container-x {
-            display: flex;
-            overflow-x: auto;
-            scroll-padding-left: 10px;
-            scroll-padding-right: 10px;
-        }
-        .scroll-container-x::-webkit-scrollbar {
-            height: 8px;
-        }
-        .scroll-container-x::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
         .width-90{
             min-width: 84%;
         }
@@ -280,7 +267,7 @@
             margin: 1em auto;
             margin-left: 0;
         }
-        /*Scroll Horizontal*/
+        /*Scroll Horizontal - breadcrumb*/
         .scroll-x {
             display: flex;
             overflow-x: auto;
@@ -288,10 +275,23 @@
         .scroll-x::-webkit-scrollbar{
             width: 0;
         }
+        /*Scroll Horizontal - Images*/
+        .scroll-container-x {
+             display: flex;
+             overflow-x: auto;
+             scroll-padding-left: 10px;
+             scroll-padding-right: 10px;
+        }
+        .scroll-container-x::-webkit-scrollbar {
+             height: 8px;
+        }
+        .scroll-container-x::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
         .text-hover-underscore:hover{
             text-decoration: underline;
         }
-
 
         @keyframes drop-anim {
           0% {

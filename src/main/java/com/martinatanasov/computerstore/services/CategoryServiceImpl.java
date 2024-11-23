@@ -20,6 +20,8 @@ import com.martinatanasov.computerstore.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CategoryServiceImpl implements CategoryService{
 
@@ -34,6 +36,11 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public Iterable<Category> getAllCategories() {
         return categoryRepository.findAll();
+    }
+
+    @Override
+    public Optional<Category> getCategoryByName(final String name) {
+        return categoryRepository.findCategoryByName(name);
     }
 
 }

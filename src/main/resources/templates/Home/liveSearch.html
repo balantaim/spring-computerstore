@@ -14,7 +14,7 @@
   -->
 
 <span th:if="${products}" th:each="product : ${products}">
-    <a th:href="@{/Products/{id}(id=${product.id})}" class="m-2">
+    <a th:href="@{/Products/item/{id}(id=${product.id})}" class="m-2">
         <div class="columns is-gapless is-centered is-vcentered">
             <div class="column is-1">
                 <figure class="image is-48x48">

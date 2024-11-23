@@ -13,14 +13,16 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.services;
+package com.martinatanasov.computerstore.model;
 
-import com.martinatanasov.computerstore.entities.Category;
+import java.math.BigDecimal;
 
-import java.util.Optional;
-
-public interface CategoryService {
-    Iterable<Category> getAllCategories();
-
-    Optional<Category> getCategoryByName(String name);
+public record CardItemDTO(
+        Integer productId,
+        String productName,
+        String producer,
+        String imageUrl,
+        String category,
+        Integer stock,
+        BigDecimal price) {
 }

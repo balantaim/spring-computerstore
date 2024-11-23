@@ -19,11 +19,11 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head th:replace="~{fragments/head :: head(~{::title})}">
-    <title>Monitors</title>
+    <title>Category items</title>
 </head>
 <body>
 <!-- NAVBAR -->
-<div th:replace="~{fragments/top-navigation-bar :: nav('monitors')}"></div>
+<div th:replace="~{fragments/top-navigation-bar :: nav(${categoryName})}"></div>
 
 
 <!--MAIN Content Start-->
@@ -46,14 +46,13 @@
 
                 <div th:replace="~{fragments/horizontal-card-item :: vertical-item}"></div>
 
-                <div th:replace="~{fragments/pagination-nav :: pagination('/Products/monitors')}"></div>
+                <div th:replace="~{fragments/pagination-nav :: pagination(${'/Products/' + categoryName})}"></div>
             </div>
 
             <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
 
         </div>
     </div>
-
 
     <div class="space"></div>
 </div>
