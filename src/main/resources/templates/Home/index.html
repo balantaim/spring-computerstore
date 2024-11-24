@@ -162,8 +162,14 @@
              th:if="${products}" th:each="product : ${products}">
 
             <div class="card mr-2 ml-2 mb-6" style="max-height: 42%;">
-                <div class="card-image">
-                    <a th:href="@{/Products/{id}(id=${product.id})}">
+                <div class="card-image" style="overflow: hidden;">
+                    <a th:href="@{/Products/item/{id}(id=${product.id})}">
+                        <!-- Badge -->
+                        <div class="custom-badge pb-3 pl-6 pr-6 pt-3"
+                             style="background-color: var(--accent); position: absolute; z-index: 1; right: 0%; color: white; transform: rotate(45deg) translateY(-24px) translateX(32px); opacity: 0.9;">
+                            <p style="font-size: 1.2rem;"><b>[[#{product.new}]]</b></p>
+                        </div>
+                        <!-- Image -->
                         <figure class="image is-skeleton">
                             <img class="custom-image"
                                     th:src="${product.imageUrl}"

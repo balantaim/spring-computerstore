@@ -32,6 +32,7 @@
 
 <ul>
     <li>Brute force protection for Login form (Locks account after three failed logins).</li>
+    <li>Bot detection for automation tools like Selenium and Postman for prod build.</li>
 </ul>
 
 ## Setup the project

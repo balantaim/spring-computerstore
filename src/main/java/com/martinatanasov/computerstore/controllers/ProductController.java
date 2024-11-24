@@ -109,7 +109,11 @@ public class ProductController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/add-stars-vote/{productId}")
-    public String voteForProduct(@PathVariable(value = "productId") Integer productId){
+    public String voteForProduct(@PathVariable(value = "productId") Integer productId,
+                                 @RequestParam(value = "rating", required = false) Double starsVote){
+        if(starsVote != null){
+            System.out.println("\n\tStar vote ->>>> " + starsVote);
+        }
         return "redirect:/Products/item/" + productId;
     }
 
