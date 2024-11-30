@@ -74,4 +74,10 @@ public class Product {
     @ToString.Exclude
     private Set<Gallery> galleries = new HashSet<>();
 
+    @OneToMany(mappedBy = "product",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ToString.Exclude
+    private Set<Review> reviews = new HashSet<>();
+
 }

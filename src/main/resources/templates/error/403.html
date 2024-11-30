@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright 2024 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<!-- data-theme="light" -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<head th:replace="~{fragments/head :: head(~{::title})}">
+    <title>Forbidden 403</title>
+</head>
+<body>
+<!-- NAVBAR -->
+<div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
+
+<!--MAIN Content Start-->
+<div class="main container">
+    <div class="space"></div>
+
+    <div class="container has-text-centered">
+        <h1 class="is-size-1">[[#{page.forbidden}]]</span></h1>
+        <div class="space"></div>
+    </div>
+
+    <div class="space"></div>
+</div>
+<!--MAIN Content End-->
+
+
+<!--FOOTER-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+</html>

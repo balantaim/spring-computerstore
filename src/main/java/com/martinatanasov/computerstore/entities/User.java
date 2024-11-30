@@ -101,6 +101,13 @@ public class User {
     @ToString.Exclude
     private Set<Payment> payments = new HashSet<>();
 
+    //Added Reviews oneToMany
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ToString.Exclude
+    private Set<Review> reviews = new HashSet<>();
+
     public User(String email, String firstName, String lastName, String password, Boolean enabled, Boolean verifiedProfile) {
         this.email = email;
         this.firstName = firstName;

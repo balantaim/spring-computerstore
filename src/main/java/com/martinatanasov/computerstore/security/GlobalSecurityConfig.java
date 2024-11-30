@@ -76,7 +76,7 @@ public class GlobalSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**",
                                 "/other/**", "/page/actuator/**", "/Products/**",
                                 "/About", "/Search", "/Live-search",
-                                "/robots.txt", "/error/**").permitAll()
+                                "/robots.txt", "/error/**", "/403").permitAll()
                         .requestMatchers("/", "/register/**").permitAll()
                         .anyRequest().authenticated()
                 )

@@ -25,14 +25,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 @Profile(value = "prod")
 @Component
 public class BotDetectionFilter extends OncePerRequestFilter {
 
-    private static final List<String> BLOCKED_USER_AGENTS = List.of(
-            "selenium", "webdriver", "phantomjs", "playwright", "cypress", "puppeteer", "postman", "insomnia"
+    private static final Set<String> BLOCKED_USER_AGENTS = Set.of(
+            "electron", "webdriver", "phantomjs", "puppeteer", "postman", "insomnia"
     );
 
     @Override

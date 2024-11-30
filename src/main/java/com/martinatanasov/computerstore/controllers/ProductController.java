@@ -91,6 +91,9 @@ public class ProductController {
     public String itemReview(@PathVariable(value = "productId") Integer productId,
                              Model model){
         Optional<Product> product = productService.getProductById(productId);
+        if(product.isEmpty()){
+            return "error/404";
+        }
         product.ifPresent(value -> model.addAttribute("product", productConverter.convertToSingleItem(value)));
         product.ifPresent(value -> {
             String categoryName = product.get().getCategory().getName();
