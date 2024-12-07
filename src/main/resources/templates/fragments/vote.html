@@ -14,51 +14,81 @@
   -->
 
 <div th:fragment="vote">
-    <div sec:authorize="hasRole('CUSTOMER')">
-        <form action="#" th:action="@{/Products/add-stars-vote/{id}(id=${product.id})}" method="POST">
 
+    <link rel="stylesheet" href="/css/stars.css"/>
+
+    <div th:if="${reviews}">
+
+        <!-- User is Authenticated and voted -->
+        <div th:if="${reviews.isAlreadyVoted and #authentication.principal != null and #authentication.principal != 'anonymousUser'}">
             <div class="star-container">
                 <div class="rating-wrap">
-                    <h2 class="pb-2">[[#{vote.star.header}]]</h2>
-                    <div class="center pb-2">
-                        <fieldset class="rating">
-                            <input type="radio" id="star5" name="rating" value="5"/><label for="star5" class="full" th:title="#{vote.star.five}"></label>
-                            <input type="radio" id="star4.5" name="rating" value="4.5"/><label for="star4.5" class="half"></label>
-                            <input type="radio" id="star4" name="rating" value="4"/><label for="star4" class="full" th:title="#{vote.star.four}"></label>
-                            <input type="radio" id="star3.5" name="rating" value="3.5"/><label for="star3.5" class="half"></label>
-                            <input type="radio" id="star3" name="rating" value="3"/><label for="star3" class="full" th:title="#{vote.star.three}"></label>
-                            <input type="radio" id="star2.5" name="rating" value="2.5"/><label for="star2.5" class="half"></label>
-                            <input type="radio" id="star2" name="rating" value="2"/><label for="star2" class="full" th:title="#{vote.star.two}"></label>
-                            <input type="radio" id="star1.5" name="rating" value="1.5"/><label for="star1.5" class="half"></label>
-                            <input type="radio" id="star1" name="rating" value="1"/><label for="star1" class="full" th:title="#{vote.star.one}"></label>
-                            <input type="radio" id="star0.5" name="rating" value="0.5"/><label for="star0.5" class="half"></label>
-                        </fieldset>
-                    </div>
 
-                    <h4 id="rating-value" class="pt-2">
-                        <span id="vote-number"></span> <span id="vote-suffix" class="is-hidden" th:text="#{vote.star.count}"></span>
-                    </h4>
+                    <div th:replace="~{fragments/rating-fieldset :: rating-fieldset}"></div>
+                    <div th:replace="~{fragments/rating-value :: rating-value('true')}"></div>
+
                 </div>
             </div>
 
-            <div class="has-text-centered">
-                <button type="submit"
-                        class="button is-primary is-outlined ml-1 mr-1 mb-2 mt-4 is-rounded is-centered is-skeleton">
-                    [[#{form.button.vote}]]
-                </button>
+            <span th:replace="~{fragments/star-rating-calculation-js :: star-rating-calculation-js}"></span>
+        </div>
+
+        <!-- User is Authenticated and not voted -->
+        <div th:if="${reviews.isAlreadyVoted == false and #authentication.principal != null and #authentication.principal != 'anonymousUser'}">
+
+            <div sec:authorize="hasRole('CUSTOMER')">
+                <form action="#" th:action="@{/Products/add-stars-vote/{id}(id=${product.id})}" method="POST">
+
+                    <div class="star-container">
+                        <div class="rating-wrap">
+
+                            <div th:replace="~{fragments/rating-fieldset :: rating-fieldset}"></div>
+                            <div th:replace="~{fragments/rating-value :: rating-value('false')}"></div>
+
+                        </div>
+                    </div>
+
+                    <div class="has-text-centered">
+                        <button type="submit"
+                                class="button is-primary is-outlined ml-1 mr-1 mb-2 mt-4 is-rounded is-centered is-skeleton">
+                            [[#{form.button.vote}]]
+                        </button>
+                    </div>
+
+                    <script src="/js/star-rating.js"></script>
+
+                </form>
             </div>
 
-            <script src="/js/star-rating.js"></script>
-            <link rel="stylesheet" href="/css/stars.css"/>
+        </div>
 
-            <script>
-                //Check the rating
-                document.querySelector('input[name="rating"][value="2.5"]').checked = true;
-                //Disable the field set
-                //document.querySelector('.rating').disabled = true;
-            </script>
+        <!-- Not authenticated User and have reviews -->
+        <div th:if="${#authentication.principal == null or #authentication.principal == 'anonymousUser'}">
+            <div class="star-container">
+                <div class="rating-wrap">
 
-        </form>
+                    <div th:replace="~{fragments/rating-fieldset :: rating-fieldset}"></div>
+                    <div th:replace="~{fragments/rating-value :: rating-value('true')}"></div>
+
+                </div>
+            </div>
+
+            <span th:replace="~{fragments/star-rating-calculation-js :: star-rating-calculation-js}"></span>
+        </div>
+
+    </div>
+
+    <!-- Not authenticated User and no reviews -->
+    <div th:unless="${reviews}" style="text-align: center;">
+        <h6 class="mb-3">[[#{vote.no.rating}]]</h6>
+        <div style="min-height: 36px; user-select: none;">
+            <i class="fa-solid fa-star fa-lg" style="padding: 2px;"></i>
+            <i class="fa-solid fa-star fa-lg" style="padding: 2px;"></i>
+            <i class="fa-solid fa-star fa-lg" style="padding: 2px;"></i>
+            <i class="fa-solid fa-star fa-lg" style="padding: 2px;"></i>
+            <i class="fa-solid fa-star fa-lg" style="padding: 2px;"></i>
+            <!-- <p th:text="${reviews.reviewsCount + ''}"></p>-->
+        </div>
     </div>
 
 </div>

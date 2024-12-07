@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.security;
 
 import com.martinatanasov.computerstore.services.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableMethodSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GlobalSecurityConfig {
 
     //Get Active Profile

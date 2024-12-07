@@ -1,0 +1,60 @@
+<!--
+  ~ Copyright 2024 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<span th:fragment="star-rating-calculation-js">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        //Get vote value
+        const averageVote = /*[[${ reviews.averageVote }]]*/ 0.0;
+        let targetVote = 0.0;
+
+        if (averageVote < 1) {
+            targetVote = 0.5;
+        } else if (averageVote < 1.5) {
+            targetVote = 1.0;
+        } else if (averageVote < 2.0) {
+            targetVote = 1.5;
+        } else if (averageVote < 2.5) {
+            targetVote = 2.0;
+        } else if (averageVote < 3.0) {
+            targetVote = 2.5;
+        } else if (averageVote < 3.5) {
+            targetVote = 3.0;
+        } else if (averageVote < 4.0) {
+            targetVote = 3.5;
+        } else if (averageVote < 4.5) {
+            targetVote = 4.0;
+        } else if (averageVote < 5.0) {
+            targetVote = 4.5;
+        } else {
+            targetVote = 5.0;
+        }
+
+        //Check the rating
+        document.querySelector(`input[name="rating"][value="${targetVote}"]`).checked = true;
+
+        const showValue = document.querySelector('#vote-number');
+        const textSuffix = document.querySelector('#vote-suffix');
+
+        showValue.textContent = `${averageVote}`;
+        if (textSuffix.classList.contains('is-hidden')) {
+            textSuffix.classList.remove('is-hidden');
+        }
+        //Disable the field set
+        document.querySelector('.rating').disabled = true;
+        /*]]>*/
+    </script>
+</span>

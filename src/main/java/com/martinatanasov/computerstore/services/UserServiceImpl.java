@@ -21,6 +21,7 @@ import com.martinatanasov.computerstore.model.AppUserDTO;
 import com.martinatanasov.computerstore.model.UserInfoDTO;
 import com.martinatanasov.computerstore.repositories.RoleDao;
 import com.martinatanasov.computerstore.repositories.UserDao;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,25 +33,22 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private final UserDao userDao;
 
+    @Autowired
     private final RoleDao roleDao;
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
     @Autowired
-    public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder passwordEncoder) {
-        this.userDao = userDao;
-        this.roleDao = roleDao;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User findByUserName(final String email) {
-        // check the database if the user already exists
+        // Check the database if the user already exists
         return userDao.findByUserName(email);
     }
 
@@ -64,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
 
-        // assign user details to the user object
+        //Assign user details to the user object
         user.setEmail(appUserDTO.getEmail());
         user.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
         user.setFirstName(appUserDTO.getFirstName());
@@ -80,10 +78,10 @@ public class UserServiceImpl implements UserService {
         user.setModifyDate(timestamp);
         user.setLockDate(timestamp);
 
-        // give user default role of "employee"
+        //Give user default role of "employee"
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
 
-        // save user in the database
+        //Save user in the database
         userDao.save(user);
     }
 

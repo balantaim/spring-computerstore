@@ -18,14 +18,14 @@ package com.martinatanasov.computerstore.controllers;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.UserInfoDTO;
 import com.martinatanasov.computerstore.services.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/Administration")
 public class AdministrationController {

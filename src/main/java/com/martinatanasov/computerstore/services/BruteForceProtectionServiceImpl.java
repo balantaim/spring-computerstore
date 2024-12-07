@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.services;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.UserFailedAttempts;
 import com.martinatanasov.computerstore.repositories.UserDao;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,18 +26,15 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 
 
+@RequiredArgsConstructor
 @Service("bruteForceProtectionService")
 public class BruteForceProtectionServiceImpl implements BruteForceProtectionService {
 
     @Value("${security.max.login.attempts}")
     private Byte maxFailedLogins;
 
-    private final UserDao userDao;
-
     @Autowired
-    public BruteForceProtectionServiceImpl(UserDao userDao){
-        this.userDao = userDao;
-    }
+    private final UserDao userDao;
 
     @Override
     public void registerLoginFailure(final String username) {

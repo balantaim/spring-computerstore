@@ -18,13 +18,17 @@ package com.martinatanasov.computerstore.controllers;
 import com.martinatanasov.computerstore.entities.Category;
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.GalleryDTO;
+import com.martinatanasov.computerstore.model.ProductReviewsDTO;
 import com.martinatanasov.computerstore.model.StoreItem;
 import com.martinatanasov.computerstore.services.CategoryServiceImpl;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
+import com.martinatanasov.computerstore.services.ReviewServiceImpl;
 import com.martinatanasov.computerstore.util.converter.ProductConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,20 +37,18 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
+
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/Products")
 public class ProductController {
 
     private final CategoryServiceImpl categoryService;
     private final ProductServiceImpl productService;
+    private final ReviewServiceImpl reviewService;
     private final ProductConverter productConverter;
-
-    @Autowired
-    ProductController(CategoryServiceImpl categoryService, ProductServiceImpl productService, ProductConverter productConverter){
-        this.categoryService = categoryService;
-        this.productService = productService;
-        this.productConverter = productConverter;
-    }
 
     @GetMapping("")
     public String products(Model model){
@@ -64,7 +66,7 @@ public class ProductController {
         Optional<Category> category = categoryService.getCategoryByName(categoryName);
         short categoryId;
         if(category.isEmpty()){
-            return "error/404";
+            return NOT_FOUND_PAGE;
         } else {
             categoryId = category.get().getId();
         }
@@ -72,7 +74,7 @@ public class ProductController {
         if(!products.isEmpty()){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
             if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
-                return "error/404";
+                return NOT_FOUND_PAGE;
             }
             model.addAttribute("categoryName", categoryName);
 
@@ -92,7 +94,7 @@ public class ProductController {
                              Model model){
         Optional<Product> product = productService.getProductById(productId);
         if(product.isEmpty()){
-            return "error/404";
+            return NOT_FOUND_PAGE;
         }
         product.ifPresent(value -> model.addAttribute("product", productConverter.convertToSingleItem(value)));
         product.ifPresent(value -> {
@@ -105,8 +107,27 @@ public class ProductController {
                     .stream()
                     .map(productConverter::convertToGalleryItem)
                     .collect(Collectors.toSet());
-            model.addAttribute("gallery", images);
+            if(!images.isEmpty()){
+                model.addAttribute("gallery", images);
+            }
         });
+
+        product.ifPresent(value -> {
+            String username = getUsernameFromAuthentication();
+            ProductReviewsDTO reviews;
+            if(username.equals("anonymousUser") || username == null){
+                reviews = reviewService.getProductAverageRating(product.get());
+                if(reviews != null && reviews.reviewsCount() > 0){
+                    model.addAttribute("reviews", reviews);
+                }
+            } else {
+                reviews = reviewService.getProductAverageRating(username, product.get());
+                if(reviews != null){
+                    model.addAttribute("reviews", reviews);
+                }
+            }
+        });
+
         return "Products/product-details";
     }
 
@@ -115,9 +136,21 @@ public class ProductController {
     public String voteForProduct(@PathVariable(value = "productId") Integer productId,
                                  @RequestParam(value = "rating", required = false) Double starsVote){
         if(starsVote != null){
-            System.out.println("\n\tStar vote ->>>> " + starsVote);
+            String username = getUsernameFromAuthentication();
+            if(username.equals("anonymousUser") || username == null){
+                return GLOBAL_ERROR_PAGE;
+            }
+            reviewService.voteForProduct(username, productId, starsVote);
         }
         return "redirect:/Products/item/" + productId;
+    }
+
+    private String getUsernameFromAuthentication(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        return null;
     }
 
 }

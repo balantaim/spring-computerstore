@@ -24,21 +24,19 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private final EntityManager entityManager;
-
     @Autowired
-    UserDaoImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private final EntityManager entityManager;
 
     @Override
     public User findByUserName(final String email) {

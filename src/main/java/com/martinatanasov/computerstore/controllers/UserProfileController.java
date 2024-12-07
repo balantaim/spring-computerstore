@@ -23,7 +23,7 @@ import com.martinatanasov.computerstore.model.ProfilePassword;
 import com.martinatanasov.computerstore.services.ProfileServiceImpl;
 import com.martinatanasov.computerstore.services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -39,18 +39,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/Profile")
 public class UserProfileController {
 
     private final ProfileServiceImpl profileService;
     private final UserService userService;
-
-    @Autowired
-    public UserProfileController(ProfileServiceImpl profileService, UserService userService){
-        this.profileService = profileService;
-        this.userService = userService;
-    }
 
     @GetMapping("")
     public String profile(Model model){
@@ -66,7 +61,7 @@ public class UserProfileController {
 
     @GetMapping("/address")
     public String addressInfo(Model model){
-        //Get user name/email
+        //Get username/email
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName(); // Get logged-in username
         User user = profileService.getUserData(userName);

@@ -13,19 +13,11 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.controllers;
+package com.martinatanasov.computerstore.model;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-@Controller
-@PreAuthorize("hasRole('MANAGER')")
-public class ManagerController {
-
-    @GetMapping("/Management")
-    public String manager(Model model){
-        return "Management/management";
-    }
+public record ProductReviewsDTO(
+        Double averageVote,
+        Integer reviewsCount,
+        Boolean isAlreadyVoted
+) {
 }

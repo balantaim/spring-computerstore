@@ -26,7 +26,6 @@ import java.util.Locale;
 public class LocaleResolverConfig {
 
     @Bean("MyLocaleResolver")
-    //@Bean
     public LocaleResolver localeResolver(){
         AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
         localeResolver.setDefaultLocale(Locale.ENGLISH);

@@ -17,18 +17,16 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.repositories.UserDao;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class ProfileServiceImpl implements ProfileService{
 
-    private final UserDao userDao;
-
     @Autowired
-    public ProfileServiceImpl(UserDao userDao){
-        this.userDao = userDao;
-    }
+    private final UserDao userDao;
 
     @Override
     public User getUserData(String userName){

@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
+
 @PreAuthorize("hasRole('CUSTOMER')")
 @RequiredArgsConstructor
 @Controller
@@ -63,7 +65,7 @@ public class CartItemsController {
             }
             return "Cart/cart-add";
         }
-        return "error/404";
+        return NOT_FOUND_PAGE;
     }
 
 

@@ -16,14 +16,13 @@
 package com.martinatanasov.computerstore.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+@Builder
 @Entity
 @Table(name = "reviews")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString

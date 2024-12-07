@@ -23,14 +23,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CustomErrorController implements ErrorController {
 
+    public static final String NOT_FOUND_PAGE = "error/404";
+    public static final String GLOBAL_ERROR_PAGE = "error/global-error";
+
     @GetMapping("/error")
     public String handleError() {
-        return "error/global-error";
+        return GLOBAL_ERROR_PAGE;
     }
 
     @GetMapping("/403")
     public String forbiddenError() {
         return "error/403";
+    }
+
+    //Add request mapping for access denied - 401
+    @GetMapping("/access-denied")
+    public String showAccessDenied(){
+        return "error/access-denied";
     }
 
 }

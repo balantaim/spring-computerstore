@@ -17,14 +17,15 @@ package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.services.CategoryServiceImpl;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
+import com.martinatanasov.computerstore.services.ReviewServiceImpl;
 import com.martinatanasov.computerstore.util.converter.ProductConverter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,13 +40,16 @@ class ProductControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private CategoryServiceImpl categoryService;
 
-    @MockBean
+    @MockitoBean
     private ProductServiceImpl productService;
 
-    @MockBean
+    @MockitoBean
+    private ReviewServiceImpl reviewService;
+
+    @MockitoBean
     private ProductConverter productConverter;
 
     @Test

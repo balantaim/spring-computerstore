@@ -21,6 +21,4 @@ public interface BruteForceProtectionService {
 
     void resetLoginFailureCounter(final String username);
 
-//    boolean isBruteForceAttack(final String username);
-
 }

@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
+
 @Controller
 public class HomeController {
 
@@ -68,7 +70,7 @@ public class HomeController {
         if(products != null){
             Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
             if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
-                return "/error";
+                return GLOBAL_ERROR_PAGE;
             }
             model.addAttribute("keyword", keyword);
             model.addAttribute("pageNumber", pageNumber);

@@ -20,9 +20,8 @@
 	margin: auto;
 }
 
-
 #rating-value{
-	width: 110px;
+	width: auto;
 	min-height: 42px;
 	margin: 40px auto 0;
 	padding: 10px 5px;
@@ -54,7 +53,6 @@
 	position: absolute;
 	cursor: pointer;
 }
-
 
 .rating > label{
 	color: #ddd;

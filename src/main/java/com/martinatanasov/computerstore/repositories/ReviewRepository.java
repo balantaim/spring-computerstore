@@ -13,19 +13,22 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.controllers;
+package com.martinatanasov.computerstore.repositories;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.martinatanasov.computerstore.entities.Product;
+import com.martinatanasov.computerstore.entities.Review;
+import com.martinatanasov.computerstore.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@Controller
-@PreAuthorize("hasRole('MANAGER')")
-public class ManagerController {
+import java.util.Optional;
+import java.util.Set;
 
-    @GetMapping("/Management")
-    public String manager(Model model){
-        return "Management/management";
-    }
+@Repository
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+
+    Optional<Review> findByUserAndProduct(User user, Product product);
+
+    Set<Review> findByProduct(Product product);
+
 }

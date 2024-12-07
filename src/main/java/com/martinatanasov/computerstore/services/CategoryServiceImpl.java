@@ -17,20 +17,18 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.Category;
 import com.martinatanasov.computerstore.repositories.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class CategoryServiceImpl implements CategoryService{
 
-    private final CategoryRepository categoryRepository;
-
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private final CategoryRepository categoryRepository;
 
     // Example method to retrieve all categories
     @Override
