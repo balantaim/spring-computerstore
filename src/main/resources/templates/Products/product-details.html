@@ -146,6 +146,10 @@
 </div>
 <!--MAIN Content End-->
 
+<!--Show toast status notification-->
+<span th:if="${vote}">
+    <span th:replace="~{fragments/notification :: notification('success', #{product.vote.added})}"></span>
+</span>
 
 <!--FOOTER-->
 <div th:replace="~{fragments/footer :: footer}"></div>

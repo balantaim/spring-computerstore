@@ -24,6 +24,6 @@ public interface ReviewService {
 
     ProductReviewsDTO getProductAverageRating(Product product);
 
-    void voteForProduct(String username, Integer productId, Double vote);
+    boolean voteForProduct(String username, Integer productId, Double vote);
 
 }

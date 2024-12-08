@@ -32,6 +32,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 import java.util.Set;
@@ -91,6 +92,7 @@ public class ProductController {
 
     @GetMapping("/item/{productId}")
     public String itemReview(@PathVariable(value = "productId") Integer productId,
+                             @RequestParam(required = false, defaultValue = "false") Boolean vote,
                              Model model){
         Optional<Product> product = productService.getProductById(productId);
         if(product.isEmpty()){
@@ -128,20 +130,27 @@ public class ProductController {
             }
         });
 
+        if(vote != null){
+            model.addAttribute("vote", vote);
+        }
+
         return "Products/product-details";
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/add-stars-vote/{productId}")
     public String voteForProduct(@PathVariable(value = "productId") Integer productId,
-                                 @RequestParam(value = "rating", required = false) Double starsVote){
+                                 @RequestParam(value = "rating", required = false) Double starsVote,
+                                 RedirectAttributes redirectAttributes){
+        boolean isSaved = false;
         if(starsVote != null){
             String username = getUsernameFromAuthentication();
             if(username.equals("anonymousUser") || username == null){
                 return GLOBAL_ERROR_PAGE;
             }
-            reviewService.voteForProduct(username, productId, starsVote);
+            isSaved = reviewService.voteForProduct(username, productId, starsVote);
         }
+        redirectAttributes.addAttribute("vote", isSaved);
         return "redirect:/Products/item/" + productId;
     }
 

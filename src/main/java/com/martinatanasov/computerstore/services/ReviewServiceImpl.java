@@ -72,11 +72,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         //Get average vote rating if there are reviews or set 0.0
-        Double averageVote = reviews
-                .stream()
-                .mapToDouble(Review::getVote)
-                .average()
-                .orElse(0.0);
+        final Double averageVote = formatAverageVote(reviews);
 
         return new ProductReviewsDTO(averageVote, reviews.size(), isAlreadyVoted.get());
     }
@@ -85,26 +81,38 @@ public class ReviewServiceImpl implements ReviewService {
     public ProductReviewsDTO getProductAverageRating(final Product product) {
         Set<Review> reviews = reviewRepository.findByProduct(product);
 
-        Double averageVote = reviews.stream()
-                .mapToDouble(Review::getVote)
-                .average()
-                .orElse(0.0);
+        final Double averageVote = formatAverageVote(reviews);
 
         return new ProductReviewsDTO(averageVote, reviews.size(), false);
     }
 
     @Override
-    public void voteForProduct(final String username, final Integer productId, final Double vote) {
+    public boolean voteForProduct(final String username, final Integer productId, final Double vote) {
         User user = userRepository.findByUserName(username);
         Optional<Product> product = productRepository.findProductById(productId);
         if (user != null && product.isPresent() && vote != null) {
-            Review review = Review.builder()
-                    .id(0L)
-                    .product(product.get())
-                    .user(user)
-                    .vote(vote)
-                    .build();
-            reviewRepository.save(review);
+            //Check if user is already voted
+            Optional<Review> getUserVote = reviewRepository.findByUserAndProduct(user, product.get());
+            if(getUserVote.isEmpty()){
+                Review review = Review.builder()
+                        .product(product.get())
+                        .user(user)
+                        .vote(vote)
+                        .build();
+                //Save the new review
+                reviewRepository.save(review);
+                return true;
+            }
         }
+        return false;
     }
+
+    private double formatAverageVote(Set<Review> reviews){
+        double vote = reviews.stream()
+                .mapToDouble(Review::getVote)
+                .average()
+                .orElse(0.0);
+        return Math.floor(vote * 100) / 100;
+    }
+
 }
