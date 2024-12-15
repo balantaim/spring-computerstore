@@ -28,6 +28,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 import java.util.Arrays;
 
@@ -80,6 +81,14 @@ public class GlobalSecurityConfig {
                         .requestMatchers("/", "/register/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .headers(headers -> headers
+                        //Block XSS attacks
+                        .xssProtection(xxs -> xxs.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                        //Block form data from unknown origin
+                        //If you want to use script inside the body use 'unsafe-inline', this will add you a new vulnerability
+                        .contentSecurityPolicy(contentSecurityPolicyConfig -> contentSecurityPolicyConfig
+                                .policyDirectives("style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; form-action 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com"))
+                )
                 .formLogin(form -> form
                         //Redirect to login form if no authorisation
                         .loginPage("/Login")
@@ -102,10 +111,6 @@ public class GlobalSecurityConfig {
             //Disable Cross Site Request Forgery (CSRF)
             http.csrf(csrf -> csrf.disable());
         }
-//        else {
-//            //Using the CookieCsrfTokenRepository
-//            //http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
-//        }
 
         return http.build();
     }

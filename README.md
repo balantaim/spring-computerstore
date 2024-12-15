@@ -33,6 +33,8 @@
 <ul>
     <li>Brute force protection for Login form (Locks account after three failed logins).</li>
     <li>Bot detection for automation tools like Postman (prod build).</li>
+    <li>Added Content Security Policy (CSP) protection by adding specific response header.</li>
+    <li>Enabled XSS protection.</li>
 </ul>
 
 ## Setup the project
