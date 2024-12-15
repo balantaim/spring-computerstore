@@ -87,7 +87,18 @@ public class GlobalSecurityConfig {
                         //Block form data from unknown origin
                         //If you want to use script inside the body use 'unsafe-inline', this will add you a new vulnerability
                         .contentSecurityPolicy(contentSecurityPolicyConfig -> contentSecurityPolicyConfig
-                                .policyDirectives("style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; form-action 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com"))
+                                .policyDirectives("default-src 'none'; " +
+                                        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                                        "form-action 'self'; " +
+                                        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                                        "connect-src 'self'; " +
+                                        "img-src 'self' https://img.icons8.com https://ardes.bg; " +
+                                        "manifest-src 'self'; " +
+                                        "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +
+                                        "base-uri 'self'; " +
+                                        "child-src 'none'; " +
+                                        "frame-ancestors 'none'; " +
+                                        "upgrade-insecure-requests"))
                 )
                 .formLogin(form -> form
                         //Redirect to login form if no authorisation
