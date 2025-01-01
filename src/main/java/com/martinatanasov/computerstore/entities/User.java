@@ -67,7 +67,7 @@ public class User {
     @Column(name = "verified_profile")
     private Boolean verifiedProfile;
 
-    @Column(name = "creation_date")
+    @Column(name = "creation_date", updatable = false)
     private Timestamp creationDate;
 
     @Column(name = "modify_date")

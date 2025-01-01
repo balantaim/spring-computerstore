@@ -92,13 +92,12 @@ public class GlobalSecurityConfig {
                                         "form-action 'self'; " +
                                         "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
                                         "connect-src 'self'; " +
-                                        "img-src 'self' https://img.icons8.com https://ardes.bg; " +
+                                        "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +
                                         "manifest-src 'self'; " +
                                         "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +
                                         "base-uri 'self'; " +
                                         "child-src 'none'; " +
-                                        "frame-ancestors 'none'; " +
-                                        "upgrade-insecure-requests"))
+                                        "frame-ancestors 'none'"))
                 )
                 .formLogin(form -> form
                         //Redirect to login form if no authorisation
