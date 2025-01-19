@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,33 +19,41 @@ import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.CardItemDTO;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
-@PreAuthorize("hasRole('CUSTOMER')")
-@RequiredArgsConstructor
 @Controller
+@PreAuthorize("hasRole('CUSTOMER')")
+@RequestMapping("/Cart")
+@RequiredArgsConstructor
 public class CartItemsController {
 
     private final ProductServiceImpl productService;
 
-    @GetMapping("/Cart-items")
+    @Value("${store.product.purchase.limit}")
+    private Integer PURCHASE_LIMIT_COUNT;
+
+    @GetMapping("/cart-items")
     public String cartItems(){
         return "Cart/cart-items";
     }
 
-    @GetMapping("/Cart-add/{itemId}")
+    @PostMapping("")
     public String addToCard(Model model,
                             @RequestParam(value = "promoCode", required = false) String promoCode,
-                            @PathVariable("itemId") Integer itemId){
+                            @RequestParam(value = "itemId") Integer itemId){
+        //Check if the product ID is valid
+        if(itemId == null){
+            return GLOBAL_ERROR_PAGE;
+        }
         Optional<Product> product = productService.getProductById(itemId);
         if (product.isPresent()){
             CardItemDTO cardItemDTO = new CardItemDTO(
@@ -53,6 +61,7 @@ public class CartItemsController {
                     product.get().getProductName(),
                     product.get().getProducer(),
                     product.get().getImageUrl(),
+                    product.get().getDescription(),
                     product.get().getCategory().getName(),
                     product.get().getStock(),
                     product.get().getPrice()
@@ -67,6 +76,5 @@ public class CartItemsController {
         }
         return NOT_FOUND_PAGE;
     }
-
 
 }

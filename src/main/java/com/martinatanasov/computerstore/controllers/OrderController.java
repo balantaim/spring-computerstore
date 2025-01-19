@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,13 +18,21 @@ package com.martinatanasov.computerstore.controllers;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/Orders")
+@PreAuthorize("hasRole('CUSTOMER')")
 public class OrderController {
 
-    @GetMapping("/Orders")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("")
     public String orders(){
         return "Orders/orders";
     }
+
+//    @GetMapping("/order-item")
+//    public String orderItems(){
+//        return "";
+//    }
+
 }

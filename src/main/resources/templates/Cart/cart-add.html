@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -30,20 +30,56 @@
     <div class="space"></div>
 
     <div class="columns is-gapless">
-        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-1"></div>
 
         <div class="column is-mobile-8 is-desktop-10">
-            <div th:if="${product}" class="m-2 box">
-                <p th:text="${product.productId}"></p>
-                <p th:text="${product.productName}"></p>
-                <p th:text="${product.producer}"></p>
-                <p th:text="${'stock: ' + product.stock}"></p>
-                <p th:text="${'price: ' + product.price + ' lev'}"></p>
-                <p th:if="${promoCode}" th:text="${promoCode}"></p>
+
+            <div th:if="${product}" class="m-2">
+
+                <div th:if="${product.stock > 0}" class="box">
+
+<!--                    todo fragment for items-->
+                    <div class="columns is-gapless is-vcentered">
+                        <div class="column">
+                            <figure class="image is-skeleton">
+                                <img class="custom-image"
+                                     style="object-fit: contain; object-position: center;"
+                                     th:src="${product.imageUrl}"
+                                     th:alt="${product.description}"/>
+                            </figure>
+                        </div>
+
+                        <div class="column ml-5">
+                            <p th:text="${product.productId}"></p>
+                            <p th:text="${product.productName}"></p>
+                            <p th:text="${product.producer}"></p>
+                            <p th:text="${'stock: ' + product.stock}"></p>
+                            <p th:text="${'price: ' + product.price + ' lev'}"></p>
+                            <p th:if="${promoCode}" th:text="${promoCode}"></p>
+                        </div>
+
+                        <div class="column has-text-centered ml-5">
+                            <input type="number" name="" value="1"></input>
+                        </div>
+                    </div>
+
+                </div>
+                <div th:unless="${product.stock > 0}" class="container has-text-centered">
+                    <h1 class="is-size-1">[[#{product.zero.stock}]]</span></h1>
+                    <div class="space"></div>
+                    <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+                </div>
+
             </div>
+            <div th:unless="${product}" class="container has-text-centered">
+                <h1 class="is-size-1">[[#{page.not-found}]]</span></h1>
+                <div class="space"></div>
+                <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+            </div>
+
         </div>
 
-        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-1"></div>
     </div>
 
     <div class="space"></div>
