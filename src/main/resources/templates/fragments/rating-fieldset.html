@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -15,7 +15,7 @@
 
 <div th:fragment="rating-fieldset">
 
-    <h2 class="pb-2">[[#{vote.star.header}]]</h2>
+    <h2 class="pb-2 is-skeleton">[[#{vote.star.header}]]</h2>
     <div class="center pb-2">
         <fieldset class="rating">
             <input type="radio" id="star5" name="rating" value="5"/><label for="star5" class="full" th:title="#{vote.star.five}"></label>

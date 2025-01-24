@@ -24,11 +24,10 @@ import com.martinatanasov.computerstore.services.CategoryServiceImpl;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
 import com.martinatanasov.computerstore.services.ReviewServiceImpl;
 import com.martinatanasov.computerstore.util.converter.ProductConverter;
+import com.martinatanasov.computerstore.util.converter.UserAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +49,7 @@ public class ProductController {
     private final ProductServiceImpl productService;
     private final ReviewServiceImpl reviewService;
     private final ProductConverter productConverter;
+    private final UserAuthentication userAuthentication;
 
     @GetMapping("")
     public String products(Model model){
@@ -115,7 +115,7 @@ public class ProductController {
         });
 
         product.ifPresent(value -> {
-            String username = getUsernameFromAuthentication();
+            String username = userAuthentication.getUsernameFromAuthentication();
             ProductReviewsDTO reviews;
             if(username.equals("anonymousUser") || username == null){
                 reviews = reviewService.getProductAverageRating(product.get());
@@ -144,7 +144,7 @@ public class ProductController {
                                  RedirectAttributes redirectAttributes){
         boolean isSaved = false;
         if(starsVote != null){
-            String username = getUsernameFromAuthentication();
+            String username = userAuthentication.getUsernameFromAuthentication();
             if(username.equals("anonymousUser") || username == null){
                 return GLOBAL_ERROR_PAGE;
             }
@@ -152,14 +152,6 @@ public class ProductController {
         }
         redirectAttributes.addAttribute("vote", isSaved);
         return "redirect:/Products/item/" + productId;
-    }
-
-    private String getUsernameFromAuthentication(){
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication.getName();
-        }
-        return null;
     }
 
 }

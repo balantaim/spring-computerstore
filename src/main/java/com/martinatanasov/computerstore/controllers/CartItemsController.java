@@ -15,21 +15,27 @@
 
 package com.martinatanasov.computerstore.controllers;
 
+import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.CardItemDTO;
+import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
+import com.martinatanasov.computerstore.util.converter.UserAuthentication;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
+@Slf4j
 @Controller
 @PreAuthorize("hasRole('CUSTOMER')")
 @RequestMapping("/Cart")
@@ -37,12 +43,16 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 public class CartItemsController {
 
     private final ProductServiceImpl productService;
+    private final CartService cartService;
+    private final UserAuthentication userAuthentication;
 
     @Value("${store.product.purchase.limit}")
     private Integer PURCHASE_LIMIT_COUNT;
 
-    @GetMapping("/cart-items")
+    @GetMapping("")
     public String cartItems(){
+        //Todo
+
         return "Cart/cart-items";
     }
 
@@ -54,25 +64,37 @@ public class CartItemsController {
         if(itemId == null){
             return GLOBAL_ERROR_PAGE;
         }
-        Optional<Product> product = productService.getProductById(itemId);
-        if (product.isPresent()){
+
+        //Todo promo code
+        String username = userAuthentication.getUsernameFromAuthentication();
+        cartService.createCart(username, itemId, 1);
+
+        Iterable<Cart> cartItems = cartService.getAllItems(username);
+
+        //Optional<Product> product = productService.getProductById(itemId);
+        if (cartItems.iterator().hasNext()){
+            Product product = cartItems.iterator().next().getProduct();
+
             CardItemDTO cardItemDTO = new CardItemDTO(
-                    product.get().getId(),
-                    product.get().getProductName(),
-                    product.get().getProducer(),
-                    product.get().getImageUrl(),
-                    product.get().getDescription(),
-                    product.get().getCategory().getName(),
-                    product.get().getStock(),
-                    product.get().getPrice()
+                    product.getId(),
+                    product.getProductName(),
+                    product.getProducer(),
+                    product.getImageUrl(),
+                    product.getDescription(),
+                    product.getCategory().getName(),
+                    product.getStock(),
+                    product.getPrice()
             );
+
+
+
             model.addAttribute("product", cardItemDTO);
             if(promoCode != null){
                 if(promoCode.length() > 3){
                     model.addAttribute("promoCode", promoCode);
                 }
             }
-            return "Cart/cart-add";
+            return "Cart/cart-items";
         }
         return NOT_FOUND_PAGE;
     }

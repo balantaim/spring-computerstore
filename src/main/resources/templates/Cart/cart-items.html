@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -19,7 +19,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head th:replace="~{fragments/head :: head(~{::title})}">
-    <title>Cart Items</title>
+    <title>Add to Cart</title>
 </head>
 <body>
 <!-- NAVBAR -->
@@ -29,7 +29,82 @@
 <div class="main container">
     <div class="space"></div>
 
-    <h1>Cart items</h1>
+    <div class="columns is-gapless">
+        <!-- Import style and fetch functions -->
+        <link rel="stylesheet" th:href="@{/css/number-input.css}"/>
+        <script defer th:src="@{/js/fetch-content-swap.js}"></script>
+
+        <div th:if="${product}" class="column is-mobile-7 is-desktop-8 is-8">
+            <div th:if="${product.stock > 0}" class="box m-2">
+
+                <!-- todo fragment for items-->
+                <div class="columns is-gapless is-vcentered">
+                    <div class="column">
+                        <figure class="image is-skeleton">
+                            <img class="custom-image"
+                                 style="object-fit: contain; object-position: center;"
+                                 th:src="${product.imageUrl}"
+                                 th:alt="${product.description}"/>
+                        </figure>
+                    </div>
+
+                    <div class="column ml-5">
+                        <p th:text="${product.productId}"></p>
+                        <p th:text="${product.productName}"></p>
+                        <p th:text="${product.producer}"></p>
+                        <p th:text="${'stock: ' + product.stock}"></p>
+                        <p th:text="${'price: ' + product.price + ' lev'}"></p>
+                        <p th:if="${promoCode}" th:text="${promoCode}"></p>
+                    </div>
+
+                    <div class="column has-text-centered ml-5">
+                        <div class="number-container">
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <button class="number-action increment"><i class="fas fa-angle-up arr-up"></i></button>
+                            </div>
+                            <div>
+                                <input type="number"
+                                       id="1000"
+                                       class="number-input"
+                                       name="counter-1"
+                                       min="1"
+                                       max="20"
+                                       step="1"
+                                       value="1"
+                                       inputmode="numeric"
+                                       pattern="[0-9]+"
+                                       readonly>
+                            </div>
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <button class="number-action decrement"><i class="fas fa-angle-down arr-down"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:unless="${product.stock > 0}" class="container has-text-centered">
+                <h1 class="is-size-1">[[#{product.zero.stock}]]</span></h1>
+                <div class="space"></div>
+                <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+            </div>
+        </div>
+
+        <!-- Todo check if there are products -->
+        <div th:if="${product}" class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-3 is-4">
+            <div class="m-2">
+                <div class="box">
+                    <p>Order summary</p>
+                </div>
+            </div>
+        </div>
+
+        <div th:unless="${product}" class="column has-text-centered is-12">
+            <h1 class="is-size-1">[[#{cart.empty}]]</span></h1>
+            <div class="space"></div>
+            <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+        </div>
+    </div>
 
     <div class="space"></div>
 </div>

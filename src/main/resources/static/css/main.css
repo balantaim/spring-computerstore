@@ -230,6 +230,9 @@
         .img-container img:hover{
             scale: 1.08;
         }
+        .grayscale{
+            filter: grayscale(1);
+        }
         .dropdown-menu, .navbar-dropdown{
             animation: .18s drop-anim forwards;
         }

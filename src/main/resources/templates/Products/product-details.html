@@ -49,6 +49,7 @@
                     <img id="prime-image"
                          style="cursor: pointer; max-width: 86%;"
                          width="420px"
+                         th:class="${product.stock == 0 ? 'grayscale':''}"
                          th:if="${product.imageUrl}"
                          th:src="@{${product.imageUrl}}"
                          th:alt="${product.productName}"/>
@@ -64,6 +65,7 @@
                      style="background-color: white; min-height: 150px; min-width: 150px;">
                     <figure class="is-centered is-skeleton">
                         <img th:if="${img_item.imageUrl}"
+                             th:class="${product.stock == 0 ? 'grayscale':''}"
                              style="cursor: pointer; object-fit: contain; max-height: 150px;"
                              width="150px"
                              th:src="@{${img_item.imageUrl}}"
@@ -78,48 +80,58 @@
 
         <div class="column is-mobile-12 is-4 mt-6 mb-2">
 
-            <div class="box m-3">
+            <div class="box m-3" style="min-height: 416px;">
 
-                <form action="#" th:action="@{/Cart}" method="POST">
+                <!-- Have stock -->
+                <section th:if="${product.stock > 0}">
+                    <form action="#" th:action="@{/Cart}" method="POST">
 
-                    <input type="hidden" name="itemId" th:value="${product.id}"/>
+                        <input type="hidden" name="itemId" th:value="${product.id}"/>
 
-                    <div class="has-text-centered">
-                        <h1 th:text="${product.productName}" class="is-size-5 text-three-line"></h1>
-                    </div>
+                        <div class="has-text-centered is-skeleton">
+                            <h1 th:text="${product.productName}" class="is-size-5 text-three-line"></h1>
+                        </div>
 
-                    <!-- PROMO CODE-->
-                    <label class="label mt-3">[[#{promo.code}]]</label>
-                    <div class="control has-icons-left has-icons-right">
-                        <input class="input is-skeleton"
-                               id="promoCode"
-                               type="text"
-                               name="promoCode"
-                               th:placeholder="#{promo.code.placeholder}">
-                        <!--Left icon-->
-                        <span class="icon is-small is-left">
+                        <!-- PROMO CODE-->
+                        <label class="label mt-3 is-skeleton">[[#{promo.code}]]</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input is-skeleton"
+                                   id="promoCode"
+                                   type="text"
+                                   name="promoCode"
+                                   th:placeholder="#{promo.code.placeholder}">
+                            <!--Left icon-->
+                            <span class="icon is-small is-left">
                             <i class="fa-solid fa-gift"></i>
                     </span>
-                        <!--Right icon-->
-                        <span id="errorIconPromoCode" class="icon is-small is-right hidden">
+                            <!--Right icon-->
+                            <span id="errorIconPromoCode" class="icon is-small is-right hidden">
                             <i class="fas fa-exclamation-triangle"></i>
                     </span>
-                    </div>
+                        </div>
 
-                    <div class="is-flex is-vcentered mt-2 has-skeleton" style="color: var(--accent); font-size: 24px;">
-                        <p class="has-text-weight-bold pr-2">[[#{product.price.text}]]</p>
-                        <p class="has-text-weight-bold" th:if="${product.price}" th:text="${product.price}"></p>
-                        <p class="has-text-weight-bold pl-2">[[#{product.currency}]]</p>
-                    </div>
+                        <div class="is-flex is-vcentered mt-2 has-skeleton" style="color: var(--accent); font-size: 24px;">
+                            <p class="has-text-weight-bold pr-2">[[#{product.price.text}]]</p>
+                            <p class="has-text-weight-bold" th:if="${product.price}" th:text="${product.price}"></p>
+                            <p class="has-text-weight-bold pl-2">[[#{product.currency}]]</p>
+                        </div>
 
-                    <div class="has-text-centered">
-                        <button type="submit"
-                                style="width: 98%;"
-                                class="button is-primary ml-1 mr-1 mb-2 mt-6 is-rounded is-centered is-skeleton">
-                            [[#{form.button.buy}]]
-                        </button>
-                    </div>
-                </form>
+                        <div class="has-text-centered">
+                            <button type="submit"
+                                    style="width: 98%;"
+                                    class="button is-primary ml-1 mr-1 mb-2 mt-6 is-rounded is-centered is-skeleton">
+                                [[#{form.button.buy}]]
+                            </button>
+                        </div>
+                    </form>
+                </section>
+                <!-- Out of stock -->
+                <section th:unless="${product.stock > 0}"
+                         style="min-height: 254px; display: flex; justify-content: center; align-items: center; transform: rotate(-32deg);">
+                    <h2 class="title is-3 has-text-danger" style="text-decoration: underline;">
+                        &nbsp;[[#{product.zero.stock}]]&nbsp;
+                    </h2>
+                </section>
 
                 <hr>
 
