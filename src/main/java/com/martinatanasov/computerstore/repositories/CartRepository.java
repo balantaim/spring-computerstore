@@ -26,7 +26,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Iterable<Cart> findAllByUserId(final Long userId);
 
-    Optional<Cart> getCartByProductId(final Integer productId);
+    Optional<Cart> findFirstByProductId(final Integer productId);
 
     void deleteAllByUserId(final Long userId);
 

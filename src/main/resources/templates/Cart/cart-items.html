@@ -34,72 +34,91 @@
         <link rel="stylesheet" th:href="@{/css/number-input.css}"/>
         <script defer th:src="@{/js/fetch-content-swap.js}"></script>
 
-        <div th:if="${product}" class="column is-mobile-7 is-desktop-8 is-8">
-            <div th:if="${product.stock > 0}" class="box m-2">
+        <div th:if="${products}" class="column is-mobile-7 is-desktop-8 is-8">
+            <div th:each="product, iterStat : ${products}" class="box m-2">
+                <div th:if="${product.stock > 0}">
 
-                <!-- todo fragment for items-->
-                <div class="columns is-gapless is-vcentered">
-                    <div class="column">
-                        <figure class="image is-skeleton">
-                            <img class="custom-image"
-                                 style="object-fit: contain; object-position: center;"
-                                 th:src="${product.imageUrl}"
-                                 th:alt="${product.description}"/>
-                        </figure>
-                    </div>
+                    <!-- todo fragment for items-->
 
-                    <div class="column ml-5">
-                        <p th:text="${product.productId}"></p>
-                        <p th:text="${product.productName}"></p>
-                        <p th:text="${product.producer}"></p>
-                        <p th:text="${'stock: ' + product.stock}"></p>
-                        <p th:text="${'price: ' + product.price + ' lev'}"></p>
-                        <p th:if="${promoCode}" th:text="${promoCode}"></p>
-                    </div>
+                    <div class="columns is-gapless is-vcentered">
+                        <div class="column">
+                            <figure class="image is-skeleton">
+                                <img class="custom-image"
+                                     style="object-fit: contain; object-position: center; background-color: white;"
+                                     th:src="${product.imageUrl}"
+                                     th:alt="${product.description}"/>
+                            </figure>
+                        </div>
 
-                    <div class="column has-text-centered ml-5">
-                        <div class="number-container">
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <button class="number-action increment"><i class="fas fa-angle-up arr-up"></i></button>
+                        <div class="column ml-5">
+                            <p th:text="${product.productId}"></p>
+                            <p th:text="${product.productName}"></p>
+                            <p th:text="${product.producer}"></p>
+                            <p th:text="${'price: ' + product.price + ' lev'}"></p>
+                            <p th:if="${promoCode}" th:text="${promoCode}"></p>
+                        </div>
+
+                        <div class="column has-text-centered ml-5">
+                            <div class="number-container">
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <button class="number-action increment"><i class="fas fa-angle-up arr-up"></i></button>
+                                </div>
+                                <div>
+                                    <input type="number"
+                                           th:id="${'input-number-' + iterStat.count}"
+                                           class="number-input"
+                                           name="counter-1"
+                                           min="1"
+                                           max="20"
+                                           step="1"
+                                           value="1"
+                                           inputmode="numeric"
+                                           pattern="[0-9]+"
+                                           readonly>
+                                </div>
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <button class="number-action decrement"><i class="fas fa-angle-down arr-down"></i></button>
+                                </div>
                             </div>
-                            <div>
-                                <input type="number"
-                                       id="1000"
-                                       class="number-input"
-                                       name="counter-1"
-                                       min="1"
-                                       max="20"
-                                       step="1"
-                                       value="1"
-                                       inputmode="numeric"
-                                       pattern="[0-9]+"
-                                       readonly>
-                            </div>
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <button class="number-action decrement"><i class="fas fa-angle-down arr-down"></i></button>
-                            </div>
+                        </div>
+
+                        <!-- Delete single item -->
+                        <div class="column ml-5">
+                            <form action="#" th:action="@{/Cart/delete/{id}(id=${product.productId})}" method="POST">
+                                <button type="submit"><i class="fa-solid fa-delete-left"></i></button>
+                            </form>
                         </div>
                     </div>
                 </div>
+                <!-- else -->
+                <div th:unless="${product.stock > 0}" class="container has-text-centered">
+                    <h1 class="is-size-1">[[#{product.zero.stock}]]</span></h1>
+                    <div class="space"></div>
+                    <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+                </div>
+
             </div>
 
-            <div th:unless="${product.stock > 0}" class="container has-text-centered">
-                <h1 class="is-size-1">[[#{product.zero.stock}]]</span></h1>
-                <div class="space"></div>
-                <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+            <!-- Delete all products from the Cart -->
+            <div th:if="${#lists.size(products) > 0}" class="box m-2">
+                <form action="#" th:action="@{/Cart/clear}" method="POST">
+                    <button class="button is-danger is-rounded is-centered is-skeleton ml-1"
+                            th:text="#{btn.delete.all}"
+                            type="submit"></button>
+                </form>
             </div>
+
         </div>
 
-        <!-- Todo check if there are products -->
-        <div th:if="${product}" class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-3 is-4">
+        <div th:if="${products}" class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-3 is-4">
             <div class="m-2">
                 <div class="box">
-                    <p>Order summary</p>
+                    <p class="has-text-centered is-skeleton">[[#{text.order.summary}]]</p>
                 </div>
             </div>
         </div>
 
-        <div th:unless="${product}" class="column has-text-centered is-12">
+        <div th:unless="${products}" class="column has-text-centered is-12">
             <h1 class="is-size-1">[[#{cart.empty}]]</span></h1>
             <div class="space"></div>
             <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>

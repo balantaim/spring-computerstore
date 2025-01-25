@@ -21,6 +21,7 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.repositories.CartRepository;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -53,25 +54,25 @@ public class CartServiceImpl implements CartService {
         boolean isCardItemExist = isCartItemExist(user, productId);
         if(user != null && !isCardItemExist){
             Optional<Product> product = productRepository.findProductById(productId);
-            //Perform create
-            if(product.isPresent()){
+            //Perform create if the product is valid and has at least 1 count
+            if(product.isPresent() && product.get().getStock() > 0){
                 Cart cart = new Cart();
                 cart.setUser(user);
                 cart.setProduct(product.get());
                 cart.setQuantity(quantity);
 
                 cartRepository.save(cart);
-                System.out.println("----->>>> cart created\n\t" + cart);
             }
         }
     }
 
+    @Transactional
     @Override
     public void updateCart(final String username, final Integer productId, final Integer quantity) {
         Long userId = getUserId(username);
         if(userId != null){
             //Perform update
-            Optional<Cart> item = cartRepository.getCartByProductId(productId);
+            Optional<Cart> item = cartRepository.findFirstByProductId(productId);
             if (item.isPresent()){
                 item.get().setQuantity(quantity);
                 cartRepository.save(item.get());
@@ -79,16 +80,18 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    //@Transactional
     @Override
     public void deleteSingleItem(final String username, final Integer productId) {
         Long userId = getUserId(username);
-        if(userId != null){
+        if(userId != null && productId != null){
             //Perform single delete
-            Optional<Cart> item = cartRepository.getCartByProductId(productId);
+            Optional<Cart> item = cartRepository.findFirstByProductId(productId);
             item.ifPresent(cartRepository::delete);
         }
     }
 
+    @Transactional
     @Override
     public void deleteAllItems(final String username) {
         Long userId = getUserId(username);
@@ -98,8 +101,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public boolean isCartItemExist(User user, Integer productId) {
-        Optional<Cart> item = cartRepository.getCartByProductId(productId);
+    public boolean isCartItemExist(final User user, final Integer productId) {
+        Optional<Cart> item = cartRepository.findFirstByProductId(productId);
         //Check if the cart item exist and the user is owner of this cart
         return item.isPresent() && Objects.equals(item.get().getUser().getId(), user.getId());
     }

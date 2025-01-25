@@ -16,43 +16,56 @@
 package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.Cart;
-import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.CardItemDTO;
 import com.martinatanasov.computerstore.services.CartService;
-import com.martinatanasov.computerstore.services.ProductServiceImpl;
+import com.martinatanasov.computerstore.util.converter.CartConverter;
 import com.martinatanasov.computerstore.util.converter.UserAuthentication;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
-@Slf4j
+
 @Controller
 @PreAuthorize("hasRole('CUSTOMER')")
 @RequestMapping("/Cart")
 @RequiredArgsConstructor
-public class CartItemsController {
+public class CartController {
 
-    private final ProductServiceImpl productService;
     private final CartService cartService;
     private final UserAuthentication userAuthentication;
+    private final CartConverter cartConverter;
 
     @Value("${store.product.purchase.limit}")
     private Integer PURCHASE_LIMIT_COUNT;
 
     @GetMapping("")
-    public String cartItems(){
-        //Todo
+    public String cartItems(Model model){
+        String username = userAuthentication.getUsernameFromAuthentication();
 
+        Iterable<Cart> cartItems = cartService.getAllItems(username);
+
+        if (cartItems != null && cartItems.iterator().hasNext()){
+            //Convert Entities to DTOs
+            final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
+            model.addAttribute("products", products);
+
+            //Todo promo code
+
+//            if(promoCode != null){
+//                if(promoCode.length() > 3){
+//                    model.addAttribute("promoCode", promoCode);
+//                }
+//            }
+
+        }
         return "Cart/cart-items";
     }
 
@@ -67,28 +80,16 @@ public class CartItemsController {
 
         //Todo promo code
         String username = userAuthentication.getUsernameFromAuthentication();
+        //Create new cart if not exist
         cartService.createCart(username, itemId, 1);
-
+        //Get all carts
         Iterable<Cart> cartItems = cartService.getAllItems(username);
 
-        //Optional<Product> product = productService.getProductById(itemId);
-        if (cartItems.iterator().hasNext()){
-            Product product = cartItems.iterator().next().getProduct();
+        if (cartItems != null && cartItems.iterator().hasNext()){
+            //Convert Entities to DTOs
+            final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
 
-            CardItemDTO cardItemDTO = new CardItemDTO(
-                    product.getId(),
-                    product.getProductName(),
-                    product.getProducer(),
-                    product.getImageUrl(),
-                    product.getDescription(),
-                    product.getCategory().getName(),
-                    product.getStock(),
-                    product.getPrice()
-            );
-
-
-
-            model.addAttribute("product", cardItemDTO);
+            model.addAttribute("products", products);
             if(promoCode != null){
                 if(promoCode.length() > 3){
                     model.addAttribute("promoCode", promoCode);
@@ -97,6 +98,24 @@ public class CartItemsController {
             return "Cart/cart-items";
         }
         return NOT_FOUND_PAGE;
+    }
+
+    @PostMapping("/clear")
+    public String deleteAll(){
+        String username = userAuthentication.getUsernameFromAuthentication();
+        //Delete all Cart items
+        cartService.deleteAllItems(username);
+        //Return to the Cart view
+        return "redirect:/Cart";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteCartItem(@PathVariable("id") Integer id){
+        String username = userAuthentication.getUsernameFromAuthentication();
+        //Delete all Cart items
+        cartService.deleteSingleItem(username, id);
+        //Return to the Cart view
+        return "redirect:/Cart";
     }
 
 }
