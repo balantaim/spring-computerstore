@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,6 +19,7 @@ import com.martinatanasov.computerstore.services.CategoryServiceImpl;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
 import com.martinatanasov.computerstore.services.ReviewServiceImpl;
 import com.martinatanasov.computerstore.util.converter.ProductConverter;
+import com.martinatanasov.computerstore.util.converter.UserAuthentication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -52,7 +53,10 @@ class ProductControllerTest {
     @MockitoBean
     private ProductConverter productConverter;
 
-    @Test
+    @MockitoBean
+    private UserAuthentication userAuthentication;
+
+    @Test()
     public void shouldReturnProductsView() throws Exception {
         mockMvc.perform(get("/Products").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

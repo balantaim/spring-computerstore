@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.model;
 import java.math.BigDecimal;
 
 public record CardItemDTO(
+        Long cartId,
         Integer productId,
         String productName,
         String producer,

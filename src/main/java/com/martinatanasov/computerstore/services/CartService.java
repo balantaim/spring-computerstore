@@ -32,4 +32,6 @@ public interface CartService {
 
     boolean isCartItemExist(User user, Integer productId);
 
+    void updateCartQuantity(Long cartId, Boolean isIncrement);
+
 }

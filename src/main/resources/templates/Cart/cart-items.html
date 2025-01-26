@@ -61,17 +61,19 @@
                         <div class="column has-text-centered ml-5">
                             <div class="number-container">
                                 <div style="display: flex; justify-content: center; align-items: center;">
-                                    <button class="number-action increment"><i class="fas fa-angle-up arr-up"></i></button>
+                                    <form action="#" th:action="@{/Cart/increment/{id}(id=${product.cartId})}" method="POST">
+                                        <button type="submit" class="number-action increment"><i class="fas fa-angle-up arr-up"></i></button>
+                                    </form>
                                 </div>
                                 <div>
                                     <input type="number"
                                            th:id="${'input-number-' + iterStat.count}"
                                            class="number-input"
-                                           name="counter-1"
+                                           th:name="${'input-number-' + iterStat.count}"
                                            min="1"
                                            max="20"
                                            step="1"
-                                           value="1"
+                                           th:value="${product.stock}"
                                            inputmode="numeric"
                                            pattern="[0-9]+"
                                            readonly>

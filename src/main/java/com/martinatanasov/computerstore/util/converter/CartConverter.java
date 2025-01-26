@@ -21,39 +21,48 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.CardItemDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class CartConverter {
 
     public Set<CardItemDTO> convertCartEntityToCartDTO(Iterable<Cart> cartItems) {
-        Set<CardItemDTO> products = new HashSet<>();
+        //LinkedHashSet will preserve the order instead of HashSet
+        Set<CardItemDTO> cartItemsDto = new LinkedHashSet<>();
         for(Cart item: cartItems){
-            products.add(new CardItemDTO(
+            cartItemsDto.add(new CardItemDTO(
+                    item.getId(),
                     item.getProduct().getId(),
                     item.getProduct().getProductName(),
                     item.getProduct().getProducer(),
                     item.getProduct().getImageUrl(),
                     item.getProduct().getDescription(),
                     item.getProduct().getCategory().getName(),
-                    item.getProduct().getStock(),
+                    item.getQuantity(),
                     item.getProduct().getPrice())
             );
         }
-        return products;
+        //Sort Cart items by ID
+        return cartItemsDto.stream()
+                .sorted(Comparator.comparing(CardItemDTO::cartId))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    public Set<Cart> convertCartDTOToCartEntity(Iterable<CardItemDTO> cartItems, User user, Product product) {
-        Set<Cart> products = new HashSet<>();
-        for (CardItemDTO item : cartItems) {
-            products.add(Cart.builder()
+    public Set<Cart> convertCartDTOToCartEntity(Iterable<CardItemDTO> cartItemsDto, User user, Product product) {
+        Set<Cart> cartItems = new HashSet<>();
+        for (CardItemDTO item : cartItemsDto) {
+            cartItems.add(Cart.builder()
+                    .id(item.cartId())
                     .user(user)
                     .product(product)
                     .quantity(item.stock())
                     .build());
         }
-        return products;
+        return cartItems;
     }
 
 }

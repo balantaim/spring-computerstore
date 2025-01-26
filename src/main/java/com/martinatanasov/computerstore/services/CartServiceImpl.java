@@ -23,13 +23,15 @@ import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
@@ -37,6 +39,9 @@ public class CartServiceImpl implements CartService {
     private final UserDao userDao;
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
+
+    @Value("${store.product.purchase.limit}")
+    private Integer PURCHASE_LIMIT_COUNT;
 
     @Override
     public Iterable<Cart> getAllItems(final String username) {
@@ -105,6 +110,28 @@ public class CartServiceImpl implements CartService {
         Optional<Cart> item = cartRepository.findFirstByProductId(productId);
         //Check if the cart item exist and the user is owner of this cart
         return item.isPresent() && Objects.equals(item.get().getUser().getId(), user.getId());
+    }
+
+    @Transactional
+    @Override
+    public void updateCartQuantity(final Long cartId, final Boolean isIncrement) {
+        Optional<Cart> item = cartRepository.findById(cartId);
+        if(item.isPresent()){
+            //Save the updated cart object
+            log.info("\n\t <<<<<< quantity before " + item.get().getQuantity());
+            int newQuantity = isIncrement ? (item.get().getQuantity() + 1):(item.get().getQuantity() - 1);
+            //Check if the quantity is valid
+            log.info("\n\t <<<<<< is transacion valid: " + isTransactionValid(newQuantity));
+            if(isTransactionValid(newQuantity)){
+                log.info("\n\t <<<<<< quantity after " + item.get().getQuantity());
+                item.get().setQuantity(newQuantity);
+                cartRepository.save(item.get());
+            }
+        }
+    }
+
+    private boolean isTransactionValid(Integer quantity){
+        return quantity > 0 && quantity <= PURCHASE_LIMIT_COUNT;
     }
 
     private Long getUserId(final String username){

@@ -21,7 +21,6 @@ import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.util.converter.CartConverter;
 import com.martinatanasov.computerstore.util.converter.UserAuthentication;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,9 +41,6 @@ public class CartController {
     private final CartService cartService;
     private final UserAuthentication userAuthentication;
     private final CartConverter cartConverter;
-
-    @Value("${store.product.purchase.limit}")
-    private Integer PURCHASE_LIMIT_COUNT;
 
     @GetMapping("")
     public String cartItems(Model model){
@@ -114,6 +110,20 @@ public class CartController {
         String username = userAuthentication.getUsernameFromAuthentication();
         //Delete all Cart items
         cartService.deleteSingleItem(username, id);
+        //Return to the Cart view
+        return "redirect:/Cart";
+    }
+
+    @PostMapping("/increment/{id}")
+    public String incrementCartQuantity(@PathVariable("id") Long id){
+        cartService.updateCartQuantity(id, true);
+        //Return to the Cart view
+        return "redirect:/Cart";
+    }
+
+    @PostMapping("/decrement/{id}")
+    public String decrementCartQuantity(@PathVariable("id") Long id){
+        cartService.updateCartQuantity(id, false);
         //Return to the Cart view
         return "redirect:/Cart";
     }
