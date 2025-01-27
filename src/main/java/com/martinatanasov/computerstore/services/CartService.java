@@ -26,7 +26,7 @@ public interface CartService {
 
     void updateCart(String username, Integer productId, Integer quantity);
 
-    void deleteSingleItem(String username, Integer productId);
+    void deleteSingleItem(String username, Long cartId);
 
     void deleteAllItems(String username);
 

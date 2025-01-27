@@ -17,6 +17,7 @@ package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.model.CardItemDTO;
+import com.martinatanasov.computerstore.model.OrderSummaryDTO;
 import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.util.converter.CartConverter;
 import com.martinatanasov.computerstore.util.converter.UserAuthentication;
@@ -25,7 +26,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
@@ -52,6 +57,8 @@ public class CartController {
             //Convert Entities to DTOs
             final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
             model.addAttribute("products", products);
+            //Add order summary
+            model.addAttribute("orderSummary", calculateOrderSummary());
 
             //Todo promo code
 
@@ -62,7 +69,7 @@ public class CartController {
 //            }
 
         }
-        return "Cart/cart-items";
+        return "Cart/cart";
     }
 
     @PostMapping("")
@@ -86,12 +93,14 @@ public class CartController {
             final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
 
             model.addAttribute("products", products);
+            //Add order summary
+            model.addAttribute("orderSummary", calculateOrderSummary());
             if(promoCode != null){
                 if(promoCode.length() > 3){
                     model.addAttribute("promoCode", promoCode);
                 }
             }
-            return "Cart/cart-items";
+            return "Cart/cart";
         }
         return NOT_FOUND_PAGE;
     }
@@ -106,12 +115,26 @@ public class CartController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteCartItem(@PathVariable("id") Integer id){
+    public Collection<ModelAndView> deleteCartItem(@PathVariable("id") Long id){
         String username = userAuthentication.getUsernameFromAuthentication();
         //Delete all Cart items
         cartService.deleteSingleItem(username, id);
-        //Return to the Cart view
-        return "redirect:/Cart";
+        //Return to the fragment views
+        Iterable<Cart> cartItems = cartService.getAllItems(username);
+        if (cartItems != null && cartItems.iterator().hasNext()){
+            //Convert Entities to DTOs
+            final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
+
+            return List.of(
+                    new ModelAndView("fragments/cart-items :: cart-items", Map.of(
+                            "products", products
+                    )),
+                    new ModelAndView("fragments/order-summary :: order-summary", Map.of(
+                            "orderSummary", calculateOrderSummary()
+                    ))
+            );
+        }
+        return null;
     }
 
     @PostMapping("/increment/{id}")
@@ -126,6 +149,11 @@ public class CartController {
         cartService.updateCartQuantity(id, false);
         //Return to the Cart view
         return "redirect:/Cart";
+    }
+
+    private OrderSummaryDTO calculateOrderSummary(){
+
+        return new OrderSummaryDTO("12.50", "5.00","10.00",null,"17.50");
     }
 
 }

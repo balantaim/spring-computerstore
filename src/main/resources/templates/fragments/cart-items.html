@@ -1,0 +1,97 @@
+<!--
+  ~ Copyright 2025 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div th:fragment="cart-items"
+     th:if="${products}"
+     id="cart-items"
+     class="column is-mobile-7 is-desktop-8 is-8">
+    <div th:each="product, iterStat : ${products}" class="box m-2">
+        <div th:if="${product.stock > 0}">
+
+            <!-- todo fragment for items-->
+
+            <div class="columns is-gapless is-vcentered">
+                <div class="column">
+                    <figure class="image is-skeleton">
+                        <img class="custom-image"
+                             style="object-fit: contain; object-position: center; background-color: white;"
+                             th:src="${product.imageUrl}"
+                             th:alt="${product.description}"/>
+                    </figure>
+                </div>
+
+                <div class="column ml-5">
+                    <p th:text="${product.productId}"></p>
+                    <p th:text="${product.productName}"></p>
+                    <p th:text="${product.producer}"></p>
+                    <p th:text="${'price: ' + product.price + ' lev'}"></p>
+                    <p th:if="${promoCode}" th:text="${promoCode}"></p>
+                </div>
+
+                <div class="column has-text-centered ml-5">
+                    <div class="number-container m-auto">
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <button class="number-action increment"
+                                    th:onclick="|updateContent(${product.cartId}, ${iterStat.count}, true)|">
+                                <i class="fas fa-angle-up arr-up"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <input type="number"
+                                   th:id="${'input-number-' + iterStat.count}"
+                                   class="number-input"
+                                   th:name="${'input-number-' + iterStat.count}"
+                                   min="1"
+                                   max="20"
+                                   step="1"
+                                   th:value="${product.stock}"
+                                   inputmode="numeric"
+                                   pattern="[0-9]+"
+                                   readonly>
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <button class="number-action decrement"
+                                    th:onclick="|updateContent(${product.cartId}, ${iterStat.count}, false)|">
+                                <i class="fas fa-angle-down arr-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete single item -->
+                <div class="column ml-5">
+                    <button th:onclick="|deleteContent(${product.cartId})|">[[#{btn.delete}]] <i class="fa-solid fa-delete-left"></i></button>
+                </div>
+            </div>
+        </div>
+        <!-- else -->
+        <div th:unless="${product.stock > 0}" class="container has-text-centered">
+            <h1 class="is-size-1">[[#{product.zero.stock}]]</span></h1>
+            <div class="space"></div>
+            <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+        </div>
+
+    </div>
+
+    <!-- Delete all products from the Cart -->
+    <div th:if="${#lists.size(products) > 0}" class="m-2">
+        <form action="#" th:action="@{/Cart/clear}" method="POST">
+            <button class="button is-danger is-rounded is-centered is-skeleton ml-1 mt-4"
+                    th:text="#{btn.delete.all}"
+                    type="submit"></button>
+        </form>
+    </div>
+
+</div>

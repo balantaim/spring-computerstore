@@ -1,0 +1,54 @@
+<!--
+  ~ Copyright 2025 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div th:fragment="order-summary"
+     th:if="${orderSummary}"
+     id="order-summary"
+     class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-3 is-4">
+    <div class="m-2">
+        <div class="box">
+            <h2 class="title has-text-centered is-skeleton mb-6 mt-4">[[#{text.order.summary}]]</h2>
+
+            <div class="is-flex is-skeleton">
+                <p>Subtotal</p>
+            </div>
+            <hr>
+
+            <div th:if="${orderSummary.shippingEstimate}" class="is-flex is-skeleton">
+                <p>Shipping estimate</p>
+            </div>
+            <hr th:if="${orderSummary.shippingEstimate}">
+
+            <div th:if="${orderSummary.taxEstimate}" class="is-flex is-skeleton">
+                <p>Tax estimate</p>
+            </div>
+            <hr th:if="${orderSummary.taxEstimate}">
+
+            <div th:if="${orderSummary.voucher}" class="is-flex is-skeleton">
+                <p>Voucher</p>
+            </div>
+            <hr th:if="${orderSummary.voucher}">
+
+            <div class="is-flex is-skeleton">
+                <p><strong>Order total</strong></p>
+            </div>
+
+            <div>
+                <button type="submit" class="button is-primary is-rounded is-fullwidth is-skeleton mt-6">Checkout</button>
+            </div>
+
+        </div>
+    </div>
+</div>

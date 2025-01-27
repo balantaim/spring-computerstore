@@ -71,27 +71,34 @@ public class CartServiceImpl implements CartService {
         }
     }
 
-    @Transactional
+    //@Transactional
     @Override
     public void updateCart(final String username, final Integer productId, final Integer quantity) {
-        Long userId = getUserId(username);
-        if(userId != null){
-            //Perform update
-            Optional<Cart> item = cartRepository.findFirstByProductId(productId);
-            if (item.isPresent()){
-                item.get().setQuantity(quantity);
-                cartRepository.save(item.get());
+        if(isTransactionValid(quantity)){
+            Long userId = getUserId(username);
+            log.info("\n\t <<<<<<--- updat cart: is valid " + isTransactionValid(quantity) );
+            if(userId != null){
+                log.info("\n\t <<<<<<--- updat cart: perform update ");
+                //Perform update
+                Optional<Cart> item = cartRepository.findFirstByProductId(productId);
+                if (item.isPresent()){
+                    item.get().setQuantity(quantity);
+                    cartRepository.save(item.get());
+                }
             }
         }
     }
 
-    //@Transactional
+    @Transactional
     @Override
-    public void deleteSingleItem(final String username, final Integer productId) {
+    public void deleteSingleItem(final String username, final Long cartId) {
+        log.info("\n\t <<<<<<--- delete single User name: " + username + " productID: " + cartId);
         Long userId = getUserId(username);
-        if(userId != null && productId != null){
+        if(userId != null && cartId != null){
             //Perform single delete
-            Optional<Cart> item = cartRepository.findFirstByProductId(productId);
+            Optional<Cart> item = cartRepository.findById(cartId);
+
+            log.info("\n\t <<<<<<--- delete single itemID: " + item.get().getId());
             item.ifPresent(cartRepository::delete);
         }
     }
@@ -118,12 +125,12 @@ public class CartServiceImpl implements CartService {
         Optional<Cart> item = cartRepository.findById(cartId);
         if(item.isPresent()){
             //Save the updated cart object
-            log.info("\n\t <<<<<< quantity before " + item.get().getQuantity());
+            log.info("\n\t <<<<<<--- quantity before " + item.get().getQuantity());
             int newQuantity = isIncrement ? (item.get().getQuantity() + 1):(item.get().getQuantity() - 1);
             //Check if the quantity is valid
-            log.info("\n\t <<<<<< is transacion valid: " + isTransactionValid(newQuantity));
+            log.info("\n\t <<<<<<--- is transacion valid: " + isTransactionValid(newQuantity));
             if(isTransactionValid(newQuantity)){
-                log.info("\n\t <<<<<< quantity after " + item.get().getQuantity());
+                log.info("\n\t <<<<<<--- quantity after " + item.get().getQuantity());
                 item.get().setQuantity(newQuantity);
                 cartRepository.save(item.get());
             }

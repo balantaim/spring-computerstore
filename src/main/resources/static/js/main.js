@@ -1,20 +1,27 @@
 //Remove loading effect on page load
-const skeletonLoadItemsPrimary = document.querySelectorAll('.is-skeleton');
-const skeletonLoadItemsSecondary = document.querySelectorAll('.has-skeleton');
-//const skeletonLoadItemsTertiary = document.querySelectorAll('.skeleton-lines');
+window.addEventListener("load", function () {
+  removePlaceholderAnimation();
+});
 
-window.addEventListener('load', function () {
-  skeletonLoadItemsPrimary.forEach(item => {
-    item.classList.remove('is-skeleton');
+function removePlaceholderAnimation() {
+  const skeletonLoadItemsPrimary = document.querySelectorAll(".is-skeleton");
+  const skeletonLoadItemsSecondary = document.querySelectorAll(".has-skeleton");
+  //  const skeletonLoadItemsTertiary = document.querySelectorAll('.skeleton-block');
+  //  const skeletonLoadItemsTertiary = document.querySelectorAll('.skeleton-lines');
+
+  skeletonLoadItemsPrimary.forEach((item) => {
+    item.classList.remove("is-skeleton");
   });
-  skeletonLoadItemsSecondary.forEach(item => {
-    item.classList.remove('has-skeleton');
+  skeletonLoadItemsSecondary.forEach((item) => {
+    item.classList.remove("has-skeleton");
   });
+  //  skeletonLoadItemsTertiary.forEach(item => {
+  //    item.classList.remove('skeleton-block');
+  //  });
   //  skeletonLoadItemsTertiary.forEach(item => {
   //    item.classList.remove('skeleton-lines');
   //  });
-});
-
+}
 
 //Toggle dropdown content for right and left expand
 const dropdownContent = document.getElementById("dropdown-position");
@@ -42,6 +49,4 @@ function dropdownPosition() {
       dropdownContent.classList.add("is-right");
     }
   }
-};
-
-
+}

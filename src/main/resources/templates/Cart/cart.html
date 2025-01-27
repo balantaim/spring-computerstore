@@ -1,0 +1,77 @@
+<!--
+  ~ Copyright 2024-2025 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<!-- data-theme="light" -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<head th:replace="~{fragments/head :: head(~{::title})}">
+    <title>Add to Cart</title>
+</head>
+<body>
+<!-- NAVBAR -->
+<div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
+
+<!--MAIN Content Start-->
+<div class="main container">
+    <div class="space"></div>
+
+    <div class="columns is-gapless">
+        <!-- Import style and fetch functions -->
+        <link rel="stylesheet" th:href="@{/css/number-input.css}"/>
+        <script defer th:src="@{/js/fetch-cart-swap.js}"></script>
+
+        <!-- Cart items -->
+        <div th:if="${products}" th:replace="~{fragments/cart-items :: cart-items}">
+
+            <!-- Delete all products from the Cart -->
+            <div th:if="${#lists.size(products) > 0}" class="box m-2">
+                <form action="#" th:action="@{/Cart/clear}" method="POST">
+                    <button class="button is-danger is-rounded is-centered is-skeleton ml-1"
+                            th:text="#{btn.delete.all}"
+                            type="submit"></button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Order summary -->
+        <div th:if="${products}" th:replace="~{fragments/order-summary :: order-summary}">
+            <div class="m-2">
+                <div class="box">
+                    <p class="has-text-centered is-skeleton">[[#{text.order.summary}]]</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart is empty -->
+        <div th:unless="${products}" class="column has-text-centered is-12">
+            <h1 class="is-size-1">[[#{cart.empty}]]</span></h1>
+            <div class="space"></div>
+            <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+        </div>
+    </div>
+
+    <div class="space"></div>
+</div>
+<!--MAIN Content End-->
+
+
+<!--FOOTER-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+</html>
