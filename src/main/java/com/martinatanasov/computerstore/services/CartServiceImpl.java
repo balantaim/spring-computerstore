@@ -23,7 +23,6 @@ import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 
-@Slf4j
+
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
@@ -71,14 +70,11 @@ public class CartServiceImpl implements CartService {
         }
     }
 
-    //@Transactional
     @Override
     public void updateCart(final String username, final Integer productId, final Integer quantity) {
         if(isTransactionValid(quantity)){
             Long userId = getUserId(username);
-            log.info("\n\t <<<<<<--- updat cart: is valid " + isTransactionValid(quantity) );
             if(userId != null){
-                log.info("\n\t <<<<<<--- updat cart: perform update ");
                 //Perform update
                 Optional<Cart> item = cartRepository.findFirstByProductId(productId);
                 if (item.isPresent()){
@@ -89,16 +85,13 @@ public class CartServiceImpl implements CartService {
         }
     }
 
-    @Transactional
     @Override
     public void deleteSingleItem(final String username, final Long cartId) {
-        log.info("\n\t <<<<<<--- delete single User name: " + username + " productID: " + cartId);
         Long userId = getUserId(username);
         if(userId != null && cartId != null){
             //Perform single delete
             Optional<Cart> item = cartRepository.findById(cartId);
 
-            log.info("\n\t <<<<<<--- delete single itemID: " + item.get().getId());
             item.ifPresent(cartRepository::delete);
         }
     }
@@ -119,18 +112,15 @@ public class CartServiceImpl implements CartService {
         return item.isPresent() && Objects.equals(item.get().getUser().getId(), user.getId());
     }
 
-    @Transactional
+    //@Transactional
     @Override
     public void updateCartQuantity(final Long cartId, final Boolean isIncrement) {
         Optional<Cart> item = cartRepository.findById(cartId);
         if(item.isPresent()){
             //Save the updated cart object
-            log.info("\n\t <<<<<<--- quantity before " + item.get().getQuantity());
             int newQuantity = isIncrement ? (item.get().getQuantity() + 1):(item.get().getQuantity() - 1);
             //Check if the quantity is valid
-            log.info("\n\t <<<<<<--- is transacion valid: " + isTransactionValid(newQuantity));
             if(isTransactionValid(newQuantity)){
-                log.info("\n\t <<<<<<--- quantity after " + item.get().getQuantity());
                 item.get().setQuantity(newQuantity);
                 cartRepository.save(item.get());
             }

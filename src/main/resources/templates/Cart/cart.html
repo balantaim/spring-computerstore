@@ -35,33 +35,13 @@
         <script defer th:src="@{/js/fetch-cart-swap.js}"></script>
 
         <!-- Cart items -->
-        <div th:if="${products}" th:replace="~{fragments/cart-items :: cart-items}">
-
-            <!-- Delete all products from the Cart -->
-            <div th:if="${#lists.size(products) > 0}" class="box m-2">
-                <form action="#" th:action="@{/Cart/clear}" method="POST">
-                    <button class="button is-danger is-rounded is-centered is-skeleton ml-1"
-                            th:text="#{btn.delete.all}"
-                            type="submit"></button>
-                </form>
-            </div>
-        </div>
+        <div th:if="${products}" th:replace="~{fragments/cart-items :: cart-items}"></div>
 
         <!-- Order summary -->
-        <div th:if="${products}" th:replace="~{fragments/order-summary :: order-summary}">
-            <div class="m-2">
-                <div class="box">
-                    <p class="has-text-centered is-skeleton">[[#{text.order.summary}]]</p>
-                </div>
-            </div>
-        </div>
+        <div th:if="${products}" th:replace="~{fragments/order-summary :: order-summary}"></div>
 
         <!-- Cart is empty -->
-        <div th:unless="${products}" class="column has-text-centered is-12">
-            <h1 class="is-size-1">[[#{cart.empty}]]</span></h1>
-            <div class="space"></div>
-            <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
-        </div>
+        <div th:unless="${products}" th:replace="~{fragments/cart-empty :: cart-empty}" id="cart-empty"></div>
     </div>
 
     <div class="space"></div>

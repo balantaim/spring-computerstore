@@ -28,10 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
@@ -111,7 +108,7 @@ public class CartController {
         //Delete all Cart items
         cartService.deleteAllItems(username);
         //Return to the Cart view
-        return "redirect:/Cart";
+        return "Cart/cart";
     }
 
     @PostMapping("/delete/{id}")
@@ -134,7 +131,10 @@ public class CartController {
                     ))
             );
         }
-        return null;
+        //Return Empty Cart content
+        return List.of(
+                new ModelAndView("fragments/cart-empty :: cart-empty", Collections.emptyMap())
+        );
     }
 
     @PostMapping("/increment/{id}")

@@ -10,7 +10,6 @@ async function updateContent(cartId, locatorNumber, isIncrement) {
         const url = window.location.origin + `/Cart/${action}/` + cartId;
         data = await fetchContent(url);
     }
-
     // Check if the content is valid then swap the old content with the new
     if (data !== null && data !== "") {
         await swapContent(data);
@@ -60,10 +59,21 @@ async function swapContent(data) {
         const oldSummary = document.getElementById("order-summary");
 
         //Check if the locators are valid then swap the content
-        if (oldProducts && oldSummary && newSummary && newProducts) {
-            oldProducts.replaceWith(newProducts);
-            oldSummary.replaceWith(newSummary);
-            await removePlaceholderAnimation();
+        if (oldProducts && oldSummary) {
+            if (newSummary instanceof HTMLElement && newProducts instanceof HTMLElement) {
+                //Replace content with updated card items and order summary
+                oldProducts.replaceWith(newProducts);
+                oldSummary.replaceWith(newSummary);
+                await removePlaceholderAnimation();
+            } else {
+                //Remove cart items and order summary
+                oldProducts.replaceWith("");
+                oldSummary.replaceWith("");
+                //Show cart empty view
+                const oldEmptyCart = document.getElementById("cart-empty");
+                const newEmptyCart = parsedDoc.getElementById("cart-empty");
+                oldEmptyCart.replaceWith(newEmptyCart);
+            }
         }
     } catch (error) {
         console.error('Error: ' + error);

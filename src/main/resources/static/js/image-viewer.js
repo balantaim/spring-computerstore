@@ -25,7 +25,7 @@ const mainImage = new Viewer(document.getElementById('prime-image'), {
 
 //Check if the gallery container exist and the initiate the gallery
 const galleryLocator = document.getElementById('images');
-if (galleryLocator != null) {
+if (galleryLocator !== null) {
     // View a list of images.
     // Note: All images within the container will be found by calling `element.querySelectorAll('img')`.
     const gallery = new Viewer(galleryLocator, {

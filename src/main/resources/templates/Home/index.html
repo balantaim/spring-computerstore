@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -127,12 +127,24 @@
     <div class="slider-container">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="/images/category/category-monitors.webp"
-                                               alt="Category monitors" th:onclick="location.href='/Products/monitors'" th:title="#{nav.products.monitors}"/></div>
-                <div class="swiper-slide"><img src="/images/category/category-video-card.webp"
-                                               alt="Category video card" th:onclick="location.href='/Products/video-cards'" th:title="#{nav.products.video-card}"/></div>
-                <div class="swiper-slide"><img src="/images/category/category-cpu.webp"
-                                               alt="Category CPU" th:onclick="location.href='/Products/cpu'" th:title="#{nav.products.cpu}"/></div>
+                <div class="swiper-slide">
+                    <img src="/images/category/category-monitors.webp"
+                                               alt="Category monitors"
+                                               th:onclick="location.href='/Products/monitors'"
+                                               th:title="#{nav.products.monitors}"/>
+                </div>
+                <div class="swiper-slide">
+                    <img src="/images/category/category-video-card.webp"
+                                               alt="Category video card"
+                                               th:onclick="location.href='/Products/video-cards'"
+                                               th:title="#{nav.products.video-card}"/>
+                </div>
+                <div class="swiper-slide">
+                    <img src="/images/category/category-cpu.webp"
+                                               alt="Category CPU"
+                                               th:onclick="location.href='/Products/cpu'"
+                                               th:title="#{nav.products.cpu}"/>
+                </div>
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -176,7 +188,8 @@
                         <figure class="image is-skeleton">
                             <img class="custom-image"
                                     th:src="${product.imageUrl}"
-                                    th:alt="${product.description}"/>
+                                    th:alt="${product.description}"
+                                    th:title="${product.productName}"/>
                         </figure>
                     </a>
                 </div>

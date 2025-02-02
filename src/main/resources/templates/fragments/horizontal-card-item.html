@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -21,7 +21,12 @@
             <div class="column is-two-fifths">
                 <a th:href="@{/Products/item/{id}(id=${product.id})}">
                     <figure class="is-3by2 m-1 is-skeleton">
-                        <img th:if="${product.imageUrl}" height="150px" width="200px" th:src="@{${product.imageUrl}}" th:alt="${product.description}"/>
+                        <img th:if="${product.imageUrl}"
+                             height="150px"
+                             width="200px"
+                             th:src="@{${product.imageUrl}}"
+                             th:alt="${product.description}"
+                             th:title="${product.productName}"/>
                     </figure>
                 </a>
                 <!-- Stars rating here-->
