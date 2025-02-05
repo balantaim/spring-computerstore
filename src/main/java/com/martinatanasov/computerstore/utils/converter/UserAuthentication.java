@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.util.converter;
+package com.martinatanasov.computerstore.utils.converter;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

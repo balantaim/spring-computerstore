@@ -31,9 +31,11 @@ async function deleteContent(cartId) {
 
 async function fetchContent(url) {
     let newData = "";
+    // csrf variable is get by model attribute
     await fetch(url, {
         method: "POST",
         redirect: "follow",
+        headers: { [csrfHeader]: csrfToken }
     })
     .then((response) => response.text())
     .then((content) => (newData = content))

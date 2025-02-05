@@ -112,7 +112,6 @@ public class CartServiceImpl implements CartService {
         return item.isPresent() && Objects.equals(item.get().getUser().getId(), user.getId());
     }
 
-    //@Transactional
     @Override
     public void updateCartQuantity(final Long cartId, final Boolean isIncrement) {
         Optional<Cart> item = cartRepository.findById(cartId);

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.util.converter;
+package com.martinatanasov.computerstore.utils.converter;
 
 import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.entities.Product;

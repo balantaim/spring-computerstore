@@ -19,14 +19,16 @@ import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.model.CardItemDTO;
 import com.martinatanasov.computerstore.model.OrderSummaryDTO;
 import com.martinatanasov.computerstore.services.CartService;
-import com.martinatanasov.computerstore.util.converter.CartConverter;
-import com.martinatanasov.computerstore.util.converter.UserAuthentication;
+import com.martinatanasov.computerstore.utils.converter.CartConverter;
+import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.web.csrf.CsrfToken;
 
 import java.util.*;
 
@@ -45,7 +47,7 @@ public class CartController {
     private final CartConverter cartConverter;
 
     @GetMapping("")
-    public String cartItems(Model model){
+    public String cartItems(Model model, HttpServletRequest request){
         String username = userAuthentication.getUsernameFromAuthentication();
 
         Iterable<Cart> cartItems = cartService.getAllItems(username);
@@ -53,18 +55,18 @@ public class CartController {
         if (cartItems != null && cartItems.iterator().hasNext()){
             //Convert Entities to DTOs
             final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
+            //Add cart products
             model.addAttribute("products", products);
             //Add order summary
             model.addAttribute("orderSummary", calculateOrderSummary());
+            model.addAttribute("csrfToken", getCSRFToken(request));
 
             //Todo promo code
-
 //            if(promoCode != null){
 //                if(promoCode.length() > 3){
 //                    model.addAttribute("promoCode", promoCode);
 //                }
 //            }
-
         }
         return "Cart/cart";
     }
@@ -72,7 +74,8 @@ public class CartController {
     @PostMapping("")
     public String addToCard(Model model,
                             @RequestParam(value = "promoCode", required = false) String promoCode,
-                            @RequestParam(value = "itemId") Integer itemId){
+                            @RequestParam(value = "itemId") Integer itemId,
+                            HttpServletRequest request){
         //Check if the product ID is valid
         if(itemId == null){
             return GLOBAL_ERROR_PAGE;
@@ -89,6 +92,7 @@ public class CartController {
             //Convert Entities to DTOs
             final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
 
+            model.addAttribute("csrfToken", getCSRFToken(request));
             model.addAttribute("products", products);
             //Add order summary
             model.addAttribute("orderSummary", calculateOrderSummary());
@@ -112,24 +116,15 @@ public class CartController {
     }
 
     @PostMapping("/delete/{id}")
-    public Collection<ModelAndView> deleteCartItem(@PathVariable("id") Long id){
+    public Collection<ModelAndView> deleteCartItem(@PathVariable("id") Long id,
+                                                   HttpServletRequest request){
         String username = userAuthentication.getUsernameFromAuthentication();
         //Delete all Cart items
         cartService.deleteSingleItem(username, id);
         //Return to the fragment views
         Iterable<Cart> cartItems = cartService.getAllItems(username);
         if (cartItems != null && cartItems.iterator().hasNext()){
-            //Convert Entities to DTOs
-            final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
-
-            return List.of(
-                    new ModelAndView("fragments/cart-items :: cart-items", Map.of(
-                            "products", products
-                    )),
-                    new ModelAndView("fragments/order-summary :: order-summary", Map.of(
-                            "orderSummary", calculateOrderSummary()
-                    ))
-            );
+            return getCartAndSummary(cartItems, request);
         }
         //Return Empty Cart content
         return List.of(
@@ -138,22 +133,52 @@ public class CartController {
     }
 
     @PostMapping("/increment/{id}")
-    public String incrementCartQuantity(@PathVariable("id") Long id){
+    public Collection<ModelAndView> incrementCartQuantity(@PathVariable("id") Long id, HttpServletRequest request){
+        //Increment cart quantity
         cartService.updateCartQuantity(id, true);
-        //Return to the Cart view
-        return "redirect:/Cart";
+
+        String username = userAuthentication.getUsernameFromAuthentication();
+        Iterable<Cart> cartItems = cartService.getAllItems(username);
+        if(cartItems != null && cartItems.iterator().hasNext()){
+            return getCartAndSummary(cartItems, request);
+        }
+        return null;
     }
 
     @PostMapping("/decrement/{id}")
-    public String decrementCartQuantity(@PathVariable("id") Long id){
+    public Collection<ModelAndView> decrementCartQuantity(@PathVariable("id") Long id, HttpServletRequest request){
+        //Decrement cart quantity
         cartService.updateCartQuantity(id, false);
-        //Return to the Cart view
-        return "redirect:/Cart";
+
+        String username = userAuthentication.getUsernameFromAuthentication();
+        Iterable<Cart> cartItems = cartService.getAllItems(username);
+        if(cartItems != null && cartItems.iterator().hasNext()){
+            return getCartAndSummary(cartItems, request);
+        }
+        return null;
     }
 
     private OrderSummaryDTO calculateOrderSummary(){
 
         return new OrderSummaryDTO("12.50", "5.00","10.00",null,"17.50");
+    }
+
+    private Collection<ModelAndView> getCartAndSummary(Iterable<Cart> cartItems, HttpServletRequest request) {
+        final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
+        //Return to the Cart view
+        return List.of(
+                new ModelAndView("fragments/cart-items :: cart-items", Map.of(
+                        "products", products,
+                        "csrfToken", getCSRFToken(request)
+                )),
+                new ModelAndView("fragments/order-summary :: order-summary", Map.of(
+                        "orderSummary", calculateOrderSummary()
+                ))
+        );
+    }
+
+    private CsrfToken getCSRFToken(HttpServletRequest request){
+        return (CsrfToken) request.getAttribute(CsrfToken.class.getName());
     }
 
 }

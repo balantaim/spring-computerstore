@@ -17,13 +17,17 @@
      th:if="${products}"
      id="cart-items"
      class="column is-mobile-7 is-desktop-8 is-8">
+
+    <script th:inline="javascript">
+        const csrfToken = /*[[${csrfToken.token}]]*/ 'default-token';
+        const csrfHeader = /*[[${csrfToken.headerName}]]*/ 'X-CSRF-TOKEN';
+    </script>
+
     <div th:each="product, iterStat : ${products}" class="box m-2">
         <div th:if="${product.stock > 0}">
 
-            <!-- todo fragment for items-->
-
             <div class="columns is-gapless is-vcentered">
-                <div class="column">
+                <div class="column is-3">
                     <figure class="image is-skeleton">
                         <img class="custom-image"
                              style="object-fit: contain; object-position: center; background-color: white;"
@@ -32,15 +36,11 @@
                     </figure>
                 </div>
 
-                <div class="column ml-5">
-                    <p th:text="${product.productId}"></p>
-                    <p th:text="${product.productName}"></p>
-                    <p th:text="${product.producer}"></p>
-                    <p th:text="${'price: ' + product.price + ' lev'}"></p>
-                    <p th:if="${promoCode}" th:text="${promoCode}"></p>
+                <div class="column ml-5 mr-5 is-3">
+                    <p class="subtitle is-5" th:text="${product.productName}" th:title="${product.productName}"></p>
                 </div>
 
-                <div class="column has-text-centered ml-5">
+                <div class="column has-text-centered is-2">
                     <div class="number-container m-auto">
                         <div style="display: flex; justify-content: center; align-items: center;">
                             <button class="number-action increment"
@@ -71,9 +71,17 @@
                 </div>
 
                 <!-- Delete single item -->
-                <div class="column ml-5">
-                    <button th:onclick="|deleteContent(${product.cartId})|">[[#{btn.delete}]] <i class="fa-solid fa-delete-left"></i></button>
+                <div class="column">
+                    <button class="has-text-danger mb-4" th:onclick="|deleteContent(${product.cartId})|">
+                        <span class="icon is-small"><i class="fas fa-times"></i></span> <span>[[#{btn.delete}]]</span>
+                    </button>
+                    <!-- Price -->
+                    <div class="is-flex is-vcentered has-skeleton" style="color: var(--accent);">
+                        <p class="is-size-5 has-text-weight-bold" th:if="${product.price}" th:text="${product.price}"></p>
+                        <p class="is-size-5 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
+                    </div>
                 </div>
+
             </div>
         </div>
         <!-- else -->

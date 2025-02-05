@@ -141,3 +141,64 @@
 ## Gallery
 
 ![EER diagram](images/EER-diagram.PNG)
+![SEO Optimisations](images/seo.PNG)
+
+### Analytics
+
+- [ ] Google Analytics + Enhanced Ecommerce
+- [ ] Facebook Pixel
+- [ ] Facebook Catalog Dynamic Ads
+- [ ] Google Ads Conversion Tracking
+- [ ] Google Tag Manager & Google Optimize
+
+### File Structure
+
+```tree
+├───main
+│   ├───java
+│   │   └───com
+│   │       └───martinatanasov
+│   │           └───computerstore
+│   │               ├───aspect
+│   │               ├───config
+│   │               ├───controllers
+│   │               ├───entities
+│   │               ├───model
+│   │               ├───repositories
+│   │               ├───security
+│   │               │   └───login
+│   │               ├───services
+│   │               └───utils
+│   │                   └───converter
+│   └───resources
+│       ├───db
+│       │   └───migration
+│       ├───lang
+│       ├───static
+│       │   ├───css
+│       │   ├───images
+│       │   │   ├───category
+│       │   │   └───home
+│       │   ├───js
+│       │   └───other
+│       └───templates
+│           ├───About
+│           ├───Administration
+│           ├───Cart
+│           ├───error
+│           ├───fragments
+│           ├───Home
+│           ├───Login
+│           ├───Management
+│           ├───Orders
+│           ├───Products
+│           ├───Register
+│           └───UserProfile
+└───test
+    └───java
+        └───com
+            └───martinatanasov
+                └───computerstore
+                    ├───controllers
+                    └───repositories
+```

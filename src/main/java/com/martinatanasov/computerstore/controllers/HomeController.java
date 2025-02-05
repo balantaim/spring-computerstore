@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +18,7 @@ package com.martinatanasov.computerstore.controllers;
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.StoreItem;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
-import com.martinatanasov.computerstore.util.converter.ProductConverter;
+import com.martinatanasov.computerstore.utils.converter.ProductConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
