@@ -24,7 +24,7 @@
     </script>
 
     <div th:each="product, iterStat : ${products}" class="box m-2">
-        <div th:if="${product.stock > 0}">
+        <div th:if="${product.quantity > 0}">
 
             <div class="columns is-gapless is-vcentered">
                 <div class="column is-3">
@@ -56,7 +56,7 @@
                                    min="1"
                                    max="20"
                                    step="1"
-                                   th:value="${product.stock}"
+                                   th:value="${product.quantity}"
                                    inputmode="numeric"
                                    pattern="[0-9]+"
                                    readonly>
@@ -85,7 +85,7 @@
             </div>
         </div>
         <!-- else -->
-        <div th:unless="${product.stock > 0}" class="container has-text-centered">
+        <div th:unless="${product.quantity > 0}" class="container has-text-centered">
             <h1 class="is-size-1">[[#{product.zero.stock}]]</span></h1>
             <div class="space"></div>
             <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>

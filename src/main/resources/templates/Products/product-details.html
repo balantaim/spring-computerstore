@@ -82,7 +82,7 @@
 
             <div class="box m-3" style="min-height: 416px;">
 
-                <!-- Have stock -->
+                <!-- Have quantity -->
                 <section th:if="${product.stock > 0}">
                     <form action="#" th:action="@{/Cart}" method="POST">
 
@@ -125,7 +125,7 @@
                         </div>
                     </form>
                 </section>
-                <!-- Out of stock -->
+                <!-- Out of quantity -->
                 <section th:unless="${product.stock > 0}"
                          style="min-height: 254px; display: flex; justify-content: center; align-items: center; transform: rotate(-32deg);">
                     <h2 class="title is-3 has-text-danger" style="text-decoration: underline;">

@@ -162,16 +162,16 @@ public class CartController {
     }
 
     private OrderSummaryDTO calculateOrderSummary(Set<CardItemDTO> products) {
-        BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
-        BigDecimal orderTotal = BigDecimal.ZERO;
-        DecimalFormat formatter = new DecimalFormat("#0.00");
-
         if (products.isEmpty()){
             return null;
         } else {
+            final DecimalFormat formatter = new DecimalFormat("#0.00");
+            BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
+            BigDecimal orderTotal = BigDecimal.ZERO;
+
             for (CardItemDTO item : products) {
                 BigDecimal singleItemPrice = item.price();
-                BigDecimal itemCount = new BigDecimal(item.stock());
+                BigDecimal itemCount = new BigDecimal(item.quantity());
                 orderTotal = orderTotal.add(singleItemPrice.multiply(itemCount));
             }
             return new OrderSummaryDTO(

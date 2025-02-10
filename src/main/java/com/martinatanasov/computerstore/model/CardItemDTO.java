@@ -25,6 +25,6 @@ public record CardItemDTO(
         String imageUrl,
         String description,
         String category,
-        Integer stock,
+        Integer quantity,
         BigDecimal price) {
 }

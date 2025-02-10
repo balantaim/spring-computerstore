@@ -59,7 +59,7 @@ public class CartConverter {
                     .id(item.cartId())
                     .user(user)
                     .product(product)
-                    .quantity(item.stock())
+                    .quantity(item.quantity())
                     .build());
         }
         return cartItems;

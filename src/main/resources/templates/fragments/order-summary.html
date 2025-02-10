@@ -22,37 +22,37 @@
             <h2 class="title has-text-centered is-skeleton mb-6 mt-4">[[#{text.order.summary}]]</h2>
 
             <div class="is-flex is-justify-content-space-between is-vcentered is-skeleton">
-                <p>Subtotal</p>
+                <p>[[#{cart.summary.subtotal}]]</p>
                 <p>[[${orderSummary.subtotal}]]</p>
             </div>
             <hr>
 
             <div th:if="${orderSummary.shippingEstimate}" class="is-flex is-justify-content-space-between is-vcentered is-skeleton">
-                <p>Shipping estimate</p>
+                <p>[[#{cart.summary.shipping.estimate}]]</p>
                 <p>[[${orderSummary.shippingEstimate}]]</p>
             </div>
             <hr th:if="${orderSummary.shippingEstimate}">
 
             <div th:if="${orderSummary.taxEstimate}" class="is-flex is-justify-content-space-between is-vcentered is-skeleton">
-                <p>Tax estimate</p>
+                <p>[[#{cart.summary.tax.estimate}]]</p>
                 <p>[[${orderSummary.taxEstimate}]]</p>
             </div>
             <hr th:if="${orderSummary.taxEstimate}">
 
             <div th:if="${orderSummary.voucher}" class="is-flex is-justify-content-space-between is-vcentered is-skeleton">
-                <p>Voucher</p>
+                <p>[[#{cart.summary.voucher}]]</p>
                 <p>[[${orderSummary.voucher}]]</p>
             </div>
             <hr th:if="${orderSummary.voucher}">
 
             <div class="is-flex is-justify-content-space-between is-vcentered is-skeleton">
-                <p><strong>Order total</strong></p>
+                <p><strong>[[#{cart.summary.order.total}]]</strong></p>
                 <p><strong>[[${orderSummary.orderTotal}]]</strong></p>
             </div>
 
             <div>
                 <form action="#" th:action="@{/Checkout/step-1}" method="POST">
-                    <button type="submit" class="button is-primary is-rounded is-fullwidth is-skeleton mt-6">Checkout</button>
+                    <button type="submit" class="button is-primary is-rounded is-fullwidth is-skeleton mt-6">[[#{cart.summary.checkout}]]</button>
                 </form>
             </div>
 
