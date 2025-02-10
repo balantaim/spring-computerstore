@@ -24,12 +24,15 @@ import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.security.web.csrf.CsrfToken;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
@@ -58,7 +61,7 @@ public class CartController {
             //Add cart products
             model.addAttribute("products", products);
             //Add order summary
-            model.addAttribute("orderSummary", calculateOrderSummary());
+            model.addAttribute("orderSummary", calculateOrderSummary(products));
             model.addAttribute("csrfToken", getCSRFToken(request));
 
             //Todo promo code
@@ -95,7 +98,7 @@ public class CartController {
             model.addAttribute("csrfToken", getCSRFToken(request));
             model.addAttribute("products", products);
             //Add order summary
-            model.addAttribute("orderSummary", calculateOrderSummary());
+            model.addAttribute("orderSummary", calculateOrderSummary(products));
             if(promoCode != null){
                 if(promoCode.length() > 3){
                     model.addAttribute("promoCode", promoCode);
@@ -158,9 +161,27 @@ public class CartController {
         return null;
     }
 
-    private OrderSummaryDTO calculateOrderSummary(){
+    private OrderSummaryDTO calculateOrderSummary(Set<CardItemDTO> products) {
+        BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
+        BigDecimal orderTotal = BigDecimal.ZERO;
+        DecimalFormat formatter = new DecimalFormat("#0.00");
 
-        return new OrderSummaryDTO("12.50", "5.00","10.00",null,"17.50");
+        if (products.isEmpty()){
+            return null;
+        } else {
+            for (CardItemDTO item : products) {
+                BigDecimal singleItemPrice = item.price();
+                BigDecimal itemCount = new BigDecimal(item.stock());
+                orderTotal = orderTotal.add(singleItemPrice.multiply(itemCount));
+            }
+            return new OrderSummaryDTO(
+                    formatter.format(orderTotal.divide(new BigDecimal(products.size()), RoundingMode.CEILING)),
+                    shippingEstimate != null ? formatter.format(shippingEstimate):null,
+                    formatter.format(orderTotal.multiply(new BigDecimal("0.80"))),
+                    null,
+                    formatter.format(orderTotal.add(shippingEstimate))
+            );
+        }
     }
 
     private Collection<ModelAndView> getCartAndSummary(Iterable<Cart> cartItems, HttpServletRequest request) {
@@ -172,7 +193,7 @@ public class CartController {
                         "csrfToken", getCSRFToken(request)
                 )),
                 new ModelAndView("fragments/order-summary :: order-summary", Map.of(
-                        "orderSummary", calculateOrderSummary()
+                        "orderSummary", Objects.requireNonNull(calculateOrderSummary(products))
                 ))
         );
     }

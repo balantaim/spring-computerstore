@@ -50,10 +50,14 @@
 <!--    @{/images/home/home1140x640.jpg} + ' 2400w'"-->
 <!--                 th:src="@{/images/home/home1140x640.jpg}">-->
 
+            <!-- Search Section -->
             <div class="columns is-gapless">
                 <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
                 <div class="column mr-1 ml-1">
-                    <!-- Search -->
+
+                    <!-- Search Script -->
+                    <script defer th:src="@{/js/ajax-live-search.js}"></script>
+                    <!-- Search Form -->
                     <form action="#" method="GET" th:action="@{/Search}" autocomplete="off">
                         <div class="field has-addons width-90">
                             <p class="control is-expanded has-icons-left">
