@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.aspect;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,37 +24,34 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.logging.Logger;
-
+//Enable logging only for test environment
+@Profile(value = {"test", "benc"})
+@Slf4j
 @Aspect
 @Component
-//Enable logging only for test environment
-@Profile(value = "test")
 public class LoggingAspect {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+    @Pointcut("execution(* com.martinatanasov.computerstore.controllers.*.*(..))")
+    private void forControllersPackage(){}
 
-    @Pointcut("execution(* com.martinatanasov.computerstore.controller.*.*(..))")
-    private void forControllerPackage(){}
+    @Pointcut("execution(* com.martinatanasov.computerstore.services.*.*(..))")
+    private void forServicesPackage(){}
 
-    @Pointcut("execution(* com.martinatanasov.computerstore.service.*.*(..))")
-    private void forServicePackage(){}
+    @Pointcut("execution(* com.martinatanasov.computerstore.repositories.*.*(..))")
+    private void forRepositoriesPackage(){}
 
-    @Pointcut("execution(* com.martinatanasov.computerstore.dao.*.*(..))")
-    private void forDaoPackage(){}
-
-    @Pointcut("forControllerPackage() || forServicePackage() || forDaoPackage()")
+    @Pointcut("forControllersPackage() || forServicesPackage() || forRepositoriesPackage()")
     private void forAppFlow(){}
 
     @Before("forAppFlow()")
     public void before(JoinPoint joinPoint){
         //Display the method we are calling
         String method = joinPoint.getSignature().toShortString();
-        logger.info("--->>> @Before calling the method: " + method);
+        log.info("--->>> @Before calling the method: {}", method);
         //Get the arguments
         Object[] args = joinPoint.getArgs();
         for (Object index : args){
-            logger.info("--->>> argument: " + index);
+            log.info("--->>> argument: {}", index);
         }
     }
 
@@ -64,9 +62,9 @@ public class LoggingAspect {
     public void afterReturning(JoinPoint joinPoint, Object objectResult){
         //Display the method we return
         String method = joinPoint.getSignature().toShortString();
-        logger.info("--->>> @AfterReturning calling the method: " + method);
+        log.info("--->>> @AfterReturning calling the method: {}", method);
         //Display data returned
-        logger.info("--->>> Result: " + objectResult);
+        log.info("--->>> Result: {}", objectResult);
     }
 
 }

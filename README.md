@@ -9,7 +9,7 @@
 ## Software Stack
 
 <p><b>Software architecture:</b> MVC</p>
-<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Maven</p>
+<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Zipkin, Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
 
@@ -43,10 +43,11 @@
     <li>Install Java 21 LTS (OpenJDK Corretto)</li>
     <li>Connect to your MySQL DB</li>
     <li>Select profile from "application.properties" (test/prod profile)</li>
-    <li>Optional: Add Database url, user and pass as VM options to prod profile: <p>" --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass"</p></li>
+    <li>Optional: Add Database url, user and pass as VM options to prod profile: <p>" -DB_URL=url -DB_NAME=user -DB_PASSWORD=pass"</p></li>
     <li>Test the project in your favorite IDE</li>
-    <li>Create execution jar from the terminal by using "mvn clean package"</li>
-    <li>Your project is ready in ./target directory</li>
+    <li>Use prod profile in the application.properties: spring.profiles.active=prod</li>
+    <li>Create execution jar from the terminal by using "mvn clean package -Pproduction"</li>
+    <li>Your project is ready in the ./target directory</li>
 </ol>
 
 ## Prepare cloud platform
@@ -92,17 +93,20 @@
 
 <p><b>Value:</b> for Generational ZGC use "-XX:+UseZGC -XX:+ZGenerational"</p>
 
-## Project optimisations
+## Environment Information
 
-<ul>
-    <li>Gzip conversion</li>
-    <li>Enable cacheable static assets: *.js, *.css, image/**</li>
-    <li>Enable data caching with Spring: products</li>
-</ul>
+### Dependencies profiles
 
-## Test Information
+1. development: default profile (use with "mvn clean package")
+2. production: optimized profile for production (use with "mvn clean package -Pproduction")
 
-### Test users
+### Spring Environment profiles
+
+1. test: setup with: logging, AOP, disable cache, no tracing
+2. benc: setup with: logging, AOP, active tracing
+3. prod: setup with: no logging, no tracing, optimizations for production
+
+### Test Users
 
 1. Role: customer; <br>Username: <i>abv@abv.bg</i><br>Password: <i>test</i>
 2. Role: customer, manager; <br>Username: <i>manager@abv.bg</i><br>Password: <i>test</i>
@@ -111,13 +115,30 @@
 ### API testing
 
 > [!IMPORTANT]
-> Use only for TEST profile! Be sure CSRF is disabled!
+> Use only for "test" profile! Be sure CSRF is disabled!
 
 <p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
+
+### Tracing and Latency testing
+
+> [!IMPORTANT]
+> Use only for "benc" profile!
+
+1. Download Zipkin jar "curl -sSL https://zipkin.io/quickstart.sh | bash -s"
+2. Execute "java -jar zipkin.jar" from the jar's folder
+3. Navigate browser to "http://localhost:9411/"
 
 ### Actuator endpoint
 
 <p>Actuator link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com/page/actuator">/page/actuator</a></p>
+
+## Project optimisations
+
+<ul>
+    <li>Gzip conversion</li>
+    <li>Enable cacheable static assets: *.js, *.css, image/**</li>
+    <li>Enable data caching with Spring: products</li>
+</ul>
 
 ### Limitations
 

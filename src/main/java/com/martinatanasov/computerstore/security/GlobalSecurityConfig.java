@@ -128,7 +128,8 @@ public class GlobalSecurityConfig {
     }
 
     private boolean isTestProfile() {
-        return Arrays.asList(environment.getActiveProfiles()).contains("test");
+        return Arrays.asList(environment.getActiveProfiles()).contains("test") ||
+                Arrays.asList(environment.getActiveProfiles()).contains("benc");
     }
 
 }

@@ -27,18 +27,22 @@
 	<artifactId>computerstore</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>spring-computerstore</name>
-	<description>Computer Store Demo</description>
+	<description>Computer Store - Demo project for e-commerce platform</description>
 
-	<!--	<url/>-->
+	<url>http://computer-store.eu-north-1.elasticbeanstalk.com/</url>
 	<licenses>
 		<license>
 			<name>Apache 2.0</name>
 			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+			<comments>The license include entire project</comments>
 		</license>
 	</licenses>
 	<developers>
 		<developer>
 			<name>Martin Atanasov</name>
+			<roles>
+				<role>Fullstack developer</role>
+			</roles>
 		</developer>
 	</developers>
 
@@ -46,6 +50,7 @@
 		<java.version>21</java.version>
 	</properties>
 
+	<!-- Global dependencies -->
 	<dependencies>
 
 		<dependency>
@@ -80,12 +85,6 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
-		<!-- Aspect Oriented Programming (Aspectj) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-aop</artifactId>
-		</dependency>
-
 		<!-- Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -98,6 +97,7 @@
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 		</dependency>
 
+		<!-- Data validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
@@ -146,13 +146,63 @@
 
 	</dependencies>
 
+	<profiles>
+		<!-- Development default profile -->
+		<profile>
+			<id>development</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+
+				<!-- Aspect Oriented Programming (Aspectj) -->
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-aop</artifactId>
+				</dependency>
+				<!-- Zipkin for back-end trace -->
+				<dependency>
+					<groupId>io.micrometer</groupId>
+					<artifactId>micrometer-tracing-bridge-brave</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>io.zipkin.reporter2</groupId>
+					<artifactId>zipkin-reporter-brave</artifactId>
+				</dependency>
+
+			</dependencies>
+		</profile>
+
+		<!-- Production profile use (mvn clean package -Pproduction) -->
+		<profile>
+			<id>production</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<!-- Show more information -->
+							<verbose>true</verbose>
+							<excludes>
+								<!-- Exclude specific classes or packages -->
+								<exclude>**/LoggingAspect.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
 	<build>
 		<plugins>
 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-
 				<configuration>
 					<excludes>
 						<exclude>
@@ -162,8 +212,16 @@
 					</excludes>
 				</configuration>
 
-				<!-- additional properties for actuator.info run 'mvn spring-boot:run' -->
 				<executions>
+					<!-- Ahead Of Time (AOT) for fast startup-->
+					<execution>
+						<id>process-aot</id>
+						<goals>
+							<goal>process-aot</goal>
+						</goals>
+					</execution>
+
+					<!-- Additional properties for actuator.info run 'mvn spring-boot:run' -->
 					<execution>
 						<goals>
 							<!-- Add build info to the jar-->
@@ -183,7 +241,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.5.2</version>
 				<executions>
 					<execution>
 						<goals>
@@ -205,4 +262,5 @@
 
 		</plugins>
 	</build>
+
 </project>
