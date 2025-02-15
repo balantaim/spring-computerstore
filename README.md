@@ -50,7 +50,7 @@
     <li>Your project is ready in the ./target directory</li>
 </ol>
 
-## Prepare cloud platform
+## Prepare the cloud platform
 
 <ol>
     <li>Register/Login to AWS</li>

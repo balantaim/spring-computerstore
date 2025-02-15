@@ -72,11 +72,11 @@
 
                 <!-- Delete single item -->
                 <div class="column">
-                    <button class="has-text-danger mb-4" th:onclick="|deleteContent(${product.cartId})|">
+                    <button class="has-text-danger mb-4" style="width: 100%" th:onclick="|deleteContent(${product.cartId})|">
                         <span class="icon is-small"><i class="fas fa-times"></i></span> <span>[[#{btn.delete}]]</span>
                     </button>
                     <!-- Price -->
-                    <div class="is-flex is-vcentered has-skeleton" style="color: var(--accent);">
+                    <div class="is-flex is-justify-content-center is-align-items-center has-skeleton" style="color: var(--accent);">
                         <p class="is-size-5 has-text-weight-bold" th:if="${product.price}" th:text="${product.price}"></p>
                         <p class="is-size-5 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
                     </div>

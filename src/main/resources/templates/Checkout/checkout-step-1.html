@@ -14,14 +14,95 @@
   -->
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<!-- data-theme="light" -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<head th:replace="~{fragments/head-link-extras :: head(~{::title}, ~{::link})}">
+    <title>Checkout Step 1</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/octoshrimpy/bulma-o-steps@master/bulma-steps.min.css">
 </head>
 <body>
+<!-- NAVBAR -->
+<div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
 
-  <h1>Checkout 1</h1>
+<!--MAIN Content Start-->
+<div class="main container">
+    <div class="space"></div>
+
+    <h1 class="title has-text-centered is-2 mb-6">Delivery Information</h1>
+
+    <div class="container has-text-centered">
+
+        <div>
+            <ul class="steps is-narrow is-medium is-centered has-content-centered">
+                <!-- Shopping Cart-->
+                <li class="steps-segment">
+                    <a th:href="@{/Cart}" class="has-text-dark">
+                    <span class="steps-marker">
+                        <span class="icon">
+                            <i class="fa fa-shopping-cart"></i>
+                        </span>
+                    </span>
+                        <div class="steps-content">
+                            <p class="heading">Shopping Cart</p>
+                        </div>
+                    </a>
+                </li>
+                <!-- Delivery Information-->
+                <li class="steps-segment is-active has-gaps">
+                    <a href="#" class="has-text-dark">
+                        <span class="steps-marker">
+                            <span class="icon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                        </span>
+                        <div class="steps-content">
+                            <p class="heading has-text-warning">Delivery Information</p>
+                        </div>
+                    </a>
+                </li>
+                <!-- Payment-->
+                <li class="steps-segment is-active has-gaps">
+                <span class="steps-marker is-hollow">
+                    <span class="icon">
+                        <i class="fa fa-usd"></i>
+                    </span>
+                </span>
+                    <div class="steps-content">
+                        <p class="heading">Payment</p>
+                    </div>
+                </li>
+                <!-- Confirmation-->
+                <li class="steps-segment">
+                <span class="steps-marker is-hollow">
+                    <span class="icon">
+                        <i class="fa fa-check"></i>
+                    </span>
+                </span>
+                    <div class="steps-content">
+                        <p class="heading">Confirmation</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="columns is-gapless is-centered mt-6">
+        <div class="column">
+            <p>content</p>
+        </div>
+    </div>
+
+    <div class="space"></div>
+</div>
+<!--MAIN Content End-->
+
+
+<!--FOOTER-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 
 </body>
 </html>
