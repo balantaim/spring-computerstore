@@ -15,9 +15,16 @@
 
 package com.martinatanasov.computerstore.controllers;
 
+import com.martinatanasov.computerstore.entities.User;
+import com.martinatanasov.computerstore.model.CarrierDTO;
+import com.martinatanasov.computerstore.services.ProfileServiceImpl;
+import com.martinatanasov.computerstore.utils.converter.AddressConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +35,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class CheckoutController {
 
+    private final ProfileServiceImpl profileService;
+    private final AddressConverter addressConverter;
+
     @PostMapping("/step-1")
-    public String initiateCheckout() {
+    public String initiateCheckoutInformation(Model model) {
+        final User user = profileService.getUserData(getUserName());
+        if(user != null) {
+            model.addAttribute("address", addressConverter.userAddressToDTO(user));
+        }
+        model.addAttribute("carrier", new CarrierDTO());
         return "Checkout/checkout-step-1";
     }
 
     @GetMapping("/step-1")
-    public String refreshCheckout() {
+    public String refreshCheckoutInformation(Model model) {
+        final User user = profileService.getUserData(getUserName());
+        if(user != null) {
+            model.addAttribute("address", addressConverter.userAddressToDTO(user));
+        }
+        model.addAttribute("carrier", new CarrierDTO());
         return "Checkout/checkout-step-1";
+    }
+
+    @PostMapping("/step-2")
+    public String initiateCheckoutPayment() {
+        return "Checkout/checkout-step-2";
+    }
+
+    @PostMapping("/step-3")
+    public String initiateCheckoutConfirmation() {
+        return "Checkout/checkout-step-3";
+    }
+
+    private String getUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName(); // Get logged-in username
     }
 }

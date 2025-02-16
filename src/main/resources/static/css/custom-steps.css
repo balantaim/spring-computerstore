@@ -1,0 +1,9 @@
+.steps-segment:after {
+    background-color: var(--accent);
+}
+.steps:not(.is-hollow) .steps-segment.is-active .steps-marker:not(.is-hollow) {
+    background-color: var(--accent);
+}
+.steps:not(.is-hollow) .steps-marker:not(.is-hollow) {
+    background-color: var(--accent);
+}

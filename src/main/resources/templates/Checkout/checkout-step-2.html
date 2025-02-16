@@ -19,7 +19,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head th:replace="~{fragments/head-link-extras :: head(~{::title}, ~{::link})}">
-    <title>Checkout Step 1 - Delivery information</title>
+    <title>Checkout Step 2 - Payment</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/octoshrimpy/bulma-o-steps@master/bulma-steps.min.css">
     <link rel="stylesheet" th:href="@{/css/custom-steps.css}">
 </head>
@@ -31,9 +31,8 @@
 <div class="main container">
     <div class="space"></div>
 
-    <h1 class="title has-text-centered is-2 mb-6">[[#{delivery.information}]]</h1>
+    <h1 class="title has-text-centered is-2 mb-6">[[#{payment.header}]]</h1>
 
-    <!-- Steps status -->
     <div class="container has-text-centered">
 
         <div>
@@ -41,36 +40,38 @@
                 <!-- Shopping Cart-->
                 <li class="steps-segment">
                     <a th:href="@{/Cart}" class="has-text-dark">
-                        <span class="steps-marker">
-                            <span class="icon">
-                                <i class="fa fa-shopping-cart"></i>
-                            </span>
+                    <span class="steps-marker">
+                        <span class="icon">
+                            <i class="fa fa-shopping-cart"></i>
                         </span>
+                    </span>
                         <div class="steps-content">
                             <p class="heading">[[#{shopping.cart}]]</p>
                         </div>
                     </a>
                 </li>
                 <!-- Delivery Information-->
-                <li class="steps-segment is-active has-gaps">
-                    <span class="steps-marker">
-                        <span class="icon">
-                            <i class="fa fa-user"></i>
+                <li class="steps-segment">
+                    <a th:href="@{/Checkout/step-1}" class="has-text-dark">
+                        <span class="steps-marker">
+                            <span class="icon">
+                                <i class="fa fa-user"></i>
+                            </span>
                         </span>
-                    </span>
-                    <div class="steps-content">
-                        <p class="heading has-text-warning">[[#{delivery.information}]]</p>
-                    </div>
+                        <div class="steps-content">
+                            <p class="heading">[[#{delivery.information}]]</p>
+                        </div>
+                    </a>
                 </li>
                 <!-- Payment-->
                 <li class="steps-segment is-active has-gaps">
-                <span class="steps-marker is-hollow">
+                <span class="steps-marker">
                     <span class="icon">
                         <i class="fa fa-usd"></i>
                     </span>
                 </span>
                     <div class="steps-content">
-                        <p class="heading">[[#{payment.header}]]</p>
+                        <p class="heading has-text-warning">[[#{payment.header}]]</p>
                     </div>
                 </li>
                 <!-- Confirmation-->
@@ -89,67 +90,22 @@
 
     </div>
 
-    <!-- User address -->
-    <div th:if="${address}" class="columns is-gapless is-centered m-4">
-        <div class="column box is-9 m-2">
-            <div class="pl-5 pr-5 pt-3 pb-5" style="overflow-wrap: break-word;">
-                <h2 class="subtitle has-text-centered is-4">[[#{form.order.address}]]</h2>
-                <p th:if="${address.firstName != ''}"><b>[[#{text.recipient}]]:</b> [[${address.firstName}]] [[${address.lastName}]]</p>
-                <p th:if="${address.phoneNumber != ''}"><b>[[#{form.phone}]]:</b> [[${address.phoneNumber}]]</p>
-                <p th:if="${address.countyName != ''}"><b>[[#{form.country}]]:</b> [[${address.countyName}]]</p>
-                <p th:if="${address.address != ''}"><b>[[#{form.address}]]:</b> [[${address.address}]]</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Radio buttons -->
     <div class="columns is-gapless is-centered mt-6">
         <div class="column has-text-centered">
-
-            <link rel="stylesheet" th:href="@{/css/radio-buttons.css}">
-
-            <div class="radio-container">
-                <div class="radio-tile-group">
-
-                    <div class="input-container">
-                        <label for="econt">
-                            <input id="econt" type="radio" name="carrier" checked>
-                            <div class="radio-tile" style="padding: 12px;">
-                                <img th:src="@{/images/carriers/econt.svg}" alt="Econt"/>
-                            </div>
-                        </label>
-
-                    </div>
-
-                    <div class="input-container">
-                        <label for="speedy">
-                            <input id="speedy" type="radio" name="carrier">
-                            <div class="radio-tile">
-                                <img th:src="@{/images/carriers/speedy.svg}" alt="Speedy"/>
-                            </div>
-                        </label>
-                    </div>
-
-                </div>
-            </div>
-
-            <script defer th:src="@{/js/update-carrier-name.js}"></script>
-            <div class="container has-text-centered mt-6 mb-3">
-                <p>[[#{text.carrier}]] <span id="carrier-name"></span></p>
-            </div>
-
-
+            <p>content</p>
+        </div>
+        <div class="column has-text-centered">
+            <p>content2</p>
         </div>
     </div>
 
-    <!-- Navigation buttons -->
     <div class="is-flex is-justify-content-space-between is-vcentered">
         <form action="#" th:action="@{/Cart}" method="GET">
             <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
                 [[#{btn.cart}]]
             </button>
         </form>
-        <form action="#" th:action="@{/Checkout/step-2}" method="POST">
+        <form action="#" th:action="@{/Checkout/step-3}" method="POST">
             <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
                 [[#{btn.continue}]]
             </button>
