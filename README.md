@@ -47,7 +47,7 @@
 5. Test the project in your favorite IDE
 6. Use prod profile in the application.properties: spring.profiles.active=prod
 7. Create execution jar from the terminal by using:
-8. 
+
 ```bash
 mvn clean package -Pproduction
 ```
