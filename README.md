@@ -39,16 +39,21 @@
 
 ## Setup the project
 
-<ol>
-    <li>Install Java 21 LTS (OpenJDK Corretto)</li>
-    <li>Connect to your MySQL DB</li>
-    <li>Select profile from "application.properties" (test/prod profile)</li>
-    <li>Optional: Add Database url, user and pass as VM options to prod profile: <p>" -DB_URL=url -DB_NAME=user -DB_PASSWORD=pass"</p></li>
-    <li>Test the project in your favorite IDE</li>
-    <li>Use prod profile in the application.properties: spring.profiles.active=prod</li>
-    <li>Create execution jar from the terminal by using "mvn clean package -Pproduction"</li>
-    <li>Your project is ready in the ./target directory</li>
-</ol>
+
+1. Install Java 21 LTS (OpenJDK Corretto)
+2. Connect to your MySQL DB
+3. Select profile from "application.properties" (test/prod profile)
+4. Optional: Add Database url, user and pass as VM options to prod profile: " -DB_URL=url -DB_NAME=user -DB_PASSWORD=pass"
+5. Test the project in your favorite IDE
+6. Use prod profile in the application.properties: spring.profiles.active=prod
+7. Create execution jar from the terminal by using:
+8. 
+```bash
+mvn clean package -Pproduction
+```
+
+Your project is ready in the ./target directory
+
 
 ## Prepare the cloud platform
 
