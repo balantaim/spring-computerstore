@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ProductRepositoryTest {
+class ProductRepositoryIT {
 
     @Autowired
     ProductRepository repository;

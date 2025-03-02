@@ -22,6 +22,7 @@
     <title>Checkout Step 1 - Delivery information</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/octoshrimpy/bulma-o-steps@master/bulma-steps.min.css">
     <link rel="stylesheet" th:href="@{/css/custom-steps.css}">
+    <link rel="stylesheet" th:href="@{/css/radio-buttons.css}">
 </head>
 <body>
 <!-- NAVBAR -->
@@ -31,7 +32,7 @@
 <div class="main container">
     <div class="space"></div>
 
-    <h1 class="title has-text-centered is-2 mb-6">[[#{delivery.information}]]</h1>
+    <h1 class="title has-text-centered is-skeleton is-2 mb-6">[[#{delivery.information}]]</h1>
 
     <!-- Steps status -->
     <div class="container has-text-centered">
@@ -90,52 +91,59 @@
     </div>
 
     <!-- User address -->
-    <div th:if="${address}" class="columns is-gapless is-centered m-4">
+    <div th:if="${address}" class="columns is-gapless is-centered mt-4 mb-4">
+        <div class="column"></div>
+
         <div class="column box is-9 m-2">
             <div class="pl-5 pr-5 pt-3 pb-5" style="overflow-wrap: break-word;">
-                <h2 class="subtitle has-text-centered is-4">[[#{form.order.address}]]</h2>
-                <p th:if="${address.firstName != ''}"><b>[[#{text.recipient}]]:</b> [[${address.firstName}]] [[${address.lastName}]]</p>
-                <p th:if="${address.phoneNumber != ''}"><b>[[#{form.phone}]]:</b> [[${address.phoneNumber}]]</p>
-                <p th:if="${address.countyName != ''}"><b>[[#{form.country}]]:</b> [[${address.countyName}]]</p>
-                <p th:if="${address.address != ''}"><b>[[#{form.address}]]:</b> [[${address.address}]]</p>
+                <h2 class="subtitle has-text-centered is-skeleton is-4">[[#{form.order.address}]]</h2>
+                <p th:if="${address.firstName != ''}" class="is-skeleton"><b>[[#{text.recipient}]]:</b> [[${address.firstName}]] [[${address.lastName}]]</p>
+                <p th:if="${address.phoneNumber != ''}" class="is-skeleton"><b>[[#{form.phone}]]:</b> [[${address.phoneNumber}]]</p>
+                <p th:if="${address.countyName != ''}" class="is-skeleton"><b>[[#{form.country}]]:</b> [[${address.countyName}]]</p>
+                <p th:if="${address.address != ''}" class="is-skeleton"><b>[[#{form.address}]]:</b> [[${address.address}]]</p>
+            </div>
+
+            <div class="has-text-centered is-skeleton mt-4 pt-4 pb-4">
+                <a th:href="@{/Profile/address}" class="is-info" role="button" aria-pressed="true">[[#{change.address}]]</a>
             </div>
         </div>
+
+        <div class="column"></div>
     </div>
 
     <!-- Radio buttons -->
     <div class="columns is-gapless is-centered mt-6">
-        <div class="column has-text-centered">
+        <div class="column">
 
-            <link rel="stylesheet" th:href="@{/css/radio-buttons.css}">
+            <fieldset>
+                <div class="radio-container">
+                    <div class="radio-tile-group">
 
-            <div class="radio-container">
-                <div class="radio-tile-group">
+                        <div class="input-container">
+                            <label for="ECONT">
+                                <input id="ECONT" type="radio" name="carrier" value="ECONT" checked>
+                                <div class="radio-tile" style="padding: 12px;">
+                                    <img th:src="@{/images/carriers/econt.svg}" alt="Econt"/>
+                                </div>
+                            </label>
 
-                    <div class="input-container">
-                        <label for="econt">
-                            <input id="econt" type="radio" name="carrier" checked>
-                            <div class="radio-tile" style="padding: 12px;">
-                                <img th:src="@{/images/carriers/econt.svg}" alt="Econt"/>
-                            </div>
-                        </label>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="SPEEDY">
+                                <input id="SPEEDY" type="radio" name="carrier" value="SPEEDY">
+                                <div class="radio-tile">
+                                    <img th:src="@{/images/carriers/speedy.svg}" alt="Speedy"/>
+                                </div>
+                            </label>
+                        </div>
 
                     </div>
-
-                    <div class="input-container">
-                        <label for="speedy">
-                            <input id="speedy" type="radio" name="carrier">
-                            <div class="radio-tile">
-                                <img th:src="@{/images/carriers/speedy.svg}" alt="Speedy"/>
-                            </div>
-                        </label>
-                    </div>
-
                 </div>
-            </div>
+            </fieldset>
 
-            <script defer th:src="@{/js/update-carrier-name.js}"></script>
             <div class="container has-text-centered mt-6 mb-3">
-                <p>[[#{text.carrier}]] <span id="carrier-name"></span></p>
+                <p class="is-size-5 is-skeleton">[[#{text.carrier}]] <span id="carrier-name" class="is-underlined">Econt</span></p>
             </div>
 
 
@@ -145,15 +153,19 @@
     <!-- Navigation buttons -->
     <div class="is-flex is-justify-content-space-between is-vcentered">
         <form action="#" th:action="@{/Cart}" method="GET">
-            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
+            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-4 is-rounded is-centered is-skeleton">
                 [[#{btn.cart}]]
             </button>
         </form>
         <form action="#" th:action="@{/Checkout/step-2}" method="POST">
-            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
+            <input type="hidden" name="carrier" id="carrier-input" value="ECONT">
+            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-4 is-rounded is-centered is-skeleton">
                 [[#{btn.continue}]]
             </button>
         </form>
+
+        <!-- Update value function -->
+        <script defer th:src="@{/js/update-carrier-name.js}"></script>
     </div>
 
     <div class="space"></div>

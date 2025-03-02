@@ -13,22 +13,22 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.repositories;
+package com.martinatanasov.computerstore.services.payments;
 
-import com.martinatanasov.computerstore.entities.Cart;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.stripe.model.Customer;
+import com.stripe.model.CustomerCollection;
+import com.stripe.model.CustomerSearchResult;
 
-import java.util.Optional;
-import java.util.Set;
+public interface PaymentCustomerService {
 
-@Repository
-public interface CartRepository extends JpaRepository<Cart, Long> {
+    CustomerCollection getAllCustomers();
 
-    Set<Cart> findAllByUserId(final Long userId);
+    Customer getCustomerById (String customerId);
 
-    Optional<Cart> findFirstByProductId(final Integer productId);
+    CustomerSearchResult getCustomersByKeyword (String keyword);
 
-    void deleteAllByUserId(final Long userId);
+    String createCustomer(String email);
+
+    void deleteCustomerById (String customerId);
 
 }

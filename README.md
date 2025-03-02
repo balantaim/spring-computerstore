@@ -39,21 +39,20 @@
 
 ## Setup the project
 
-
 1. Install Java 21 LTS (OpenJDK Corretto)
 2. Connect to your MySQL DB
-3. Select profile from "application.properties" (test/prod profile)
-4. Optional: Add Database url, user and pass as VM options to prod profile: " -DB_URL=url -DB_NAME=user -DB_PASSWORD=pass"
-5. Test the project in your favorite IDE
-6. Use prod profile in the application.properties: spring.profiles.active=prod
-7. Create execution jar from the terminal by using:
+3. Connect to Stripe via api key (The demo uses test key for all environments)
+4. Select profile from "application.properties" (test/prod profile)
+5. Optional: Add Database url, user and pass as VM options to prod profile: " -DB_URL=url -DB_NAME=user -DB_PASSWORD=pass"
+6. Test the project in your favorite IDE
+7. Use prod profile in the application.properties: spring.profiles.active=prod
+8. Create execution jar from the terminal by using:
 
 ```bash
 mvn clean package -Pproduction
 ```
 
 Your project is ready in the ./target directory
-
 
 ## Prepare the cloud platform
 
@@ -76,6 +75,12 @@ Your project is ready in the ./target directory
     <li>AWSElasticBeanstalkWorkerTier</li>
     <li>AWSElasticBeanstalkMulticontainerDocker</li>
 </ul>
+
+## Prepare the payment provider
+
+1. Register and login to Stripe: https://stripe.com
+2. Validate your account (no need to fill any payment information)
+3. Copy your secret API key to the project (use key STRIPE_SECRET_KEY as environment variable)
 
 ## Override the default GC (Optional)
 

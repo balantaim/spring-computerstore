@@ -36,6 +36,9 @@
                 --background: var(--dark);
             }
         }
+        * {
+            box-sizing: border-box;
+        }
         body{
             background: var(--background);
             background-repeat: no-repeat;
@@ -327,6 +330,9 @@
             }
             .slider-container{
                 margin: 0 6px 0 6px;
+            }
+            .expanded-on-mobile{
+                min-width: 98%;
             }
         }
         @media (min-width: 481px) and (max-width: 768px){

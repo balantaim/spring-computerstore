@@ -41,7 +41,12 @@
         <div th:if="${products}" th:replace="~{fragments/order-summary :: order-summary}"></div>
 
         <!-- Cart is empty -->
-        <div th:unless="${products}" th:replace="~{fragments/cart-empty :: cart-empty}" id="cart-empty"></div>
+        <div th:if="${products}" class="columns is-gapless m-auto">
+            <div id="cart-empty"></div>
+        </div>
+        <div th:unless="${products}" class="columns is-gapless m-auto">
+            <div id="cart-empty" th:replace="~{fragments/cart-empty :: cart-empty}"></div>
+        </div>
     </div>
 
     <div class="space"></div>

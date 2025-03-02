@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,12 +25,14 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -51,7 +53,7 @@ public class UserDaoImpl implements UserDao {
         try {
             user = theQuery.getSingleResult();
         } catch (Exception e) {
-            user = null;
+            log.error(e.toString());
         }
         return user;
     }
@@ -65,6 +67,21 @@ public class UserDaoImpl implements UserDao {
             user = theQuery.getSingleResult();
         } catch (Exception e) {
             user = null;
+            log.error(e.toString());
+        }
+        return user;
+    }
+
+    @Override
+    public User findByCustomerId(final String customerId) {
+        User user;
+        TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE customerId=:customerId", User.class);
+        theQuery.setParameter("customerId", customerId);
+        try {
+            user = theQuery.getSingleResult();
+        } catch (Exception e) {
+            user = null;
+            log.error(e.toString());
         }
         return user;
     }

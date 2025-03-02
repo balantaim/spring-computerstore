@@ -29,6 +29,8 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -56,7 +58,7 @@ public class CartServiceImpl implements CartService {
     public void createCart(final String username, final Integer productId, final Integer quantity) {
         final User user = getUser(username);
         boolean isCardItemExist = isCartItemExist(user, productId);
-        if(user != null && !isCardItemExist){
+        if(!isCardItemExist){
             Optional<Product> product = productRepository.findProductById(productId);
             //Perform create if the product is valid and has at least 1 count
             if(product.isPresent() && product.get().getStock() > 0){
@@ -107,9 +109,15 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public boolean isCartItemExist(final User user, final Integer productId) {
-        Optional<Cart> item = cartRepository.findFirstByProductId(productId);
-        //Check if the cart item exist and the user is owner of this cart
-        return item.isPresent() && Objects.equals(item.get().getUser().getId(), user.getId());
+        Set<Cart> item = cartRepository.findAllByUserId(user.getId());
+        if (item == null) {
+            return false;
+        } else {
+            Set<Cart> filteredCarts = item.stream()
+                    .filter(index -> Objects.equals(index.getProduct().getId(), productId))
+                    .collect(Collectors.toSet());
+            return !filteredCarts.isEmpty();
+        }
     }
 
     @Override

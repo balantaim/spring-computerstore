@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -58,10 +58,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByCustomerId(final String customerId) {
+        return userDao.findByCustomerId(customerId);
+    }
+
+    @Override
     public void save(AppUserDTO appUserDTO) {
-
         User user = new User();
-
         //Assign user details to the user object
         user.setEmail(appUserDTO.getEmail());
         user.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));

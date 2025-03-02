@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.security;
 import com.martinatanasov.computerstore.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -70,6 +71,8 @@ public class GlobalSecurityConfig {
 
         //Setup permission by role and methods
         http.authorizeHttpRequests(config -> config
+                        //EndpointRequest manage the actuator endpoint
+                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
                         .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
                         .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
@@ -77,7 +80,7 @@ public class GlobalSecurityConfig {
                         .requestMatchers("/Cart-items/**").hasRole("CUSTOMER")
                         //Permit all on GET request for static content
                         .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**",
-                                "/other/**", "/page/actuator/**", "/Products/**",
+                                "/other/**", "/Products/**",
                                 "/About", "/Search", "/Live-search",
                                 "/robots.txt", "/error/**", "/403").permitAll()
                         .requestMatchers("/", "/register/**").permitAll()

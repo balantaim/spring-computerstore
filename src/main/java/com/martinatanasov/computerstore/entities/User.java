@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -58,6 +58,12 @@ public class User {
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
+    @Column(name = "customer_id", length = 50)
+    private String customerId;
+
+    @Column(name = "voucher_id")
+    private Long voucherId;
+
     @Column(name = "attempts")
     private Byte attempts;
 
@@ -67,10 +73,10 @@ public class User {
     @Column(name = "verified_profile")
     private Boolean verifiedProfile;
 
-    @Column(name = "creation_date", updatable = false)
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;
 
-    @Column(name = "modify_date")
+    @Column(name = "modify_date", nullable = false)
     private Timestamp modifyDate;
 
     @Column(name = "lock_date")

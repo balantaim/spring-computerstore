@@ -11,6 +11,9 @@ DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS shipments;
 DROP TABLE IF EXISTS carts;
+DROP TABLE IF EXISTS galleries;
+DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS vouchers;
 
 SET foreign_key_checks = 1;
 
@@ -25,6 +28,8 @@ CREATE TABLE users (
   country VARCHAR(50) DEFAULT NULL,
   address VARCHAR(150) DEFAULT NULL,
   phone_number VARCHAR(20) DEFAULT NULL,
+  customer_id VARCHAR(50) DEFAULT NULL,
+  voucher_id BIGINT DEFAULT NULL,
   attempts TINYINT NOT NULL DEFAULT 0,
   enabled TINYINT NOT NULL,
   verified_profile TINYINT NOT NULL,
@@ -36,11 +41,11 @@ CREATE TABLE users (
 
 
 INSERT INTO users
-(email, password, first_name, last_name, country, address, phone_number, enabled, verified_profile)
+(email, password, first_name, last_name, country, address, phone_number, customer_id, enabled, verified_profile)
 VALUES
-('abv@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','Мартин','Атанасов', null,null,null,1,1),
-('manager@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','инж Киров',null, null,null,null,1,1),
-('admin@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','the BOSS',null, null,null,null,1,1);
+('abv@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','Мартин','Атанасов', null,null,null,null,1,1),
+('manager@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','инж Киров', null,null,null,null,null,1,1),
+('admin@abv.bg','$2a$10$xEbmetHDZXteGarC57W/h.bMCpBADz/k9ENbRhiXnHlLpyOIG4FEK','the BOSS', null,null,null,null,null,1,1);
 
 
 

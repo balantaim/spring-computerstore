@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.CarrierDTO;
+import com.martinatanasov.computerstore.model.Carrier;
 import com.martinatanasov.computerstore.services.ProfileServiceImpl;
 import com.martinatanasov.computerstore.utils.converter.AddressConverter;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +25,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Controller
 @PreAuthorize("hasRole('CUSTOMER')")
@@ -44,7 +44,6 @@ public class CheckoutController {
         if(user != null) {
             model.addAttribute("address", addressConverter.userAddressToDTO(user));
         }
-        model.addAttribute("carrier", new CarrierDTO());
         return "Checkout/checkout-step-1";
     }
 
@@ -54,22 +53,23 @@ public class CheckoutController {
         if(user != null) {
             model.addAttribute("address", addressConverter.userAddressToDTO(user));
         }
-        model.addAttribute("carrier", new CarrierDTO());
         return "Checkout/checkout-step-1";
     }
 
     @PostMapping("/step-2")
-    public String initiateCheckoutPayment() {
+    public String initiateCheckoutPayment(@RequestParam("carrier") String carrier, Model model) {
+        Carrier carrierName = Objects.equals(carrier, Carrier.ECONT.name()) ? Carrier.ECONT:Carrier.SPEEDY;
+        model.addAttribute("carrier", carrierName);
         return "Checkout/checkout-step-2";
     }
 
     @PostMapping("/step-3")
-    public String initiateCheckoutConfirmation() {
+    public String initiateCheckoutConfirmation(@RequestParam("carrier") Carrier carrier) {
         return "Checkout/checkout-step-3";
     }
 
     private String getUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName(); // Get logged-in username
+        return authentication.getName();
     }
 }

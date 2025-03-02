@@ -70,6 +70,8 @@ public class CartController {
 //                    model.addAttribute("promoCode", promoCode);
 //                }
 //            }
+        } else {
+            model.addAttribute("cartEmpty", true);
         }
         return "Cart/cart";
     }
@@ -115,7 +117,7 @@ public class CartController {
         //Delete all Cart items
         cartService.deleteAllItems(username);
         //Return to the Cart view
-        return "Cart/cart";
+        return "redirect:/Cart";
     }
 
     @PostMapping("/delete/{id}")
@@ -131,7 +133,7 @@ public class CartController {
         }
         //Return Empty Cart content
         return List.of(
-                new ModelAndView("fragments/cart-empty :: cart-empty", Collections.emptyMap())
+                new ModelAndView("fragments/cart-empty :: cart-empty", Map.of("cartEmpty", true))
         );
     }
 

@@ -72,7 +72,7 @@
 
                 <!-- Delete single item -->
                 <div class="column">
-                    <button class="has-text-danger mb-4" style="width: 100%" th:onclick="|deleteContent(${product.cartId})|">
+                    <button class="has-text-danger is-skeleton mb-4" style="width: 100%" th:onclick="|deleteContent(${product.cartId})|">
                         <span class="icon is-small"><i class="fas fa-times"></i></span> <span>[[#{btn.delete}]]</span>
                     </button>
                     <!-- Price -->
@@ -96,7 +96,7 @@
     <!-- Delete all products from the Cart -->
     <div th:if="${#lists.size(products) > 0}" class="m-2">
         <form action="#" th:action="@{/Cart/clear}" method="POST">
-            <button class="button is-danger is-rounded is-centered is-skeleton ml-1 mt-4"
+            <button class="button expanded-on-mobile is-danger is-rounded is-centered is-skeleton ml-1 mr-1 mt-4"
                     th:text="#{btn.delete.all}"
                     type="submit"></button>
         </form>

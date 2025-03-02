@@ -16,7 +16,9 @@
 <div th:fragment="cart-empty"
      id="cart-empty"
      class="column has-text-centered is-12">
-    <h1 class="is-size-1">[[#{cart.empty}]]</span></h1>
-    <div class="space"></div>
-    <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+    <div th:if="${cartEmpty}">
+        <h1 class="is-size-1">[[#{cart.empty}]]</span></h1>
+        <div class="space"></div>
+        <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+    </div>
 </div>

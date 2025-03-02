@@ -5,11 +5,11 @@ function updateCarrierText() {
   //Get name container for the carrier
   const carrierContainer = document.getElementById('carrier-name');
   if (carrierRadioButton !== null) {
-    carrierRadioButton.id === "econt" ? carrierContainer.textContent = "Econt":carrierContainer.textContent = "Speedy"
+    carrierRadioButton.id === "ECONT" ? carrierContainer.textContent = "Econt":carrierContainer.textContent = "Speedy";
+    //Update input value for the POST method
+    document.getElementById('carrier-input').value = carrierRadioButton.id;
   }
 }
 // Add an event listener to all radio buttons
-document.getElementById('econt').addEventListener('change', updateCarrierText);
-document.getElementById('speedy').addEventListener('change', updateCarrierText);
-//Update the text after first load
-updateCarrierText();
+document.getElementById('ECONT').addEventListener('change', updateCarrierText);
+document.getElementById('SPEEDY').addEventListener('change', updateCarrierText);

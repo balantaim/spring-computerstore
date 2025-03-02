@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,6 +27,8 @@ public interface UserService extends UserDetailsService {
     User findByUserName(final String email);
 
     User findByUserId(final Long id);
+
+    User findByCustomerId(final String customerId);
 
     void save(AppUserDTO appUserDTO);
 

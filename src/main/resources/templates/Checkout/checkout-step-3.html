@@ -31,7 +31,7 @@
 <div class="main container">
     <div class="space"></div>
 
-    <h1 class="title has-text-centered is-2 mb-6">[[#{checkout.confirmation}]]</h1>
+    <h1 class="title has-text-centered is-skeleton is-2 mb-6">[[#{checkout.confirmation}]]</h1>
 
     <div class="container has-text-centered">
 
@@ -88,13 +88,19 @@
 
     </div>
 
+    <!-- Main content -->
     <div class="columns is-gapless is-centered mt-6">
+        <div class="column"></div>
+
         <div class="column has-text-centered">
-            <p>content</p>
+            <div class="notification is-success has-text-centered m-4">
+                <h2 class="is-size-3 is-skeleton"><b>[[#{text.order.created}]]</b></h2>
+            </div>
+
+            <div class="space"></div>
         </div>
-        <div class="column has-text-centered">
-            <p>content2</p>
-        </div>
+
+        <div class="column"></div>
     </div>
 
     <div class="is-flex is-justify-content-space-between is-vcentered">
@@ -103,9 +109,9 @@
                 [[#{btn.cart}]]
             </button>
         </form>
-        <form action="#" th:action="@{/Checkout/step-3}" method="POST">
+        <form action="#" th:action="@{/Orders}" method="GET">
             <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
-                [[#{btn.continue}]]
+                [[#{nav.orders}]]
             </button>
         </form>
     </div>
