@@ -19,7 +19,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head th:replace="~{fragments/head-link-extras :: head(~{::title}, ~{::link})}">
-    <title>Checkout Step 2 - Payment</title>
+    <title>Checkout Step 3 - Checkout confirmation</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/octoshrimpy/bulma-o-steps@master/bulma-steps.min.css">
     <link rel="stylesheet" th:href="@{/css/custom-steps.css}">
 </head>
@@ -31,7 +31,7 @@
 <div class="main container">
     <div class="space"></div>
 
-    <h1 class="title has-text-centered is-skeleton is-2 mb-6">[[#{payment.header}]]</h1>
+    <h1 class="title has-text-centered is-skeleton is-2 mb-6">[[#{checkout.confirmation}]]</h1>
 
     <div class="container has-text-centered">
 
@@ -40,11 +40,11 @@
                 <!-- Shopping Cart-->
                 <li class="steps-segment">
                     <a th:href="@{/Cart}" class="has-text-dark">
-                    <span class="steps-marker">
-                        <span class="icon">
-                            <i class="fa fa-shopping-cart"></i>
+                        <span class="steps-marker">
+                            <span class="icon">
+                                <i class="fa fa-shopping-cart"></i>
+                            </span>
                         </span>
-                    </span>
                         <div class="steps-content">
                             <p class="heading">[[#{shopping.cart}]]</p>
                         </div>
@@ -52,37 +52,35 @@
                 </li>
                 <!-- Delivery Information-->
                 <li class="steps-segment">
-                    <a th:href="@{/Checkout/step-1}" class="has-text-dark">
-                        <span class="steps-marker">
-                            <span class="icon">
-                                <i class="fa fa-user"></i>
-                            </span>
+                    <span class="steps-marker">
+                        <span class="icon">
+                            <i class="fa fa-user"></i>
                         </span>
-                        <div class="steps-content">
-                            <p class="heading">[[#{delivery.information}]]</p>
-                        </div>
-                    </a>
+                    </span>
+                    <div class="steps-content">
+                        <p class="heading">[[#{delivery.information}]]</p>
+                    </div>
                 </li>
                 <!-- Payment-->
-                <li class="steps-segment is-active has-gaps">
+                <li class="steps-segment">
                 <span class="steps-marker">
                     <span class="icon">
                         <i class="fa fa-usd"></i>
                     </span>
                 </span>
                     <div class="steps-content">
-                        <p class="heading has-text-warning">[[#{payment.header}]]</p>
+                        <p class="heading">[[#{payment.header}]]</p>
                     </div>
                 </li>
                 <!-- Confirmation-->
                 <li class="steps-segment">
-                <span class="steps-marker is-hollow">
+                <span class="steps-marker is-active">
                     <span class="icon">
                         <i class="fa fa-check"></i>
                     </span>
                 </span>
                     <div class="steps-content">
-                        <p class="heading">[[#{checkout.confirmation}]]</p>
+                        <p class="heading has-text-warning">[[#{checkout.confirmation}]]</p>
                     </div>
                 </li>
             </ul>
@@ -90,19 +88,19 @@
 
     </div>
 
+    <!-- Main content -->
     <div class="columns is-gapless is-centered mt-6">
-        <div class="column box is-9 m-2">
-            <div class="pl-5 pr-5 pt-3 pb-5" style="overflow-wrap: break-word;">
-                <p th:if="${carrier}" class="has-text-centered">[[#{text.carrier}]] [[${carrier}]]</p>
-                <div th:if="${finalPrice}"
-                     class="is-flex is-vcentered is-justify-content-center is-align-items-center is-fullwidth has-skeleton"
-                     style="color: var(--accent);">
-                    <p class="is-size-3 has-text-weight-bold pr-2">[[#{cart.summary.order.total}]]:</p>
-                    <p class="is-size-3 has-text-weight-bold" th:text="${finalPrice}"></p>
-                    <p class="is-size-3 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
-                </div>
+        <div class="column"></div>
+
+        <div class="column has-text-centered">
+            <div class="notification is-success has-text-centered m-4">
+                <h2 class="is-size-3 is-skeleton"><b>[[#{text.order.created}]]</b></h2>
             </div>
+
+            <div class="space"></div>
         </div>
+
+        <div class="column"></div>
     </div>
 
     <div class="is-flex is-justify-content-space-between is-vcentered">
@@ -111,10 +109,9 @@
                 [[#{btn.cart}]]
             </button>
         </form>
-        <form action="#" th:action="@{/Checkout/step-3}" method="POST">
-            <input type="hidden" name="carrier" th:value="${carrier}">
+        <form action="#" th:action="@{/Orders}" method="GET">
             <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
-                [[#{btn.continue}]]
+                [[#{nav.orders}]]
             </button>
         </form>
     </div>
@@ -122,12 +119,6 @@
     <div class="space"></div>
 </div>
 <!--MAIN Content End-->
-
-<!--Show toast status notification-->
-<span th:if="${orderCreated}">
-    <span th:replace="~{fragments/notification :: notification('success', #{notification.order.created})}"></span>
-</span>
-
 
 
 <!--FOOTER-->

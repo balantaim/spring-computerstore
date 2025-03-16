@@ -18,8 +18,7 @@ CREATE TABLE IF NOT EXISTS orders (
     order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     total_amount DECIMAL(9,2) NOT NULL,
     status VARCHAR(50) NOT NULL,
-    customer_id BIGINT NOT NULL,
-    shipment_id BIGINT NOT NULL
+    user_id BIGINT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS order_item (
@@ -35,8 +34,7 @@ CREATE TABLE IF NOT EXISTS payments (
     payment_type VARCHAR(20) NOT NULL,
     amount DECIMAL(9,2) NOT NULL,
     payment_status VARCHAR(20) NOT NULL,
-    transaction_id VARCHAR(255) NOT NULL,
-    user_id BIGINT NOT NULL,
+    transaction_id VARCHAR(255) DEFAULT NULL,
     order_id BIGINT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -54,9 +52,10 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS shipments (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     quantity INT NOT NULL,
-    price_per_unit DECIMAL(9,2) NOT NULL,
-    tracking_number VARCHAR(255) NOT NULL,
-    carrier VARCHAR(50) NOT NULL,
-    user_id BIGINT NOT NULL,
-    product_id INT NOT NULL
+    tracking_number VARCHAR(255),
+    carrier VARCHAR(20),
+    country VARCHAR(50) NOT NULL,
+    address VARCHAR(150) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    order_id BIGINT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

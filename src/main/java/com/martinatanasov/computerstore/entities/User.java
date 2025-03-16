@@ -86,13 +86,6 @@ public class User {
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-    //Added Shipments oneToMany
-    @OneToMany(mappedBy = "user",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @ToString.Exclude
-    private Set<Shipment> shipments = new HashSet<>();
-
     //Added Carts oneToMany
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY,
@@ -100,12 +93,12 @@ public class User {
     @ToString.Exclude
     private Set<Cart> carts = new HashSet<>();
 
-    //Added Payments oneToMany
+    //Added Orders oneToMany
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @ToString.Exclude
-    private Set<Payment> payments = new HashSet<>();
+    private Set<Order> orders = new HashSet<>();
 
     //Added Reviews oneToMany
     @OneToMany(mappedBy = "user",

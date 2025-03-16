@@ -16,7 +16,6 @@
 package com.martinatanasov.computerstore.services.payments;
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.repositories.UserDaoImpl;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.CustomerCollection;
@@ -24,7 +23,6 @@ import com.stripe.model.CustomerSearchResult;
 import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.CustomerListParams;
 import com.stripe.param.CustomerSearchParams;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -32,21 +30,19 @@ import org.springframework.stereotype.Service;
 /**
  * Payment customer is needed in order to create invoices. Create payment customer for every user that are going to create payment.
  * Customer Update method is not supported! We don't send any address or taxes information to the payment provider.
+ * @author Martin Atanasov
  */
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class PaymentCustomerServiceImpl implements PaymentCustomerService {
-
-    private final UserDaoImpl userDao;
 
     @Override
     public CustomerCollection getAllCustomers() {
         CustomerListParams params = CustomerListParams.builder().build();
-        // With limit
+        // Create parameters with count limit
         //CustomerListParams params = CustomerListParams.builder().setLimit(10L).build();
-        CustomerCollection customers = null;
+        CustomerCollection customers;
         try {
             customers = Customer.list(params);
         } catch (StripeException e) {
@@ -57,7 +53,7 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
 
     @Override
     public Customer getCustomerById(final String customerId) {
-        Customer customer = null;
+        Customer customer;
         try {
             customer = Customer.retrieve(customerId);
         } catch (StripeException e) {
@@ -69,10 +65,10 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
     @Override
     public CustomerSearchResult getCustomersByKeyword(final String keyword) {
         CustomerSearchParams params = CustomerSearchParams.builder()
-                        .setQuery("name:'" + keyword + "' OR email:'" + keyword + "'")
-                        .build();
+                .setQuery("name:'" + keyword + "' OR email:'" + keyword + "'")
+                .build();
 
-        CustomerSearchResult customers = null;
+        CustomerSearchResult customers;
         try {
             customers = Customer.search(params);
         } catch (StripeException e) {
@@ -84,72 +80,64 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
     }
 
     @Override
-    public String createCustomer(final String email) {
-        User user = userDao.findByUserName(email);
-        String fullName = "";
+    public Customer createCustomer(User user) {
+        String fullName = "",
+                description = "Purchase from Computer store",
+                phoneNumber;
+
+        //Extract fullName and phoneNumber from the user
         if (user != null) {
+            phoneNumber = user.getPhoneNumber();
             if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
                 fullName += user.getFirstName();
             }
             if (user.getLastName() != null) {
-                if(!fullName.isEmpty()) {
+                if (!fullName.isEmpty()) {
                     fullName += " " + user.getLastName();
                 } else {
                     fullName += user.getLastName();
                 }
             }
+        } else {
+            return null;
         }
 
-        CustomerCreateParams params = null;
-        String description = "Online store payer";
-        if (fullName.isEmpty()) {
+        //Create Customer parameters object
+        CustomerCreateParams params;
+        if (!fullName.isEmpty()) {
             params = CustomerCreateParams.builder()
                     .setName(fullName)
-                    .setEmail(email)
+                    .setEmail(user.getEmail())
+                    .setPhone(phoneNumber)
                     .setDescription(description)
                     .build();
         } else {
             params = CustomerCreateParams.builder()
-                    .setEmail(email)
+                    .setEmail(user.getEmail())
+                    .setPhone(phoneNumber)
                     .setDescription(description)
                     .build();
         }
 
-        Customer paymentCustomer = null;
+        //Create customer in the Stripe system
+        Customer paymentCustomer;
         try {
             //Create Customer
             paymentCustomer = Customer.create(params);
-            //Update User's customerId
-            if(paymentCustomer != null) {
-                assert user != null;
-                user.setCustomerId(paymentCustomer.getId());
-                userDao.save(user);
-                log.info("User's customerId: {} updated", paymentCustomer.getId());
-            }
-
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }
         log.info("\n\tCustomer: {}", paymentCustomer);
-        assert paymentCustomer != null;
-        return "Status: " + paymentCustomer.getCreated();
+        return paymentCustomer;
     }
 
     @Override
     public void deleteCustomerById(final String customerId) {
-        Customer resource = null;
+        Customer resource;
         try {
             resource = Customer.retrieve(customerId);
             Customer customer = resource.delete();
             log.info("\n\tCustomer deleted: {}", customer);
-            if (customer != null) {
-                User user = userDao.findByCustomerId(customerId);
-                if (user != null) {
-                    user.setCustomerId(null);
-                    userDao.save(user);
-                    log.info("\n\tCustomer ID has been removed for user: {}!", user.getEmail());
-                }
-            }
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }

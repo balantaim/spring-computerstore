@@ -97,10 +97,11 @@
         <div class="column box is-9 m-2">
             <div class="pl-5 pr-5 pt-3 pb-5" style="overflow-wrap: break-word;">
                 <h2 class="subtitle has-text-centered is-skeleton is-4">[[#{form.order.address}]]</h2>
-                <p th:if="${address.firstName != ''}" class="is-skeleton"><b>[[#{text.recipient}]]:</b> [[${address.firstName}]] [[${address.lastName}]]</p>
-                <p th:if="${address.phoneNumber != ''}" class="is-skeleton"><b>[[#{form.phone}]]:</b> [[${address.phoneNumber}]]</p>
-                <p th:if="${address.countyName != ''}" class="is-skeleton"><b>[[#{form.country}]]:</b> [[${address.countyName}]]</p>
-                <p th:if="${address.address != ''}" class="is-skeleton"><b>[[#{form.address}]]:</b> [[${address.address}]]</p>
+                <p class="has-text-danger">[[#{form.info.start}]]<bold>*</bold>[[#{form.info.end}]]</p>
+                <p class="is-skeleton"><b>[[#{text.recipient}]]<span>*</span>:</b> <span th:if="${address.firstName != null && !address.firstName.isEmpty()}">[[${address.firstName}]] [[${address.lastName}]]</span></p>
+                <p class="is-skeleton"><b>[[#{form.phone}]]<span>*</span>:</b> <span th:if="${address.phoneNumber != null && !address.phoneNumber.isEmpty()}">[[${address.phoneNumber}]]</span></p>
+                <p class="is-skeleton"><b>[[#{form.country}]]<span>*</span>:</b> <span th:if="${address.countyName != null && !address.countyName.isEmpty()}">[[${address.countyName}]]</span></p>
+                <p class="is-skeleton"><b>[[#{form.address}]]<span>*</span>:</b> <span th:if="${address.address != null && !address.address.isEmpty()}">[[${address.address}]]</span></p>
             </div>
 
             <div class="has-text-centered is-skeleton mt-4 pt-4 pb-4">
@@ -159,7 +160,14 @@
         </form>
         <form action="#" th:action="@{/Checkout/step-2}" method="POST">
             <input type="hidden" name="carrier" id="carrier-input" value="ECONT">
-            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-4 is-rounded is-centered is-skeleton">
+            <input type="hidden" name="cartItems" th:value="${products}">
+            <input type="hidden" name="summary" th:value="${orderSummary}">
+
+            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-4 is-rounded is-centered is-skeleton"
+                    th:attr="disabled=${(address.firstName == null || address.firstName.isEmpty()) ||
+                    (address.phoneNumber == null || address.phoneNumber.isEmpty()) ||
+                    (address.countyName == null || address.countyName.isEmpty()) ||
+                    (address.address == null || address.address.isEmpty())}">
                 [[#{btn.continue}]]
             </button>
         </form>

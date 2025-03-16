@@ -13,23 +13,12 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.services.payments;
+package com.martinatanasov.computerstore.services;
 
-import com.martinatanasov.computerstore.entities.User;
-import com.stripe.model.Customer;
-import com.stripe.model.CustomerCollection;
-import com.stripe.model.CustomerSearchResult;
+import java.util.UUID;
 
-public interface PaymentCustomerService {
+public interface DeliveryService {
 
-    CustomerCollection getAllCustomers();
-
-    Customer getCustomerById (String customerId);
-
-    CustomerSearchResult getCustomersByKeyword (String keyword);
-
-    Customer createCustomer(User user);
-
-    void deleteCustomerById (String customerId);
+    UUID createDelivery();
 
 }

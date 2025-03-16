@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,12 +15,9 @@
 
 package com.martinatanasov.computerstore.entities;
 
+import com.martinatanasov.computerstore.model.Carrier;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity
@@ -29,6 +26,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @ToString
 public class Shipment {
 
@@ -37,36 +35,28 @@ public class Shipment {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "product_id")
-    private Integer productId;
-
     @Column(name = "quantity")
     private Integer quantity;
-
-    @Column(name = "price_per_unit", precision = 9, scale = 2)
-    private BigDecimal pricePerUnit;
 
     @Column(name = "tracking_number")
     private String trackingNumber;
 
-    @Column(name = "carrier", length = 50)
-    private String carrier;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "carrier", length = 20)
+    private Carrier carrier;
 
-//    @Column(name = "county")
-//    private String county;
-//
-//    @Column(name = "address")
-//    private String address;
-//
-//    @Column(name = "phone_number")
-//    private String phoneNumber;
+    @Column(name = "country", length = 50)
+    private String country;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "address", length = 150)
+    private String address;
 
-    @OneToMany(mappedBy = "shipment")
+    @Column(name = "phone_number", length = 20)
+    private String phoneNumber;
+
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
     @ToString.Exclude
-    private Set<Order> orders = new HashSet<>();
+    private Order order;
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +15,8 @@
 
 package com.martinatanasov.computerstore.entities;
 
+import com.martinatanasov.computerstore.model.PaymentStatus;
+import com.martinatanasov.computerstore.model.PaymentType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +28,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @ToString
 public class Payment {
 
@@ -34,23 +37,22 @@ public class Payment {
     @Column(name = "id")
     private Long id;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "payment_type", length = 20)
-    private String paymentType;
+    private PaymentType paymentType;
 
     @Column(name = "amount", precision = 9, scale = 2)
     private BigDecimal amount;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "payment_status", length = 20)
-    private String paymentStatus;
+    private PaymentStatus paymentStatus;
 
     @Column(name = "transaction_id")
     private String transactionId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    @ToString.Exclude
     private Order order;
 }

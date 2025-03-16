@@ -13,23 +13,11 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.services.payments;
+package com.martinatanasov.computerstore.model;
 
-import com.martinatanasov.computerstore.entities.User;
-import com.stripe.model.Customer;
-import com.stripe.model.CustomerCollection;
-import com.stripe.model.CustomerSearchResult;
+public enum PaymentType {
 
-public interface PaymentCustomerService {
-
-    CustomerCollection getAllCustomers();
-
-    Customer getCustomerById (String customerId);
-
-    CustomerSearchResult getCustomersByKeyword (String keyword);
-
-    Customer createCustomer(User user);
-
-    void deleteCustomerById (String customerId);
+    CARD,
+    CASH
 
 }

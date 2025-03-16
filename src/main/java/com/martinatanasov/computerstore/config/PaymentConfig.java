@@ -27,15 +27,18 @@ import org.springframework.context.annotation.Configuration;
 public class PaymentConfig {
 
     @Value("${stripe.secret.key}")
-    private String SECRET_KEY;
+    private String PAYMENT_SECRET_KEY;
 
+    //Initiate Stripe API key configuration
     @PostConstruct
-    public void init(){
-        if (SECRET_KEY == null || SECRET_KEY.isEmpty()) {
+    public void init() {
+        if (PAYMENT_SECRET_KEY == null || PAYMENT_SECRET_KEY.isEmpty()) {
             throw new RuntimeException("Stripe Secret key is not set!");
         } else {
-            Stripe.apiKey = SECRET_KEY;
+            Stripe.apiKey = PAYMENT_SECRET_KEY;
             log.info("\n\tStripe Secret Key is set!");
+            //Release unneeded value
+            PAYMENT_SECRET_KEY = null;
         }
     }
 

@@ -15,6 +15,8 @@
 
 package com.martinatanasov.computerstore.controllers;
 
+import com.martinatanasov.computerstore.entities.User;
+import com.martinatanasov.computerstore.repositories.UserDaoImpl;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerServiceImpl;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import com.stripe.model.Customer;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
 
@@ -37,6 +40,7 @@ public class PaymentController {
 
     private final PaymentCustomerServiceImpl paymentCustomerService;
     private final UserAuthentication userAuthentication;
+    private final UserDaoImpl userDao;
 
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/get-all")
@@ -58,7 +62,7 @@ public class PaymentController {
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/search/{keyword}")
     public String getCustomerByKeyword (@PathVariable String keyword){
-        if(keyword != null && keyword.length() <= 255) {
+        if(keyword != null && keyword.length() >= 2 && keyword.length() <= 255) {
             CustomerSearchResult customers = paymentCustomerService.getCustomersByKeyword(keyword);
             log.info(customers.toString());
             return customers.toString();
@@ -70,9 +74,17 @@ public class PaymentController {
     @PostMapping("/create")
     public String createCustomer(){
         String email = userAuthentication.getUsernameFromAuthentication();
-        String result = paymentCustomerService.createCustomer(email);
-        log.info("\n\t Result {}", result);
-        return "data: " + result;
+        User user = userDao.findByUserName(email);
+        if (user != null) {
+            Customer paymentCustomer = paymentCustomerService.createCustomer(user);
+            if (user.getCustomerId() == null) {
+                user.setCustomerId(paymentCustomer.getId());
+                userDao.save(user);
+            }
+            log.info("\n\t Result {}", paymentCustomer);
+            return "data: " + paymentCustomer;
+        }
+        return GLOBAL_ERROR_PAGE;
     }
 
     @PreAuthorize("hasRole('MANAGER')")
@@ -80,6 +92,11 @@ public class PaymentController {
     public String deleteCustomerById (@PathVariable String customerId) {
         if (customerId != null) {
             paymentCustomerService.deleteCustomerById(customerId);
+            //Update user
+            String email = userAuthentication.getUsernameFromAuthentication();
+            User user = userDao.findByUserName(email);
+            user.setCustomerId(null);
+            userDao.save(user);
         }
         return "customerId";
     }

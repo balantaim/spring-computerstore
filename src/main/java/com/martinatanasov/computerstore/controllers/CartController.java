@@ -179,7 +179,7 @@ public class CartController {
             return new OrderSummaryDTO(
                     formatter.format(orderTotal.divide(new BigDecimal(products.size()), RoundingMode.CEILING)),
                     shippingEstimate != null ? formatter.format(shippingEstimate):null,
-                    //Price without 20% DDS tax
+                    //Show price without 20% DDS tax
                     formatter.format(orderTotal.multiply(new BigDecimal("0.80"))),
                     null,
                     formatter.format(orderTotal.add(shippingEstimate))

@@ -16,20 +16,10 @@
 package com.martinatanasov.computerstore.services.payments;
 
 import com.martinatanasov.computerstore.entities.User;
-import com.stripe.model.Customer;
-import com.stripe.model.CustomerCollection;
-import com.stripe.model.CustomerSearchResult;
+import com.stripe.exception.StripeException;
 
-public interface PaymentCustomerService {
+public interface SessionPaymentService {
 
-    CustomerCollection getAllCustomers();
-
-    Customer getCustomerById (String customerId);
-
-    CustomerSearchResult getCustomersByKeyword (String keyword);
-
-    Customer createCustomer(User user);
-
-    void deleteCustomerById (String customerId);
+    String createCheckoutSession(User user) throws StripeException;
 
 }

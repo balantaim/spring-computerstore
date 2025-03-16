@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.entities;
 
+import com.martinatanasov.computerstore.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +30,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @ToString
 public class Order {
 
@@ -43,25 +45,25 @@ public class Order {
     @Column(name = "total_amount", precision = 9, scale = 2)
     private BigDecimal totalAmount;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private OrderStatus status;
 
-    //FK from User
-    @Column(name = "customer_id")
-    private Long customerId;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "shipment_id")
-    private Shipment shipment;
-
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @ToString.Exclude
     private Set<OrderItem> orderItems = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "order")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private Set<Payment> payments = new HashSet<>();
+    private Shipment shipment;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Payment payment;
 
 }

@@ -13,23 +13,24 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.services.payments;
+package com.martinatanasov.computerstore.services;
 
-import com.martinatanasov.computerstore.entities.User;
-import com.stripe.model.Customer;
-import com.stripe.model.CustomerCollection;
-import com.stripe.model.CustomerSearchResult;
+import org.springframework.stereotype.Service;
 
-public interface PaymentCustomerService {
+import java.util.UUID;
 
-    CustomerCollection getAllCustomers();
+@Service
+public class DeliveryServiceImpl implements DeliveryService {
 
-    Customer getCustomerById (String customerId);
+    /**
+     * This service generate fake tracking number required for Shipment.
+     * This demo does not provide any connection with real delivery provider!
+     * @return UUID
+     */
 
-    CustomerSearchResult getCustomersByKeyword (String keyword);
-
-    Customer createCustomer(User user);
-
-    void deleteCustomerById (String customerId);
+    @Override
+    public UUID createDelivery() {
+        return UUID.randomUUID();
+    }
 
 }
