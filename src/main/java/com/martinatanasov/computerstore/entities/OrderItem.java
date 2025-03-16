@@ -48,7 +48,7 @@ public class OrderItem {
     private Order order;
 
     //FK referencing Product
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "product_id", nullable = false)
     @ToString.Exclude
     private Product product;

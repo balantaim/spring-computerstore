@@ -53,6 +53,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.getFirstByStatusAndUserId(status, userId);
     }
 
+    @Override
+    public Optional<Order> getOrderById(final Long orderId) {
+        return orderRepository.getOrderById(orderId);
+    }
+
     @Transactional
     @Override
     public boolean createNewOrder(final User user, final Iterable<Cart> cartItems) {
@@ -64,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public Order updateOrder(final User user, Order order, final Carrier carrier, final String trackingNumber) {
+    public Order updateOrderAndEntities(final User user, Order order, final Carrier carrier, final String trackingNumber) {
         final Iterable<Cart> cartItems = cartRepository.findAllByUserId(user.getId());
         if (cartItems != null) {
             //Create Order Items

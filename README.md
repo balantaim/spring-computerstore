@@ -191,6 +191,7 @@ Your project is ready in the ./target directory
 │   │       └───martinatanasov
 │   │           └───computerstore
 │   │               ├───aspect
+│   │               ├───boostrap
 │   │               ├───config
 │   │               ├───controllers
 │   │               ├───entities
@@ -199,6 +200,7 @@ Your project is ready in the ./target directory
 │   │               ├───security
 │   │               │   └───login
 │   │               ├───services
+│   │               │   └───payments
 │   │               └───utils
 │   │                   └───converter
 │   └───resources
@@ -208,6 +210,7 @@ Your project is ready in the ./target directory
 │       ├───static
 │       │   ├───css
 │       │   ├───images
+│       │   │   ├───carriers
 │       │   │   ├───category
 │       │   │   └───home
 │       │   ├───js
@@ -216,6 +219,7 @@ Your project is ready in the ./target directory
 │           ├───About
 │           ├───Administration
 │           ├───Cart
+│           ├───Checkout
 │           ├───error
 │           ├───fragments
 │           ├───Home

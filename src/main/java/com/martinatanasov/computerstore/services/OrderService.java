@@ -30,10 +30,13 @@ public interface OrderService {
 
     Optional<Order> getFirstByStatusAndUserId(Long userId, OrderStatus status);
 
+    Optional<Order> getOrderById(Long orderId);
+
     boolean createNewOrder(User user, Iterable<Cart> cartItems);
 
-    Order updateOrder(User user, Order order, Carrier carrier, String trackingNumber);
+    Order updateOrderAndEntities(User user, Order order, Carrier carrier, String trackingNumber);
 
     void delete(Order order);
 
 }
+

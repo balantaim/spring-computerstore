@@ -19,7 +19,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head th:replace="~{fragments/head :: head(~{::title})}">
-    <title>Orders</title>
+  <title>Order details</title>
 </head>
 <body>
 <!-- NAVBAR -->
@@ -27,21 +27,25 @@
 
 <!--MAIN Content Start-->
 <div class="main container">
-    <div class="space"></div>
+  <div class="space"></div>
 
-    <div th:if="${orders}" th:each="order : ${orders}" class="has-text-centered">
-        <div class="box p-2 m-2">
-            <p>[[${order.id}]]</p>
-            <p>[[${order.orderDate}]]</p>
-            <p>[[${order.totalAmount}]]</p>
-            <p>[[${order.status}]]</p>
-            <div>
-                <button class="button is-primary">Details</button>
-            </div>
-        </div>
-    </div>
+  <div th:if="${order}" class="has-text-centered is-fullwidth m-2">
+    <h1 th:if="${order.status == 'NEW_ORDER'}">Status: [[${order.status}]]</h1>
+    <h1 th:if="${order.status == 'PAYMENT_REQUIRED'}">Status: [[${order.status}]]</h1>
+    <h1 th:if="${order.status == 'PAYMENT_SUCCESS'}">Status: [[${order.status}]]</h1>
+    <h1 th:if="${order.status == 'ORDER_ABORTED'}">Status: [[${order.status}]]</h1>
+    <h1 th:if="${order.status == 'SHIPPING_IN_PROGRESS'}">Status: [[${order.status}]]</h1>
+    <h1 th:if="${order.status == 'SHIPPING_DELIVERED'}">Status: [[${order.status}]]</h1>
+    <h1 th:if="${order.status == 'ORDER_COMPLETED'}">Status: [[${order.status}]]</h1>
+  </div>
+  <div th:if="${orderItems}" th:each="item : ${orderItems}" class="box p-2 m-2">
+    <p>image [[${item.productImageUrl}]]</p>
+    <p>name [[${item.productName}]]</p>
+    <p>price [[${item.pricePerUnit}]]</p>
+    <p>quantity [[${item.quantity}]]</p>
+  </div>
 
-    <div class="space"></div>
+  <div class="space"></div>
 </div>
 <!--MAIN Content End-->
 

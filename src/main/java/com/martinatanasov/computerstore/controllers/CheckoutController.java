@@ -121,7 +121,7 @@ public class CheckoutController {
         final Optional<Order> order = getInitialOrder(user.getId());
         if(order.isPresent()) {
             final String trackingNumber = deliveryService.createDelivery().toString();
-            final Order updatedOrder = orderService.updateOrder(user, order.get(), carrierName, trackingNumber);
+            final Order updatedOrder = orderService.updateOrderAndEntities(user, order.get(), carrierName, trackingNumber);
             if(updatedOrder != null) {
                 //Clear user's cart
                 cartService.deleteAllItems(user.getEmail());
