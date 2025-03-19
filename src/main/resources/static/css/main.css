@@ -10,6 +10,8 @@
            --primary: teal;
            --secondary: rgb(121, 245, 158);
            --accent: rgb(206, 188, 28);
+
+           --danger: rgb(235, 86, 73);
            --hover-background: var(--light);
            --txt-color: black;
 
@@ -29,6 +31,8 @@
                 --primary: teal;
                 --secondary: rgb(121, 245, 158);
                 --accent: rgb(206, 188, 28);
+
+                --danger: rgb(235, 86, 73);
                 --hover-background: var(--dark);
                 --txt-color: white;
 
@@ -295,8 +299,34 @@
             background: #888;
             border-radius: 4px;
         }
-        .text-hover-underscore:hover{
+        .text-hover-underscore:hover {
             text-decoration: underline;
+        }
+        .circle-count {
+            position: absolute;
+            background-color: var(--danger);
+            border-radius: 50%;
+            border: 0px solid;
+            min-height: 16px;
+            min-width: 16px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            z-index: 2;
+        }
+        a > .circle-count {
+            transform: translateY(-10px) translateX(19px);
+        }
+        div > .circle-count {
+            transform: translateY(13px) translateX(22px);
+        }
+        .no-select {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
         }
 
         @keyframes drop-anim {

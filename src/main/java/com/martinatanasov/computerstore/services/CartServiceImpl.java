@@ -46,10 +46,10 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Iterable<Cart> getAllItems(final String username) {
-        Long userId = getUserId(username);
-        if(userId != null){
+        final Long userId = getUserId(username);
+        if (userId != null) {
             Iterable<Cart> cartItems = cartRepository.findAllByUserId(userId);
-            return cartItems == null ? new HashSet<>():cartItems;
+            return cartItems == null ? new HashSet<>() : cartItems;
         }
         return null;
     }
@@ -58,15 +58,15 @@ public class CartServiceImpl implements CartService {
     public void createCart(final String username, final Integer productId, final Integer quantity) {
         final User user = getUser(username);
         boolean isCardItemExist = isCartItemExist(user, productId);
-        if(!isCardItemExist){
+        if (!isCardItemExist) {
             Optional<Product> product = productRepository.findProductById(productId);
             //Perform create if the product is valid and has at least 1 count
-            if(product.isPresent() && product.get().getStock() > 0){
+            if (product.isPresent() && product.get().getStock() > 0) {
                 Cart cart = new Cart();
                 cart.setUser(user);
                 cart.setProduct(product.get());
                 cart.setQuantity(quantity);
-
+                //Save the Cart to the database
                 cartRepository.save(cart);
             }
         }
@@ -74,12 +74,12 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void updateCart(final String username, final Integer productId, final Integer quantity) {
-        if(isTransactionValid(quantity)){
+        if (isTransactionValid(quantity)) {
             Long userId = getUserId(username);
-            if(userId != null){
+            if (userId != null) {
                 //Perform update
                 Optional<Cart> item = cartRepository.findFirstByProductId(productId);
-                if (item.isPresent()){
+                if (item.isPresent()) {
                     item.get().setQuantity(quantity);
                     cartRepository.save(item.get());
                 }
@@ -90,7 +90,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void deleteSingleItem(final String username, final Long cartId) {
         Long userId = getUserId(username);
-        if(userId != null && cartId != null){
+        if (userId != null && cartId != null) {
             //Perform single delete
             Optional<Cart> item = cartRepository.findById(cartId);
 
@@ -102,7 +102,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void deleteAllItems(final String username) {
         Long userId = getUserId(username);
-        if(userId != null){
+        if (userId != null) {
             cartRepository.deleteAllByUserId(userId);
         }
     }
@@ -123,27 +123,36 @@ public class CartServiceImpl implements CartService {
     @Override
     public void updateCartQuantity(final Long cartId, final Boolean isIncrement) {
         Optional<Cart> item = cartRepository.findById(cartId);
-        if(item.isPresent()){
+        if (item.isPresent()) {
             //Save the updated cart object
-            int newQuantity = isIncrement ? (item.get().getQuantity() + 1):(item.get().getQuantity() - 1);
+            int newQuantity = isIncrement ? (item.get().getQuantity() + 1) : (item.get().getQuantity() - 1);
             //Check if the quantity is valid
-            if(isTransactionValid(newQuantity)){
+            if (isTransactionValid(newQuantity)) {
                 item.get().setQuantity(newQuantity);
                 cartRepository.save(item.get());
             }
         }
     }
 
-    private boolean isTransactionValid(Integer quantity){
+    @Override
+    public int getCartItemsCount(final Long userId) {
+        if (userId != null) {
+            final Integer count = cartRepository.countByUserId(userId);
+            return count == null ? 0:count;
+        }
+        return 0;
+    }
+
+    private boolean isTransactionValid(Integer quantity) {
         return quantity > 0 && quantity <= PURCHASE_LIMIT_COUNT;
     }
 
-    private Long getUserId(final String username){
+    private Long getUserId(final String username) {
         final User user = userDao.findByUserName(username);
-        return user != null ? user.getId():null;
+        return user != null ? user.getId() : null;
     }
 
-    private User getUser(final String username){
+    private User getUser(final String username) {
         return userDao.findByUserName(username);
     }
 

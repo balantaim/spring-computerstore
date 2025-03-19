@@ -40,7 +40,7 @@ public interface UserDao {
 
     void save(User user);
 
-    void updateUserShippingDetails(User user);
+    void updateUserDetails(User user);
 
     void deleteByUserEmail(String email);
 

@@ -45,7 +45,7 @@ public class OrderController {
     private final OrderConverter orderConverter;
 
     @GetMapping("")
-    public String orders(Model model){
+    public String orders(Model model) {
         final String username = getUserName();
         if (username != null) {
             Set<Order> orders = orderService.getAllByUserEmail(username);
@@ -58,7 +58,7 @@ public class OrderController {
     }
 
     @GetMapping("/order-details/{orderId}")
-    public String orderDetails(@PathVariable(name = "orderId") Long orderId, Model model){
+    public String orderDetails(@PathVariable(name = "orderId") Long orderId, Model model) {
         if (orderId != null) {
             final String email = getUserName();
             if (email != null) {

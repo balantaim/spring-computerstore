@@ -38,5 +38,7 @@ public interface OrderService {
 
     void delete(Order order);
 
+    int getUnfinishedOrdersCount(String email);
+
 }
 

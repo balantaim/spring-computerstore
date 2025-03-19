@@ -27,6 +27,7 @@ import com.martinatanasov.computerstore.services.OrderService;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerServiceImpl;
 import com.martinatanasov.computerstore.utils.converter.AddressConverter;
 import com.stripe.model.Customer;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -115,7 +116,8 @@ public class CheckoutController {
 
     @PostMapping("/step-2")
     public String initiateCheckoutPayment(@RequestParam("carrier") String carrier,
-                                          Model model) {
+                                          Model model,
+                                          HttpSession session) {
         final Carrier carrierName = Objects.equals(carrier, Carrier.ECONT.name()) ? Carrier.ECONT : Carrier.SPEEDY;
         final User user = userDao.findByUserName(getUserName());
         final Optional<Order> order = getInitialOrder(user.getId());
@@ -125,6 +127,10 @@ public class CheckoutController {
             if(updatedOrder != null) {
                 //Clear user's cart
                 cartService.deleteAllItems(user.getEmail());
+                //Update Cart count
+                session.setAttribute("cart-items-count", 0);
+                //Update Order count
+                session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
 
                 final DecimalFormat formatter = new DecimalFormat("#0.00");
                 model.addAttribute("carrier", carrierName);

@@ -22,6 +22,7 @@ import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.utils.converter.CartConverter;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -80,7 +81,8 @@ public class CartController {
     public String addToCard(Model model,
                             @RequestParam(value = "promoCode", required = false) String promoCode,
                             @RequestParam(value = "itemId") Integer itemId,
-                            HttpServletRequest request){
+                            HttpServletRequest request,
+                            HttpSession session){
         //Check if the product ID is valid
         if(itemId == null){
             return GLOBAL_ERROR_PAGE;
@@ -96,6 +98,8 @@ public class CartController {
         if (cartItems != null && cartItems.iterator().hasNext()){
             //Convert Entities to DTOs
             final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
+            //Update session count
+            session.setAttribute("cart-items-count", products.size());
 
             model.addAttribute("csrfToken", getCSRFToken(request));
             model.addAttribute("products", products);
@@ -112,24 +116,34 @@ public class CartController {
     }
 
     @PostMapping("/clear")
-    public String deleteAll(){
-        String username = userAuthentication.getUsernameFromAuthentication();
+    public String deleteAll(HttpSession session){
+        final String username = userAuthentication.getUsernameFromAuthentication();
         //Delete all Cart items
         cartService.deleteAllItems(username);
+        //Update Cart count
+        session.setAttribute("cart-items-count", 0);
         //Return to the Cart view
         return "redirect:/Cart";
     }
 
     @PostMapping("/delete/{id}")
     public Collection<ModelAndView> deleteCartItem(@PathVariable("id") Long id,
-                                                   HttpServletRequest request){
-        String username = userAuthentication.getUsernameFromAuthentication();
+                                                   HttpServletRequest request,
+                                                   HttpSession session){
+        final String username = userAuthentication.getUsernameFromAuthentication();
         //Delete all Cart items
         cartService.deleteSingleItem(username, id);
         //Return to the fragment views
         Iterable<Cart> cartItems = cartService.getAllItems(username);
         if (cartItems != null && cartItems.iterator().hasNext()){
+            //Update session count
+            var cartCount = session.getAttribute("cart-items-count") == null ? 0 : (Integer) session.getAttribute("cart-items-count");
+            session.setAttribute("cart-items-count", cartCount - 1);
+
             return getCartAndSummary(cartItems, request);
+        } else {
+            //Update session count
+            session.setAttribute("cart-items-count", 0);
         }
         //Return Empty Cart content
         return List.of(

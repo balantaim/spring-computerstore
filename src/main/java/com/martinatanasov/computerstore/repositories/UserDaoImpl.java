@@ -134,20 +134,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public void updateUserShippingDetails(User user) {
-//        int rowsUpdated = entityManager.createQuery("UPDATE User WHERE id=`"
-//                        + user.getId() +
-//                        "` SET first_name=`" +
-//                user.getFirstName() +
-//                "`, last_name=`" +
-//                user.getLastName() +
-//                "`, phone_number=`" +
-//                user.getPhoneNumber() +
-//                "`, country=`" +
-//                user.getCounty() +
-//                "`")
-//                .executeUpdate();
-
+    public void updateUserDetails(User user) {
         entityManager.merge(user);
     }
 

@@ -34,4 +34,6 @@ public interface CartService {
 
     void updateCartQuantity(Long cartId, Boolean isIncrement);
 
+    int getCartItemsCount(Long userId);
+
 }

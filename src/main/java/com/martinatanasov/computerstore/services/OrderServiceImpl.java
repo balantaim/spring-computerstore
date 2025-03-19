@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -85,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
                 quantity.getAndIncrement();
             });
             //Check OrderItems count
-            if(orderItems.isEmpty()) {
+            if (orderItems.isEmpty()) {
                 log.error("\n\tOrder items count equal to zero!");
                 return null;
             }
@@ -131,6 +132,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void delete(final Order order) {
         orderRepository.delete(order);
+    }
+
+    @Override
+    public int getUnfinishedOrdersCount(final String email) {
+        Set<Order> orders = orderRepository.getAllByUserEmail(email);
+        if (orders != null && !orders.isEmpty()) {
+            orders = orders.stream()
+                    .filter(i ->
+                            i.getStatus() != OrderStatus.PAYMENT_SUCCESS ||
+                            i.getStatus() != OrderStatus.ORDER_COMPLETED ||
+                            i.getStatus() != OrderStatus.ORDER_ABORTED ||
+                            i.getStatus() != OrderStatus.NEW_ORDER
+                    )
+                    .collect(Collectors.toSet());
+            return orders.size();
+        }
+        return 0;
     }
 
     private BigDecimal getTotalAmount(final Set<OrderItem> orderItems) {

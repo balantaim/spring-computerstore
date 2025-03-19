@@ -31,4 +31,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     void deleteAllByUserId(final Long userId);
 
+    Integer countByUserId(final Long userId);
+
 }
