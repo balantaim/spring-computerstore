@@ -16,6 +16,35 @@ async function updateContent(cartId, locatorNumber, isIncrement) {
     }
 }
 
+function updateTaskCounters() {
+    const taskCount = document.getElementById("task-count");
+    const cartCount = document.getElementById("cart-count");
+    const orderCount = document.getElementById("order-count");
+
+    let taskCountValue = Number(taskCount.textContent);
+    let cartCountValue = Number(cartCount.textContent);
+    if (cartCount != null && cartCountValue === 1) {
+        // Remove cart counts
+        cartCount?.remove();
+        // Update task counts
+        if (taskCount != null) {
+            if (orderCount != null) {
+                const orderCountValue = Number(orderCount.textContent);
+                taskCount.textContent = orderCountValue;
+            } else {
+                taskCount?.remove();
+            }
+        }
+    } else if (cartCount != null && taskCount != null) {
+        cartCountValue--;
+        if (cartCountValue !== 0) {
+            cartCount.textContent = cartCountValue;
+            taskCountValue--;
+            taskCount.textContent = taskCountValue;
+        }
+    }
+}
+
 async function deleteContent(cartId) {
     // Update the Cart then get the new fragments from the back-end
     let data = "";
@@ -26,7 +55,10 @@ async function deleteContent(cartId) {
     // Check if the content is valid then swap the old content with the new
     if (data !== null && data !== "") {
         await swapContent(data);
+        // Update top bar task counts
+        updateTaskCounters();
     }
+
 }
 
 async function fetchContent(url) {

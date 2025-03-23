@@ -24,8 +24,10 @@ import com.martinatanasov.computerstore.repositories.UserDaoImpl;
 import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.services.DeliveryService;
 import com.martinatanasov.computerstore.services.OrderService;
-import com.martinatanasov.computerstore.services.payments.PaymentCustomerServiceImpl;
+import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
+import com.martinatanasov.computerstore.services.payments.SessionPaymentService;
 import com.martinatanasov.computerstore.utils.converter.AddressConverter;
+import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +37,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -56,7 +55,8 @@ public class CheckoutController {
 
     private final UserDaoImpl userDao;
     private final AddressConverter addressConverter;
-    private final PaymentCustomerServiceImpl paymentCustomerService;
+    private final PaymentCustomerService paymentCustomerService;
+    private final SessionPaymentService sessionPaymentService;
     private final OrderService orderService;
     private final CartService cartService;
     private final DeliveryService deliveryService;
@@ -106,7 +106,6 @@ public class CheckoutController {
         if (user != null) {
             Optional<Order> order = getInitialOrder(user.getId());
             if (order.isPresent()) {
-
                 model.addAttribute("address", addressConverter.userAddressToDTO(user));
                 return "Checkout/checkout-step-1";
             }
@@ -135,6 +134,7 @@ public class CheckoutController {
                 final DecimalFormat formatter = new DecimalFormat("#0.00");
                 model.addAttribute("carrier", carrierName);
                 model.addAttribute("finalPrice", formatter.format(updatedOrder.getTotalAmount()));
+                model.addAttribute("orderId", updatedOrder.getId());
                 model.addAttribute("orderCreated", true);
 
                 return "Checkout/checkout-step-2";
@@ -143,17 +143,37 @@ public class CheckoutController {
         return GLOBAL_ERROR_PAGE;
     }
 
+    @PostMapping("/initiate-payment")
+    public String initiatePaymentSession(@RequestParam("orderId") Long orderId) throws StripeException {
+        if (orderId != null) {
+            final User user = userDao.findByUserName(getUserName());
+            return "redirect:" + sessionPaymentService.createCheckoutSession(user, orderId);
+        }
+        return GLOBAL_ERROR_PAGE;
+    }
+
     @GetMapping("/step-3")
     public String getCheckoutConfirmation() {
+
         return "Checkout/checkout-step-3";
     }
 
-    @GetMapping("/step-3-failure")
+    @GetMapping("/step-3-cancel/{orderId}")
     public String getFailureCheckoutConfirmation(Model model,
-                                                 @RequestParam("payment_intent_id") String paymentIntendId) {
-        log.info("\n\t ------> Error: {}", paymentIntendId);
-        model.addAttribute("error", paymentIntendId);
-        return "Checkout/checkout-step-3-failure";
+                                                 @PathVariable("orderId") Long orderId,
+                                                 @RequestParam(value = "payment_intent_id", required = false) String paymentIntendId,
+                                                 HttpSession session) {
+        Optional<Order> order = orderService.getOrderById(orderId);
+        if(order.isPresent()) {
+            order.get().setStatus(OrderStatus.ORDER_ABORTED);
+            orderService.abortOrder(order.get());
+            session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
+        }
+        if(paymentIntendId != null) {
+            log.info("\n\t ------> Error: {}", paymentIntendId);
+            model.addAttribute("error", paymentIntendId);
+        }
+        return "Checkout/checkout-step-3-cancel";
     }
 
     private String getUserName() {

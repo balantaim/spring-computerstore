@@ -36,6 +36,8 @@ public interface OrderService {
 
     Order updateOrderAndEntities(User user, Order order, Carrier carrier, String trackingNumber);
 
+    void abortOrder(Order order);
+
     void delete(Order order);
 
     int getUnfinishedOrdersCount(String email);

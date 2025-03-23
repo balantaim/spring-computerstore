@@ -106,13 +106,13 @@
     </div>
 
     <div class="is-flex is-justify-content-space-between is-vcentered">
-        <form action="#" th:action="@{/Cart}" method="GET">
-            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
-                [[#{btn.cart}]]
+        <form action="#" th:action="@{/Checkout/step-3-cancel/{id}(id=${orderId})}" method="GET">
+            <button type="submit" class="button is-danger ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
+                [[#{nav.modal.cancel}]]
             </button>
         </form>
-        <form action="#" th:action="@{/Checkout/step-3}" method="POST">
-            <input type="hidden" name="carrier" th:value="${carrier}">
+        <form action="#" th:action="@{/Checkout/initiate-payment}" method="POST">
+            <input type="hidden" name="orderId" th:value="${orderId}">
             <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
                 [[#{btn.continue}]]
             </button>

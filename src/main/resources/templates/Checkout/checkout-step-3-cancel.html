@@ -62,25 +62,25 @@
                     </div>
                 </li>
                 <!-- Payment-->
-                <li class="steps-segment">
-                <span class="steps-marker">
-                    <span class="icon">
-                        <i class="fa fa-usd"></i>
+                <li class="steps-segment is-active is-dashed">
+                    <span class="steps-marker">
+                        <span class="icon">
+                            <i class="fa fa-usd"></i>
+                        </span>
                     </span>
-                </span>
-                    <div class="steps-content">
+                    <div class="steps-content is-divider-content">
                         <p class="heading">[[#{payment.header}]]</p>
                     </div>
                 </li>
                 <!-- Confirmation-->
                 <li class="steps-segment">
-                <span class="steps-marker is-active">
-                    <span class="icon">
-                        <i class="fa fa-check"></i>
+                    <span class="steps-marker is-danger">
+                        <span class="icon">
+                            <i class="fa-solid fa-xmark"></i>
+                        </span>
                     </span>
-                </span>
                     <div class="steps-content">
-                        <p class="heading has-text-warning">[[#{checkout.confirmation}]]</p>
+                        <p class="heading has-text-danger">[[#{checkout.confirmation}]]</p>
                     </div>
                 </li>
             </ul>
@@ -93,27 +93,15 @@
         <div class="column"></div>
 
         <div class="column has-text-centered">
-            <div class="notification is-success has-text-centered m-4">
-                <h2 class="is-size-3 is-skeleton"><b>[[#{text.order.created}]]</b></h2>
+            <div class="notification is-danger has-text-centered m-4">
+                <h2 class="is-size-3 is-skeleton"><b>[[#{text.order.canceled}]]</b></h2>
+                <p th:if="error" th:text="${error}"></p>
             </div>
 
             <div class="space"></div>
         </div>
 
         <div class="column"></div>
-    </div>
-
-    <div class="is-flex is-justify-content-space-between is-vcentered">
-        <form action="#" th:action="@{/Cart}" method="GET">
-            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
-                [[#{btn.cart}]]
-            </button>
-        </form>
-        <form action="#" th:action="@{/Orders}" method="GET">
-            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
-                [[#{nav.orders}]]
-            </button>
-        </form>
     </div>
 
     <div class="space"></div>

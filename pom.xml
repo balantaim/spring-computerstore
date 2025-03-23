@@ -20,7 +20,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.martinatanasov</groupId>
@@ -29,7 +29,7 @@
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 
-	<url>http://computer-store.eu-north-1.elasticbeanstalk.com/</url>
+	<url>http://computer-store.eu-north-1.elasticbeanstalk.com</url>
 	<licenses>
 		<license>
 			<name>Apache 2.0</name>
@@ -221,6 +221,14 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+
+					<!-- Configuration for AOT and AppCDS processing for Buildpacks -->
+					<image>
+						<env>
+							<BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
+							<BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
+						</env>
+					</image>
 				</configuration>
 
 				<executions>

@@ -52,6 +52,12 @@
 mvn clean package -Pproduction
 ```
 
+9. Test the jar on locale environment
+
+```bash
+java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_NAME=value --DB_PASSWORD=value --DB_URL=value --STRIPE_SECRET_KEY=value
+```
+
 Your project is ready in the ./target directory
 
 ## Prepare the cloud platform
@@ -64,6 +70,7 @@ Your project is ready in the ./target directory
     <li>Disable Alarm service</li>
     <li>Add role to the environment (Check how to create a new role below)</li>
     <li>Configure: Processor type x86_64 and Instance types t3.nano (2 CPU and 512mgb RAM). This is recommended setup for this project.</li>
+    <li>Add new "Environment properties" (Path: Elastic Beanstalk > Environments > {Your env name} > Configuration > Environment properties) for values: DB_NAME, DB_PASSWORD, DB_URL, STRIPE_SECRET_KEY</li>
     <li>Upload the jar file when the environment is ready</li>
 </ol>
 

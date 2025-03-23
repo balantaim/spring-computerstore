@@ -13,13 +13,21 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.services.payments;
+package com.martinatanasov.computerstore.utils.converter;
 
-import com.martinatanasov.computerstore.entities.User;
-import com.stripe.exception.StripeException;
+import org.springframework.stereotype.Component;
 
-public interface SessionPaymentService {
+import java.math.BigDecimal;
 
-    String createCheckoutSession(User user, Long orderId) throws StripeException;
+@Component
+public class PaymentPriceConverter {
+
+    public long convertPriceToLong(final BigDecimal oldPrice) {
+        if (oldPrice != null) {
+            final BigDecimal multipliedValue = oldPrice.multiply(new BigDecimal(100));
+            return multipliedValue.longValue();
+        }
+        return 0L;
+    }
 
 }

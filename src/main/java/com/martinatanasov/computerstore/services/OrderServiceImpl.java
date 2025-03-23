@@ -130,23 +130,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void abortOrder(final Order order) {
+        orderRepository.save(order);
+    }
+
+    @Override
     public void delete(final Order order) {
         orderRepository.delete(order);
     }
 
     @Override
     public int getUnfinishedOrdersCount(final String email) {
-        Set<Order> orders = orderRepository.getAllByUserEmail(email);
+        final Set<Order> orders = orderRepository.getAllByUserEmail(email);
         if (orders != null && !orders.isEmpty()) {
-            orders = orders.stream()
+            return orders.stream()
                     .filter(i ->
-                            i.getStatus() != OrderStatus.PAYMENT_SUCCESS ||
-                            i.getStatus() != OrderStatus.ORDER_COMPLETED ||
-                            i.getStatus() != OrderStatus.ORDER_ABORTED ||
-                            i.getStatus() != OrderStatus.NEW_ORDER
+                            i.getStatus() == OrderStatus.PAYMENT_REQUIRED || i.getStatus() == OrderStatus.SHIPPING_IN_PROGRESS
                     )
-                    .collect(Collectors.toSet());
-            return orders.size();
+                    .collect(Collectors.toSet())
+                    .size();
         }
         return 0;
     }
@@ -154,7 +156,8 @@ public class OrderServiceImpl implements OrderService {
     private BigDecimal getTotalAmount(final Set<OrderItem> orderItems) {
         BigDecimal orderTotal = BigDecimal.ZERO;
         for (OrderItem i : orderItems) {
-            orderTotal = orderTotal.add(i.getProduct().getPrice());
+            BigDecimal newUnit = orderTotal.add(i.getProduct().getPrice());
+            orderTotal = orderTotal.add(newUnit.multiply(new BigDecimal(i.getQuantity())));
         }
         //Add shipping tax
         orderTotal = orderTotal.add(shippingEstimate);

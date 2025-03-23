@@ -73,7 +73,12 @@
                         <div id="dropdown-position" class="dropdown is-hoverable">
                             <div class="dropdown-trigger">
                                 <div id="profile-container" class="is-flex is-align-content-center" aria-haspopup="true" aria-controls="dropdown-menu4">
-                                    <span th:if="${session['orders-count'] != null AND session['cart-items-count'] != null}" th:text="${(session['orders-count'] + session['cart-items-count'])}" class="circle-count no-select"></span>
+                                    <span th:if="${(session['orders-count'] != null OR session['cart-items-count'] != null) AND (session['orders-count'] > 0 OR session['cart-items-count'] > 0)}"
+                                        th:with="totalTaskCount=${((session['orders-count'] == null ? 0:session['orders-count']) + (session['cart-items-count'] == null ? 0:session['cart-items-count']))}"
+                                        th:text="${(totalTaskCount) == 0 ? '':totalTaskCount}"
+                                        id="task-count"
+                                        class="circle-count no-select">
+                                    </span>
                                     <img class="pr-2" width="40" height="50" src="https://img.icons8.com/ios-filled/50/user.png" alt="user"/>
                                     <p class="nav-link pl-1 pr-1" sec:authentication="principal.username"></p>
                                 </div>
@@ -93,7 +98,11 @@
                                         <hr class="dropdown-divider" />
                                         <div class="cart-item text-profile">
                                             <a th:href="@{/Cart}" class="navbar-item is-flex is-vcentered is-align-items-center">
-                                                <span th:if="${session['cart-items-count']}" th:text="${session['cart-items-count']}" class="circle-count no-select"></span>
+                                                <span th:if="${session['cart-items-count']}"
+                                                      th:text="${session['cart-items-count']}"
+                                                      id="cart-count"
+                                                      class="circle-count no-select">
+                                                </span>
                                                 <?xml version="1.0" encoding="UTF-8"?>
                                                 <svg class="pr-2 svg" width="48px" height="48px" fill="var(--foreground)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                                                 style="transform: translate(-4px, 0);">
@@ -107,7 +116,11 @@
                                         <hr class="dropdown-divider" />
                                         <div class="cart-item text-profile">
                                             <a th:href="@{/Orders}" class="navbar-item is-flex is-vcentered is-align-items-center">
-                                                <span th:if="${session['orders-count']}" th:text="${session['orders-count']}" class="circle-count no-select"></span>
+                                                <span th:if="${session['orders-count']}"
+                                                      th:text="${session['orders-count']}"
+                                                      id="order-count"
+                                                      class="circle-count no-select">
+                                                </span>
                                                 <?xml version="1.0" encoding="UTF-8"?>
                                                 <svg class="pr-2 svg" width="48px" height="48px" fill="var(--foreground)" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
                                                     <circle cx="24" cy="24" r="3"/>
