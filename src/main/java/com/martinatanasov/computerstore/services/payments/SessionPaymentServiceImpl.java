@@ -23,7 +23,6 @@ import com.martinatanasov.computerstore.utils.converter.PaymentPriceConverter;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -32,17 +31,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.martinatanasov.computerstore.services.OrderServiceImpl.shippingEstimate;
 
-@Slf4j
+
 @Service
 public class SessionPaymentServiceImpl implements SessionPaymentService {
 
     private final String APP_DOMAIN_NAME;
     private final PaymentPriceConverter paymentPriceConverter;
     private final OrderRepository orderRepository;
+    private final String PAYMENT_CURRENCY = "bgn";
 
     public SessionPaymentServiceImpl(@Value("${application.domain}") String appDomainName,
-                                     PaymentPriceConverter paymentPriceConverter, OrderRepository orderRepository) {
+                                     PaymentPriceConverter paymentPriceConverter,
+                                     OrderRepository orderRepository) {
         this.APP_DOMAIN_NAME = appDomainName;
         this.paymentPriceConverter = paymentPriceConverter;
         this.orderRepository = orderRepository;
@@ -52,8 +54,9 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
     public String createCheckoutSession(final User user, final Long orderId) throws StripeException {
         final Optional<Order> order = orderRepository.getOrderById(orderId);
         if (user != null && order.isPresent()) {
-
             SessionCreateParams params = SessionCreateParams.builder()
+                    //Set OrderId to the session
+                    .setClientReferenceId(String.valueOf(orderId))
                     //Add payment method type
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     //Set payment mode
@@ -64,11 +67,10 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
                     .setLocale(SessionCreateParams.Locale.BG)
                     //Success redirect
                     .setSuccessUrl(APP_DOMAIN_NAME + "/Checkout/step-3")
-                    //Failure redirect
+                    //Cancel redirect
                     .setCancelUrl(APP_DOMAIN_NAME + "/Checkout/step-3-cancel/" + order.get().getId())
-                    //Add items
+                    //Add multiple items
                     .addAllLineItem(convertOrderItemsToLineItems(order.get().getOrderItems()))
-
                     /*
                     //Add single item
                     .addLineItem(
@@ -81,41 +83,55 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .build();
 
-
             Session session = Session.create(params);
-            log.info("Session URL: {}", session.getUrl());
             return session.getUrl();
         }
         return null;
     }
 
-    private List<SessionCreateParams.LineItem> convertOrderItemsToLineItems(Set<OrderItem> items) {
+    private List<SessionCreateParams.LineItem> convertOrderItemsToLineItems(final Set<OrderItem> items) {
         List<SessionCreateParams.LineItem> products = new ArrayList<>();
         for (OrderItem index : items) {
-            final long convertedPrice = paymentPriceConverter.convertPriceToLong(index.getPricePerUnit());
             products.add(
-                    SessionCreateParams.LineItem.builder()
-                            .setPriceData(
-                                    SessionCreateParams.LineItem.PriceData.builder()
-                                            .setCurrency("bgn")
-                                            .setUnitAmount(convertedPrice)
-                                            .setProductData(
-                                                    SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                            .setName(index.getProduct().getProductName())
-                                                            .setDescription(index.getProduct().getDescription())
-                                                            .build()
-                                            )
-                                            .build()
-                            )
-                            .setQuantity(Long.valueOf(index.getQuantity()))
-                            .build()
+                    createLineItem(index.getProduct().getProductName(),
+                            index.getProduct().getDescription(),
+                            Long.valueOf(index.getQuantity()),
+                            paymentPriceConverter.convertPriceToLong(index.getPricePerUnit())
+                    )
             );
         }
-        log.info("\n\tStripe products: {}", products);
+        //todo calculate discount before
 
-        //todo add shipping cost and calculate discount before
-
+        //Add Delivery fee
+        products.add(
+                createLineItem("Delivery",
+                        "Fee for delivery provider",
+                        1L,
+                        paymentPriceConverter.convertPriceToLong(shippingEstimate)
+                )
+        );
         return products;
+    }
+
+    private SessionCreateParams.LineItem createLineItem(final String itemName,
+                                                        final String itemDescription,
+                                                        final long itemQuantity,
+                                                        final long itemPrice) {
+        return SessionCreateParams.LineItem.builder()
+                .setPriceData(
+                        SessionCreateParams.LineItem.PriceData.builder()
+                                .setCurrency(PAYMENT_CURRENCY)
+                                .setUnitAmount(itemPrice)
+                                .setProductData(
+                                        SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                .setName(itemName)
+                                                .setDescription(itemDescription)
+                                                .build()
+                                )
+                                .build()
+                )
+                .setQuantity(itemQuantity)
+                .build();
     }
 
 }

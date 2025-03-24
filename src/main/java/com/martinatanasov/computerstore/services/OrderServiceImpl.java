@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
-    private final BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
+    public static final BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
 
     @Override
     public Set<Order> getAllByUserEmail(final String email) {
