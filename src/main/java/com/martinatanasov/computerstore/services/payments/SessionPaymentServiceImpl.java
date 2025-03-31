@@ -40,7 +40,6 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
     private final String APP_DOMAIN_NAME;
     private final PaymentPriceConverter paymentPriceConverter;
     private final OrderRepository orderRepository;
-    private final String PAYMENT_CURRENCY = "bgn";
 
     public SessionPaymentServiceImpl(@Value("${application.domain}") String appDomainName,
                                      PaymentPriceConverter paymentPriceConverter,
@@ -117,6 +116,7 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
                                                         final String itemDescription,
                                                         final long itemQuantity,
                                                         final long itemPrice) {
+        final String PAYMENT_CURRENCY = "bgn";
         return SessionCreateParams.LineItem.builder()
                 .setPriceData(
                         SessionCreateParams.LineItem.PriceData.builder()

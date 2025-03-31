@@ -19,7 +19,7 @@ package com.martinatanasov.computerstore.utils.converter;
 import com.martinatanasov.computerstore.entities.Gallery;
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.GalleryDTO;
-import com.martinatanasov.computerstore.model.StoreItem;
+import com.martinatanasov.computerstore.model.StoreItemDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
 @Component
 public class ProductConverter {
 
-    public List<StoreItem> convertToStoreItems(final List<Product> products){
+    public List<StoreItemDTO> convertToStoreItems(final List<Product> products){
         return products.stream()
-                .map(i -> new StoreItem(i.getId(),
+                .map(i -> new StoreItemDTO(i.getId(),
                         i.getProductName(),
                         i.getDescription(),
                         i.getProducer(),
@@ -42,9 +42,9 @@ public class ProductConverter {
                 .collect(Collectors.toList());
     }
 
-    public Page<StoreItem> convertToStoreItems(final Page<Product> products){
+    public Page<StoreItemDTO> convertToStoreItems(final Page<Product> products){
         return products
-                .map(i -> new StoreItem(i.getId(),
+                .map(i -> new StoreItemDTO(i.getId(),
                         i.getProductName(),
                         i.getDescription(),
                         i.getProducer(),
@@ -54,8 +54,8 @@ public class ProductConverter {
                         i.getImageUrl()));
     }
 
-    public StoreItem convertToSingleItem(final Product product){
-        return new StoreItem(product.getId(),
+    public StoreItemDTO convertToSingleItem(final Product product){
+        return new StoreItemDTO(product.getId(),
                 product.getProductName(),
                 product.getDescription(),
                 product.getProducer(),

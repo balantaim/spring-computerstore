@@ -36,6 +36,8 @@ public interface UserService extends UserDetailsService {
 
     boolean setNewPassword(final String userName, final String newPassword);
 
+    void updateAddressInformation(final String username, final String firstName, final String lastName, final String phone, final String country, final String address);
+
     void delete(final String email);
 
     void setAccountStatus(final String email, final Boolean enabled);

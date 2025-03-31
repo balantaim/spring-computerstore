@@ -15,9 +15,9 @@
 
 package com.martinatanasov.computerstore.controllers;
 
-import com.martinatanasov.computerstore.services.CategoryServiceImpl;
-import com.martinatanasov.computerstore.services.ProductServiceImpl;
-import com.martinatanasov.computerstore.services.ReviewServiceImpl;
+import com.martinatanasov.computerstore.services.CategoryService;
+import com.martinatanasov.computerstore.services.ProductService;
+import com.martinatanasov.computerstore.services.ReviewService;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import org.junit.jupiter.api.Test;
@@ -42,13 +42,13 @@ class ProductControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService;
 
     @MockitoBean
-    private ProductServiceImpl productService;
+    private ProductService productService;
 
     @MockitoBean
-    private ReviewServiceImpl reviewService;
+    private ReviewService reviewService;
 
     @MockitoBean
     private ProductConverter productConverter;

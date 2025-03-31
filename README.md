@@ -42,8 +42,8 @@
 1. Install Java 21 LTS (OpenJDK Corretto)
 2. Connect to your MySQL DB
 3. Connect to Stripe via api key (The demo uses test key for all environments)
-4. Select profile from "application.properties" (test/prod profile)
-5. Optional: Add Database url, user and pass as VM options to prod profile: " -DB_URL=url -DB_NAME=user -DB_PASSWORD=pass"
+4. Select profile from "application.properties" (test/benc/prod profile)
+5. Optional: Add Database url, user and pass as VM options to prod profile: " --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret"
 6. Test the project in your favorite IDE
 7. Use prod profile in the application.properties: spring.profiles.active=prod
 8. Create execution jar from the terminal by using:
@@ -52,13 +52,11 @@
 mvn clean package -Pproduction
 ```
 
-9. Test the jar on locale environment
+9. Test the jar on locale environment from ./target directory
 
 ```bash
-java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_NAME=value --DB_PASSWORD=value --DB_URL=value --STRIPE_SECRET_KEY=value
+java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret
 ```
-
-Your project is ready in the ./target directory
 
 ## Prepare the cloud platform
 
@@ -88,6 +86,11 @@ Your project is ready in the ./target directory
 1. Register and login to Stripe: https://stripe.com
 2. Validate your account (no need to fill any payment information)
 3. Copy your secret API key to the project (use key STRIPE_SECRET_KEY as environment variable)
+4. Create a new webhook notification (Stripe > Developer > Webhook > Add listener to local profile)
+5. Select current Stripe API version (Should be the same as your project)
+6. Select events for notification (payment_intent.payment_failed, payment_intent.succeeded)
+7. Copy Signing secret to your project (use key STRIPE_WEBHOOK_SECRET as environment variable)
+8. Optionally, you could use https://webhook.site to test for local environment
 
 ## Override the default GC (Optional)
 
@@ -110,12 +113,20 @@ Your project is ready in the ./target directory
 
 <p><b>Value:</b> for Generational ZGC use "-XX:+UseZGC -XX:+ZGenerational"</p>
 
+<p>Optionally you could add RAM limit with value: "-XX:MaxRAMPercentage=80.0"</p>
+
 ## Environment Information
 
 ### Dependencies profiles
 
-1. development: default profile (use with "mvn clean package")
-2. production: optimized profile for production (use with "mvn clean package -Pproduction")
+1. development: default profile, use with the following command
+```bash
+mvn clean package 
+```
+2. production: optimized profile for production, use with the following command
+```bash
+mvn clean package -Pproduction 
+```
 
 ### Spring Environment profiles
 
@@ -141,7 +152,10 @@ Your project is ready in the ./target directory
 > [!IMPORTANT]
 > Use only for "benc" profile!
 
-1. Download Zipkin jar "curl -sSL https://zipkin.io/quickstart.sh | bash -s"
+1. Download Zipkin jar
+```bash
+curl -sSL https://zipkin.io/quickstart.sh | bash -s 
+```
 2. Execute "java -jar zipkin.jar" from the jar's folder
 3. Navigate browser to "http://localhost:9411/"
 

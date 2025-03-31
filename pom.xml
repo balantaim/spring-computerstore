@@ -199,6 +199,7 @@
 								<exclude>**/logback.txt</exclude>
 								<exclude>**/computerstore/boostrap/**</exclude>
 								<exclude>**/PaymentController.java</exclude>
+								<exclude>**/CustomCorsConfig.java</exclude>
 							</excludes>
 						</configuration>
 					</plugin>

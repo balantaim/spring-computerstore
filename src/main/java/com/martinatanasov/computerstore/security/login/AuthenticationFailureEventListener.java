@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,7 +30,6 @@ public class AuthenticationFailureEventListener implements ApplicationListener<A
     @Override
     public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
         String username = event.getAuthentication().getName();
-        //System.out.println("\n ********* Login failed for user: " + username);
         bruteForceProtectionService.registerLoginFailure(username);
     }
 

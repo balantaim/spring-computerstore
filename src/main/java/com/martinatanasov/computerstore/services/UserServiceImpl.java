@@ -162,6 +162,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateAddressInformation(final String username,
+                                         final String firstName,
+                                         final String lastName,
+                                         final String phone,
+                                         final String country,
+                                         final String address) {
+        User user = userDao.findByUserName(username);
+        if (user != null) {
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPhoneNumber(phone);
+            user.setCountry(country);
+            user.setAddress(address);
+            user.setModifyDate(new Timestamp(System.currentTimeMillis()));
+            //Save the new data
+            userDao.save(user);
+        }
+    }
+
+    @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         User user = userDao.findByUserName(email);
 

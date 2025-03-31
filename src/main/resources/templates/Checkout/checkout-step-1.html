@@ -100,7 +100,8 @@
                 <p class="has-text-danger">[[#{form.info.start}]]<bold>*</bold>[[#{form.info.end}]]</p>
                 <p class="is-skeleton"><b>[[#{text.recipient}]]<span>*</span>:</b> <span th:if="${address.firstName != null && !address.firstName.isEmpty()}">[[${address.firstName}]] [[${address.lastName}]]</span></p>
                 <p class="is-skeleton"><b>[[#{form.phone}]]<span>*</span>:</b> <span th:if="${address.phoneNumber != null && !address.phoneNumber.isEmpty()}">[[${address.phoneNumber}]]</span></p>
-                <p class="is-skeleton"><b>[[#{form.country}]]<span>*</span>:</b> <span th:if="${address.countyName != null && !address.countyName.isEmpty()}">[[${address.countyName}]]</span></p>
+                <p class="is-skeleton"><b>[[#{form.country}]]<span>*</span>:</b> <span th:if="${address.countryName != null && !address.countryName.isEmpty()}">[[${address.countryName}]], </span>
+                    <span th:if="${address.countyCode != null && !address.countyCode.isEmpty()}">[[${address.countyCode}]]</span></p>
                 <p class="is-skeleton"><b>[[#{form.address}]]<span>*</span>:</b> <span th:if="${address.address != null && !address.address.isEmpty()}">[[${address.address}]]</span></p>
             </div>
 
@@ -166,7 +167,7 @@
             <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-4 is-rounded is-centered is-skeleton"
                     th:attr="disabled=${(address.firstName == null || address.firstName.isEmpty()) ||
                     (address.phoneNumber == null || address.phoneNumber.isEmpty()) ||
-                    (address.countyName == null || address.countyName.isEmpty()) ||
+                    (address.countryName == null || address.countryName.isEmpty()) ||
                     (address.address == null || address.address.isEmpty())}">
                 [[#{btn.continue}]]
             </button>

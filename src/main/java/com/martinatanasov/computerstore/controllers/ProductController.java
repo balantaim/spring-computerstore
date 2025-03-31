@@ -19,10 +19,10 @@ import com.martinatanasov.computerstore.entities.Category;
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.GalleryDTO;
 import com.martinatanasov.computerstore.model.ProductReviewsDTO;
-import com.martinatanasov.computerstore.model.StoreItem;
-import com.martinatanasov.computerstore.services.CategoryServiceImpl;
-import com.martinatanasov.computerstore.services.ProductServiceImpl;
-import com.martinatanasov.computerstore.services.ReviewServiceImpl;
+import com.martinatanasov.computerstore.model.StoreItemDTO;
+import com.martinatanasov.computerstore.services.CategoryService;
+import com.martinatanasov.computerstore.services.ProductService;
+import com.martinatanasov.computerstore.services.ReviewService;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import lombok.RequiredArgsConstructor;
@@ -45,9 +45,9 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 @RequestMapping("/Products")
 public class ProductController {
 
-    private final CategoryServiceImpl categoryService;
-    private final ProductServiceImpl productService;
-    private final ReviewServiceImpl reviewService;
+    private final CategoryService categoryService;
+    private final ProductService productService;
+    private final ReviewService reviewService;
     private final ProductConverter productConverter;
     private final UserAuthentication userAuthentication;
 
@@ -73,8 +73,8 @@ public class ProductController {
         }
         Page<Product> products = productService.findAllByCategoryId(categoryId, pageNumber, pageSize, sortValue);
         if(!products.isEmpty()){
-            Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
-            if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
+            Page<StoreItemDTO> productsDTO = productConverter.convertToStoreItems(products);
+            if(pageNumber > productsDTO.getTotalElements() || pageNumber < 1){
                 return NOT_FOUND_PAGE;
             }
             model.addAttribute("categoryName", categoryName);
@@ -83,9 +83,9 @@ public class ProductController {
             model.addAttribute("pageSize", pageSize);
             model.addAttribute("sortValue", sortValue);
 
-            model.addAttribute("products", dtoProducts);
-            model.addAttribute("totalPages", dtoProducts.getTotalPages());
-            model.addAttribute("totalItems", dtoProducts.getTotalElements());
+            model.addAttribute("products", productsDTO);
+            model.addAttribute("totalPages", productsDTO.getTotalPages());
+            model.addAttribute("totalItems", productsDTO.getTotalElements());
         }
         return "Products/category-items";
     }

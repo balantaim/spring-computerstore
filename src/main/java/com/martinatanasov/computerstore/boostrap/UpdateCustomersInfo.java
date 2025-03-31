@@ -16,8 +16,8 @@
 package com.martinatanasov.computerstore.boostrap;
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.repositories.UserDaoImpl;
-import com.martinatanasov.computerstore.services.payments.PaymentCustomerServiceImpl;
+import com.martinatanasov.computerstore.repositories.UserDao;
+import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import com.stripe.model.CustomerCollection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +27,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UpdateCustomerInfo implements CommandLineRunner {
+public class UpdateCustomersInfo implements CommandLineRunner {
 
-    private final PaymentCustomerServiceImpl paymentCustomerService;
-    private final UserDaoImpl userDao;
+    private final PaymentCustomerService paymentCustomerService;
+    private final UserDao userDao;
 
     @Override
     public void run(String... args) throws Exception {

@@ -16,19 +16,58 @@
 package com.martinatanasov.computerstore.utils.converter;
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.ProfileAddress;
+import com.martinatanasov.computerstore.model.Country;
+import com.martinatanasov.computerstore.model.DeliveryAddressDTO;
 import org.springframework.stereotype.Component;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Component
 public class AddressConverter {
 
-    public ProfileAddress userAddressToDTO (final User user) {
-        return new ProfileAddress(
+    public DeliveryAddressDTO getDeliveryAddress(final User user) {
+        return new DeliveryAddressDTO(
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPhoneNumber(),
+                getCodeFromCountryName(user.getCountry()),
                 user.getCountry(),
                 user.getAddress()
         );
+    }
+
+    public String getCountryNameFromCountryCode(final String code) {
+        if (code != null) {
+            return switch (code) {
+                case "BG" -> "Bulgaria";
+                case "US" -> "USA";
+                case "EN" -> "England";
+                default -> throw new IllegalStateException("Country code is not found! Unexpected value: " + code);
+            };
+        } else {
+            return null;
+        }
+    }
+
+    public String getCodeFromCountryName(final String countryName) {
+        if (countryName != null) {
+            return switch (countryName) {
+                case "Bulgaria" -> "BG";
+                case "USA" -> "US";
+                case "England" -> "EN";
+                default -> throw new IllegalStateException("Country name is not found! Unexpected value: " + countryName);
+            };
+        } else {
+            return null;
+        }
+    }
+
+    public Set<Country> getSupportedCountries(){
+        Set<Country> countries = new LinkedHashSet<>();
+        countries.add(new Country("Bulgaria", "BG"));
+        countries.add(new Country("USA", "US"));
+        countries.add(new Country("England", "EN"));
+        return countries;
     }
 }

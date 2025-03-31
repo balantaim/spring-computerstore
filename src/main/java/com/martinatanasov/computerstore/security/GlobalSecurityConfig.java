@@ -27,6 +27,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -84,6 +85,8 @@ public class GlobalSecurityConfig {
                                 "/About", "/Search", "/Live-search",
                                 "/robots.txt", "/error/**", "/403").permitAll()
                         .requestMatchers("/", "/register/**").permitAll()
+                        //Stripe webhook endpoint
+                        .requestMatchers(HttpMethod.POST, "/Status/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
@@ -118,13 +121,17 @@ public class GlobalSecurityConfig {
                         .logoutSuccessUrl("/Login?logout=true")
                         .permitAll()
                 )
+                //Disable csrf webhook endpoint for Stripe
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/Status/payment-complete")
+                )
                 .exceptionHandling(config -> config
                         .accessDeniedPage("/access-denied")
                 );
 
         if (isTestProfile()) {
             //Disable Cross Site Request Forgery (CSRF)
-            http.csrf(csrf -> csrf.disable());
+            http.csrf(AbstractHttpConfigurer::disable);
         }
 
         return http.build();

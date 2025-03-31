@@ -17,11 +17,10 @@ package com.martinatanasov.computerstore.controllers;
 
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.Country;
-import com.martinatanasov.computerstore.model.ProfileAddress;
-import com.martinatanasov.computerstore.model.ProfilePassword;
-import com.martinatanasov.computerstore.services.ProfileServiceImpl;
+import com.martinatanasov.computerstore.model.ProfileAddressDTO;
+import com.martinatanasov.computerstore.model.ProfilePasswordDTO;
 import com.martinatanasov.computerstore.services.UserService;
+import com.martinatanasov.computerstore.utils.converter.AddressConverter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -35,17 +34,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/Profile")
 public class UserProfileController {
 
-    private final ProfileServiceImpl profileService;
     private final UserService userService;
+    private final AddressConverter addressConverter;
 
     @GetMapping("")
     public String profile(Model model){
@@ -55,7 +50,7 @@ public class UserProfileController {
 
     @GetMapping("/manage-password")
     public String managePassword(Model model){
-        model.addAttribute("profilePassword", new ProfilePassword());
+        model.addAttribute("profilePassword", new ProfilePasswordDTO());
         return "UserProfile/manage-password";
     }
 
@@ -64,47 +59,47 @@ public class UserProfileController {
         //Get username/email
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName(); // Get logged-in username
-        User user = profileService.getUserData(userName);
+        User user = userService.findByUserName(userName);
 
-        model.addAttribute("profileAddress", new ProfileAddress());
-        model.addAttribute("countries", getSupportedCountries());
+        model.addAttribute("profileAddress", new ProfileAddressDTO());
+        model.addAttribute("countries", addressConverter.getSupportedCountries());
         model.addAttribute("user", user);
         return "UserProfile/manage-address";
     }
 
     @PostMapping("/update-address")
-    public String updateOrderAddress(@Valid @ModelAttribute("profileAddress") ProfileAddress profileAddress,
+    public String updateOrderAddress(@Valid @ModelAttribute("profileAddress") ProfileAddressDTO profileAddressDTO,
                                      BindingResult bindingResult,
                                      Model model){
-        //Get user name/email
+        //Get username/email
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName(); // Get logged-in username
-        User user = profileService.getUserData(userName);
+        final String userName = authentication.getName(); // Get logged-in username
+        final User user = userService.findByUserName(userName);
         //Update user's data
-        if(profileAddress == null || bindingResult.hasErrors()){
+        if(profileAddressDTO == null || bindingResult.hasErrors()){
             model.addAttribute("status", "error");
         }else{
-            user.setFirstName(profileAddress.getFirstName());
-            user.setLastName(profileAddress.getLastName());
-            user.setPhoneNumber(profileAddress.getPhoneNumber());
-            user.setCountry(profileAddress.getCountyName());
-            user.setAddress(profileAddress.getAddress());
-            user.setModifyDate(new Timestamp(System.currentTimeMillis()));
-            //Update user's address information
-            profileService.updateUser(user);
+            userService.updateAddressInformation(
+                    userName,
+                    profileAddressDTO.getFirstName(),
+                    profileAddressDTO.getLastName(),
+                    profileAddressDTO.getPhoneNumber(),
+                    addressConverter.getCountryNameFromCountryCode(profileAddressDTO.getCountyCode()),
+                    profileAddressDTO.getAddress()
+            );
             //Add status success to model
             model.addAttribute("status", "success");
         }
 
         //Redirect to manage-address
-        model.addAttribute("profileAddress", new ProfileAddress());
-        model.addAttribute("countries", getSupportedCountries());
+        model.addAttribute("profileAddress", new ProfileAddressDTO());
+        model.addAttribute("countries", addressConverter.getSupportedCountries());
         model.addAttribute("user", user);
         return "UserProfile/manage-address";
     }
 
     @PostMapping("/change-password")
-    public String changePassword(@Valid @ModelAttribute("profilePassword") ProfilePassword profilePassword,
+    public String changePassword(@Valid @ModelAttribute("profilePassword") ProfilePasswordDTO profilePasswordDTO,
                                      BindingResult bindingResult,
                                      Model model){
         //Check for validation errors or global errors
@@ -113,13 +108,13 @@ public class UserProfileController {
             return "UserProfile/manage-password";
         }
         //Check if the newPassword is different from the oldPassword
-        if(profilePassword.getNewPassword().equals(profilePassword.getOldPassword())) {
+        if(profilePasswordDTO.getNewPassword().equals(profilePasswordDTO.getOldPassword())) {
             ObjectError error = new ObjectError("globalError", "SameAsOld");
             bindingResult.addError(error);
             return "UserProfile/manage-password";
         }
         //Check if newPassword and confirmPassword are not equal
-        if(!profilePassword.getNewPassword().equals(profilePassword.getConfirmPassword())){
+        if(!profilePasswordDTO.getNewPassword().equals(profilePasswordDTO.getConfirmPassword())){
             ObjectError error = new ObjectError("globalError", "ConfirmPass");
             bindingResult.addError(error);
             return "UserProfile/manage-password";
@@ -127,7 +122,7 @@ public class UserProfileController {
         //Get username
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        boolean isPasswordUpdated = userService.changePassword(userName, profilePassword.getOldPassword(), profilePassword.getNewPassword());
+        boolean isPasswordUpdated = userService.changePassword(userName, profilePasswordDTO.getOldPassword(), profilePasswordDTO.getNewPassword());
         //Check if the password is updated successfully
         if(!isPasswordUpdated){
             model.addAttribute("status", "PassMatcher");
@@ -135,14 +130,6 @@ public class UserProfileController {
         }
         model.addAttribute("status", "pass-updated");
         return "UserProfile/profile";
-    }
-
-    private List<Country> getSupportedCountries(){
-        List<Country> countries = new ArrayList<>();
-        countries.add(new Country("Bulgaria", "BG"));
-        countries.add(new Country("USA", "US"));
-        countries.add(new Country("England", "EN"));
-        return countries;
     }
 
 }

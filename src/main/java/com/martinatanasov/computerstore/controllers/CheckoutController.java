@@ -20,7 +20,7 @@ import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.Carrier;
 import com.martinatanasov.computerstore.model.OrderStatus;
-import com.martinatanasov.computerstore.repositories.UserDaoImpl;
+import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.services.DeliveryService;
 import com.martinatanasov.computerstore.services.OrderService;
@@ -53,7 +53,7 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 @RequiredArgsConstructor
 public class CheckoutController {
 
-    private final UserDaoImpl userDao;
+    private final UserDao userDao;
     private final AddressConverter addressConverter;
     private final PaymentCustomerService paymentCustomerService;
     private final SessionPaymentService sessionPaymentService;
@@ -87,13 +87,12 @@ public class CheckoutController {
                 }
                 //Create Initial Order
                 boolean isOrderCreated = orderService.createNewOrder(user, cartItems);
-                log.info("\n\t Order from controller: ---");
                 if (!isOrderCreated) {
                     return GLOBAL_ERROR_PAGE;
                 }
             }
 
-            model.addAttribute("address", addressConverter.userAddressToDTO(user));
+            model.addAttribute("address", addressConverter.getDeliveryAddress(user));
             return "Checkout/checkout-step-1";
         }
         return GLOBAL_ERROR_PAGE;
@@ -106,7 +105,7 @@ public class CheckoutController {
         if (user != null) {
             Optional<Order> order = getInitialOrder(user.getId());
             if (order.isPresent()) {
-                model.addAttribute("address", addressConverter.userAddressToDTO(user));
+                model.addAttribute("address", addressConverter.getDeliveryAddress(user));
                 return "Checkout/checkout-step-1";
             }
         }
@@ -120,10 +119,10 @@ public class CheckoutController {
         final Carrier carrierName = Objects.equals(carrier, Carrier.ECONT.name()) ? Carrier.ECONT : Carrier.SPEEDY;
         final User user = userDao.findByUserName(getUserName());
         final Optional<Order> order = getInitialOrder(user.getId());
-        if(order.isPresent()) {
+        if (order.isPresent()) {
             final String trackingNumber = deliveryService.createDelivery().toString();
             final Order updatedOrder = orderService.updateOrderAndEntities(user, order.get(), carrierName, trackingNumber);
-            if(updatedOrder != null) {
+            if (updatedOrder != null) {
                 //Clear user's cart
                 cartService.deleteAllItems(user.getEmail());
                 //Update Cart count
@@ -164,12 +163,14 @@ public class CheckoutController {
                                                  @RequestParam(value = "payment_intent_id", required = false) String paymentIntendId,
                                                  HttpSession session) {
         Optional<Order> order = orderService.getOrderById(orderId);
-        if(order.isPresent()) {
-            order.get().setStatus(OrderStatus.ORDER_ABORTED);
-            orderService.abortOrder(order.get());
-            session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
+        if (order.isPresent()) {
+            if (order.get().getStatus() == OrderStatus.PAYMENT_REQUIRED) {
+                order.get().setStatus(OrderStatus.ORDER_ABORTED);
+                orderService.abortOrder(order.get());
+                session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
+            }
         }
-        if(paymentIntendId != null) {
+        if (paymentIntendId != null) {
             log.info("\n\t ------> Error: {}", paymentIntendId);
             model.addAttribute("error", paymentIntendId);
         }

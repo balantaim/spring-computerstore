@@ -24,7 +24,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileAddress {
+public class ProfileAddressDTO {
 
     @NotNull
     @Size(max = 30, message = "Lastname maximum 30 characters")
@@ -47,7 +47,7 @@ public class ProfileAddress {
     @NotBlank
     @NotNull(message = "Country code is required")
     @Size(min = 2, max = 3)
-    private String countyName;
+    private String countyCode;
 
     @Pattern(regexp = "^.{0,150}$", message = "Max characters for address 150")
     private String address;

@@ -126,12 +126,12 @@
                 <div class="field ml-4 mr-4 mt-6 field-select">
                         <p class="form-text has-text-weight-bold pt-2 pb-2 mr-4 is-pulled-left">[[#{form.country}]]</p>
                         <div class="select is-pulled-right">
-                            <select name="countyName">
+                            <select name="countyCode">
                                 <option th:each="country, iStat : ${countries}"
                                         th:id="${iStat.index}"
                                         th:text="${country.name}"
                                         th:value="${country.code}"
-                                        th:selected="${country.code == user.country}"></option>
+                                        th:selected="${country.name == user.country}"></option>
                             </select>
                         </div>
                 </div>

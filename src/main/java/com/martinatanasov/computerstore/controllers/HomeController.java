@@ -16,7 +16,8 @@
 package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.Product;
-import com.martinatanasov.computerstore.model.StoreItem;
+import com.martinatanasov.computerstore.model.StoreItemDTO;
+import com.martinatanasov.computerstore.services.ProductService;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 @Controller
 public class HomeController {
 
-    private final ProductServiceImpl productService;
+    private final ProductService productService;
     private final ProductConverter productConverter;
 
     @Autowired
@@ -49,9 +50,9 @@ public class HomeController {
     public String home(Model model){
         Page<Product> getProducts = productService.getAllProducts();
         //Convert product items to StoreItems
-        Page<StoreItem> filteredProducts = productConverter.convertToStoreItems(getProducts);
-        if (filteredProducts != null){
-            model.addAttribute("products", filteredProducts);
+        Page<StoreItemDTO> filteredProductsDTO = productConverter.convertToStoreItems(getProducts);
+        if (filteredProductsDTO != null){
+            model.addAttribute("products", filteredProductsDTO);
         }
         return "Home/index";
     }
@@ -68,8 +69,8 @@ public class HomeController {
         }
         products = productService.getAllByKeyword(keyword, pageNumber, pageSize, sortValue);
         if(products != null){
-            Page<StoreItem> dtoProducts = productConverter.convertToStoreItems(products);
-            if(pageNumber > dtoProducts.getTotalElements() || pageNumber < 1){
+            Page<StoreItemDTO> productsDTO = productConverter.convertToStoreItems(products);
+            if(pageNumber > productsDTO.getTotalElements() || pageNumber < 1){
                 return GLOBAL_ERROR_PAGE;
             }
             model.addAttribute("keyword", keyword);
@@ -77,9 +78,9 @@ public class HomeController {
             model.addAttribute("pageSize", pageSize);
             model.addAttribute("sortValue", sortValue);
 
-            model.addAttribute("products", dtoProducts);
-            model.addAttribute("totalPages", dtoProducts.getTotalPages());
-            model.addAttribute("totalItems", dtoProducts.getTotalElements());
+            model.addAttribute("products", productsDTO);
+            model.addAttribute("totalPages", productsDTO.getTotalPages());
+            model.addAttribute("totalItems", productsDTO.getTotalElements());
         }
         return "Home/search";
     }

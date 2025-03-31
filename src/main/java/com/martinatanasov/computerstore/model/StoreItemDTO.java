@@ -13,14 +13,28 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.services;
+package com.martinatanasov.computerstore.model;
 
-import com.martinatanasov.computerstore.entities.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public interface ProfileService {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class StoreItemDTO {
 
-    User getUserData(String userName);
+    private Integer id;
 
-    void updateUser(User user);
+    private String productName;
 
+    private String description;
+
+    private String producer;
+
+    private String price;
+
+    private Integer stock;
+
+    private String imageUrl;
 }

@@ -17,7 +17,7 @@ package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.repositories.UserDaoImpl;
-import com.martinatanasov.computerstore.services.payments.PaymentCustomerServiceImpl;
+import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import com.stripe.model.Customer;
 import com.stripe.model.CustomerCollection;
@@ -38,7 +38,7 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 @RequestMapping("/Payments")
 public class PaymentController {
 
-    private final PaymentCustomerServiceImpl paymentCustomerService;
+    private final PaymentCustomerService paymentCustomerService;
     private final UserAuthentication userAuthentication;
     private final UserDaoImpl userDao;
 
