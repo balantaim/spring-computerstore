@@ -4,13 +4,14 @@
 
 ## Description
 
-<p>"Computer Store" is a cutting-edge e-commerce platform built using Java Spring framework, hosted on the reliable AWS (Amazon Web Services) cloud platform. Designed to cater to tech-savvy consumers, this demo project showcases a seamless online shopping experience for computer hardware and accessories enthusiasts.</p>
+<p>"Computer Store" is a cutting-edge e-commerce platform built using Java Spring framework, hosted on the reliable AWS (Amazon Web Services) cloud platform and integrated with Stripe payments. Designed to cater to tech-savvy consumers, this demo project showcases a seamless online shopping experience for computer hardware and accessories enthusiasts.</p>
 
 ## Software Stack
 
 <p><b>Software architecture:</b> MVC</p>
-<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Zipkin, Maven</p>
+<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Zipkin, Stripe API, Maven</p>
 <p><b>Database:</b> MySQL</p>
+<p><b>Payment provider:</b> Stripe</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
 
 ### Key Features:
@@ -68,7 +69,7 @@ java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASS
     <li>Disable Alarm service</li>
     <li>Add role to the environment (Check how to create a new role below)</li>
     <li>Configure: Processor type x86_64 and Instance types t3.nano (2 CPU and 512mgb RAM). This is recommended setup for this project.</li>
-    <li>Add new "Environment properties" (Path: Elastic Beanstalk > Environments > {Your env name} > Configuration > Environment properties) for values: DB_NAME, DB_PASSWORD, DB_URL, STRIPE_SECRET_KEY</li>
+    <li>Add new "Environment properties" (Path: Elastic Beanstalk > Environments > {Your env name} > Configuration > Environment properties) for values: DB_URL, DB_NAME, DB_PASSWORD, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET</li>
     <li>Upload the jar file when the environment is ready</li>
 </ol>
 
@@ -90,7 +91,26 @@ java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASS
 5. Select current Stripe API version (Should be the same as your project)
 6. Select events for notification (payment_intent.payment_failed, payment_intent.succeeded)
 7. Copy Signing secret to your project (use key STRIPE_WEBHOOK_SECRET as environment variable)
-8. Optionally, you could use https://webhook.site to test for local environment
+8. Optionally, you could use https://webhook.site to test
+9. Optionally, test locally via Stripe CLI.
+- Download and add to system environment Stripe CLI
+- Login via terminal
+
+```bash
+stripe login
+```
+- Listen to your local port
+
+```bash
+stripe listen --forward-to http://localhost:5000/Status/payment-complete
+```
+
+- Add the new generated webhook secret for the test
+- Trigger event in new terminal: payment_intent.succeeded, payment_intent.payment_failed
+
+```bash
+stripe trigger payment_intent.succeeded
+```
 
 ## Override the default GC (Optional)
 
@@ -120,10 +140,13 @@ java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASS
 ### Dependencies profiles
 
 1. development: default profile, use with the following command
+
 ```bash
 mvn clean package 
 ```
+
 2. production: optimized profile for production, use with the following command
+
 ```bash
 mvn clean package -Pproduction 
 ```
@@ -153,9 +176,11 @@ mvn clean package -Pproduction
 > Use only for "benc" profile!
 
 1. Download Zipkin jar
+
 ```bash
 curl -sSL https://zipkin.io/quickstart.sh | bash -s 
 ```
+
 2. Execute "java -jar zipkin.jar" from the jar's folder
 3. Navigate browser to "http://localhost:9411/"
 

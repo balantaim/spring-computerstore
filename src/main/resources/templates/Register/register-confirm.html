@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -33,12 +33,14 @@
     <div class="has-text-centered">
 
         <div class="columns is-centered is-gapless">
-            <div class="column is-4">
+            <div class="column has-text-centered is-4">
 
-                <div class="notification is-info">
+                <div th:if="testNotification" class="notification is-info">
                     <button class="delete"></button>
                     <p>[[#{notification.login.confirm}]]</p>
                 </div>
+
+                <h1 class="is-size-3">[[#{account.created}]]</h1>
 
             </div>
         </div>

@@ -17,9 +17,14 @@ package com.martinatanasov.computerstore.services.payments;
 
 import com.martinatanasov.computerstore.entities.User;
 import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
 
 public interface SessionPaymentService {
 
-    String createCheckoutSession(User user, Long orderId) throws StripeException;
+    Session createCheckoutSession(User user, Long orderId) throws StripeException;
+
+    Session retrieveCheckoutSession(String sessionId) throws StripeException;
+
+    Session expireCheckoutSession(String sessionId) throws StripeException;
 
 }

@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -169,7 +168,6 @@ public class OrderServiceImpl implements OrderService {
                 .user(user)
                 .totalAmount(BigDecimal.ZERO)
                 .status(OrderStatus.NEW_ORDER)
-                .orderDate(new Timestamp(System.currentTimeMillis()))
                 .build();
         return orderRepository.save(order);
     }

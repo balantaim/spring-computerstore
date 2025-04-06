@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.entities;
 import com.martinatanasov.computerstore.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -39,7 +40,8 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "order_date")
+    @Column(name = "order_date", updatable = false)
+    @CreationTimestamp
     private Timestamp orderDate;
 
     @Column(name = "total_amount", precision = 9, scale = 2)

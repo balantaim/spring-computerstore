@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.controllers;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.AppUserDTO;
 import com.martinatanasov.computerstore.services.UserService;
+import com.martinatanasov.computerstore.utils.converter.TestNotificationsState;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,12 @@ import org.springframework.web.bind.annotation.*;
 public class RegisterController {
 
     private final UserService userService;
+    private final TestNotificationsState testNotificationsState;
 
     @Autowired
-    public RegisterController(UserService userService) {
+    public RegisterController(UserService userService, TestNotificationsState testNotificationsState) {
         this.userService = userService;
+        this.testNotificationsState = testNotificationsState;
     }
 
     @InitBinder
@@ -83,6 +86,9 @@ public class RegisterController {
             ObjectError error = new ObjectError("globalError", errorMessage);
             bindingResult.addError(error);
             model.addAttribute("status", "error");
+            if (testNotificationsState.isNotificationsActive()) {
+                model.addAttribute("testNotification", true);
+            }
             return "Register/register";
         }
 

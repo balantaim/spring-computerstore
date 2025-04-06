@@ -23,6 +23,8 @@ import com.martinatanasov.computerstore.utils.converter.PaymentPriceConverter;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import com.stripe.param.checkout.SessionExpireParams;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,7 @@ import java.util.Set;
 import static com.martinatanasov.computerstore.services.OrderServiceImpl.shippingEstimate;
 
 
+@Slf4j
 @Service
 public class SessionPaymentServiceImpl implements SessionPaymentService {
 
@@ -50,8 +53,8 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
     }
 
     @Override
-    public String createCheckoutSession(final User user, final Long orderId) throws StripeException {
-        final Optional<Order> order = orderRepository.getOrderById(orderId);
+    public Session createCheckoutSession(final User user, final Long orderId) throws StripeException {
+        Optional<Order> order = orderRepository.getOrderById(orderId);
         if (user != null && order.isPresent()) {
             SessionCreateParams params = SessionCreateParams.builder()
                     //Set OrderId to the session
@@ -83,9 +86,26 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
                     .build();
 
             Session session = Session.create(params);
-            return session.getUrl();
+            if (session != null) {
+                log.info("\n\tSession ID: {}", session.getId());
+                log.info("\n\tCreated timestamp: {}", session.getCreated());
+                //Payment payment = order.get().getPayment();
+            }
+            return session;
         }
         return null;
+    }
+
+    @Override
+    public Session retrieveCheckoutSession(final String sessionId) throws StripeException {
+        return Session.retrieve(sessionId);
+    }
+
+    @Override
+    public Session expireCheckoutSession(final String sessionId) throws StripeException {
+        Session resource = Session.retrieve(sessionId);
+        SessionExpireParams params = SessionExpireParams.builder().build();
+        return resource.expire(params);
     }
 
     private List<SessionCreateParams.LineItem> convertOrderItemsToLineItems(final Set<OrderItem> items) {

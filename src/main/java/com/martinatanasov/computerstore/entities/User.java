@@ -17,6 +17,8 @@ package com.martinatanasov.computerstore.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -74,9 +76,11 @@ public class User {
     private Boolean verifiedProfile;
 
     @Column(name = "creation_date", nullable = false, updatable = false)
+    @CreationTimestamp
     private Timestamp creationDate;
 
     @Column(name = "modify_date", nullable = false)
+    @UpdateTimestamp
     private Timestamp modifyDate;
 
     @Column(name = "lock_date")

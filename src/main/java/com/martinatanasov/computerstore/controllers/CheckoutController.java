@@ -27,8 +27,10 @@ import com.martinatanasov.computerstore.services.OrderService;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import com.martinatanasov.computerstore.services.payments.SessionPaymentService;
 import com.martinatanasov.computerstore.utils.converter.AddressConverter;
+import com.martinatanasov.computerstore.utils.converter.TestNotificationsState;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
+import com.stripe.model.checkout.Session;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +62,7 @@ public class CheckoutController {
     private final OrderService orderService;
     private final CartService cartService;
     private final DeliveryService deliveryService;
+    private final TestNotificationsState testNotificationsState;
 
     @PostMapping("/step-1")
     public String initiateCheckoutInformation(Model model) {
@@ -135,6 +138,9 @@ public class CheckoutController {
                 model.addAttribute("finalPrice", formatter.format(updatedOrder.getTotalAmount()));
                 model.addAttribute("orderId", updatedOrder.getId());
                 model.addAttribute("orderCreated", true);
+                if (testNotificationsState.isNotificationsActive()) {
+                    model.addAttribute("testNotification", true);
+                }
 
                 return "Checkout/checkout-step-2";
             }
@@ -146,7 +152,10 @@ public class CheckoutController {
     public String initiatePaymentSession(@RequestParam("orderId") Long orderId) throws StripeException {
         if (orderId != null) {
             final User user = userDao.findByUserName(getUserName());
-            return "redirect:" + sessionPaymentService.createCheckoutSession(user, orderId);
+            final Session session = sessionPaymentService.createCheckoutSession(user, orderId);
+            if (session != null) {
+                return "redirect:" + session.getUrl();
+            }
         }
         return GLOBAL_ERROR_PAGE;
     }

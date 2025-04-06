@@ -75,11 +75,8 @@ public class UserServiceImpl implements UserService {
         //The default new profile is set to verified by email
         user.setVerifiedProfile(true);
 
-        //Set creation date
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        user.setCreationDate(timestamp);
-        user.setModifyDate(timestamp);
-        user.setLockDate(timestamp);
+        //Set lock date
+        user.setLockDate(new Timestamp(System.currentTimeMillis()));
 
         //Give user default role of "employee"
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
@@ -136,8 +133,6 @@ public class UserServiceImpl implements UserService {
             if(passwordEncoder.matches(oldPassword, user.getPassword())){
                 //Set the new password with bcrypt to the object
                 user.setPassword(passwordEncoder.encode(newPassword));
-                //Change the modification date
-                user.setModifyDate(new Timestamp(System.currentTimeMillis()));
                 //Save the object to the DB
                 userDao.save(user);
                 return true;
@@ -152,8 +147,6 @@ public class UserServiceImpl implements UserService {
         if(user != null){
             //Set the new password with bcrypt to the object
             user.setPassword(passwordEncoder.encode(newPassword));
-            //Change the modification date
-            user.setModifyDate(new Timestamp(System.currentTimeMillis()));
             //Save the object to the DB
             userDao.save(user);
             return true;
@@ -175,7 +168,6 @@ public class UserServiceImpl implements UserService {
             user.setPhoneNumber(phone);
             user.setCountry(country);
             user.setAddress(address);
-            user.setModifyDate(new Timestamp(System.currentTimeMillis()));
             //Save the new data
             userDao.save(user);
         }

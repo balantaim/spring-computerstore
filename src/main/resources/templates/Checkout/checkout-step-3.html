@@ -103,12 +103,8 @@
         <div class="column"></div>
     </div>
 
-    <div class="is-flex is-justify-content-space-between is-vcentered">
-        <form action="#" th:action="@{/Cart}" method="GET">
-            <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
-                [[#{btn.cart}]]
-            </button>
-        </form>
+    <!-- Button right content -->
+    <div class="is-flex is-justify-content-flex-end is-vcentered">
         <form action="#" th:action="@{/Orders}" method="GET">
             <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
                 [[#{nav.orders}]]

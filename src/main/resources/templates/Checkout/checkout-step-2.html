@@ -90,8 +90,29 @@
 
     </div>
 
+    <!-- Notification banner Info -->
+    <div th:if="testNotification" class="columns is-gapless is-centered mt-6">
+        <div class="column is-9 m-2">
+            <div class="notification is-info mb-2">
+                <button class="delete"></button>
+                <p>[[#{test.payment.card.message}]]</p>
+
+                <p>&#8226; [[#{test.payment.date.message}]]</p>
+                <p>&#8226; [[#{test.payment.cvc.message}]]</p>
+                <p>&#8226; [[#{test.payment.fields.message}]]</p>
+
+                <p>[[#{test.payment.info.message}]] <a href="https://docs.stripe.com/testing" target="_blank">[[#{link.click.here}]]</a>.</p>
+            </div>
+        </div>
+
+        <!-- Close button script -->
+        <script defer th:src="@{/js/notification.js}"></script>
+    </div>
+
+    <!-- Content Box -->
     <div class="columns is-gapless is-centered mt-6">
         <div class="column box is-9 m-2">
+
             <div class="pl-5 pr-5 pt-3 pb-5" style="overflow-wrap: break-word;">
                 <p th:if="${carrier}" class="has-text-centered">[[#{text.carrier}]] [[${carrier}]]</p>
                 <div th:if="${finalPrice}"
