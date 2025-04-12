@@ -15,6 +15,9 @@
 
 package com.martinatanasov.computerstore.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.martinatanasov.computerstore.entities.*;
 import com.martinatanasov.computerstore.model.Carrier;
 import com.martinatanasov.computerstore.model.OrderStatus;
@@ -22,6 +25,7 @@ import com.martinatanasov.computerstore.model.PaymentStatus;
 import com.martinatanasov.computerstore.model.PaymentType;
 import com.martinatanasov.computerstore.repositories.CartRepository;
 import com.martinatanasov.computerstore.repositories.OrderRepository;
+import com.martinatanasov.computerstore.repositories.UserDao;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
+    private final UserDao userDao;
     public static final BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
 
     @Override
@@ -126,6 +132,48 @@ public class OrderServiceImpl implements OrderService {
             return updatedOrder;
         }
         return null;
+    }
+
+    @Transactional
+    @Override
+    public void updateOrderAndPaymentAfterPaymentComplete(final String rawJson) throws JsonProcessingException {
+//        log.info("\n\t Data as string: {}", rawJson);
+
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final JsonNode root = objectMapper.readTree(rawJson);
+
+        final JsonNode metadataNode = root.get("metadata");
+        //Check if the payment status is equal to paid
+        if (Objects.equals(root.get("payment_status") != null ? root.get("payment_status").asText() : null, "paid")) {
+            final JsonNode customer = root.get("customer");
+            final String customerId = customer != null ? customer.asText() : null;
+            log.info("\n\tCustomerId: {}", customerId);
+
+            final Long orderId = root.get("client_reference_id") != null ? root.get("client_reference_id").asLong() : null;
+            log.info("\n\tOrder ID: {}", orderId);
+
+            if (metadataNode != null) {
+                final String carrier = metadataNode.get("carrier") != null ? metadataNode.get("carrier").asText() : null;
+                final String trackingNumber = metadataNode.get("tracking_number") != null ? metadataNode.get("tracking_number").asText() : null;
+                log.info("\n\tCarrier provider: {}", carrier);
+                log.info("\n\tTracking number: {}", trackingNumber);
+            }
+
+            final User user = userDao.findByCustomerId(customerId);
+            Optional<Order> order = orderRepository.getOrderById(orderId);
+            if (user != null && order.isPresent()) {
+                if (Objects.equals(user.getCustomerId(), customerId) && Objects.equals(order.get().getId(), orderId)) {
+                    Payment payment = order.get().getPayment();
+                    if (payment.getPaymentStatus() == PaymentStatus.NONE) {
+                        payment.setPaymentStatus(PaymentStatus.COMPLETED);
+                        order.get().setPayment(payment);
+                        order.get().setStatus(OrderStatus.PAYMENT_SUCCESS);
+                        orderRepository.save(order.get());
+                    }
+                }
+            }
+        }
+
     }
 
     @Override

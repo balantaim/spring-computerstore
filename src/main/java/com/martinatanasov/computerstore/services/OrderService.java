@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.entities.User;
@@ -35,6 +36,8 @@ public interface OrderService {
     boolean createNewOrder(User user, Iterable<Cart> cartItems);
 
     Order updateOrderAndEntities(User user, Order order, Carrier carrier, String trackingNumber);
+
+    void updateOrderAndPaymentAfterPaymentComplete(String rawJson) throws JsonProcessingException;
 
     void abortOrder(Order order);
 

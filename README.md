@@ -89,7 +89,7 @@ java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASS
 3. Copy your secret API key to the project (use key STRIPE_SECRET_KEY as environment variable)
 4. Create a new webhook notification (Stripe > Developer > Webhook > Add listener to local profile)
 5. Select current Stripe API version (Should be the same as your project)
-6. Select events for notification (payment_intent.payment_failed, payment_intent.succeeded)
+6. Select events for notification (checkout.session.completed)
 7. Copy Signing secret to your project (use key STRIPE_WEBHOOK_SECRET as environment variable)
 8. Optionally, you could use https://webhook.site to test
 9. Optionally, test locally via Stripe CLI.
@@ -106,10 +106,21 @@ stripe listen --forward-to http://localhost:5000/Status/payment-complete
 ```
 
 - Add the new generated webhook secret for the test
-- Trigger event in new terminal: payment_intent.succeeded, payment_intent.payment_failed
+- Trigger event in new terminal: checkout.session.completed
 
 ```bash
-stripe trigger payment_intent.succeeded
+stripe trigger checkout.session.completed
+```
+
+- Override the test data
+- Use real customer_id from stripe
+- Use "\\" for a new line
+- Docs: https://docs.stripe.com/stripe-cli/triggers
+
+```bash
+stripe trigger checkout.session.completed \
+  --override checkout_session:customer="cus_ALABALA" \
+  --override checkout_session:client_reference_id="123"
 ```
 
 ## Override the default GC (Optional)

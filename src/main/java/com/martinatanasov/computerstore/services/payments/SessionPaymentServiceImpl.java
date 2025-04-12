@@ -17,6 +17,7 @@ package com.martinatanasov.computerstore.services.payments;
 
 import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.entities.OrderItem;
+import com.martinatanasov.computerstore.entities.Shipment;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.repositories.OrderRepository;
 import com.martinatanasov.computerstore.utils.converter.PaymentPriceConverter;
@@ -28,10 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.martinatanasov.computerstore.services.OrderServiceImpl.shippingEstimate;
 
@@ -57,6 +55,10 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
         Optional<Order> order = orderRepository.getOrderById(orderId);
         if (user != null && order.isPresent()) {
             SessionCreateParams params = SessionCreateParams.builder()
+                    //Set Carrier information
+                    .putAllMetadata(
+                            getCarrierMetadata(order.get().getShipment())
+                    )
                     //Set OrderId to the session
                     .setClientReferenceId(String.valueOf(orderId))
                     //Add payment method type
@@ -65,8 +67,8 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     //Set customer ID
                     .setCustomer(user.getCustomerId())
-                    //Set language
-                    .setLocale(SessionCreateParams.Locale.BG)
+                    //Set Locale Language
+                    .setLocale(getUserCountryLanguage(user.getCountry()))
                     //Success redirect
                     .setSuccessUrl(APP_DOMAIN_NAME + "/Checkout/step-3")
                     //Cancel redirect
@@ -85,11 +87,10 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .build();
 
-            Session session = Session.create(params);
+            final Session session = Session.create(params);
             if (session != null) {
                 log.info("\n\tSession ID: {}", session.getId());
                 log.info("\n\tCreated timestamp: {}", session.getCreated());
-                //Payment payment = order.get().getPayment();
             }
             return session;
         }
@@ -152,6 +153,22 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
                 )
                 .setQuantity(itemQuantity)
                 .build();
+    }
+
+    private Map<String, String> getCarrierMetadata(final Shipment shipment) {
+        Map<String, String> metadata = new HashMap<>();
+        if(shipment != null) {
+            metadata.put("carrier", shipment.getCarrier().name());
+            metadata.put("tracking_number", shipment.getTrackingNumber());
+        }
+        return metadata;
+    }
+
+    private SessionCreateParams.Locale getUserCountryLanguage(final String country) {
+        return switch (country) {
+            case "USA", "England" -> SessionCreateParams.Locale.EN;
+            default -> SessionCreateParams.Locale.BG;
+        };
     }
 
 }

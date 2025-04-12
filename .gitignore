@@ -1,5 +1,6 @@
 HELP.md
 EXECUTION_CODE.txt
+/resources-backup
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -21,7 +22,6 @@ target/
 *.ipr
 *.mvn
 /target
-/resources-backup
 
 ### NetBeans ###
 /nbproject/private/
