@@ -9,7 +9,7 @@
 ## Software Stack
 
 <p><b>Software architecture:</b> MVC</p>
-<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Zipkin, Stripe API, Maven</p>
+<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Zipkin, Stripe API, Stripe CLI, Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Payment provider:</b> Stripe</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
@@ -115,6 +115,8 @@ stripe trigger checkout.session.completed
 - Override the test data
 - Use real customer_id from stripe
 - Use "\\" for a new line
+- Use "--override" to set a new parameter's value, format: RESOURCE:PROPERTY=VALUE
+- Use "--add" to add a new parameter, format: RESOURCE:PROPERTY=VALUE
 - Docs: https://docs.stripe.com/stripe-cli/triggers
 
 ```bash

@@ -55,10 +55,10 @@ public class WebhookController {
                                                       @RequestHeader("Stripe-Signature") String sigHeader) throws JsonProcessingException {
         Event event = null;
         try {
-//            log.info("\n\tPayload: {}", payload);
-//            log.info("\n\tsigHeader: {}", sigHeader);
+            log.trace("\n\tPayload: {}", payload);
+            log.trace("\n\tsigHeader: {}", sigHeader);
             event = Webhook.constructEvent(payload, sigHeader, STRIPE_WEBHOOK_SECRET);
-//            log.info("\n\tEvent: {}", event);
+            log.trace("\n\tEvent: {}", event);
         } catch (SignatureVerificationException e) {
             log.error("\n\tFailed signature verification");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -95,7 +95,7 @@ public class WebhookController {
         if (dataObjectDeserializer.getObject().isPresent()) {
             StripeObject stripeObject = null;
             stripeObject = dataObjectDeserializer.getObject().get();
-//            log.info("\n\tStripeObject: {}", stripeObject);
+            log.trace("\n\tStripeObject: {}", stripeObject);
 
             final String rawJson = stripeObject.toJson();
             //Update Order and Payment

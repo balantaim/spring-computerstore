@@ -36,7 +36,11 @@
             <p>[[${order.totalAmount}]]</p>
             <p>[[${order.status}]]</p>
             <div>
-                <button class="button is-primary">Details</button>
+                <form action="#" th:action="@{/Orders/order-details/{id}(id=${order.id})}" method="GET">
+                    <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
+                        [[#{btn.details}]]
+                    </button>
+                </form>
             </div>
         </div>
     </div>

@@ -21,6 +21,7 @@ import com.martinatanasov.computerstore.model.AppUserDTO;
 import com.martinatanasov.computerstore.model.UserInfoDTO;
 import com.martinatanasov.computerstore.repositories.RoleDao;
 import com.martinatanasov.computerstore.repositories.UserDao;
+import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,6 +43,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private final RoleDao roleDao;
+
+    @Autowired
+    private final PaymentCustomerService paymentCustomerService;
 
     @Autowired
     private final BCryptPasswordEncoder passwordEncoder;
@@ -170,6 +174,10 @@ public class UserServiceImpl implements UserService {
             user.setAddress(address);
             //Save the new data
             userDao.save(user);
+            //Update customer's info if customerId exist
+            if(!user.getCustomerId().isEmpty()) {
+                paymentCustomerService.updateCustomerById(user.getCustomerId(), user);
+            }
         }
     }
 

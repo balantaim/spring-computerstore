@@ -23,6 +23,7 @@ import com.stripe.model.CustomerSearchResult;
 import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.CustomerListParams;
 import com.stripe.param.CustomerSearchParams;
+import com.stripe.param.CustomerUpdateParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 /**
  * Payment customer is needed in order to create invoices. Create payment customer for every user that are going to create payment.
  * Customer Update method is not supported! We don't send any address or taxes information to the payment provider.
+ *
  * @author Martin Atanasov
  */
 
@@ -80,24 +82,15 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
     }
 
     @Override
-    public Customer createCustomer(User user) {
+    public Customer createCustomer(final User user) {
         String fullName = "",
-                description = "Purchase from Computer store",
+                description = "Computer store's customer",
                 phoneNumber;
 
         //Extract fullName and phoneNumber from the user
         if (user != null) {
             phoneNumber = user.getPhoneNumber();
-            if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
-                fullName += user.getFirstName();
-            }
-            if (user.getLastName() != null) {
-                if (!fullName.isEmpty()) {
-                    fullName += " " + user.getLastName();
-                } else {
-                    fullName += user.getLastName();
-                }
-            }
+            fullName = getUserFullName(user);
         } else {
             return null;
         }
@@ -136,10 +129,45 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
         Customer resource;
         try {
             resource = Customer.retrieve(customerId);
-            Customer customer = resource.delete();
+            final Customer customer = resource.delete();
             log.info("\n\tCustomer deleted: {}", customer);
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void updateCustomerById(final String customerId, final User user) {
+        Customer resource = null;
+        try {
+            resource = Customer.retrieve(customerId);
+            if (resource != null) {
+                final CustomerUpdateParams params = CustomerUpdateParams.builder()
+                        .setName(getUserFullName(user).isEmpty() ? null:getUserFullName(user))
+                        .setEmail(user.getEmail())
+                        .setPhone(user.getPhoneNumber())
+                        .build();
+                final Customer customer = resource.update(params);
+                log.info("\n\tUpdated customer's data: {}", customer);
+            }
+        } catch (StripeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String getUserFullName(final User user) {
+        String fullName = "";
+        if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
+            fullName += user.getFirstName();
+        }
+        if (user.getLastName() != null) {
+            if (!fullName.isEmpty()) {
+                fullName += " " + user.getLastName();
+            } else {
+                fullName += user.getLastName();
+            }
+        }
+        return fullName;
+    }
+
 }

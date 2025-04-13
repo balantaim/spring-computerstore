@@ -137,7 +137,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void updateOrderAndPaymentAfterPaymentComplete(final String rawJson) throws JsonProcessingException {
-//        log.info("\n\t Data as string: {}", rawJson);
+        log.trace("\n\tData as string: {}", rawJson);
 
         final ObjectMapper objectMapper = new ObjectMapper();
         final JsonNode root = objectMapper.readTree(rawJson);
@@ -155,19 +155,22 @@ public class OrderServiceImpl implements OrderService {
             if (metadataNode != null) {
                 final String carrier = metadataNode.get("carrier") != null ? metadataNode.get("carrier").asText() : null;
                 final String trackingNumber = metadataNode.get("tracking_number") != null ? metadataNode.get("tracking_number").asText() : null;
-                log.info("\n\tCarrier provider: {}", carrier);
-                log.info("\n\tTracking number: {}", trackingNumber);
+                log.trace("\n\tCarrier provider: {}", carrier);
+                log.trace("\n\tTracking number: {}", trackingNumber);
             }
 
             final User user = userDao.findByCustomerId(customerId);
             Optional<Order> order = orderRepository.getOrderById(orderId);
             if (user != null && order.isPresent()) {
+                //Check if customerId and orderId match the JSON's data
                 if (Objects.equals(user.getCustomerId(), customerId) && Objects.equals(order.get().getId(), orderId)) {
                     Payment payment = order.get().getPayment();
+                    //Update the payment status and order status
                     if (payment.getPaymentStatus() == PaymentStatus.NONE) {
                         payment.setPaymentStatus(PaymentStatus.COMPLETED);
                         order.get().setPayment(payment);
                         order.get().setStatus(OrderStatus.PAYMENT_SUCCESS);
+                        //Save the data
                         orderRepository.save(order.get());
                     }
                 }

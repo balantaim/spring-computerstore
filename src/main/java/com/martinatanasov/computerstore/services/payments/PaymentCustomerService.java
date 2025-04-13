@@ -24,12 +24,14 @@ public interface PaymentCustomerService {
 
     CustomerCollection getAllCustomers();
 
-    Customer getCustomerById (String customerId);
+    Customer getCustomerById(String customerId);
 
-    CustomerSearchResult getCustomersByKeyword (String keyword);
+    CustomerSearchResult getCustomersByKeyword(String keyword);
 
     Customer createCustomer(User user);
 
-    void deleteCustomerById (String customerId);
+    void deleteCustomerById(String customerId);
+
+    void updateCustomerById(String customerId, User user);
 
 }
