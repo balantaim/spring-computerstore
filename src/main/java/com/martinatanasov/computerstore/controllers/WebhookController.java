@@ -100,7 +100,8 @@ public class WebhookController {
             final String rawJson = stripeObject.toJson();
             //Update Order and Payment
             if (rawJson != null) {
-                orderService.updateOrderAndPaymentAfterPaymentComplete(rawJson);
+                boolean isUpdated = orderService.updateOrderAndPaymentAfterPaymentComplete(rawJson);
+                log.trace("\n\tOrder status updated from webhook: {}", isUpdated);
             }
         } else {
             log.error("\n\tStripeObject cannot be extracted");

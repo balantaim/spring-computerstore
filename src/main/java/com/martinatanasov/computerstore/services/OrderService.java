@@ -37,7 +37,7 @@ public interface OrderService {
 
     Order updateOrderAndEntities(User user, Order order, Carrier carrier, String trackingNumber);
 
-    void updateOrderAndPaymentAfterPaymentComplete(String rawJson) throws JsonProcessingException;
+    boolean updateOrderAndPaymentAfterPaymentComplete(String rawJson) throws JsonProcessingException;
 
     void abortOrder(Order order);
 

@@ -17,9 +17,11 @@ package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.entities.Order;
+import com.martinatanasov.computerstore.entities.Payment;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.Carrier;
 import com.martinatanasov.computerstore.model.OrderStatus;
+import com.martinatanasov.computerstore.model.PaymentStatus;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.services.DeliveryService;
@@ -161,7 +163,14 @@ public class CheckoutController {
     }
 
     @GetMapping("/step-3")
-    public String getCheckoutConfirmation() {
+    public String getCheckoutConfirmation(HttpSession session) {
+        final User user = userDao.findByUserName(getUserName());
+        //Update Cart count and Order count required in top navigation bar to the session
+        final int cartCount = cartService.getCartItemsCount(user.getId());
+        //Update Cart count
+        session.setAttribute("cart-items-count", cartCount > 0 ? cartCount : null);
+        //Update Order count
+        session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
 
         return "Checkout/checkout-step-3";
     }
@@ -174,13 +183,23 @@ public class CheckoutController {
         Optional<Order> order = orderService.getOrderById(orderId);
         if (order.isPresent()) {
             if (order.get().getStatus() == OrderStatus.PAYMENT_REQUIRED) {
+                //Update order status
                 order.get().setStatus(OrderStatus.ORDER_ABORTED);
+                //Update payment status
+                Payment payment = order.get().getPayment();
+                payment.setPaymentStatus(PaymentStatus.ABORTED);
+                order.get().setPayment(payment);
+                //Save updated order
                 orderService.abortOrder(order.get());
+                //Todo invalidate checkout session
+
+
+
                 session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
             }
         }
         if (paymentIntendId != null) {
-            log.info("\n\t ------> Error: {}", paymentIntendId);
+            log.error("\n\tError: payment intend ID = {}", paymentIntendId);
             model.addAttribute("error", paymentIntendId);
         }
         return "Checkout/checkout-step-3-cancel";
@@ -194,15 +213,5 @@ public class CheckoutController {
     private Optional<Order> getInitialOrder(Long userId) {
         return orderService.getFirstByStatusAndUserId(userId, OrderStatus.NEW_ORDER);
     }
-
-//    private BigDecimal getTotalAmount(Set<OrderItem> orderItems) {
-//        BigDecimal orderTotal = BigDecimal.ZERO;
-//        for(OrderItem i: orderItems) {
-//            orderTotal = orderTotal.add(i.getProduct().getPrice());
-//        }
-//        //Add shipping tax
-//        orderTotal = orderTotal.add(shippingEstimate);
-//        return orderTotal;
-//    }
 
 }

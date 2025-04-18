@@ -95,10 +95,24 @@ async function swapContent(data) {
         //Check if the locators are valid then swap the content
         if (oldProducts && oldSummary) {
             if (newSummary instanceof HTMLElement && newProducts instanceof HTMLElement) {
+                //Remove placeholder class in order to disable animation effect
+                let placeholder = newSummary.querySelectorAll('.is-skeleton');
+                let placeholderBlock = newSummary.querySelectorAll('.has-skeleton');
+                //newSummary update
+                newSummary.classList.remove('is-skeleton');
+                newSummary.classList.remove('has-skeleton');
+                placeholder.forEach(el => el.classList.remove('is-skeleton'));
+                placeholderBlock.forEach(el => el.classList.remove('has-skeleton'));
+                //newProducts update
+                placeholder = newProducts.querySelectorAll('.is-skeleton');
+                placeholderBlock = newProducts.querySelectorAll('.has-skeleton');
+                newProducts.classList.remove('is-skeleton');
+                newProducts.classList.remove('has-skeleton');
+                placeholder.forEach(el => el.classList.remove('is-skeleton'));
+                placeholderBlock.forEach(el => el.classList.remove('has-skeleton'));
                 //Replace content with updated card items and order summary
                 oldProducts.replaceWith(newProducts);
                 oldSummary.replaceWith(newSummary);
-                await removePlaceholderAnimation();
             } else {
                 //Remove cart items and order summary
                 oldProducts.replaceWith("");
@@ -112,18 +126,6 @@ async function swapContent(data) {
     } catch (error) {
         console.error('Error: ' + error);
     }
-}
-
-async function removePlaceholderAnimation() {
-    const skeletonLoadItemsPrimary = document.querySelectorAll('.is-skeleton');
-    const skeletonLoadItemsSecondary = document.querySelectorAll('.has-skeleton');
-
-    skeletonLoadItemsPrimary.forEach(item => {
-        item.classList.remove('is-skeleton');
-    });
-    skeletonLoadItemsSecondary.forEach(item => {
-        item.classList.remove('has-skeleton');
-    });
 }
 
 async function isValidInput(inputValue, isIncrement) {

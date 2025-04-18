@@ -136,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public void updateOrderAndPaymentAfterPaymentComplete(final String rawJson) throws JsonProcessingException {
+    public boolean updateOrderAndPaymentAfterPaymentComplete(final String rawJson) throws JsonProcessingException {
         log.trace("\n\tData as string: {}", rawJson);
 
         final ObjectMapper objectMapper = new ObjectMapper();
@@ -172,11 +172,12 @@ public class OrderServiceImpl implements OrderService {
                         order.get().setStatus(OrderStatus.PAYMENT_SUCCESS);
                         //Save the data
                         orderRepository.save(order.get());
+                        return true;
                     }
                 }
             }
         }
-
+        return false;
     }
 
     @Override
