@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -44,6 +45,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(PageRequest.of(1, 5));
     }
 
+    @Override
+    public Page<Product> findByIsVisibleTrue() {
+        return productRepository.findByIsVisibleTrue(PageRequest.of(1, 5));
+    }
+
     @Cacheable(cacheNames = "productListCache")
     @Override
     public Page<Product> findAllByCategoryId(Short categoryId, Integer pageNumber, Integer pageSize, String sortValue){
@@ -56,8 +62,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> findAllByKeywordAndIsSearchableTrue(String keyword, Integer pageNumber, Integer pageSize, String sortValue) {
+        return productRepository.findAllByKeywordAndIsSearchableTrue(keyword, buildPageRequest(pageNumber, pageSize, sortValue));
+    }
+
+    @Override
     public List<Product> getAllByKeyword(String keyword) {
-        return productRepository.findAllByKeyword(keyword);
+        return productRepository.findAllByKeyword(keyword)
+                .stream()
+                .filter(i -> i.getIsSearchable() == true)
+                .collect(Collectors.toList());
     }
 
     @Cacheable(cacheNames = "productCache", key = "#id")

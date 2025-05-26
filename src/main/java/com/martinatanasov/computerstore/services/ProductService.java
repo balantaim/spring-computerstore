@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,9 +25,13 @@ public interface ProductService {
 
     Page<Product> getAllProducts();
 
+    Page<Product> findByIsVisibleTrue();
+
     Page<Product> findAllByCategoryId(Short categoryId, Integer pageNumber, Integer pageSize, String sortValue);
 
     Page<Product> getAllByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortValue);
+
+    Page<Product> findAllByKeywordAndIsSearchableTrue(String keyword, Integer pageNumber, Integer pageSize, String sortValue);
 
     List<Product> getAllByKeyword(String keyword);
 

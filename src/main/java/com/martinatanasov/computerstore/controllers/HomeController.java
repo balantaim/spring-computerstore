@@ -48,7 +48,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model){
-        Page<Product> getProducts = productService.getAllProducts();
+        Page<Product> getProducts = productService.findByIsVisibleTrue();
         //Convert product items to StoreItems
         Page<StoreItemDTO> filteredProductsDTO = productConverter.convertToStoreItems(getProducts);
         if (filteredProductsDTO != null){
@@ -67,7 +67,7 @@ public class HomeController {
         if(keyword == null || keyword.isEmpty()){
             keyword = "";
         }
-        products = productService.getAllByKeyword(keyword, pageNumber, pageSize, sortValue);
+        products = productService.findAllByKeywordAndIsSearchableTrue(keyword, pageNumber, pageSize, sortValue);
         if(products != null){
             Page<StoreItemDTO> productsDTO = productConverter.convertToStoreItems(products);
             if(pageNumber > productsDTO.getTotalElements() || pageNumber < 1){

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -46,6 +46,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             nativeQuery = true)
     List<Product> findAllByKeyword(@Param("keyword") String keyword);
 
+    @Query(value = "SELECT * FROM products p WHERE p.product_name LIKE %:keyword% " +
+            "OR p.description LIKE %:keyword% " +
+            "OR p.producer LIKE %:keyword% " +
+            "OR p.price LIKE %:keyword% " +
+            "AND p.is_searchable LIKE 1",
+            nativeQuery = true)
+    Page<Product> findAllByKeywordAndIsSearchableTrue(@Param("keyword") String keyword, PageRequest pageRequest);
+
     Optional<Product> findProductById(Integer id);
+
+    Page<Product> findByIsVisibleTrue(PageRequest pageRequest);
 
 }

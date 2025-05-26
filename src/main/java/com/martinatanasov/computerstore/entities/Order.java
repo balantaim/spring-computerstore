@@ -19,6 +19,7 @@ import com.martinatanasov.computerstore.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -43,6 +44,10 @@ public class Order {
     @Column(name = "order_date", updatable = false)
     @CreationTimestamp
     private Timestamp orderDate;
+
+    @UpdateTimestamp
+    @Column(name = "modify_date")
+    private Timestamp modifyDate;
 
     @Column(name = "total_amount", precision = 9, scale = 2)
     private BigDecimal totalAmount;

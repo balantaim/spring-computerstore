@@ -17,8 +17,11 @@ package com.martinatanasov.computerstore.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,6 +56,30 @@ public class Product {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "modify_date")
+    private Timestamp modifyDate;
+
+    @Column(name = "is_visible", nullable = false)
+    private Boolean isVisible;
+
+    @Column(name = "is_searchable", nullable = false)
+    private Boolean isSearchable;
+
+    @Column(name = "product_number")
+    private String productNumber;
+
+    @Column(name = "compatible_with")
+    private String compatibleWith;
+
+    //Get your barcodes from: https://www.barcodelookup.com
+    @Column(name = "barcode_utc", length = 12, columnDefinition = "CHAR(12)", nullable = false)
+    private String barcodeUtc;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)

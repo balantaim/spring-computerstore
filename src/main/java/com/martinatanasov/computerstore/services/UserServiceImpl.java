@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
             //Save the new data
             userDao.save(user);
             //Update customer's info if customerId exist
-            if(!user.getCustomerId().isEmpty()) {
+            if(user.getCustomerId() != null) {
                 paymentCustomerService.updateCustomerById(user.getCustomerId(), user);
             }
         }

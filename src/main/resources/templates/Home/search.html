@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -26,7 +26,7 @@
 <div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
 
 <!--MAIN Content Start-->
-<div class="main container">
+<div class="main">
     <div class="space"></div>
 
 
@@ -44,7 +44,7 @@
             <div class="column mr-1 ml-1">
                 <div th:replace="~{fragments/pagination-options-keyword :: pagination-options-keyword}"></div>
 
-                <div th:replace="~{fragments/horizontal-card-item :: vertical-item}"></div>
+                <div th:replace="~{fragments/vertical-category-item :: vertical-category-item}"></div>
 
                 <div th:replace="~{fragments/pagination-nav-keyword :: pagination-keyword('/Search')}"></div>
             </div>

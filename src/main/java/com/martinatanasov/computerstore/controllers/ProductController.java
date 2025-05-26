@@ -53,7 +53,7 @@ public class ProductController {
 
     @GetMapping("")
     public String products(Model model){
-        Iterable<Category> categories = categoryService.getAllCategories();
+        Iterable<Category> categories = categoryService.findAllByIsVisibleTrue();
         model.addAttribute("categories", categories);
         return "Products/products";
     }

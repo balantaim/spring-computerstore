@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +17,9 @@ package com.martinatanasov.computerstore.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @Builder
 @Entity
@@ -35,6 +38,10 @@ public class Review {
 
     @Column(name = "vote", columnDefinition = "FLOAT(2,1)")
     private Double vote;
+
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
+    private Timestamp creationDate;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +17,10 @@ package com.martinatanasov.computerstore.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "galleries")
@@ -33,6 +37,14 @@ public class Gallery {
 
     @Column(name = "image_url", nullable = false, columnDefinition = "VARCHAR(255)")
     private String imageUrl;
+
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "modify_date")
+    private Timestamp modifyDate;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

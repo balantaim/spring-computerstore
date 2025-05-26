@@ -17,8 +17,11 @@ package com.martinatanasov.computerstore.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "order_item")
@@ -40,6 +43,14 @@ public class OrderItem {
 
     @Column(name = "price_per_unit", precision = 9, scale = 2)
     private BigDecimal pricePerUnit;
+
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "modify_date")
+    private Timestamp modifyDate;
 
     //FK referencing Order
     @ManyToOne

@@ -19,8 +19,11 @@ import com.martinatanasov.computerstore.model.PaymentStatus;
 import com.martinatanasov.computerstore.model.PaymentType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "payments")
@@ -50,6 +53,14 @@ public class Payment {
 
     @Column(name = "transaction_id")
     private String transactionId;
+
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "modify_date")
+    private Timestamp modifyDate;
 
     @OneToOne
     @JoinColumn(name = "order_id", nullable = false)

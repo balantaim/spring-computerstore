@@ -18,6 +18,10 @@ package com.martinatanasov.computerstore.entities;
 import com.martinatanasov.computerstore.model.Carrier;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 
 @Entity
@@ -53,6 +57,14 @@ public class Shipment {
 
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
+
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "modify_date")
+    private Timestamp modifyDate;
 
     @OneToOne
     @JoinColumn(name = "order_id", nullable = false)
