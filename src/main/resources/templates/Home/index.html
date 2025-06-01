@@ -32,55 +32,11 @@
 <!-- NAVBAR -->
 <div th:replace="~{fragments/top-navigation-bar :: nav('home')}"></div>
 
-
 <!--MAIN Content Start-->
 <div class="main">
 
-    <div class="columns is-mobile is-gapless is-centered">
-        <div class="column mt-6 mb-2">
-
-<!--            <img style="min-width: 60%;" alt="Computers and hardware parts" loading="lazy"-->
-<!--                 th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +-->
-<!--    @{/images/home/home1920x1280.jpg} + ' 1920w, ' +-->
-<!--    @{/images/home/home2400x1600.jpg} + ' 2400w'"-->
-<!--                 th:src="@{/images/home/home2400x1600.jpg}">-->
-
-<!--            <img style="min-width: 100%;" alt="Computers and hardware parts" loading="lazy"-->
-<!--                 th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +-->
-<!--    @{/images/home/home1140x640.jpg} + ' 2400w'"-->
-<!--                 th:src="@{/images/home/home1140x640.jpg}">-->
-
-            <!-- Search Section -->
-            <div class="columns is-gapless">
-                <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-                <div class="column mr-1 ml-1">
-
-                    <!-- Search Script -->
-                    <script defer th:src="@{/js/ajax-live-search.js}"></script>
-                    <!-- Search Form -->
-                    <form action="#" method="GET" th:action="@{/Search}" autocomplete="off">
-                        <div class="field has-addons width-90">
-                            <p class="control is-expanded has-icons-left">
-
-                                <input id="textSearch" class="input is-skeleton" type="text" name="keyword" th:value="${keyword}"
-                                       onkeyup="showResult(this.value)" autocomplete="off" th:placeholder="#{search.placeholder}">
-
-                                <span class="icon is-small is-left"><i class="fas fa-search fa-xs"></i></span>
-                            </p>
-                            <p class="control">
-                                <button class="button is-primary is-skeleton">[[#{search.text}]]</button>
-                            </p>
-                        </div>
-
-                        <!-- Show items from the search-->
-                        <div id="livesearch" class="container has-background-white-bis" style="border-radius: 6px;"></div>
-                    </form>
-                </div>
-                <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-            </div>
-
-        </div>
-    </div>
+    <!-- Search Column -->
+    <div th:replace="~{fragments/search-column :: search-column}"></div>
 
     <!-- Swiper -->
     <div class="slider-container">
@@ -184,6 +140,7 @@
 
     <div class="space"></div>
 
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <!--MAIN Content End-->
 

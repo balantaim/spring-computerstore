@@ -1,0 +1,63 @@
+<!--
+  ~ Copyright 2025 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div th:fragment="search-column"
+     class="columns is-mobile is-gapless is-centered">
+    <div class="column mt-6 mb-2">
+
+        <!--            <img style="min-width: 60%;" alt="Computers and hardware parts" loading="lazy"-->
+        <!--                 th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +-->
+        <!--    @{/images/home/home1920x1280.jpg} + ' 1920w, ' +-->
+        <!--    @{/images/home/home2400x1600.jpg} + ' 2400w'"-->
+        <!--                 th:src="@{/images/home/home2400x1600.jpg}">-->
+
+        <!--            <img style="min-width: 100%;" alt="Computers and hardware parts" loading="lazy"-->
+        <!--                 th:attr="srcset=@{/images/home/home640x1140.jpg} + ' 640w, ' +-->
+        <!--    @{/images/home/home1140x640.jpg} + ' 2400w'"-->
+        <!--                 th:src="@{/images/home/home1140x640.jpg}">-->
+
+        <!-- Search Section Start -->
+        <div class="columns is-gapless">
+            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+            <div class="column mr-1 ml-1">
+
+                <!-- Search Script -->
+                <script defer th:src="@{/js/ajax-live-search.js}"></script>
+                <!-- Search Form -->
+                <form action="#" method="GET" th:action="@{/Search}" autocomplete="off">
+                    <div class="field has-addons width-90">
+                        <p class="control is-expanded has-icons-left">
+
+                            <input id="textSearch" class="input is-skeleton" type="text" name="keyword" th:value="${keyword}"
+                                   onkeyup="showResult(this.value)" autocomplete="off" th:placeholder="#{search.placeholder}">
+
+                            <span class="icon is-small is-left"><i class="fas fa-search fa-xs"></i></span>
+                        </p>
+                        <p class="control">
+                            <button class="button is-primary is-skeleton">[[#{search.text}]]</button>
+                        </p>
+                    </div>
+
+                    <!-- Show items from the search-->
+                    <div id="livesearch" class="container has-background-white-bis" style="border-radius: 6px;"></div>
+                </form>
+
+            </div>
+            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+        </div>
+        <!-- Search Section End -->
+
+    </div>
+</div>

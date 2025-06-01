@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -27,7 +27,9 @@
 
 <!--MAIN Content Start-->
 <div class="main container">
-    <div class="space"></div>
+
+    <!-- Search Column -->
+    <div th:replace="~{fragments/search-column :: search-column}"></div>
 
     <h1 class="has-text-centered is-size-1 p-2" style="color: teal; text-shadow: 0 0 6px black; background-color: black;"><b>[[#{home.header}]]</b></h1>
 
@@ -58,6 +60,8 @@
     <p class="m-2 is-skeleton">Thank you for choosing Computer Store. We look forward to serving you and helping you unleash the full potential of your digital world.</p>
 
     <div class="space"></div>
+
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <!--MAIN Content End-->
 

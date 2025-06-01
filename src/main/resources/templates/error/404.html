@@ -27,7 +27,9 @@
 
 <!--MAIN Content Start-->
 <div class="main container">
-    <div class="space"></div>
+
+    <!-- Search Column -->
+    <div th:replace="~{fragments/search-column :: search-column}"></div>
 
     <div class="container has-text-centered">
         <h1 class="is-size-1">[[#{page.not-found}]]</h1>
@@ -36,6 +38,8 @@
     </div>
 
     <div class="space"></div>
+
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <!--MAIN Content End-->
 

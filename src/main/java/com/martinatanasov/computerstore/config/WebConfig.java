@@ -73,10 +73,8 @@ public class WebConfig implements WebMvcConfigurer {
 
         //Register robots.txt
         registry.addResourceHandler("/robots.txt")
-                .addResourceLocations("/public/", "classpath:/static/robots.txt")
-                .setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
-                .resourceChain(true)
-                .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
+                .addResourceLocations("/public/", "classpath:/static/")
+                .setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS));
 
     }
 }

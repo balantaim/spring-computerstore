@@ -277,6 +277,22 @@
             margin: 1em auto;
             margin-left: 0;
         }
+        /* Scroll to top */
+        #scrollToTopBtn {
+            height: 50px;
+            width: 50px;
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 999; /* Ensure it stays above other content */
+            border: none;
+            outline: none;
+            color: var(--txt-color);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+        }
         /*Scroll Horizontal - breadcrumb*/
         .scroll-x {
             display: flex;

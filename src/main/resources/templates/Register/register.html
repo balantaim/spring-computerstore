@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -28,184 +28,196 @@
 <!--MAIN Content Start-->
 <div class="main container">
 
-<div class="space"></div>
+    <div class="space"></div>
 
-<div class="columns is-centered is-gapless">
-    <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-    <div class="column box mr-1 ml-1">
-        <h1 class="has-text-centered pt-5 pb-5 is-size-2">[[#{form.register}]]</h1>
-        <p class="has-text-danger mt-2 mb-2 ml-4 mr-4">[[#{form.info.start}]]<bold>*</bold>[[#{form.info.end}]]</p>
+    <div class="columns is-centered is-gapless">
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+        <div class="column box mr-1 ml-1">
+            <h1 class="has-text-centered pt-5 pb-5 is-size-2">[[#{form.register}]]</h1>
+            <p class="has-text-danger mt-2 mb-2 ml-4 mr-4">[[#{form.info.start}]]
+                <bold>*</bold>
+                [[#{form.info.end}]]
+            </p>
 
-        <!-- Login Form -->
-        <form action="#" th:action="@{/register/processRegistrationForm}" th:object="${appUserDTO}" method="POST">
+            <!-- Login Form -->
+            <form action="#" th:action="@{/register/processRegistrationForm}" th:object="${appUserDTO}" method="POST">
 
-            <!-- Check for login error -->
-            <div class="notification is-danger has-text-centered ml-4 mr-4 mt-4" th:if="${#fields.hasErrors('global')}">
-                <div th:each="err : ${#fields.errors('global')}">
-                    <p th:if="${err} == PassMatcher">[[#{error.global.pass.matcher}]]</p>
-                    <p th:if="${err} == UserExist">[[#{error.global.user.exist}]]</p>
+                <!-- Check for login error -->
+                <div class="notification is-danger has-text-centered ml-4 mr-4 mt-4"
+                     th:if="${#fields.hasErrors('global')}">
+                    <div th:each="err : ${#fields.errors('global')}">
+                        <p th:if="${err} == PassMatcher">[[#{error.global.pass.matcher}]]</p>
+                        <p th:if="${err} == UserExist">[[#{error.global.user.exist}]]</p>
+                    </div>
                 </div>
-            </div>
 
-            <!--EMAIL-->
-            <div class="field ml-4 mr-4">
-                <label class="label">[[#{form.label.email}]]<span class="has-text-danger">*</span></label>
-                <div class="control has-icons-left has-icons-right">
-                    <input th:field="*{email}"
-                           class="input is-skeleton"
-                           th:classappend="${#fields.hasErrors('email')} ? 'is-danger' : ''"
-                           type="email"
-                           name="email"
-                           id="email"
-                           autocomplete="username"
-                           th:placeholder="#{form.placeholder.enterEmail}">
-                    <!--Left icon-->
-                    <span class="icon is-small is-left">
+                <!--EMAIL-->
+                <div class="field ml-4 mr-4">
+                    <label class="label">[[#{form.label.email}]]<span class="has-text-danger">*</span></label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input th:field="*{email}"
+                               class="input is-skeleton"
+                               th:classappend="${#fields.hasErrors('email')} ? 'is-danger' : ''"
+                               type="email"
+                               name="email"
+                               id="email"
+                               autocomplete="username"
+                               th:placeholder="#{form.placeholder.enterEmail}">
+                        <!--Left icon-->
+                        <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                     </span>
-                    <!--Right icon-->
-                    <span th:if="${#fields.hasErrors('email')}" class="icon is-small is-right">
+                        <!--Right icon-->
+                        <span th:if="${#fields.hasErrors('email')}" class="icon is-small is-right">
                         <i class="fas fa-exclamation-triangle"></i>
                     </span>
+                    </div>
+                    <!--Error Message-->
+                    <div th:if="${#fields.hasErrors('email')}" class="text-danger">
+                        <ul>
+                            <li class="help is-danger" th:if="${#fields.errors('email')}"><p>[[#{error.email}]]</p></li>
+                        </ul>
+                    </div>
                 </div>
-                <!--Error Message-->
-                <div th:if="${#fields.hasErrors('email')}" class="text-danger">
-                    <ul>
-                        <li class="help is-danger" th:if="${#fields.errors('email')}"><p>[[#{error.email}]]</p></li>
-                    </ul>
-                </div>
-            </div>
 
-            <div class="field ml-4 mr-4">
-                <label class="label">[[#{form.label.firstname}]]</label>
-                <div class="control has-icons-left has-icons-right">
-                    <input th:field="*{firstName}"
-                           class="input is-skeleton"
-                           type="text"
-                           name="firstName"
-                           id="firstName"
-                           autocomplete="cc-given-name"
-                           th:placeholder="#{form.placeholder.firstName}"
-                           th:classappend="${#fields.hasErrors('firstName')} ? 'is-danger' : ''">
-                    <!--Left icon-->
-                    <span class="icon is-small is-left">
+                <div class="field ml-4 mr-4">
+                    <label class="label">[[#{form.label.firstname}]]</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input th:field="*{firstName}"
+                               class="input is-skeleton"
+                               type="text"
+                               name="firstName"
+                               id="firstName"
+                               autocomplete="cc-given-name"
+                               th:placeholder="#{form.placeholder.firstName}"
+                               th:classappend="${#fields.hasErrors('firstName')} ? 'is-danger' : ''">
+                        <!--Left icon-->
+                        <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
-                    <!--Right icon-->
-                    <span th:if="${#fields.hasErrors('firstName')}" class="icon is-small is-right">
+                        <!--Right icon-->
+                        <span th:if="${#fields.hasErrors('firstName')}" class="icon is-small is-right">
                         <i class="fas fa-exclamation-triangle"></i>
                     </span>
+                    </div>
+                    <!--Error Message-->
+                    <div th:if="${#fields.hasErrors('firstName')}" class="text-danger">
+                        <ul>
+                            <li class="help is-danger" th:if="${#fields.errors('firstName')}"><p>
+                                [[#{error.firstname}]]</p></li>
+                        </ul>
+                    </div>
                 </div>
-                <!--Error Message-->
-                <div th:if="${#fields.hasErrors('firstName')}" class="text-danger">
-                    <ul>
-                        <li class="help is-danger" th:if="${#fields.errors('firstName')}"><p>[[#{error.firstname}]]</p></li>
-                    </ul>
-                </div>
-            </div>
 
-            <div class="field ml-4 mr-4">
-                <label class="label">[[#{form.label.lastname}]]</label>
-                <div class="control has-icons-left has-icons-right">
-                    <input th:field="*{lastName}"
-                           class="input is-skeleton"
-                           type="text"
-                           name="lastName"
-                           id="lastName"
-                           autocomplete="cc-family-name"
-                           th:placeholder="#{form.placeholder.lastName}"
-                           th:classappend="${#fields.hasErrors('lastName')} ? 'is-danger' : ''">
-                    <!--Left icon-->
-                    <span class="icon is-small is-left">
+                <div class="field ml-4 mr-4">
+                    <label class="label">[[#{form.label.lastname}]]</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input th:field="*{lastName}"
+                               class="input is-skeleton"
+                               type="text"
+                               name="lastName"
+                               id="lastName"
+                               autocomplete="cc-family-name"
+                               th:placeholder="#{form.placeholder.lastName}"
+                               th:classappend="${#fields.hasErrors('lastName')} ? 'is-danger' : ''">
+                        <!--Left icon-->
+                        <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
-                    <!--Right icon-->
-                    <span th:if="${#fields.hasErrors('lastName')}" class="icon is-small is-right">
+                        <!--Right icon-->
+                        <span th:if="${#fields.hasErrors('lastName')}" class="icon is-small is-right">
                         <i class="fas fa-exclamation-triangle"></i>
                     </span>
+                    </div>
+                    <!--Error Message-->
+                    <div th:if="${#fields.hasErrors('lastName')}" class="text-danger">
+                        <ul>
+                            <li class="help is-danger" th:if="${#fields.errors('lastName')}"><p>
+                                [[#{error.lastname}]]</p></li>
+                        </ul>
+                    </div>
                 </div>
-                <!--Error Message-->
-                <div th:if="${#fields.hasErrors('lastName')}" class="text-danger">
-                    <ul>
-                        <li class="help is-danger" th:if="${#fields.errors('lastName')}"><p>[[#{error.lastname}]]</p></li>
-                    </ul>
-                </div>
-            </div>
-            <!--PASS-->
-            <div class="field ml-4 mr-4">
-                <label class="label">[[#{form.label.password}]]<span class="has-text-danger">*</span></label>
-                <div class="control has-icons-left has-icons-right">
-                    <input th:field="*{password}"
-                           class="input is-skeleton"
-                           th:classappend="${#fields.hasErrors('password')} ? 'is-danger' : ''"
-                           type="password"
-                           name="password"
-                           id="password"
-                           autocomplete="new-password"
-                           th:placeholder="#{form.placeholder.password}">
-                    <!--Left icon-->
-                    <span class="icon is-small is-left">
+                <!--PASS-->
+                <div class="field ml-4 mr-4">
+                    <label class="label">[[#{form.label.password}]]<span class="has-text-danger">*</span></label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input th:field="*{password}"
+                               class="input is-skeleton"
+                               th:classappend="${#fields.hasErrors('password')} ? 'is-danger' : ''"
+                               type="password"
+                               name="password"
+                               id="password"
+                               autocomplete="new-password"
+                               th:placeholder="#{form.placeholder.password}">
+                        <!--Left icon-->
+                        <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
-                    <!--Right icon-->
-                    <span th:if="${#fields.hasErrors('password')}" class="icon is-small is-right">
+                        <!--Right icon-->
+                        <span th:if="${#fields.hasErrors('password')}" class="icon is-small is-right">
                         <i class="fas fa-exclamation-triangle"></i>
                     </span>
+                    </div>
+                    <!--Error Message-->
+                    <div th:if="${#fields.hasErrors('password')}" class="text-danger">
+                        <ul>
+                            <li class="help is-danger" th:if="${#fields.errors('password')}"><p>
+                                [[#{error.password}]]</p></li>
+                        </ul>
+                    </div>
                 </div>
-                <!--Error Message-->
-                <div th:if="${#fields.hasErrors('password')}" class="text-danger">
-                    <ul>
-                        <li class="help is-danger" th:if="${#fields.errors('password')}"><p>[[#{error.password}]]</p></li>
-                    </ul>
-                </div>
-            </div>
 
-            <div class="field ml-4 mr-4">
-                <label class="label">[[#{form.label.re-password}]]<span class="has-text-danger">*</span></label>
-                <div class="control has-icons-left has-icons-right">
-                    <input th:field="*{repeatPassword}"
-                           class="input is-skeleton"
-                           th:classappend="${#fields.hasErrors('repeatPassword')} ? 'is-danger' : ''"
-                           type="password"
-                           name="repeatPassword"
-                           id="repeatPassword"
-                           autocomplete="confirm-password"
-                           th:placeholder="#{form.placeholder.rePassword}">
-                    <!--Left icon-->
-                    <span class="icon is-small is-left">
+                <div class="field ml-4 mr-4">
+                    <label class="label">[[#{form.label.re-password}]]<span class="has-text-danger">*</span></label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input th:field="*{repeatPassword}"
+                               class="input is-skeleton"
+                               th:classappend="${#fields.hasErrors('repeatPassword')} ? 'is-danger' : ''"
+                               type="password"
+                               name="repeatPassword"
+                               id="repeatPassword"
+                               autocomplete="confirm-password"
+                               th:placeholder="#{form.placeholder.rePassword}">
+                        <!--Left icon-->
+                        <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
-                    <!--Right icon-->
-                    <span th:if="${#fields.hasErrors('repeatPassword')}" class="icon is-small is-right">
+                        <!--Right icon-->
+                        <span th:if="${#fields.hasErrors('repeatPassword')}" class="icon is-small is-right">
                         <i class="fas fa-exclamation-triangle"></i>
                     </span>
+                    </div>
+                    <!--Error Message-->
+                    <div th:if="${#fields.hasErrors('repeatPassword')}" class="text-danger">
+                        <ul>
+                            <li class="help is-danger" th:if="${#fields.errors('repeatPassword')}"><p>
+                                [[#{error.re-password}]]</p></li>
+                        </ul>
+                    </div>
                 </div>
-                <!--Error Message-->
-                <div th:if="${#fields.hasErrors('repeatPassword')}" class="text-danger">
-                    <ul>
-                        <li class="help is-danger" th:if="${#fields.errors('repeatPassword')}"><p>[[#{error.re-password}]]</p></li>
-                    </ul>
-                </div>
-            </div>
 
-            <!-- Register/Submit Button -->
-            <div class="has-text-centered">
-                <!-- Register Button-->
-                <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">[[#{form.button.register}]]</button>
-                <!-- Return to Login-->
-                <div class="mt-4 pt-4 pb-4">
-                    <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">[[#{form.button.to-login}]]</a>
+                <!-- Register/Submit Button -->
+                <div class="has-text-centered">
+                    <!-- Register Button-->
+                    <button type="submit"
+                            class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
+                        [[#{form.button.register}]]
+                    </button>
+                    <!-- Return to Login-->
+                    <div class="mt-4 pt-4 pb-4">
+                        <a th:href="@{/Login}" class="is-info" role="button" aria-pressed="true">[[#{form.button.to-login}]]</a>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <!--End Form-->
+            </form>
+            <!--End Form-->
 
+        </div>
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
     </div>
-    <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-</div>
 
-<div class="space"></div>
+    <div class="space"></div>
 
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <!--MAIN Content End-->
 

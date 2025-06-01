@@ -27,7 +27,9 @@
 
 <!--MAIN Content Start-->
 <div class="main container">
-    <div class="space"></div>
+
+    <!-- Search Column -->
+    <div th:replace="~{fragments/search-column :: search-column}"></div>
 
     <div th:if="${orders}" th:each="order : ${orders}" class="has-text-centered">
         <div class="box p-2 m-2">
@@ -46,6 +48,8 @@
     </div>
 
     <div class="space"></div>
+
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <!--MAIN Content End-->
 

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Martin Atanasov.
+  ~ Copyright 2024-2025 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -26,7 +26,10 @@
 <div th:replace="~{fragments/top-navigation-bar :: nav('admin')}"></div>
 
 <!--MAIN Content Start-->
-<div class="main container">
+<div class="main">
+
+    <!-- Search Column -->
+    <div th:replace="~{fragments/search-column :: search-column}"></div>
 
     <div class="columns is-centered is-gapless mt-6">
         <div class="column is-mobile-1 is-table-1 is-desktop-1 is-widescreen-1 is-1"></div>
@@ -86,6 +89,8 @@
     </div>
 
     <div class="space"></div>
+
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <!--MAIN Content End-->
 

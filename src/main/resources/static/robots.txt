@@ -5,12 +5,12 @@ Disallow: /Management/
 Disallow: /Profile/
 Disallow: /Orders/
 Disallow: /Cart-items/
-Disallow: /register/
 
 Allow: /
 Allow: /Products/
 Allow: /About/
 Allow: /Login/
+Allow: /register/RegisterForm/
 
 Crawl-delay: 20
 

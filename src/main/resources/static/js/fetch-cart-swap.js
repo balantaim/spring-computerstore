@@ -5,7 +5,7 @@ async function updateContent(cartId, locatorNumber, isIncrement) {
     // Convert input value to integer (max 3 digets)
     const inputValue = parseInt(inputId.value, 3);
     // Check if input is valid
-    if (inputValue != null && isValidInput(inputValue)) {
+    if (inputValue !== null && isValidInput(inputValue)) {
         const action = await isIncrement ? 'increment' : 'decrement';
         const url = window.location.origin + `/Cart/${action}/` + cartId;
         data = await fetchContent(url);
@@ -23,19 +23,19 @@ function updateTaskCounters() {
 
     let taskCountValue = Number(taskCount.textContent);
     let cartCountValue = Number(cartCount.textContent);
-    if (cartCount != null && cartCountValue === 1) {
+    if (cartCount !== null && cartCountValue === 1) {
         // Remove cart counts
         cartCount?.remove();
         // Update task counts
-        if (taskCount != null) {
-            if (orderCount != null) {
+        if (taskCount !== null) {
+            if (orderCount !== null) {
                 const orderCountValue = Number(orderCount.textContent);
                 taskCount.textContent = orderCountValue;
             } else {
                 taskCount?.remove();
             }
         }
-    } else if (cartCount != null && taskCount != null) {
+    } else if (cartCount !== null && taskCount !== null) {
         cartCountValue--;
         if (cartCountValue !== 0) {
             cartCount.textContent = cartCountValue;
