@@ -46,7 +46,7 @@ public class HomeController {
         this.productConverter = productConverter;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String home(Model model){
         Page<Product> getProducts = productService.findByIsVisibleTrue();
         //Convert product items to StoreItems
