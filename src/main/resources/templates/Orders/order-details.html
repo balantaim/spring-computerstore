@@ -25,11 +25,11 @@
 <!-- NAVBAR -->
 <div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
 
+<!-- Search Column -->
+<div th:replace="~{fragments/search-column :: search-column}"></div>
+
 <!--MAIN Content Start-->
 <div class="main container">
-
-  <!-- Search Column -->
-  <div th:replace="~{fragments/search-column :: search-column}"></div>
 
   <div th:if="${order}" class="has-text-centered is-fullwidth m-2">
     <h1 th:if="${order.status == 'NEW_ORDER'}">Status: [[${order.status}]]</h1>

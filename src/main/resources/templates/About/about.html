@@ -25,11 +25,11 @@
 <!-- NAVBAR -->
 <div th:replace="~{fragments/top-navigation-bar :: nav('about')}"></div>
 
+<!-- Search Column -->
+<div th:replace="~{fragments/search-column :: search-column}"></div>
+
 <!--MAIN Content Start-->
 <div class="main container">
-
-    <!-- Search Column -->
-    <div th:replace="~{fragments/search-column :: search-column}"></div>
 
     <h1 class="has-text-centered is-size-1 p-2" style="color: teal; text-shadow: 0 0 6px black; background-color: black;"><b>[[#{home.header}]]</b></h1>
 

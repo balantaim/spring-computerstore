@@ -25,11 +25,11 @@
 <!-- NAVBAR -->
 <div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
 
+<!-- Search Column -->
+<div th:replace="~{fragments/search-column :: search-column}"></div>
+
 <!--MAIN Content Start-->
 <div class="main">
-
-    <!-- Search Column -->
-    <div th:replace="~{fragments/search-column :: search-column}"></div>
 
     <div th:if="${user}" class="box">
         <p>User</p>

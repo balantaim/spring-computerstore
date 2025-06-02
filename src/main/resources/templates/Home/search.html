@@ -25,12 +25,11 @@
 <!-- NAVBAR -->
 <div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
 
+<!-- Search Column -->
+<div th:replace="~{fragments/search-column :: search-column}"></div>
+
 <!--MAIN Content Start-->
 <div class="main">
-
-    <!-- Search Column -->
-    <div th:replace="~{fragments/search-column :: search-column}"></div>
-
 
     <div th:if="${#lists.isEmpty(products)}" class="has-text-centered">
         <h1  class="is-size-1">[[#{product.not-found}]]</h1>
