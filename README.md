@@ -176,6 +176,12 @@ mvn clean package -Pproduction
 2. Role: customer, manager; <br>Username: <i>manager@abv.bg</i><br>Password: <i>test</i>
 3. Role: customer, manager, admin; <br>Username: <i>admin@abv.bg</i><br>Password: <i>test</i>
 
+### Custom Timer Events
+
+1. Initialize order shipping: trigger every 12 hours
+2. Shipping delivery: trigger every 6 hours
+3. Order complete: trigger every day at midnight (only if the order has been fulfilled and at least 14 days have passed)
+
 ### API testing
 
 > [!IMPORTANT]
@@ -212,7 +218,7 @@ curl -sSL https://zipkin.io/quickstart.sh | bash -s
 ### Limitations
 
 <ul>
-    <li><b>Email Sender</b> is not implemented for this project! New user profiles are verified by default. You could check how to implement Email Sender from this project: <a href="https://github.com/balantaim/EmailSender">EmailSenderRepository</a></li>
+    <li><b>Email Sender</b> is not implemented for this project! New user profiles are verified by default. Alternatively, you can use Amazon SES. Check how to implement Email Sender: <a href="https://github.com/balantaim/EmailSender">EmailSenderRepository</a></li>
 </ul>
 
 ## Useful tools
