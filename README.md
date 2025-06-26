@@ -236,8 +236,8 @@ curl -sSL https://zipkin.io/quickstart.sh | bash -s
 
 ## Gallery
 
-[ ![EER diagram](images/EER-diagram.PNG) ](images/EER-diagram.PNG)
-[ ![SEO Optimisations](images/seo.PNG) ](images/seo.PNG)
+![EER diagram](images/EER-diagram.PNG)
+![SEO Optimisations](images/seo.PNG)
 
 ### Analytics
 

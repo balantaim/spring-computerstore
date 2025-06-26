@@ -84,7 +84,7 @@ public class GlobalSecurityConfig {
                                 "/other/**", "/Products/**",
                                 "/About", "/Search", "/Live-search",
                                 "/robots.txt", "/error/**", "/403").permitAll()
-                        .requestMatchers("/", "/register/**").permitAll()
+                        .requestMatchers("/register/**").permitAll()
                         //Stripe webhook endpoint
                         .requestMatchers(HttpMethod.POST, "/Status/**").permitAll()
                         .anyRequest().authenticated()
@@ -97,7 +97,7 @@ public class GlobalSecurityConfig {
                         .contentSecurityPolicy(contentSecurityPolicyConfig -> contentSecurityPolicyConfig
                                 .policyDirectives("default-src 'none'; " +
                                         "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-                                        "form-action 'self'; " +
+                                        "form-action 'self' https://checkout.stripe.com; " +
                                         "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
                                         "connect-src 'self'; " +
                                         "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +

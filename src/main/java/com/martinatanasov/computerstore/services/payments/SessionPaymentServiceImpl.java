@@ -91,6 +91,7 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
             if (session != null) {
                 log.info("\n\tSession ID: {}", session.getId());
                 log.info("\n\tCreated timestamp: {}", session.getCreated());
+                log.info("\n\tCreated URL: {}", session.getUrl());
             }
             return session;
         }
