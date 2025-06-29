@@ -39,7 +39,7 @@ public class Category {
     //Stores whole numbers from -32,768 to 32,767 similar to SMALLINT in MySQL
     private Short id;
 
-    @Column(name = "name", length = 50)
+    @Column(name = "name", length = 50, unique = true)
     private String name;
 
     @Column(name = "description")

@@ -41,8 +41,8 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "order_date", updatable = false)
     @CreationTimestamp
+    @Column(name = "order_date", updatable = false)
     private Timestamp orderDate;
 
     @UpdateTimestamp

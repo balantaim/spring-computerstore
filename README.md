@@ -181,6 +181,7 @@ mvn clean package -Pproduction
 1. Initialize order shipping: trigger every 12 hours
 2. Shipping delivery: trigger every 6 hours
 3. Order complete: trigger every day at midnight (only if the order has been fulfilled and at least 14 days have passed)
+4. Clean up non consumed orders: trigger every 8 hours
 
 ### API testing
 

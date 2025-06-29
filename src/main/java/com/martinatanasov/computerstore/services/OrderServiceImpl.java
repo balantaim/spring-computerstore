@@ -51,7 +51,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Set<Order> getAllByUserEmail(final String email) {
-        return orderRepository.getAllByUserEmail(email);
+        return orderRepository.getAllByUserEmail(email).stream()
+                .filter(item -> item.getStatus() != OrderStatus.NEW_ORDER)
+                .collect(Collectors.toSet());
     }
 
     @Override

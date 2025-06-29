@@ -24,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Slf4j
@@ -46,7 +49,7 @@ public class OrderTransportationScheduler {
                 .stream()
                 .filter(order -> order.getStatus() == OrderStatus.PAYMENT_SUCCESS)
                 .toList();
-        if(!orders.isEmpty()) {
+        if (!orders.isEmpty()) {
             orders.forEach(index -> {
                 index.setStatus(OrderStatus.SHIPPING_IN_PROGRESS);
                 final Order updatedOrder = orderRepository.save(index);
@@ -63,11 +66,34 @@ public class OrderTransportationScheduler {
                 .stream()
                 .filter(order -> order.getStatus() == OrderStatus.SHIPPING_IN_PROGRESS)
                 .toList();
-        if(!orders.isEmpty()) {
+        if (!orders.isEmpty()) {
             orders.forEach(index -> {
                 index.setStatus(OrderStatus.SHIPPING_DELIVERED);
                 final Order updatedOrder = orderRepository.save(index);
                 log.info("Updated order: Shipping delivered: {}", updatedOrder.getId());
+            });
+        }
+    }
+
+    //Run on every 8 hours
+    @Scheduled(cron = "0 0 */8 * * *")
+    public void removeNotConsumedOrders() {
+        log.info("\n\t---> Scheduler remove not consumed orders");
+        final Timestamp timeSixHoursAgo = Timestamp.from(Instant.now().minus(6, ChronoUnit.HOURS));
+        List<Order> orders = orderRepository.findAll()
+                .stream()
+                //Check if we have new Orders older than 6 hour
+                .filter(order -> order.getStatus() == OrderStatus.NEW_ORDER &&
+                        order.getOrderDate()
+                                .toInstant()
+                                .isBefore(timeSixHoursAgo.toInstant())
+                )
+                .toList();
+        if (!orders.isEmpty()) {
+            //Remove the old Orders
+            orders.forEach(index -> {
+                orderRepository.delete(index);
+                log.info("Delete order: New order with id: {}", index.getId());
             });
         }
     }
