@@ -66,7 +66,7 @@ public class ProductController {
                                @PathVariable("category") String categoryName){
         Optional<Category> category = categoryService.getCategoryByName(categoryName);
         short categoryId;
-        if(category.isEmpty()){
+        if(category.isEmpty() || category.get().getIsVisible() == false){
             return NOT_FOUND_PAGE;
         } else {
             categoryId = category.get().getId();
@@ -95,7 +95,7 @@ public class ProductController {
                              @RequestParam(required = false, defaultValue = "false") Boolean vote,
                              Model model){
         Optional<Product> product = productService.getProductById(productId);
-        if(product.isEmpty()){
+        if(product.isEmpty() || product.get().getIsVisible() == false){
             return NOT_FOUND_PAGE;
         }
         product.ifPresent(value -> model.addAttribute("product", productConverter.convertToSingleItem(value)));

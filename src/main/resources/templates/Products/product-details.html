@@ -146,10 +146,17 @@
     </div>
     <!-- END COLUMNS-->
 
+    <!-- Technical Details -->
     <div th:if="${product}">
         <h1 class="title pl-5 pr-5 mt-3 is-skeleton">[[#{product.technical.details}]]</h1>
         <hr>
-        <p class="pl-5 pr-5 is-skeleton" th:text="${product.description}"></p>
+        <div th:if="${product.productNumber}">
+            <p class="pl-5 pr-5 pb-1 is-skeleton">&#8470; [[${product.productNumber}]]</p>
+        </div>
+        <div th:if="${product.compatibleWith}">
+            <p class="pl-5 pr-5 pb-1 is-skeleton">[[#{product.technical.compatible}]] [[${product.compatibleWith}]]</p>
+        </div>
+        <p class="pl-5 pr-5 pb-1 is-skeleton" th:text="${product.description}"></p>
     </div>
 
     <!-- Product Not Found-->

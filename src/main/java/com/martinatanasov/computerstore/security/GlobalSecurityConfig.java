@@ -84,7 +84,7 @@ public class GlobalSecurityConfig {
                                 "/other/**", "/Products/**",
                                 "/About", "/Search", "/Live-search",
                                 "/robots.txt", "/error/**", "/403").permitAll()
-                        .requestMatchers("/register/**").permitAll()
+                        .requestMatchers("/", "/register/**").permitAll()
                         //Stripe webhook endpoint
                         .requestMatchers(HttpMethod.POST, "/Status/**").permitAll()
                         .anyRequest().authenticated()

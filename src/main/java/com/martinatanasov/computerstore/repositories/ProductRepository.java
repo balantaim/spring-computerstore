@@ -46,11 +46,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             nativeQuery = true)
     List<Product> findAllByKeyword(@Param("keyword") String keyword);
 
-    @Query(value = "SELECT * FROM products p WHERE p.product_name LIKE %:keyword% " +
+    @Query(value = "SELECT * FROM products p WHERE " +
+            "(p.product_name LIKE %:keyword% " +
             "OR p.description LIKE %:keyword% " +
             "OR p.producer LIKE %:keyword% " +
-            "OR p.price LIKE %:keyword% " +
-            "AND p.is_searchable LIKE 1",
+            "OR p.price LIKE %:keyword%) " +
+            "AND p.is_searchable = 1",
             nativeQuery = true)
     Page<Product> findAllByKeywordAndIsSearchableTrue(@Param("keyword") String keyword, PageRequest pageRequest);
 

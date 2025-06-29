@@ -38,7 +38,10 @@ public class ProductConverter {
                         //Convert Double to string with exponent 2
                         String.format("%.2f", i.getPrice()),
                         i.getStock(),
-                        i.getImageUrl()))
+                        i.getImageUrl(),
+                        i.getProductNumber(),
+                        i.getCompatibleWith(),
+                        i.getBarcodeUtc()))
                 .collect(Collectors.toList());
     }
 
@@ -51,7 +54,10 @@ public class ProductConverter {
                         //Convert Double to string with exponent 2
                         String.format("%.2f", i.getPrice()),
                         i.getStock(),
-                        i.getImageUrl()));
+                        i.getImageUrl(),
+                        i.getProductNumber(),
+                        i.getCompatibleWith(),
+                        i.getBarcodeUtc()));
     }
 
     public StoreItemDTO convertToSingleItem(final Product product){
@@ -62,7 +68,10 @@ public class ProductConverter {
                 //Convert Double to string with exponent 2
                 String.format("%.2f", product.getPrice()),
                 product.getStock(),
-                product.getImageUrl());
+                product.getImageUrl(),
+                product.getProductNumber(),
+                product.getCompatibleWith(),
+                product.getBarcodeUtc());
     }
 
     public GalleryDTO convertToGalleryItem(final Gallery gallery){

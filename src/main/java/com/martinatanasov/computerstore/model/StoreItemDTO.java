@@ -37,4 +37,11 @@ public class StoreItemDTO {
     private Integer stock;
 
     private String imageUrl;
+
+    private String productNumber;
+
+    private String compatibleWith;
+
+    private String barcodeUtc;
+
 }
