@@ -4,7 +4,7 @@
 
 ## Description
 
-<p>"Computer Store" is a cutting-edge e-commerce platform built using Java Spring framework, hosted on the reliable AWS (Amazon Web Services) cloud platform and integrated with Stripe payments. Designed to cater to tech-savvy consumers, this demo project showcases a seamless online shopping experience for computer hardware and accessories enthusiasts.</p>
+`Computer Store` is a cutting-edge e-commerce platform built using Java Spring framework, hosted on the reliable AWS (Amazon Web Services) cloud platform and integrated with Stripe payments. Designed to cater to tech-savvy consumers, this demo project showcases a seamless online shopping experience for computer hardware and accessories enthusiasts.
 
 ## Software Stack
 
@@ -43,17 +43,17 @@
 1. Install Java 21 LTS (OpenJDK Corretto)
 2. Connect to your MySQL DB
 3. Connect to Stripe via api key (The demo uses test key for all environments)
-4. Select profile from "application.properties" (test/benc/prod profile)
-5. Optional: Add Database url, user and pass as VM options to prod profile: " --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret"
+4. Select profile from `application.properties` (test/benc/prod profile)
+5. Optional: Add Database url, user and pass as VM options to prod profile: ` --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret`
 6. Test the project in your favorite IDE
-7. Use prod profile in the application.properties: spring.profiles.active=prod
+7. Use prod profile in the application.properties: `spring.profiles.active=prod`
 8. Create execution jar from the terminal by using:
 
 ```bash
 mvn clean package -Pproduction
 ```
 
-9. Test the jar on locale environment from ./target directory
+9. Test the jar on locale environment from `./target` directory
 
 ```bash
 java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret
@@ -61,17 +61,16 @@ java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASS
 
 ## Prepare the cloud platform
 
-<ol>
-    <li>Register/Login to AWS</li>
-    <li>Search for Elastic Beanstalk</li>
-    <li>Create new environment with support for Java</li>
-    <li>Disable DB services (We are using database outside from AWS cloud)</li>
-    <li>Disable Alarm service</li>
-    <li>Add role to the environment (Check how to create a new role below)</li>
-    <li>Configure: Processor type x86_64 and Instance types t3.nano (2 CPU and 512mgb RAM). This is recommended setup for this project.</li>
-    <li>Add new "Environment properties" (Path: Elastic Beanstalk > Environments > {Your env name} > Configuration > Environment properties) for values: DB_URL, DB_NAME, DB_PASSWORD, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET</li>
-    <li>Upload the jar file when the environment is ready</li>
-</ol>
+1. Register/Login to AWS
+2. Search for Elastic Beanstalk
+3. Create new environment with support for Java
+4. Disable DB services (We are using database outside from AWS cloud)
+5. Disable Alarm service
+6. Add role to the environment (Check how to create a new role below)
+7. Configure: Processor type x86_64 and Instance types t3.nano (2 CPU and 512mgb RAM). This is recommended setup for this project.
+8. Add new `Environment properties` (Path: Elastic Beanstalk > Environments > {Your env name} > Configuration > Environment properties) for values: DB_URL, DB_NAME, DB_PASSWORD, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+9. Upload the jar file when the environment is ready
+
 
 ## Create a new role for Elastic Beanstalk
 <p><b>Path:</b> AWS Console > IAM > Roles > Create role</p>
@@ -86,11 +85,11 @@ java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASS
 
 1. Register and login to Stripe: https://stripe.com
 2. Validate your account (no need to fill any payment information)
-3. Copy your secret API key to the project (use key STRIPE_SECRET_KEY as environment variable)
+3. Copy your secret API key to the project (use key `STRIPE_SECRET_KEY` as environment variable)
 4. Create a new webhook notification (Stripe > Developer > Webhook > Add listener to local profile)
 5. Select current Stripe API version (Should be the same as your project)
-6. Select events for notification (checkout.session.completed)
-7. Copy Signing secret to your project (use key STRIPE_WEBHOOK_SECRET as environment variable)
+6. Select events for notification `checkout.session.completed`
+7. Copy Signing secret to your project (use key `STRIPE_WEBHOOK_SECRET` as environment variable)
 8. Optionally, you could use https://webhook.site to test
 9. Optionally, test locally via Stripe CLI.
 - Download and add to system environment Stripe CLI
@@ -106,7 +105,7 @@ stripe listen --forward-to http://localhost:5000/Status/payment-complete
 ```
 
 - Add the new generated webhook secret for the test
-- Trigger event in new terminal: checkout.session.completed
+- Trigger event in new terminal: `checkout.session.completed`
 
 ```bash
 stripe trigger checkout.session.completed
@@ -114,9 +113,9 @@ stripe trigger checkout.session.completed
 
 - Override the test data
 - Use real customer_id from stripe
-- Use "\\" for a new line
-- Use "--override" to set a new parameter's value, format: RESOURCE:PROPERTY=VALUE
-- Use "--add" to add a new parameter, format: RESOURCE:PROPERTY=VALUE
+- Use `\\` for a new line
+- Use `--override` to set a new parameter's value, format: `RESOURCE:PROPERTY=VALUE`
+- Use `--add` to add a new parameter, format: `RESOURCE:PROPERTY=VALUE`
 - Docs: https://docs.stripe.com/stripe-cli/triggers
 
 ```bash
@@ -132,21 +131,20 @@ stripe trigger checkout.session.completed \
 
 <p><b>Path:</b> Elastic Beanstalk > Environments > {Your env name} > Configuration</p>
 
-<ol>
-    <li><p>Find "Updates, monitoring, and logging" and click Edit button</p></li>
-    <li><p>Click "Add environment properties" at the bottom of the view</p></li>
-    <li>Fill the Name and Value with correct data</li>
-</ol>
+1. Find `Updates, monitoring, and logging` and click Edit button
+2. Click `Add environment properties` at the bottom of the view
+3. Fill the Name and Value with correct data
 
-<p><b>Name:</b> "JVM Options"</p>
 
-<p><b>Value:</b> for regular ZGC use "-XX:+UseZGC"</p>
+<b>Name:</b> `JVM Options`
+
+<b>Value:</b> for regular ZGC use `-XX:+UseZGC`
 
 <p>OR</p>
 
-<p><b>Value:</b> for Generational ZGC use "-XX:+UseZGC -XX:+ZGenerational"</p>
+<b>Value:</b> for Generational ZGC use `-XX:+UseZGC -XX:+ZGenerational`
 
-<p>Optionally you could add RAM limit with value: "-XX:MaxRAMPercentage=80.0"</p>
+Optionally you could add RAM limit with value: `-XX:MaxRAMPercentage=80.0`
 
 ## Environment Information
 
@@ -166,9 +164,9 @@ mvn clean package -Pproduction
 
 ### Spring Environment profiles
 
-1. test: setup with: logging, AOP, disable cache, no tracing
-2. benc: setup with: logging, AOP, active tracing
-3. prod: setup with: no logging, no tracing, optimizations for production
+1. `test`: setup with: logging, AOP, disable cache, no tracing
+2. `benc`: setup with: logging, AOP, active tracing
+3. `prod`: setup with: no logging, no tracing, optimizations for production
 
 ### Test Users
 
@@ -186,14 +184,14 @@ mvn clean package -Pproduction
 ### API testing
 
 > [!IMPORTANT]
-> Use only for "test" profile! Be sure CSRF is disabled!
+> Use only for `test` profile! Be sure CSRF is disabled!
 
 <p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
 
 ### Tracing and Latency testing
 
 > [!IMPORTANT]
-> Use only for "benc" profile!
+> Use only for `benc` profile!
 
 1. Download Zipkin jar
 
@@ -201,8 +199,13 @@ mvn clean package -Pproduction
 curl -sSL https://zipkin.io/quickstart.sh | bash -s 
 ```
 
-2. Execute "java -jar zipkin.jar" from the jar's folder
-3. Navigate browser to "http://localhost:9411/"
+2. Execute the following bash script from the jar's folder in new terminal window
+
+```bash
+java -jar zipkin.jar
+```
+
+3. Navigate browser to http://localhost:9411/
 
 ### Actuator endpoint
 
@@ -210,11 +213,11 @@ curl -sSL https://zipkin.io/quickstart.sh | bash -s
 
 ## Project optimisations
 
-<ul>
-    <li>Gzip conversion</li>
-    <li>Enable cacheable static assets: *.js, *.css, image/**</li>
-    <li>Enable data caching with Spring: products</li>
-</ul>
+
+1. Gzip conversion
+2. Enable cacheable static assets: `*.js, *.css, image/**`
+3. Enable data caching with Spring: products
+
 
 ### Limitations
 
