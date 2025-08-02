@@ -4,7 +4,7 @@
 
 ## Description
 
-`Computer Store` is a cutting-edge e-commerce platform built using Java Spring framework, hosted on the reliable AWS (Amazon Web Services) cloud platform and integrated with Stripe payments. Designed to cater to tech-savvy consumers, this demo project showcases a seamless online shopping experience for computer hardware and accessories enthusiasts.
+<b>Computer Store</b> is a cutting-edge e-commerce platform built using Java Spring framework, hosted on the reliable AWS (Amazon Web Services) cloud platform and integrated with Stripe payments. Designed to cater to tech-savvy consumers, this demo project showcases a seamless online shopping experience for computer hardware and accessories enthusiasts.
 
 ## Software Stack
 
@@ -26,7 +26,8 @@
     <li><b>Payment Gateway Integration:</b> Secure payment processing is facilitated through integration with popular payment gateways, ensuring confidentiality and reliability of transactions. Multiple payment methods, including credit/debit cards and digital wallets, are supported.</li>
     <li><b>Order Management:</b> Users can view order history, track the status of their orders, and receive notifications at each stage of the fulfillment process. Administrators have access to comprehensive order management tools for efficient processing and tracking.</li>
     <li><b>Responsive Design:</b> Computer Store is built with a responsive design, ensuring optimal performance and user experience across various devices and screen sizes, including desktops, laptops, tablets, and smartphones.</li>
-    <li><b>Admin Panel:</b> Administrators have access to a robust admin panel for managing products, categories, users, orders, and other aspects of the platform. Advanced analytics and reporting tools enable data-driven decision-making and performance monitoring.</li>
+    <li><b>Management Panel:</b> Managers have access to a robust management panel for managing products, categories, users, orders, and other aspects of the platform.</li>
+    <li><b>Administration Panel:</b> Administrators have access to a robust admin panel for managing users and their details. Advanced analytics and reporting tools enable data-driven decision-making and performance monitoring.</li>
 </ol>
 
 ### Additional Security Features
@@ -61,15 +62,17 @@ java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASS
 
 ## Prepare the cloud platform
 
-1. Register/Login to AWS
+1. Register and Login to AWS
 2. Search for Elastic Beanstalk
 3. Create new environment with support for Java
 4. Disable DB services (We are using database outside from AWS cloud)
 5. Disable Alarm service
-6. Add role to the environment (Check how to create a new role below)
-7. Configure: Processor type x86_64 and Instance types t3.nano (2 CPU and 512mgb RAM). This is recommended setup for this project.
-8. Add new `Environment properties` (Path: Elastic Beanstalk > Environments > {Your env name} > Configuration > Environment properties) for values: DB_URL, DB_NAME, DB_PASSWORD, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
-9. Upload the jar file when the environment is ready
+6. Disable scheduled updates
+7. Select `Single Instance` (use `Load Balancer` if you have registered domain in to `Route 53` and need to add SSL certificate)
+8. Add role to the environment (Check how to create a new role below)
+9. Configure: Processor type x86_64 and Instance types t3.nano (2 CPU and 512mgb RAM). This is recommended setup for this project.
+10. Add new `Environment properties` (Path: Elastic Beanstalk > Environments > {Your env name} > Configuration > Environment properties) for values: DB_URL, DB_NAME, DB_PASSWORD, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+11. Upload the jar file when the environment is ready
 
 
 ## Create a new role for Elastic Beanstalk
@@ -213,7 +216,6 @@ java -jar zipkin.jar
 
 ## Project optimisations
 
-
 1. Gzip conversion
 2. Enable cacheable static assets: `*.js, *.css, image/**`
 3. Enable data caching with Spring: products
@@ -228,15 +230,16 @@ java -jar zipkin.jar
 ## Useful tools
 
 <ul>
-    <li>MySQL Workbench user interface tool URL: <a href="https://dev.mysql.com/downloads/workbench">MySQL Workbench</a></li>
-    <li>Multiple DB user interface tool URL: <a href="https://dbeaver.io/download">DBever - Universal Database Tool</a></li>
+    <li>Postman - REST user interface tool URL: <a href="https://www.postman.com/downloads/">Postman</a></li>
+    <li>MySQL Workbench - user interface tool URL: <a href="https://dev.mysql.com/downloads/workbench">MySQL Workbench</a></li>
+    <li>DBeaver - multiple DB user interface tool URL: <a href="https://dbeaver.io/download">DBever - Universal Database Tool</a></li>
 </ul>
 
 ## Production Website
 
-### You could check the latest changes online on the production link below
+You could check the latest changes online on the production link below.
 
-<p>AWS Elastic Beanstalk production link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com/">computer-store.eu-north-1.elasticbeanstalk.com</a></p>
+AWS Elastic Beanstalk production link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com">computer-store.eu-north-1.elasticbeanstalk.com</a>
 
 ## Gallery
 
