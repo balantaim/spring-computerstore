@@ -32,10 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -218,7 +215,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private Order createInitialOrder(final User user) {
-        Order order = Order.builder()
+        final Order order = Order.builder()
                 .user(user)
                 .totalAmount(BigDecimal.ZERO)
                 .status(OrderStatus.NEW_ORDER)

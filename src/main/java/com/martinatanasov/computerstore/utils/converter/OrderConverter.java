@@ -33,7 +33,8 @@ public class OrderConverter {
                     item.getId(),
                     item.getOrderDate(),
                     item.getTotalAmount(),
-                    item.getStatus().toString())
+                    item.getStatus().toString(),
+                    item.getOrderIdentifier())
             );
         }
         //Filter by date. Older will be placed first.
@@ -46,7 +47,8 @@ public class OrderConverter {
                 order.getId(),
                 order.getOrderDate(),
                 order.getTotalAmount(),
-                order.getStatus().toString()
+                order.getStatus().toString(),
+                order.getOrderIdentifier()
         );
     }
 

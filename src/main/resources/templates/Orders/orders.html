@@ -31,19 +31,48 @@
 <!--MAIN Content Start-->
 <div class="main container">
 
-    <div th:if="${orders}" th:each="order : ${orders}" class="has-text-centered">
+    <div th:if="${orders}" th:each="order : ${orders}">
         <div class="box p-2 m-2">
-            <p>[[${order.id}]]</p>
-            <p>[[${order.orderDate}]]</p>
-            <p>[[${order.totalAmount}]]</p>
-            <p>[[${order.status}]]</p>
-            <div>
-                <form action="#" th:action="@{/Orders/order-details/{id}(id=${order.id})}" method="GET">
-                    <button type="submit" class="button is-primary ml-4 mr-4 mb-4 mt-6 is-rounded is-centered is-skeleton">
-                        [[#{btn.details}]]
-                    </button>
-                </form>
+
+            <div class="columns is-gapless pt-2 pb-2">
+
+                <!-- Order identifier -->
+                <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
+                    <h1 class="title is-4 ml-4">[[#{order.name}]] [[${order.orderIdentifier == null ? '' : ' &#8470; ' + order.orderIdentifier}]]</h1>
+                    <!-- Price -->
+                    <div class="is-flex is-vcentered has-skeleton ml-4 mr-4 mt-6" style="color: var(--accent);">
+                        <p class="is-size-3 has-text-weight-bold pr-2">[[#{product.price.text}]]</p>
+                        <p class="is-size-3 has-text-weight-bold" th:if="${order.totalAmount}" th:text="${order.totalAmount}"></p>
+                        <p class="is-size-3 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
+                    </div>
+                </div>
+
+                <!-- Order Status -->
+                <div class="column is-two-fifths has-text-right">
+                    <section th:switch="${order.status}">
+                        <p th:case="'NEW_ORDER'" class="title is-4 mr-4 tag is-white" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.new}]]</p>
+                        <p th:case="'PAYMENT_REQUIRED'" class="title is-4 mr-4 tag is-warning" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-require}]]</p>
+                        <p th:case="'PAYMENT_SUCCESS'" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-success}]]</p>
+                        <p th:case="'ORDER_ABORTED'" class="title is-4 mr-4 tag is-danger" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.aborted}]]</p>
+                        <p th:case="'SHIPPING_IN_PROGRESS'" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-in-progress}]]</p>
+                        <p th:case="'SHIPPING_DELIVERED'" class="title is-4 mr-4 tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-delivered}]]</p>
+                        <p th:case="'ORDER_COMPLETED'" class="title is-4 mr-4 tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.completed}]]</p>
+                        <p th:case="*" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] /</p>
+                    </section>
+
+                    <!-- Order registration date -->
+                    <p class="mr-4 mt-2" th:if="${order.orderDate}">[[#{order.date}]] [[${#dates.format(order.orderDate, 'dd.MM.yyyy, HH:mm')}]]</p>
+
+                     <form action="#" th:action="@{/Orders/order-details/{id}(id=${order.id})}" method="GET">
+                          <button type="submit" class="button is-primary ml-4 mr-4 mt-6 is-rounded is-centered is-skeleton">
+                                [[#{btn.details}]]
+                          </button>
+                     </form>
+                </div>
+
             </div>
+            <!-- After columns container-->
+
         </div>
     </div>
 

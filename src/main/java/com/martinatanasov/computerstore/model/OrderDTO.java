@@ -21,5 +21,6 @@ import java.sql.Timestamp;
 public record OrderDTO(Long id,
                        Timestamp orderDate,
                        BigDecimal totalAmount,
-                       String status) {
+                       String status,
+                       String orderIdentifier) {
 }

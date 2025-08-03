@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
@@ -40,6 +41,17 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "order_identifier", columnDefinition = "varchar(255)", nullable = false, updatable = false)
+    private String orderIdentifier;
+
+    // Generate UUID for orderIdentifier
+    @PrePersist
+    public void generateOrderIdentifier() {
+        if (orderIdentifier == null) {
+            orderIdentifier = UUID.randomUUID().toString();
+        }
+    }
 
     @CreationTimestamp
     @Column(name = "order_date", updatable = false)
