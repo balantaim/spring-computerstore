@@ -32,6 +32,7 @@ public class OrderConverter {
             orderDto.add(new OrderDTO(
                     item.getId(),
                     item.getOrderDate(),
+                    item.getModifyDate(),
                     item.getTotalAmount(),
                     item.getStatus().toString(),
                     item.getOrderIdentifier())
@@ -46,6 +47,7 @@ public class OrderConverter {
         return new OrderDTO(
                 order.getId(),
                 order.getOrderDate(),
+                order.getModifyDate(),
                 order.getTotalAmount(),
                 order.getStatus().toString(),
                 order.getOrderIdentifier()

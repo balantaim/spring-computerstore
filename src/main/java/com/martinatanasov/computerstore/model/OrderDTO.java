@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 
 public record OrderDTO(Long id,
                        Timestamp orderDate,
+                       Timestamp modifyDate,
                        BigDecimal totalAmount,
                        String status,
                        String orderIdentifier) {

@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.security;
 
+import com.martinatanasov.computerstore.security.filters.BotDetectionFilter;
 import com.martinatanasov.computerstore.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
@@ -64,12 +66,6 @@ public class GlobalSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
 
-        //Enable Iframe for the same origin (default value is disabled)
-//        http.headers(headers -> headers
-//                .frameOptions(frameOptions -> frameOptions.sameOrigin()
-//                )
-//        );
-
         //Setup permission by role and methods
         http.authorizeHttpRequests(config -> config
                         //EndpointRequest manage the actuator endpoint
@@ -90,6 +86,8 @@ public class GlobalSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
+                        //Enable Iframe for the same origin (default value is disabled)
+                        // .frameOptions(frameOptions -> frameOptions.sameOrigin()
                         //Block XSS attacks
                         .xssProtection(xxs -> xxs.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
                         //Block form data from unknown origin
@@ -132,6 +130,9 @@ public class GlobalSecurityConfig {
         if (isTestProfile()) {
             //Disable Cross Site Request Forgery (CSRF)
             http.csrf(AbstractHttpConfigurer::disable);
+        } else {
+            //Add filter for Bot protection (prod environment)
+            http.addFilterBefore(new BotDetectionFilter(), AuthorizationFilter.class);
         }
 
         return http.build();

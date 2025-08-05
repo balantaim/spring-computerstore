@@ -62,7 +62,12 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"webUser\": [{\r\n    \"email\": \"anna@abv.bg\",\r\n    \"firstName\": \"ssd\",\r\n    \"lastName\": \"aaa\",\r\n    \"password\": \"test\",\r\n    \"repeatPassword\": \"test\"\r\n}]\r\n}"
+							"raw": "{\r\n    \"appUserDTO\": [{\r\n        \"email\": \"lala@abv.bg\",\r\n        \"firstName\": \"ssd\",\r\n        \"lastName\": \"aaa\",\r\n        \"password\": \"test\",\r\n        \"repeatPassword\": \"test\"\r\n    }]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://localhost:5000/register/processRegistrationForm",
@@ -81,7 +86,36 @@
 				},
 				{
 					"name": "Login with user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "test",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "abv@abv.bg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"url": {
@@ -110,11 +144,25 @@
 				},
 				{
 					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/logout?username=admin@abv.bg&password=test",
+							"raw": "http://localhost:5000/logout",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -122,16 +170,6 @@
 							"port": "5000",
 							"path": [
 								"logout"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "admin@abv.bg"
-								},
-								{
-									"key": "password",
-									"value": "test"
-								}
 							]
 						}
 					},
@@ -181,7 +219,7 @@
 					"response": []
 				},
 				{
-					"name": "User profile Change Password",
+					"name": "User profile Password",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -285,6 +323,20 @@
 			"item": [
 				{
 					"name": "actuator-page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -305,6 +357,20 @@
 				},
 				{
 					"name": "Home",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -321,6 +387,20 @@
 				},
 				{
 					"name": "Home BG Lang",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -380,6 +460,72 @@
 							"port": "5000",
 							"path": [
 								"Products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Create Stripe Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Payments/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Payments",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Stripe Customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Payments/delete/cus_RrwoI0485QejAX",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Payments",
+								"delete",
+								"cus_RrwoI0485QejAX"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Stripe Customer Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Payments/get-all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Payments",
+								"get-all"
 							]
 						}
 					},
