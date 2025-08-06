@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.UserInfoDTO;
+import com.martinatanasov.computerstore.model.UserDetailsDTO;
 import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.utils.converter.UserConverter;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,9 +41,12 @@ public class AdministrationController {
 
     @GetMapping("")
     public String administration(Model model) {
-        Iterable<UserInfoDTO> users = userService.getUsersInfo();
-        if(users != null){
-            model.addAttribute("users", users);
+        final List<User> users = userService.getUsersDetailsInfo();
+        if (users != null) {
+            model.addAttribute("users", users.stream()
+                    .map(userConverter::userToUserAdministrationDTO)
+                    .sorted(Comparator.comparing(UserDetailsDTO::email))
+                    .collect(Collectors.toCollection(LinkedHashSet::new)));
         }
         model.addAttribute("active", "Administration");
         return "Administration/administration";
@@ -48,7 +56,7 @@ public class AdministrationController {
     public String userInfoPage(@PathVariable(value = "id") Long id,
                                Model model) {
         final User user = userService.findByUserId(id);
-        if(user != null){
+        if (user != null) {
             model.addAttribute("user", userConverter.userToUserAdministrationDTO(user));
         }
         return "Administration/user-info";
@@ -78,12 +86,12 @@ public class AdministrationController {
     @PutMapping("/new-password")
     public String setPassword(@RequestParam final String email,
                               @RequestParam final String newPassword,
-                              Model model){
+                              Model model) {
 
         boolean isNewPasswordCreated = userService.setNewPassword(email, newPassword);
-        if(isNewPasswordCreated){
+        if (isNewPasswordCreated) {
             model.addAttribute("status", "success");
-        }else{
+        } else {
             model.addAttribute("status", "error");
         }
         return "Administration/administration";

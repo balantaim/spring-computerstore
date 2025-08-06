@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,31 +15,29 @@
 
 package com.martinatanasov.computerstore.model;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import com.martinatanasov.computerstore.entities.Role;
+import lombok.Builder;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class UserInfoDTO {
-
-    @NotNull
-    @NotBlank
-    private Long id;
-
-    @NotNull
-    @NotBlank
-    private String email;
-    private String firstName;
-    private String lastName;
-    private Boolean enabled;
-    private Boolean verifiedProfile;
-    private Timestamp creationDate;
-    private Timestamp modifyDate;
+public record UserDetailsDTO(
+        Long id,
+        String email,
+        String firstName,
+        String lastName,
+        String country,
+        String address,
+        String phoneNumber,
+        String customerId,
+        Long voucherId,
+        Byte attempts,
+        Boolean enabled,
+        Boolean verifiedProfile,
+        Timestamp creationDate,
+        Timestamp modifyDate,
+        Timestamp lockDate,
+        Collection<Role> roles
+) {
 }

@@ -87,7 +87,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Iterable<User> getAllUsers() {
+    public Iterable<User> getAllUsersByIterable() {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
         return query.getResultList();
     }

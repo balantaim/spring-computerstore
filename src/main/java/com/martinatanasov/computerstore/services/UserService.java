@@ -17,10 +17,9 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.AppUserDTO;
-import com.martinatanasov.computerstore.model.UserInfoDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.Set;
+import java.util.List;
 
 public interface UserService extends UserDetailsService {
 
@@ -42,6 +41,6 @@ public interface UserService extends UserDetailsService {
 
     void setAccountStatus(final String email, final Boolean enabled);
 
-    Set<UserInfoDTO> getUsersInfo();
+    List<User> getUsersDetailsInfo();
 
 }

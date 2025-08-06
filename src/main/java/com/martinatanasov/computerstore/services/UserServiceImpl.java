@@ -18,7 +18,6 @@ package com.martinatanasov.computerstore.services;
 import com.martinatanasov.computerstore.entities.Role;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.AppUserDTO;
-import com.martinatanasov.computerstore.model.UserInfoDTO;
 import com.martinatanasov.computerstore.repositories.RoleDao;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
@@ -31,8 +30,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -97,44 +98,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setAccountStatus(final String email, final Boolean enabled) {
         User user = userDao.findByUserName(email);
-        if(user != null){
+        if (user != null) {
             user.setEnabled(enabled);
             userDao.save(user);
         }
     }
 
     @Override
-    public Set<UserInfoDTO> getUsersInfo() {
-        Iterable<User> data = userDao.getAllUsers();
-        Set<UserInfoDTO> users = new HashSet<>();
-        if(data != null){
-            data.forEach(index -> {
-                users.add(new UserInfoDTO(
-                        index.getId(),
-                        index.getEmail(),
-                        index.getFirstName(),
-                        index.getLastName(),
-                        index.getEnabled(),
-                        index.getVerifiedProfile(),
-                        index.getCreationDate(),
-                        index.getModifyDate()
-                ));
-            });
-        } else {
-            return null;
-        }
-        //Return users sorted by Email asc
-        return users.stream()
-                .sorted(Comparator.comparing(UserInfoDTO::getEmail))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
+    public List<User> getUsersDetailsInfo() {
+        return userDao.getAllUsers();
     }
 
     @Override
     public boolean changePassword(final String userName, final String oldPassword, final String newPassword) {
         //Get the current user
         User user = userDao.findByUserName(userName);
-        if(user != null){
-            if(passwordEncoder.matches(oldPassword, user.getPassword())){
+        if (user != null) {
+            if (passwordEncoder.matches(oldPassword, user.getPassword())) {
                 //Set the new password with bcrypt to the object
                 user.setPassword(passwordEncoder.encode(newPassword));
                 //Save the object to the DB
@@ -148,7 +128,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean setNewPassword(final String userName, final String newPassword) {
         User user = userDao.findByUserName(userName);
-        if(user != null){
+        if (user != null) {
             //Set the new password with bcrypt to the object
             user.setPassword(passwordEncoder.encode(newPassword));
             //Save the object to the DB
@@ -175,7 +155,7 @@ public class UserServiceImpl implements UserService {
             //Save the new data
             userDao.save(user);
             //Update customer's info if customerId exist
-            if(user.getCustomerId() != null) {
+            if (user.getCustomerId() != null) {
                 paymentCustomerService.updateCustomerById(user.getCustomerId(), user);
             }
         }

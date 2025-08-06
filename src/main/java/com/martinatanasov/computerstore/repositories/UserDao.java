@@ -30,7 +30,9 @@ public interface UserDao {
 
     User findByCustomerId(String customerId);
 
-    Iterable<User> getAllUsers();
+    Iterable<User> getAllUsersByIterable();
+
+    List<User> getAllUsers();
 
     List<Shipment> findShipmentsByUserId(Long id);
 

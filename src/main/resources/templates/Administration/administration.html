@@ -75,8 +75,8 @@
                                 th:style="${user.enabled} == true ? 'color: green;':'color: red;'"></td>
                             <td th:text="${user.verifiedProfile}"
                                 th:style="${user.verifiedProfile} == true ? 'color: green;':'color: red;'"></td>
-                            <td th:text="${user.creationDate}"></td>
-                            <td th:text="${user.modifyDate}"></td>
+                            <td th:text="${#dates.format(user.creationDate, 'dd.MM.yyyy, HH:mm')}"></td>
+                            <td th:text="${#dates.format(user.modifyDate, 'dd.MM.yyyy, HH:mm')}"></td>
                         </tr>
                     </span>
                     </tbody>

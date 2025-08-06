@@ -17,14 +17,14 @@ package com.martinatanasov.computerstore.utils.converter;
 
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.UserAdministrationDTO;
+import com.martinatanasov.computerstore.model.UserDetailsDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserConverter {
 
-    public UserAdministrationDTO userToUserAdministrationDTO(final User user){
-        return UserAdministrationDTO.builder()
+    public UserDetailsDTO userToUserAdministrationDTO(final User user){
+        return UserDetailsDTO.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
@@ -40,6 +40,7 @@ public class UserConverter {
                 .creationDate(user.getCreationDate())
                 .modifyDate(user.getModifyDate())
                 .lockDate(user.getLockDate())
+                .roles(user.getRoles())
                 .build();
     }
 
