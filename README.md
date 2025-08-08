@@ -42,7 +42,12 @@
 ## Setup the project
 
 1. Install Java 21 LTS (OpenJDK Corretto)
-2. Connect to your MySQL DB
+2. Connect to your MySQL DB or use Docker to run it locally via script:
+
+```bash
+TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
+```
+
 3. Connect to Stripe via api key (The demo uses test key for all environments)
 4. Select profile from `application.properties` (test/benc/prod profile)
 5. Optional: Add Database url, user and pass as VM options to prod profile: ` --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret`

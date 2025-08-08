@@ -31,6 +31,7 @@
 <!--MAIN Content Start-->
 <div class="main container">
 
+    <!-- With data -->
     <div th:if="${orders}" th:each="order : ${orders}">
         <div class="box p-2 m-2">
 
@@ -49,16 +50,7 @@
 
                 <!-- Order Status -->
                 <div class="column is-two-fifths has-text-right">
-                    <section th:switch="${order.status}">
-                        <p th:case="'NEW_ORDER'" class="title is-4 mr-4 tag is-white" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.new}]]</p>
-                        <p th:case="'PAYMENT_REQUIRED'" class="title is-4 mr-4 tag is-warning" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-require}]]</p>
-                        <p th:case="'PAYMENT_SUCCESS'" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-success}]]</p>
-                        <p th:case="'ORDER_ABORTED'" class="title is-4 mr-4 tag is-danger" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.aborted}]]</p>
-                        <p th:case="'SHIPPING_IN_PROGRESS'" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-in-progress}]]</p>
-                        <p th:case="'SHIPPING_DELIVERED'" class="title is-4 mr-4 tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-delivered}]]</p>
-                        <p th:case="'ORDER_COMPLETED'" class="title is-4 mr-4 tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.completed}]]</p>
-                        <p th:case="*" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] /</p>
-                    </section>
+                    <section th:if="${order.status}" th:replace="~{fragments/order-status :: order-status}"></section>
 
                     <!-- Order registration date -->
                     <p class="mr-4 mt-2" th:if="${order.orderDate}">[[#{order.date}]] [[${#dates.format(order.orderDate, 'dd.MM.yyyy, HH:mm')}]]</p>
@@ -75,6 +67,16 @@
 
         </div>
     </div>
+
+    <!-- No data -->
+    <div th:unless="${orders}" class="has-text-centered is-12">
+        <div>
+            <h1 class="is-size-1">[[#{order.empty.message}]]</h1>
+            <div class="space"></div>
+            <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+        </div>
+    </div>
+
 
     <div class="space"></div>
 

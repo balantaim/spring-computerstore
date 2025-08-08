@@ -1,0 +1,11 @@
+services:
+  db:
+    image: mysql:8
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: computer_store
+      MYSQL_USER: ${TEST_DB_NAME}
+      MYSQL_PASSWORD: ${TEST_DB_PASSWORD}
+    ports:
+      - "3306:3306"

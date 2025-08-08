@@ -57,14 +57,19 @@ public class OrderConverter {
     public Set<OrderItemDTO> convertOrderItemsToDTO(final Set<OrderItem> orderItems) {
         Set<OrderItemDTO> orderItemsDto = new HashSet<>();
         orderItems.forEach(i -> {
-            orderItemsDto.add(new OrderItemDTO(i.getId(),
-                    i.getQuantity(),
-                    i.getPricePerUnit(),
-                    i.getProduct().getProductName(),
-                    i.getProduct().getImageUrl())
-            );
+            orderItemsDto.add(orderItemToOrderItemDTO(i));
         });
         return orderItemsDto;
+    }
+
+    public OrderItemDTO orderItemToOrderItemDTO(final OrderItem item) {
+        return new OrderItemDTO(
+          item.getId(),
+                item.getQuantity(),
+                item.getPricePerUnit(),
+                item.getProduct().getProductName(),
+                item.getProduct().getImageUrl()
+        );
     }
 
 }

@@ -19,7 +19,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head th:replace="~{fragments/head :: head(~{::title})}">
-  <title>Order details</title>
+    <title>Order details</title>
 </head>
 <body>
 <!-- NAVBAR -->
@@ -31,25 +31,92 @@
 <!--MAIN Content Start-->
 <div class="main container">
 
-  <div th:if="${order}" class="has-text-centered is-fullwidth m-2">
-    <h1 th:if="${order.status == 'NEW_ORDER'}">Status: [[${order.status}]]</h1>
-    <h1 th:if="${order.status == 'PAYMENT_REQUIRED'}">Status: [[${order.status}]]</h1>
-    <h1 th:if="${order.status == 'PAYMENT_SUCCESS'}">Status: [[${order.status}]]</h1>
-    <h1 th:if="${order.status == 'ORDER_ABORTED'}">Status: [[${order.status}]]</h1>
-    <h1 th:if="${order.status == 'SHIPPING_IN_PROGRESS'}">Status: [[${order.status}]]</h1>
-    <h1 th:if="${order.status == 'SHIPPING_DELIVERED'}">Status: [[${order.status}]]</h1>
-    <h1 th:if="${order.status == 'ORDER_COMPLETED'}">Status: [[${order.status}]]</h1>
-  </div>
-  <div th:if="${orderItems}" th:each="item : ${orderItems}" class="box p-2 m-2">
-    <p>image [[${item.productImageUrl}]]</p>
-    <p>name [[${item.productName}]]</p>
-    <p>price [[${item.pricePerUnit}]]</p>
-    <p>quantity [[${item.quantity}]]</p>
-  </div>
+    <!-- Back button-->
+    <div>
+        <a th:href="@{/Orders}" class="is-info" role="button" aria-pressed="true" style="color: var(--txt-color);">
+            <span class="icon is-small ml-3 mt-3"><i class="fas fa-reply fa-lg"></i></span>
+        </a>
+    </div>
 
-  <div class="space"></div>
+    <div class="box p-2 m-2">
 
-  <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
+        <div class="columns is-gapless pt-2 pb-2">
+
+            <!-- Order identifier/name -->
+            <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
+                <h1 class="title is-4 ml-4">[[#{order.name}]] [[${order.orderIdentifier == null ? '' : ' &#8470; ' +
+                    order.orderIdentifier}]]</h1>
+            </div>
+
+            <!-- Order Status -->
+            <div class="column is-two-fifths has-text-right">
+                <section th:if="${order.status}" th:replace="~{fragments/order-status :: order-status}"></section>
+
+                <!-- Order registration date -->
+                <p class="mr-4 mt-2" th:if="${order.orderDate}">[[#{order.date}]] [[${#dates.format(order.orderDate,
+                    'dd.MM.yyyy, HH:mm')}]]</p>
+                <p class="mr-4 mt-2" th:if="${order.modifyDate}">[[#{order.modify}]] [[${#dates.format(order.modifyDate,
+                    'dd.MM.yyyy, HH:mm')}]]</p>
+            </div>
+
+        </div>
+        <!-- After first columns container-->
+
+        <!-- Second columns container -->
+        <div class="ml-6 mr-2 mt-2 mb-4 p-2" th:if="${orderItems}" th:each="item, iterStat : ${orderItems}"
+             style="border: 2px solid var(--txt-color); border-radius: 0.75rem;">
+
+            <div class="columns is-gapless pt-2 pb-2">
+
+                <!-- Order item -->
+                <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
+                    <!-- Name -->
+                    <h1 class="title is-4 ml-4">[[${iterStat.count}]]. [[${item.productName}]]</h1>
+                    <!-- Price -->
+                    <div class="is-flex is-vcentered has-skeleton ml-4 mr-4 mt-6" style="color: var(--accent);">
+                        <p class="is-size-3 has-text-weight-bold pr-2">[[#{order.unit-price}]]:</p>
+                        <p class="is-size-3 has-text-weight-bold" th:if="${item.pricePerUnit}"
+                           th:text="${item.pricePerUnit}"></p>
+                        <p class="is-size-3 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
+                    </div>
+                </div>
+
+                <div class="column is-one-quarter has-text-right ml-4 mr-4 mt-2">
+                    <div>
+                        <figure class="image is-skeleton">
+                            <img class="custom-image"
+                                 style="object-fit: contain; object-position: center; background-color: white;"
+                                 th:src="${item.productImageUrl}"
+                                 th:alt="${item.productName}"/>
+                        </figure>
+                    </div>
+
+                    <p class="is-size-3 has-text-weight-bold">[[#{order.quantity}]]: [[${item.quantity}]]</p>
+                </div>
+
+            </div>
+            <!-- After second columns container-->
+        </div>
+
+        <!-- Third columns container -->
+        <div class="columns is-gapless pt-2 pb-2">
+                <!-- Total Price -->
+                <div class="is-flex is-vcentered has-skeleton ml-4 mr-4 mt-6" style="color: var(--accent);">
+                    <p class="is-size-3 has-text-weight-bold pr-2">[[#{cart.summary.order.total}]]</p>
+                    <p class="is-size-3 has-text-weight-bold" th:if="${order.totalAmount}"
+                       th:text="${order.totalAmount}"></p>
+                    <p class="is-size-3 has-text-weight-bold pl-2">[[#{product.currency}]]</p>
+                </div>
+            </div>
+        </div>
+    <!-- After third columns container -->
+
+    </div>
+
+    <div class="space"></div>
+
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i
+            class="fa-solid fa-arrow-up"></i></button>
 </div>
 <!--MAIN Content End-->
 

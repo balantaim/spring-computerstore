@@ -1,0 +1,25 @@
+<!--
+  ~ Copyright 2025 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<section th:fragment="order-status" th:switch="${order.status}">
+    <p th:case="'NEW_ORDER'" class="title is-4 mr-4 tag is-white" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.new}]]</p>
+    <p th:case="'PAYMENT_REQUIRED'" class="title is-4 mr-4 tag is-warning" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-require}]]</p>
+    <p th:case="'PAYMENT_SUCCESS'" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-success}]]</p>
+    <p th:case="'ORDER_ABORTED'" class="title is-4 mr-4 tag is-danger" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.aborted}]]</p>
+    <p th:case="'SHIPPING_IN_PROGRESS'" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-in-progress}]]</p>
+    <p th:case="'SHIPPING_DELIVERED'" class="title is-4 mr-4 tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-delivered}]]</p>
+    <p th:case="'ORDER_COMPLETED'" class="title is-4 mr-4 tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.completed}]]</p>
+    <p th:case="*" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] /</p>
+</section>
