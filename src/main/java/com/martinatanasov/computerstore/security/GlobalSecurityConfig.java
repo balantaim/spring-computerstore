@@ -31,8 +31,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 import java.util.Arrays;
@@ -57,8 +57,7 @@ public class GlobalSecurityConfig {
     //authenticationProvider bean definition
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserService userService) {
-        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService); //set the custom user details service
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider(userService);
         auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
         return auth;
     }
@@ -67,25 +66,7 @@ public class GlobalSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
 
         //Setup permission by role and methods
-        http.authorizeHttpRequests(config -> config
-                        //EndpointRequest manage the actuator endpoint
-                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
-                        .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
-                        .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
-                        .requestMatchers(HttpMethod.DELETE, "/Products/**").hasRole("CUSTOMER")
-                        .requestMatchers("/Cart-items/**").hasRole("CUSTOMER")
-                        //Permit all on GET request for static content
-                        .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**",
-                                "/other/**", "/Products/**",
-                                "/About", "/Search", "/Live-search",
-                                "/robots.txt", "/error/**", "/403").permitAll()
-                        .requestMatchers("/", "/register/**").permitAll()
-                        //Stripe webhook endpoint
-                        .requestMatchers(HttpMethod.POST, "/Status/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .headers(headers -> headers
+        http.headers(headers -> headers
                         //Enable Iframe for the same origin (default value is disabled)
                         // .frameOptions(frameOptions -> frameOptions.sameOrigin()
                         //Block XSS attacks
@@ -132,8 +113,27 @@ public class GlobalSecurityConfig {
             http.csrf(AbstractHttpConfigurer::disable);
         } else {
             //Add filter for Bot protection (prod environment)
-            http.addFilterBefore(new BotDetectionFilter(), AuthorizationFilter.class);
+            http.addFilterBefore(new BotDetectionFilter(), UsernamePasswordAuthenticationFilter.class);
         }
+
+        http.authorizeHttpRequests(config -> config
+                //EndpointRequest manage the actuator endpoint
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
+                .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
+                .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
+                .requestMatchers(HttpMethod.DELETE, "/Products/**").hasRole("CUSTOMER")
+                .requestMatchers("/Cart-items/**").hasRole("CUSTOMER")
+                //Permit all on GET request for static content
+                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**",
+                        "/other/**", "/Products/**",
+                        "/About", "/Search", "/Live-search",
+                        "/robots.txt", "/error/**", "/403").permitAll()
+                .requestMatchers("/", "/register/**").permitAll()
+                //Stripe webhook endpoint
+                .requestMatchers(HttpMethod.POST, "/Status/**").permitAll()
+                .anyRequest().authenticated()
+        );
 
         return http.build();
     }
