@@ -206,8 +206,10 @@ public class OrderServiceImpl implements OrderService {
     private BigDecimal getTotalAmount(final Set<OrderItem> orderItems) {
         BigDecimal orderTotal = BigDecimal.ZERO;
         for (OrderItem i : orderItems) {
-            BigDecimal newUnit = orderTotal.add(i.getProduct().getPrice());
-            orderTotal = orderTotal.add(newUnit.multiply(new BigDecimal(i.getQuantity())));
+            BigDecimal itemTotal = i.getProduct()
+                    .getPrice()
+                    .multiply(BigDecimal.valueOf(i.getQuantity()));
+            orderTotal = orderTotal.add(itemTotal);
         }
         //Add shipping tax
         orderTotal = orderTotal.add(shippingEstimate);

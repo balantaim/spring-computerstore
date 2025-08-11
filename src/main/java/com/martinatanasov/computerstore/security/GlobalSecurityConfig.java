@@ -74,17 +74,8 @@ public class GlobalSecurityConfig {
                         //Block form data from unknown origin
                         //If you want to use script inside the body use 'unsafe-inline', this will add you a new vulnerability
                         .contentSecurityPolicy(contentSecurityPolicyConfig -> contentSecurityPolicyConfig
-                                .policyDirectives("default-src 'none'; " +
-                                        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-                                        "form-action 'self' https://checkout.stripe.com; " +
-                                        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-                                        "connect-src 'self'; " +
-                                        "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +
-                                        "manifest-src 'self'; " +
-                                        "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +
-                                        "base-uri 'self'; " +
-                                        "child-src 'none'; " +
-                                        "frame-ancestors 'none'"))
+                                .policyDirectives(getContentSecurityPolicyAsString())
+                        )
                 )
                 .formLogin(form -> form
                         //Redirect to login form if no authorisation
@@ -141,6 +132,20 @@ public class GlobalSecurityConfig {
     private boolean isTestProfile() {
         return Arrays.asList(environment.getActiveProfiles()).contains("test") ||
                 Arrays.asList(environment.getActiveProfiles()).contains("benc");
+    }
+
+    private String getContentSecurityPolicyAsString() {
+        return "default-src 'none'; " +
+                "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                "form-action 'self' https://checkout.stripe.com; " +
+                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                "connect-src 'self'; " +
+                "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +
+                "manifest-src 'self'; " +
+                "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +
+                "base-uri 'self'; " +
+                "child-src 'none'; " +
+                "frame-ancestors 'none'";
     }
 
 }
