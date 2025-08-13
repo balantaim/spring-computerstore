@@ -40,6 +40,7 @@ public class OrderConverter {
         }
         //Filter by date. Older will be placed first.
         orderDto.sort(Comparator.comparing(OrderDTO::orderDate));
+        orderDto.reversed();
         return new LinkedHashSet<>(orderDto);
     }
 

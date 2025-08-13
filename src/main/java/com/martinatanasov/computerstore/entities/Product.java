@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.entities;
 
+import com.martinatanasov.computerstore.utils.converter.JsonToMapConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -80,6 +82,10 @@ public class Product {
     //Get your barcodes from: https://www.barcodelookup.com
     @Column(name = "barcode_utc", length = 12, columnDefinition = "CHAR(12)", nullable = false)
     private String barcodeUtc;
+
+    @Convert(converter = JsonToMapConverter.class)
+    @Column(name = "product_specifications", columnDefinition = "JSON")
+    private Map<String, Object> productSpecifications;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)

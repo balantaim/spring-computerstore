@@ -41,7 +41,8 @@ public class ProductConverter {
                         i.getImageUrl(),
                         i.getProductNumber(),
                         i.getCompatibleWith(),
-                        i.getBarcodeUtc()))
+                        i.getBarcodeUtc(),
+                        i.getProductSpecifications()))
                 .collect(Collectors.toList());
     }
 
@@ -57,7 +58,9 @@ public class ProductConverter {
                         i.getImageUrl(),
                         i.getProductNumber(),
                         i.getCompatibleWith(),
-                        i.getBarcodeUtc()));
+                        i.getBarcodeUtc(),
+                        i.getProductSpecifications()
+                ));
     }
 
     public StoreItemDTO convertToSingleItem(final Product product){
@@ -71,7 +74,8 @@ public class ProductConverter {
                 product.getImageUrl(),
                 product.getProductNumber(),
                 product.getCompatibleWith(),
-                product.getBarcodeUtc());
+                product.getBarcodeUtc(),
+                product.getProductSpecifications());
     }
 
     public GalleryDTO convertToGalleryItem(final Gallery gallery){

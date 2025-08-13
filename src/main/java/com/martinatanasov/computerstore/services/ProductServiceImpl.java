@@ -67,6 +67,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> findAllByCompatibleWithAndIsSearchableTrue(String compatibleWith, Integer pageNumber, Integer pageSize, String sortValue) {
+        return productRepository.findAllByCompatibleWithAndIsSearchableTrue(compatibleWith, buildPageRequest(pageNumber, pageSize, sortValue));
+    }
+
+    @Override
     public List<Product> getAllByKeyword(String keyword) {
         return productRepository.findAllByKeyword(keyword)
                 .stream()

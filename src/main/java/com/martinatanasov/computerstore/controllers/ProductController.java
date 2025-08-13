@@ -40,6 +40,8 @@ import java.util.stream.Collectors;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
+
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/Products")
@@ -52,7 +54,7 @@ public class ProductController {
     private final UserAuthentication userAuthentication;
 
     @GetMapping("")
-    public String products(Model model){
+    public String products(Model model) {
         Iterable<Category> categories = categoryService.findAllByIsVisibleTrue();
         model.addAttribute("categories", categories);
         return "Products/products";
@@ -60,21 +62,21 @@ public class ProductController {
 
     @GetMapping("/{category}")
     public String categoryItems(Model model,
-                               @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                               @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                               @RequestParam(required = false, defaultValue = "asc") String sortValue,
-                               @PathVariable("category") String categoryName){
+                                @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                                @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+                                @RequestParam(required = false, defaultValue = "asc") String sortValue,
+                                @PathVariable("category") String categoryName) {
         Optional<Category> category = categoryService.getCategoryByName(categoryName);
         short categoryId;
-        if(category.isEmpty() || category.get().getIsVisible() == false){
+        if (category.isEmpty() || category.get().getIsVisible() == false) {
             return NOT_FOUND_PAGE;
         } else {
             categoryId = category.get().getId();
         }
         Page<Product> products = productService.findAllByCategoryId(categoryId, pageNumber, pageSize, sortValue);
-        if(!products.isEmpty()){
+        if (!products.isEmpty()) {
             Page<StoreItemDTO> productsDTO = productConverter.convertToStoreItems(products);
-            if(pageNumber > productsDTO.getTotalElements() || pageNumber < 1){
+            if (pageNumber > productsDTO.getTotalElements() || pageNumber < 1) {
                 return NOT_FOUND_PAGE;
             }
             model.addAttribute("categoryName", categoryName);
@@ -93,9 +95,9 @@ public class ProductController {
     @GetMapping("/item/{productId}")
     public String itemReview(@PathVariable(value = "productId") Integer productId,
                              @RequestParam(required = false, defaultValue = "false") Boolean vote,
-                             Model model){
+                             Model model) {
         Optional<Product> product = productService.getProductById(productId);
-        if(product.isEmpty() || product.get().getIsVisible() == false){
+        if (product.isEmpty() || product.get().getIsVisible() == false) {
             return NOT_FOUND_PAGE;
         }
         product.ifPresent(value -> model.addAttribute("product", productConverter.convertToSingleItem(value)));
@@ -109,7 +111,7 @@ public class ProductController {
                     .stream()
                     .map(productConverter::convertToGalleryItem)
                     .collect(Collectors.toSet());
-            if(!images.isEmpty()){
+            if (!images.isEmpty()) {
                 model.addAttribute("gallery", images);
             }
         });
@@ -117,20 +119,20 @@ public class ProductController {
         product.ifPresent(value -> {
             String username = userAuthentication.getUsernameFromAuthentication();
             ProductReviewsDTO reviews;
-            if(username.equals("anonymousUser") || username == null){
+            if (username.equals("anonymousUser") || username == null) {
                 reviews = reviewService.getProductAverageRating(product.get());
-                if(reviews != null && reviews.reviewsCount() > 0){
+                if (reviews != null && reviews.reviewsCount() > 0) {
                     model.addAttribute("reviews", reviews);
                 }
             } else {
                 reviews = reviewService.getProductAverageRating(username, product.get());
-                if(reviews != null){
+                if (reviews != null) {
                     model.addAttribute("reviews", reviews);
                 }
             }
         });
 
-        if(vote != null){
+        if (vote != null) {
             model.addAttribute("vote", vote);
         }
 
@@ -141,17 +143,42 @@ public class ProductController {
     @PostMapping("/add-stars-vote/{productId}")
     public String voteForProduct(@PathVariable(value = "productId") Integer productId,
                                  @RequestParam(value = "rating", required = false) Double starsVote,
-                                 RedirectAttributes redirectAttributes){
+                                 RedirectAttributes redirectAttributes) {
         boolean isSaved = false;
-        if(starsVote != null){
+        if (starsVote != null) {
             String username = userAuthentication.getUsernameFromAuthentication();
-            if(username.equals("anonymousUser") || username == null){
+            if (username.equals("anonymousUser") || username == null) {
                 return GLOBAL_ERROR_PAGE;
             }
             isSaved = reviewService.voteForProduct(username, productId, starsVote);
         }
         redirectAttributes.addAttribute("vote", isSaved);
         return "redirect:/Products/item/" + productId;
+    }
+
+    @GetMapping("/compatible-with")
+    public String getCompatibleWithItems(Model model,
+                                @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                                @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+                                @RequestParam(required = false, defaultValue = "asc") String sortValue,
+                                @RequestParam("compatibleWith") String compatibleWith) {
+        if (compatibleWith != null && !compatibleWith.isEmpty()) {
+            Page<Product> products = productService.findAllByCompatibleWithAndIsSearchableTrue(compatibleWith, pageNumber, pageSize, sortValue);
+            if (!products.isEmpty()) {
+                Page<StoreItemDTO> productsDTO = productConverter.convertToStoreItems(products);
+                if (pageNumber > productsDTO.getTotalElements() || pageNumber < 1) {
+                    return NOT_FOUND_PAGE;
+                }
+                model.addAttribute("pageNumber", pageNumber);
+                model.addAttribute("pageSize", pageSize);
+                model.addAttribute("sortValue", sortValue);
+
+                model.addAttribute("products", productsDTO);
+                model.addAttribute("totalPages", productsDTO.getTotalPages());
+                model.addAttribute("totalItems", productsDTO.getTotalElements());
+            }
+        }
+        return "Products/compatible-with-items";
     }
 
 }

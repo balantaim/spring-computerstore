@@ -33,6 +33,8 @@ public interface ProductService {
 
     Page<Product> findAllByKeywordAndIsSearchableTrue(String keyword, Integer pageNumber, Integer pageSize, String sortValue);
 
+    Page<Product> findAllByCompatibleWithAndIsSearchableTrue(String compatibleWith,  Integer pageNumber, Integer pageSize, String sortValue);
+
     List<Product> getAllByKeyword(String keyword);
 
     Optional<Product> getProductById(Integer id);

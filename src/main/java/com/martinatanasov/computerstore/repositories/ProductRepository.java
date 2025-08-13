@@ -55,6 +55,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             nativeQuery = true)
     Page<Product> findAllByKeywordAndIsSearchableTrue(@Param("keyword") String keyword, PageRequest pageRequest);
 
+    @Query(value = "SELECT * FROM products p WHERE " +
+            "p.compatible_with LIKE %:compatibleWith% " +
+            "AND p.is_searchable = 1",
+            nativeQuery = true)
+    Page<Product> findAllByCompatibleWithAndIsSearchableTrue(@Param("compatibleWith") String compatibleWith, PageRequest pageRequest);
+
     Optional<Product> findProductById(Integer id);
 
     Page<Product> findByIsVisibleTrue(PageRequest pageRequest);

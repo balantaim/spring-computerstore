@@ -153,10 +153,29 @@
         <div th:if="${product.productNumber}">
             <p class="pl-5 pr-5 pb-1 is-skeleton">&#8470; [[${product.productNumber}]]</p>
         </div>
+        <!-- Compatible with -->
         <div th:if="${product.compatibleWith}">
-            <p class="pl-5 pr-5 pb-1 is-skeleton">[[#{product.technical.compatible}]] [[${product.compatibleWith}]]</p>
+            <p class="pl-5 pr-5 pb-1 is-skeleton">
+                <b>[[#{product.technical.compatible}]]</b>
+                <a th:href="@{/Products/compatible-with(compatibleWith=${product.compatibleWith})}">[[${product.compatibleWith}]]</a>
+            </p>
         </div>
-        <p class="pl-5 pr-5 pb-1 is-skeleton" th:text="${product.description}"></p>
+        <p class="pl-5 pr-5 pb-1 is-skeleton"><b>[[${product.description}]]</b></p>
+        <!-- Product specifications -->
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth mt-3"
+               th:if="${product.productSpecifications}">
+            <tr th:each="e : ${product.productSpecifications}">
+                <th class="pl-5 pr-5 pb-1 is-skeleton"
+                    th:text="${e.key}"></th>
+                <td class="pl-5 pr-5 pb-1 is-skeleton"
+                        th:if="${e.value}">
+                    <span th:each="part, stat : ${e.value.toString().split(';')}">
+                        <span th:text="${#strings.trim(part)}"></span>
+                        <br th:if="${!stat.last}" />
+                    </span>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <!-- Product Not Found-->

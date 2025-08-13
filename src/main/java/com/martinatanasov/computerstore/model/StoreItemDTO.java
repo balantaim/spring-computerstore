@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,5 +45,7 @@ public class StoreItemDTO {
     private String compatibleWith;
 
     private String barcodeUtc;
+
+    private Map<String, Object> productSpecifications;
 
 }
