@@ -39,8 +39,7 @@ public class OrderConverter {
             );
         }
         //Filter by date. Older will be placed first.
-        orderDto.sort(Comparator.comparing(OrderDTO::orderDate));
-        orderDto.reversed();
+        orderDto.sort(Comparator.comparing(OrderDTO::orderDate, Comparator.reverseOrder()));
         return new LinkedHashSet<>(orderDto);
     }
 
