@@ -14,12 +14,12 @@
   -->
 
 <section th:fragment="order-status" th:switch="${order.status}">
-    <p th:case="'NEW_ORDER'" class="title is-4 mr-4 tag is-white" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.new}]]</p>
-    <p th:case="'PAYMENT_REQUIRED'" class="title is-4 mr-4 tag is-warning" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-require}]]</p>
-    <p th:case="'PAYMENT_SUCCESS'" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-success}]]</p>
-    <p th:case="'ORDER_ABORTED'" class="title is-4 mr-4 tag is-danger" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.aborted}]]</p>
-    <p th:case="'SHIPPING_IN_PROGRESS'" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-in-progress}]]</p>
-    <p th:case="'SHIPPING_DELIVERED'" class="title is-4 mr-4 tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-delivered}]]</p>
-    <p th:case="'ORDER_COMPLETED'" class="title is-4 mr-4 tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.completed}]]</p>
-    <p th:case="*" class="title is-4 mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] /</p>
+    <p th:case="'NEW_ORDER'" class="title is-4 mr-4 is-skeleton tag is-white" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.new}]]</p>
+    <p th:case="'PAYMENT_REQUIRED'" class="title is-4 is-skeleton mr-4 tag is-warning" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-require}]]</p>
+    <p th:case="'PAYMENT_SUCCESS'" class="title is-4 is-skeleton mr-4 tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.payment-success}]]</p>
+    <p th:case="'ORDER_ABORTED'" class="title is-4 mr-4 is-skeleton tag is-danger" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.aborted}]]</p>
+    <p th:case="'SHIPPING_IN_PROGRESS'" class="title is-4 mr-4 is-skeleton tag is-info" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-in-progress}]]</p>
+    <p th:case="'SHIPPING_DELIVERED'" class="title is-4 mr-4 is-skeleton tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.shipping-delivered}]]</p>
+    <p th:case="'ORDER_COMPLETED'" class="title is-4 mr-4 is-skeleton tag is-primary" style="color: var(--dark);">[[#{order.status}]] [[#{order.status.completed}]]</p>
+    <p th:case="*" class="title is-4 mr-4 is-skeleton tag is-info" style="color: var(--dark);">[[#{order.status}]] /</p>
 </section>

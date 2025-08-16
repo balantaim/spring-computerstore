@@ -19,6 +19,7 @@ import com.martinatanasov.computerstore.security.filters.BotDetectionFilter;
 import com.martinatanasov.computerstore.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -76,8 +77,9 @@ public class GlobalSecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
-
+    SecurityFilterChain filterChain(HttpSecurity http,
+                                    AuthenticationSuccessHandler customAuthenticationSuccessHandler,
+                                    @Value("${management.endpoints.web.base-path}") String actuatorBasePath) throws Exception {
         //Setup permission by role and methods
         http.headers(headers -> headers
                         //Enable Iframe for the same origin (default value is disabled)
@@ -122,7 +124,9 @@ public class GlobalSecurityConfig {
 
         http.authorizeHttpRequests(config -> config
                 //EndpointRequest manage the actuator endpoint
-                .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, actuatorBasePath).permitAll()
+                .requestMatchers(EndpointRequest.to("info")).permitAll()
+                .requestMatchers(EndpointRequest.to("health", "metrics", "scheduledtasks")).hasRole("ADMIN")
                 .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
                 .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
