@@ -50,6 +50,7 @@
                         <th><abbr th:title="#{table.user.verified}">[[#{table.user.verified}]]</abbr></th>
                         <th><abbr th:title="#{table.user.created}">[[#{table.user.created}]]</abbr></th>
                         <th><abbr th:title="#{table.user.modified}">[[#{table.user.modified}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.action}">[[#{table.user.action}]]</abbr></th>
                     </tr>
                     </thead>
                     <!-- T-FOOTER-->
@@ -62,23 +63,42 @@
                         <th><abbr th:title="#{table.user.verified}">[[#{table.user.verified}]]</abbr></th>
                         <th><abbr th:title="#{table.user.created}">[[#{table.user.created}]]</abbr></th>
                         <th><abbr th:title="#{table.user.modified}">[[#{table.user.modified}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.action}">[[#{table.user.action}]]</abbr></th>
                     </tr>
                     </tfoot>
                     <!-- T-BODY-->
                     <tbody>
-                    <span th:each="user, iterStat : ${users}">
-                        <tr>
-                            <th th:text="${iterStat.count}"></th>
-                            <td><a th:href="@{/Administration/profile/{id}(id=${user.id})}" th:text="${user.email}"></a></td>
-                            <td th:text="${user.id}"></td>
-                            <td th:text="${user.enabled}"
-                                th:style="${user.enabled} == true ? 'color: green;':'color: red;'"></td>
-                            <td th:text="${user.verifiedProfile}"
-                                th:style="${user.verifiedProfile} == true ? 'color: green;':'color: red;'"></td>
-                            <td th:text="${#dates.format(user.creationDate, 'dd.MM.yyyy, HH:mm')}"></td>
-                            <td th:text="${#dates.format(user.modifyDate, 'dd.MM.yyyy, HH:mm')}"></td>
-                        </tr>
-                    </span>
+                        <span th:each="user, iterStat : ${users}">
+                            <form action="#" th:action="@{/Administration/disableOrEnableUser}" method="POST">
+                                <tr>
+                                    <th th:text="${iterStat.count}" ></th>
+                                    <td><a th:href="@{/Administration/profile/{id}(id=${user.id})}" th:text="${user.email}"></a></td>
+                                    <td th:text="${user.id}"></td>
+                                                        <!-- Enabled -->
+                                    <td th:style="${user.enabled} == true ? 'color: green;':'color: red;'">
+                                        <select name="enabled" th:id="'enabled-' + ${user.id}">
+                                            <option th:value="true"  th:selected="${user.enabled} == true">True</option>
+                                            <option th:value="false" th:selected="${user.enabled} == false">False</option>
+                                        </select>
+                                    </td>
+                                    <td th:style="${user.verifiedProfile} == true ? 'color: green;':'color: red;'">
+                                        <select name="verified" th:id="'verified-' + ${user.id}">
+                                            <option th:value="true"  th:selected="${user.verifiedProfile} == true">True</option>
+                                            <option th:value="false" th:selected="${user.verifiedProfile} == false">False</option>
+                                        </select>
+                                    </td>
+                                    <td th:text="${#dates.format(user.creationDate, 'dd.MM.yyyy, HH:mm')}"></td>
+                                    <td th:text="${#dates.format(user.modifyDate, 'dd.MM.yyyy, HH:mm')}"></td>
+                                    <td>
+                                        <button type="submit"
+                                                class="button is-text is-rounded p-0 is-skeleton"
+                                                style="min-width: 0; min-height: 0; width: auto; height: auto;">[[#{form.save.changes}]]</button>
+                                    </td>
+
+                                    <input type="hidden" name="userId" th:value="${user.id}"/>
+                                </tr>
+                            </form>
+                        </span>
                     </tbody>
                 </table>
             </div>
@@ -93,6 +113,13 @@
     <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <!--MAIN Content End-->
+
+<!--Show toast status notification-->
+<span th:if="${status}">
+    <span th:with="userMessage=${status} == 'error' ? #{notification.update.error} : #{notification.update.success}">
+        <span th:replace="~{fragments/notification :: notification(${status}, ${userMessage})}"></span>
+    </span>
+</span>
 
 
 <!--FOOTER-->

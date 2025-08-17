@@ -34,7 +34,6 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-
 @RequestMapping("/Payments")
 public class PaymentController {
 

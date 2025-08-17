@@ -43,4 +43,6 @@ public interface UserService extends UserDetailsService {
 
     List<User> getUsersDetailsInfo();
 
+    void disableOrEnableUser(Long userId, boolean enabled, boolean verified);
+
 }

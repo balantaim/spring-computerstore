@@ -30,6 +30,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
+
 @Controller
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
@@ -81,6 +83,28 @@ public class AdministrationController {
         userService.setAccountStatus(email, enabled);
         model.addAttribute("status", "success");
         return "Administration/administration";
+    }
+
+    @PostMapping("/disableOrEnableUser")
+    public String disableOrEnableUser(@RequestParam("userId") Long userId,
+                                      @RequestParam("enabled") Boolean enabled,
+                                      @RequestParam("verified") Boolean verified,
+                                      Model model) {
+        if (userId != null && enabled != null && verified != null) {
+            userService.disableOrEnableUser(userId, enabled, verified);
+
+            final List<User> users = userService.getUsersDetailsInfo();
+            if (users != null) {
+                model.addAttribute("users", users.stream()
+                        .map(userConverter::userToUserAdministrationDTO)
+                        .sorted(Comparator.comparing(UserDetailsDTO::email))
+                        .collect(Collectors.toCollection(LinkedHashSet::new)));
+            }
+            model.addAttribute("active", "Administration");
+            model.addAttribute("status", "success");
+            return "Administration/administration";
+        }
+        return GLOBAL_ERROR_PAGE;
     }
 
     @PutMapping("/new-password")

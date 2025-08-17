@@ -107,7 +107,7 @@
                                             </a>
                                         </div>
                                         <hr class="dropdown-divider" />
-                                        <div class="cart-item text-profile">
+                                        <div sec:authorize="hasRole('ROLE_CUSTOMER')" class="cart-item text-profile">
                                             <a th:href="@{/Cart}" class="navbar-item is-flex is-vcentered is-align-items-center">
                                                 <span th:if="${session['cart-items-count']}"
                                                       th:text="${session['cart-items-count']}"
@@ -124,8 +124,8 @@
                                                 <p class="ml-3">[[#{nav.cart-items}]]</p>
                                             </a>
                                         </div>
-                                        <hr class="dropdown-divider" />
-                                        <div class="cart-item text-profile">
+                                        <hr sec:authorize="hasRole('ROLE_CUSTOMER')" class="dropdown-divider" />
+                                        <div sec:authorize="hasRole('ROLE_CUSTOMER')" class="cart-item text-profile">
                                             <a th:href="@{/Orders}" class="navbar-item is-flex is-vcentered is-align-items-center">
                                                 <span th:if="${session['orders-count']}"
                                                       th:text="${session['orders-count']}"
@@ -142,7 +142,7 @@
                                                 <p class="ml-3">[[#{nav.orders}]]</p>
                                             </a>
                                         </div>
-                                        <hr class="dropdown-divider" />
+                                        <hr sec:authorize="hasRole('ROLE_CUSTOMER')" class="dropdown-divider" />
                                         <form action="#" th:action="@{/logout}" method="POST">
                                             <button id="btnLogout" class="button input is-danger" type="submit">[[#{nav.logout}]]</button>
                                         </form>

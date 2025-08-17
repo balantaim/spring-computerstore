@@ -180,9 +180,11 @@ mvn clean package -Pproduction
 
 ### Test Users
 
-1. Role: customer; <br>Username: <i>abv@abv.bg</i><br>Password: <i>test</i>
-2. Role: customer, manager; <br>Username: <i>manager@abv.bg</i><br>Password: <i>test</i>
-3. Role: customer, manager, admin; <br>Username: <i>admin@abv.bg</i><br>Password: <i>test</i>
+1. Role: `customer`; <br>Username: <i>abv@abv.bg</i><br>Password: <i>test</i>
+2. Role: `customer`, `manager`; <br>Username: <i>manager@abv.bg</i><br>Password: <i>test</i>
+3. Role: `customer`, `manager`, `admin`; <br>Username: <i>admin@abv.bg</i><br>Password: <i>test</i>
+4. Role: `manager`; <br>Username: <i>manager@gmail.com</i><br>Password: <i>test</i>
+5. Role: `admin`; <br>Username: <i>admin@gmail.com</i><br>Password: <i>test</i>
 
 ### Custom Timer Events
 
@@ -263,56 +265,62 @@ AWS Elastic Beanstalk production link: <a href="http://computer-store.eu-north-1
 
 ### File Structure
 
+```bash
+tree -d -A
+```
+
 ```tree
-├───main
-│   ├───java
-│   │   └───com
-│   │       └───martinatanasov
-│   │           └───computerstore
-│   │               ├───aspect
-│   │               ├───boostrap
-│   │               ├───config
-│   │               ├───controllers
-│   │               ├───entities
-│   │               ├───model
-│   │               ├───repositories
-│   │               ├───security
-│   │               │   └───login
-│   │               ├───services
-│   │               │   └───payments
-│   │               └───utils
-│   │                   └───converter
-│   └───resources
-│       ├───db
-│       │   └───migration
-│       ├───lang
-│       ├───static
-│       │   ├───css
-│       │   ├───images
-│       │   │   ├───carriers
-│       │   │   ├───category
-│       │   │   └───home
-│       │   ├───js
-│       │   └───other
-│       └───templates
-│           ├───About
-│           ├───Administration
-│           ├───Cart
-│           ├───Checkout
-│           ├───error
-│           ├───fragments
-│           ├───Home
-│           ├───Login
-│           ├───Management
-│           ├───Orders
-│           ├───Products
-│           ├───Register
-│           └───UserProfile
-└───test
-    └───java
-        └───com
-            └───martinatanasov
-                └───computerstore
-                    ├───controllers
-                    └───repositories
+├── main
+│   ├── java
+│   │   └── com
+│   │       └── martinatanasov
+│   │           └── computerstore
+│   │               ├── aspect
+│   │               ├── boostrap
+│   │               ├── config
+│   │               ├── controllers
+│   │               ├── entities
+│   │               ├── model
+│   │               ├── repositories
+│   │               ├── security
+│   │               │   ├── filters
+│   │               │   └── login
+│   │               ├── services
+│   │               │   └── payments
+│   │               ├── shedulers
+│   │               └── utils
+│   │                   └── converter
+│   └── resources
+│       ├── db
+│       │   └── migration
+│       ├── lang
+│       ├── static
+│       │   ├── css
+│       │   ├── images
+│       │   │   ├── carriers
+│       │   │   ├── category
+│       │   │   └── home
+│       │   ├── js
+│       │   └── other
+│       └── templates
+│           ├── About
+│           ├── Administration
+│           ├── Cart
+│           ├── Checkout
+│           ├── error
+│           ├── fragments
+│           ├── Home
+│           ├── Login
+│           ├── Management
+│           ├── Orders
+│           ├── Products
+│           ├── Register
+│           └── UserProfile
+└── test
+    └── java
+        └── com
+            └── martinatanasov
+                └── computerstore
+                    ├── controllers
+                    └── repositories
 ```

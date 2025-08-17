@@ -110,6 +110,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void disableOrEnableUser(final Long userId, final boolean enabled, final boolean verified) {
+        User user = findByUserId(userId);
+        if (user != null) {
+            if (user.getEnabled() != enabled) {
+                user.setEnabled(enabled);
+                if (enabled) {
+                    user.setAttempts((byte) 0);
+                }
+            }
+            if (user.getVerifiedProfile() != verified) {
+                user.setVerifiedProfile(verified);
+            }
+            userDao.save(user);
+        }
+    }
+
+    @Override
     public boolean changePassword(final String userName, final String oldPassword, final String newPassword) {
         //Get the current user
         User user = userDao.findByUserName(userName);
