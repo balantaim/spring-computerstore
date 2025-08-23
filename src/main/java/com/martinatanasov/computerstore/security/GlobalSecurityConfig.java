@@ -49,19 +49,6 @@ public class GlobalSecurityConfig {
     @Autowired
     private Environment environment;
 
-    private static final String getContentSecurityPolicyAsString = "default-src 'none'; " +
-                "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-                "form-action 'self' https://checkout.stripe.com; " +
-                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-                "connect-src 'self'; " +
-                "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +
-                "manifest-src 'self'; " +
-                "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +
-                "base-uri 'self'; " +
-                "child-src 'none'; " +
-                "frame-ancestors 'none'";
-
-
     //bcrypt bean definition
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -75,6 +62,18 @@ public class GlobalSecurityConfig {
         auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
         return auth;
     }
+
+    private static final String getContentSecurityPolicyAsString = "default-src 'none'; " +
+                "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                "form-action 'self' https://checkout.stripe.com; " +
+                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                "connect-src 'self'; " +
+                "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +
+                "manifest-src 'self'; " +
+                "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +
+                "base-uri 'self'; " +
+                "child-src 'none'; " +
+                "frame-ancestors 'none'";
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http,
@@ -108,7 +107,16 @@ public class GlobalSecurityConfig {
                 )
                 //Disable csrf webhook endpoint for Stripe
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/Status/payment-complete")
+                        .ignoringRequestMatchers(
+                                // Payments
+                                "/Status/payment-complete",
+                                "/Checkout/step-3",
+                                // Static assets
+                                "/other/**",
+                                "/css/**",
+                                "/images/**",
+                                "/js/**",
+                                "/robots.txt")
                 )
                 .exceptionHandling(config -> config
                         .accessDeniedPage("/access-denied")

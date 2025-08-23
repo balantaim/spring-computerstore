@@ -20,12 +20,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.4</version>
+		<version>3.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.martinatanasov</groupId>
 	<artifactId>computerstore</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.2</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 

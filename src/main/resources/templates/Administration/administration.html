@@ -75,17 +75,23 @@
                                     <td><a th:href="@{/Administration/profile/{id}(id=${user.id})}" th:text="${user.email}"></a></td>
                                     <td th:text="${user.id}"></td>
                                                         <!-- Enabled -->
-                                    <td th:style="${user.enabled} == true ? 'color: green;':'color: red;'">
-                                        <select name="enabled" th:id="'enabled-' + ${user.id}">
-                                            <option th:value="true"  th:selected="${user.enabled} == true">True</option>
-                                            <option th:value="false" th:selected="${user.enabled} == false">False</option>
-                                        </select>
+                                    <td>
+                                        <div class="select">
+                                            <select name="enabled" th:id="'enabled-' + ${user.id}">
+                                                <option th:value="true"  th:selected="${user.enabled} == true">True</option>
+                                                <option th:value="false" th:selected="${user.enabled} == false">False</option>
+                                            </select>
+                                        </div>
+
                                     </td>
-                                    <td th:style="${user.verifiedProfile} == true ? 'color: green;':'color: red;'">
-                                        <select name="verified" th:id="'verified-' + ${user.id}">
-                                            <option th:value="true"  th:selected="${user.verifiedProfile} == true">True</option>
-                                            <option th:value="false" th:selected="${user.verifiedProfile} == false">False</option>
-                                        </select>
+                                    <td>
+                                        <div class="select">
+                                            <select name="verified" th:id="'verified-' + ${user.id}">
+                                                <option th:value="true"  th:selected="${user.verifiedProfile} == true">True</option>
+                                                <option th:value="false" th:selected="${user.verifiedProfile} == false">False</option>
+                                            </select>
+                                        </div>
+
                                     </td>
                                     <td th:text="${#dates.format(user.creationDate, 'dd.MM.yyyy, HH:mm')}"></td>
                                     <td th:text="${#dates.format(user.modifyDate, 'dd.MM.yyyy, HH:mm')}"></td>

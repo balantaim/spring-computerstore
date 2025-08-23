@@ -17,14 +17,14 @@ package com.martinatanasov.computerstore.controllers;
 
 import com.sun.management.OperatingSystemMXBean;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.management.ManagementFactory;
 
 
 @PreAuthorize("hasRole('ADMIN')")
-@Controller
+@RestController
 public class MetricsController {
 
     @GetMapping("/metrics")

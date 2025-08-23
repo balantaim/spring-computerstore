@@ -1,0 +1,14 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Martin Atanasov",
+  "jobTitle": "Software Developer",
+  "homeLocation": {
+    "@type": "Place",
+    "name": "Bulgaria"
+  },
+  "url": "https://www.linkedin.com/in/martin-atanasov-47550b1a2/",
+  "sameAs": [
+    "https://play.google.com/store/apps/dev?id=4991626043223074729"
+  ]
+}

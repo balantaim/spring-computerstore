@@ -21,6 +21,9 @@
     <meta name="author" th:content="#{meta.author}">
     <meta name="description" th:content="#{meta.description}">
     <meta name="keywords" th:content="#{meta.keywords}">
+    <!-- Set Theme Color -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#008080">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#008080">
 
     <title th:replace="${title}">Computer Store</title>
 
@@ -47,6 +50,10 @@
 
     <!-- Anti Bot detection-->
     <script defer th:src="@{/js/anti-bot.js}"></script>
+
+    <!-- Schema -->
+    <script defer th:src="@{/js/fetch-schema.js}"></script>
+
 
     <th:block th:replace="${link}"/>
 
