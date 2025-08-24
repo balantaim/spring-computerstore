@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -64,25 +65,72 @@ public class GlobalSecurityConfig {
     }
 
     private static final String getContentSecurityPolicyAsString = "default-src 'none'; " +
-                "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-                "form-action 'self' https://checkout.stripe.com; " +
-                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-                "connect-src 'self'; " +
-                "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +
-                "manifest-src 'self'; " +
-                "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +
-                "base-uri 'self'; " +
-                "child-src 'none'; " +
-                "frame-ancestors 'none'";
+            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+            "form-action 'self' https://checkout.stripe.com; " +
+            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+            "connect-src 'self'; " +
+            "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +
+            "manifest-src 'self'; " +
+            "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +
+            "base-uri 'self'; " +
+            "child-src 'none'; " +
+            "frame-ancestors 'none'";
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http,
-                                    AuthenticationSuccessHandler customAuthenticationSuccessHandler,
-                                    @Value("${management.endpoints.web.base-path}") String actuatorBasePath) throws Exception {
-        //Setup permission by role and methods
-        http.headers(headers -> headers
+    @Order(1)
+    SecurityFilterChain actuatorFilterChain(HttpSecurity http,
+                                            AuthenticationSuccessHandler customAuthenticationSuccessHandler,
+                                            @Value("${management.endpoints.web.base-path}") String actuatorBasePath) throws Exception {
+        return http
+                // Use current filter chain only specific paths
+                .securityMatcher(actuatorBasePath + "/**")
+                .authorizeHttpRequests(config -> config
+                        //EndpointRequest manage the actuator endpoint
+                        .requestMatchers(HttpMethod.GET, actuatorBasePath).permitAll()
+                        .requestMatchers(EndpointRequest.to("info")).permitAll()
+                        .requestMatchers(EndpointRequest.to("health", "metrics", "scheduledtasks")).hasRole("ADMIN")
+                )
+                .csrf(AbstractHttpConfigurer::disable)
+                .build();
+    }
+
+    @Bean
+    @Order(2)
+    SecurityFilterChain staticAssetsFilterChain(HttpSecurity http) throws Exception {
+        final String[] staticResources = {"/favicon.ico", "/other/**", "/css/**", "/images/**", "/js/**", "/robots.txt"};
+        return http
+                // Use current filter chain only specific paths
+                .securityMatcher(staticResources)
+                .authorizeHttpRequests(config -> config
+                        .requestMatchers(HttpMethod.GET, staticResources).permitAll()
+                )
+                .csrf(AbstractHttpConfigurer::disable)
+                .build();
+    }
+
+    @Bean
+    @Order(3)
+    SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                            AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
+        http
+                .authorizeHttpRequests(config -> config
+                        .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/Products/**").hasRole("CUSTOMER")
+                        .requestMatchers("/Cart-items/**").hasRole("CUSTOMER")
+                        //Permit all on GET request for static content
+                        .requestMatchers(HttpMethod.GET, "/", "/Products/**", "/About", "/Search", "/Live-search", "/error/**", "/403").permitAll()
+                        .requestMatchers("/Login", "/register/**", "/authenticateTheUser").permitAll()
+                        //Stripe webhook endpoint
+                        .requestMatchers(HttpMethod.POST, "/Status/**").permitAll()
+                        //Authenticate any request that is not specified in the filter chain
+                        .anyRequest().authenticated()
+                )
+                //Setup permission by role and methods
+                .headers(headers -> headers
                         //Enable Iframe for the same origin (default value is disabled)
-                        // .frameOptions(frameOptions -> frameOptions.sameOrigin()
+                        // .frameOptions(frameOptions -> frameOptions.sameOrigin())
                         //Block XSS attacks
                         .xssProtection(xxs -> xxs.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
                         //Block form data from unknown origin
@@ -109,14 +157,7 @@ public class GlobalSecurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(
                                 // Payments
-                                "/Status/payment-complete",
-                                "/Checkout/step-3",
-                                // Static assets
-                                "/other/**",
-                                "/css/**",
-                                "/images/**",
-                                "/js/**",
-                                "/robots.txt")
+                                "/Status/payment-complete", "/Checkout/step-3")
                 )
                 .exceptionHandling(config -> config
                         .accessDeniedPage("/access-denied")
@@ -129,27 +170,6 @@ public class GlobalSecurityConfig {
             //Add filter for Bot protection (prod environment)
             http.addFilterBefore(new BotDetectionFilter(), UsernamePasswordAuthenticationFilter.class);
         }
-
-        http.authorizeHttpRequests(config -> config
-                //EndpointRequest manage the actuator endpoint
-                .requestMatchers(HttpMethod.GET, actuatorBasePath).permitAll()
-                .requestMatchers(EndpointRequest.to("info")).permitAll()
-                .requestMatchers(EndpointRequest.to("health", "metrics", "scheduledtasks")).hasRole("ADMIN")
-                .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
-                .requestMatchers(HttpMethod.POST, "/Products/**").hasRole("CUSTOMER")
-                .requestMatchers(HttpMethod.PUT, "/Products/**").hasRole("CUSTOMER")
-                .requestMatchers(HttpMethod.DELETE, "/Products/**").hasRole("CUSTOMER")
-                .requestMatchers("/Cart-items/**").hasRole("CUSTOMER")
-                //Permit all on GET request for static content
-                .requestMatchers(HttpMethod.GET, "/css/**", "/images/**", "/js/**",
-                        "/other/**", "/Products/**",
-                        "/About", "/Search", "/Live-search",
-                        "/robots.txt", "/error/**", "/403").permitAll()
-                .requestMatchers("/", "/register/**").permitAll()
-                //Stripe webhook endpoint
-                .requestMatchers(HttpMethod.POST, "/Status/**").permitAll()
-                .anyRequest().authenticated()
-        );
 
         return http.build();
     }
