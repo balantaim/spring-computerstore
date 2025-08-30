@@ -33,7 +33,7 @@ public class UpdateCustomersInfo implements CommandLineRunner {
     private final UserDao userDao;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("\n\tInitiate update customer_id values to the database");
         CustomerCollection customerCollection = paymentCustomerService.getAllCustomers();
         if(customerCollection != null && customerCollection.getData() != null) {

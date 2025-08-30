@@ -17,20 +17,24 @@ package com.martinatanasov.computerstore.controllers;
 
 import com.sun.management.OperatingSystemMXBean;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.management.ManagementFactory;
 
 
 @PreAuthorize("hasRole('ADMIN')")
-@RestController
+@Controller
 public class MetricsController {
 
-    @GetMapping("/metrics")
-    public String getMetrics() {
-        return "RAM usage: " + calculateRamUsage() + ", From max RAM: " + calculateMaxRamLimit()
-                + ", CPU usage: " + calculateCpuUsage() + "%";
+    @GetMapping("/Metrics")
+    public String getMetrics(Model model) {
+        model.addAttribute("maxRamLimit", calculateMaxRamLimit());
+        model.addAttribute("ramUsage", calculateRamUsage());
+        model.addAttribute("cpuUsage", calculateCpuUsage());
+
+        return "Metrics/metrics";
     }
 
     private long calculateRamUsage() {

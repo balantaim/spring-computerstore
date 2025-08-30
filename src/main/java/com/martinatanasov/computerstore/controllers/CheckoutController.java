@@ -191,9 +191,6 @@ public class CheckoutController {
                 order.get().setPayment(payment);
                 //Save updated order
                 orderService.abortOrder(order.get());
-                //Todo invalidate checkout session
-
-
 
                 session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
             }

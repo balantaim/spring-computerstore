@@ -31,9 +31,37 @@
 <!--MAIN Content Start-->
 <div class="main">
 
-    <div th:if="${user}" class="box">
-        <p>User</p>
-        <p th:text="${user}"></p>
+    <div class="columns is-centered is-gapless mt-6">
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+
+        <div class="column mr-1 ml-1">
+
+            <!-- Back button-->
+            <div>
+                <a th:href="@{/Administration}" class="is-info" role="button" aria-pressed="true" style="color: var(--txt-color);">
+                    <span class="icon is-small ml-3 mt-3"><i class="fas fa-reply fa-lg"></i></span>
+                </a>
+            </div>
+
+            <div th:if="${user}" class="box">
+                <h1 class="title has-text-centered">[[#{text.user}]]</h1>
+                <p th:if="${user.id}"><b>[[#{table.user.id}]]:</b> [[${user.id}]]</p>
+                <p th:if="${user.email}"><b>[[#{form.placeholder.email}]]:</b> [[${user.email}]]</p>
+                <p th:if="${user.firstName}"><b>[[#{form.placeholder.firstName}]]:</b> [[${user.firstName}]]</p>
+                <p th:if="${user.lastName}"><b>[[#{form.placeholder.lastName}]]:</b> [[${user.lastName}]]</p>
+                <p th:if="${user.country}"><b>[[#{form.country}]]:</b> [[${user.country}]]</p>
+                <p th:if="${user.address}"><b>[[#{form.address}]]:</b> [[${user.address}]]</p>
+                <p th:if="${user.phoneNumber}"><b>[[#{form.phone}]]:</b> [[${user.phoneNumber}]]</p>
+                <p th:if="${user.attempts != null}"><b>Login attempts:</b> [[${user.attempts}]]</p>
+                <div th:if="${user.roles}"><b>[[#{text.role}]]:</b>
+                    <span th:each="role, stat : ${user.roles}">
+                        <span>[[${#strings.replace(role.authority, 'ROLE_', '')} ]]<span th:if="${!stat.last}">,</span></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
     </div>
 
     <div class="space"></div>

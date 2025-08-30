@@ -1,0 +1,149 @@
+<!--
+  ~ Copyright 2025 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<!-- data-theme="light" -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<head th:replace="~{fragments/head :: head(~{::title})}">
+    <title>Metrics</title>
+</head>
+<body>
+<!-- NAVBAR -->
+<div th:replace="~{fragments/top-navigation-bar :: nav('metrics')}"></div>
+
+<!-- Search Column -->
+<div th:replace="~{fragments/search-column :: search-column}"></div>
+
+<!--MAIN Content Start-->
+<div class="main">
+
+    <div class="columns is-centered is-gapless mt-4">
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+
+        <div class="column box mr-1 ml-1">
+            <h1 class="title has-text-centered mt-2">System Usage Dashboard</h1>
+
+            <div class="columns is-centered is-gapless">
+                <div class="column is-half p-6">
+                    <!-- RAM Usage -->
+                    <h2 class="subtitle p-3">RAM Usage: <b style="color: var(--txt-color)">[[${ramUsage}]]MB</b></h2>
+                    <canvas id="ramChart" width="400" height="400" class="p-2" style="max-height: 560px;"></canvas>
+                </div>
+
+                <div class="column is-half p-6">
+                    <!-- CPU Usage -->
+                    <h2 class="subtitle p-3">CPU Usage: <b style="color: var(--txt-color)">[[${#numbers.formatDecimal(cpuUsage, 1, 2)}]]%</b></h2>
+                    <canvas id="cpuChart" width="400" height="400" class="p-2" style="max-height: 560px;"></canvas>
+                </div>
+            </div>
+
+            <!-- Load chart library -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                const animationDuration = 700;
+                const maxRam = /*[[${maxRamLimit}]]*/ 0;
+                const usedRam = /*[[${ramUsage}]]*/ 0;
+                const freeRam = maxRam - usedRam;
+
+                // RAM Doughnut Chart
+                new Chart(document.getElementById("ramChart"), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["Used RAM", "Free RAM"],
+                        datasets: [{
+                            data: [usedRam, freeRam],
+                            backgroundColor: ["#4bc0c0", "#e0e0e0"]
+                        }]
+                    },
+                    options: {
+                        // responsive: true, // enable responsive resizing
+                        // maintainAspectRatio: false, // allow height to follow container
+                        animation: {
+                            animateRotate: true,
+                            duration: animationDuration
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        let label = ctx.label || '';
+                                        let value = ctx.raw;
+                                        return label + ': ' + value + ' MB';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                const cpuUsage = /*[[${cpuUsage}]]*/ 0;
+                const cpuFree = 100 - cpuUsage;
+
+                // CPU Usage Doughnut Chart
+                new Chart(document.getElementById("cpuChart"), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["Used CPU", "Free CPU"],
+                        datasets: [{
+                            data: [cpuUsage, cpuFree],
+                            backgroundColor: ["#4bc0c0", "#e0e0e0"]
+                        }]
+                    },
+                    options: {
+                        // responsive: true, // enable responsive resizing
+                        // maintainAspectRatio: false, // allow height to follow container
+                        animation: {
+                            duration: animationDuration
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        let label = ctx.label || '';
+                                        let value = ctx.raw;
+                                        return label + ': ' + value.toFixed(2) + "%";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                /*]]>*/
+            </script>
+
+        </div>
+
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+    </div>
+
+
+
+    <div class="space"></div>
+
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
+</div>
+<!--MAIN Content End-->
+
+
+<!--FOOTER-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+</html>

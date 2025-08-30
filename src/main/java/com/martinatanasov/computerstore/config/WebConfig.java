@@ -44,7 +44,7 @@ public class WebConfig implements WebMvcConfigurer {
         //Register CSS
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/public/", "classpath:/static/css/")
-                .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
+                .setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
                 .resourceChain(true)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"))
                 //Solve problem with imported css
@@ -53,14 +53,14 @@ public class WebConfig implements WebMvcConfigurer {
         //Register JS
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/public/", "classpath:/static/js/")
-                .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
+                .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS))
                 .resourceChain(true)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
 
         //Register Images
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("/public/", "classpath:/static/images/")
-                .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
+                .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS))
                 .resourceChain(true)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
 
@@ -74,7 +74,7 @@ public class WebConfig implements WebMvcConfigurer {
         //Register robots.txt
         registry.addResourceHandler("/robots.txt")
                 .addResourceLocations("/public/", "classpath:/static/")
-                .setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS));
+                .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS));
 
     }
 }

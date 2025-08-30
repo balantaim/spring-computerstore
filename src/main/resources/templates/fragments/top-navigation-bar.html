@@ -43,6 +43,10 @@
                     <a class="custom-link" th:href="@{/Administration}">[[#{nav.administration}]]</a>
                 </span>
 
+                <span sec:authorize="hasRole('ROLE_ADMIN')" th:class="${selected == 'metrics'} ? 'navbar-item active':'navbar-item'">
+                    <a class="custom-link" th:href="@{/Metrics}">[[#{nav.metrics}]]</a>
+                </span>
+
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a th:href="@{/Products}" th:class="${selected == 'products'} ? 'navbar-item active':'navbar-item'">[[#{nav.products}]]</a>
 
