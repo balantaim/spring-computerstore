@@ -49,6 +49,7 @@ public class CartController {
     private final CartService cartService;
     private final UserAuthentication userAuthentication;
     private final CartConverter cartConverter;
+    public final static BigDecimal SHIPPING_ESTIMATE = BigDecimal.valueOf(5.00);
 
     @GetMapping("")
     public String cartItems(Model model, HttpServletRequest request){
@@ -182,7 +183,6 @@ public class CartController {
             return null;
         } else {
             final DecimalFormat formatter = new DecimalFormat("#0.00");
-            BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
             BigDecimal orderTotal = BigDecimal.ZERO;
 
             for (CardItemDTO item : products) {
@@ -192,11 +192,11 @@ public class CartController {
             }
             return new OrderSummaryDTO(
                     formatter.format(orderTotal.divide(new BigDecimal(products.size()), RoundingMode.CEILING)),
-                    shippingEstimate != null ? formatter.format(shippingEstimate):null,
+                    SHIPPING_ESTIMATE != null ? formatter.format(SHIPPING_ESTIMATE):null,
                     //Show price without 20% DDS tax
                     formatter.format(orderTotal.multiply(new BigDecimal("0.80"))),
                     null,
-                    formatter.format(orderTotal.add(shippingEstimate))
+                    formatter.format(orderTotal.add(SHIPPING_ESTIMATE))
             );
         }
     }

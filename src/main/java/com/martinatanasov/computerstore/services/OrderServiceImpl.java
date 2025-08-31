@@ -46,7 +46,6 @@ public class OrderServiceImpl implements OrderService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final UserDao userDao;
-    public static final BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
 
     @Override
     public Set<Order> getAllByUserEmail(final String email) {
@@ -84,7 +83,6 @@ public class OrderServiceImpl implements OrderService {
 
             //Add carrier item to the cart items
             Optional<Product> carrierProductItem = productRepository.findFirstByProductNameIgnoreCase(carrier.name());
-            log.info("\n\t PRODUCT ---> {}", carrierProductItem.get().getProductName());
             carrierProductItem.ifPresent(product -> {
                         orderItems.add(
                                 OrderItem.builder()
@@ -231,8 +229,6 @@ public class OrderServiceImpl implements OrderService {
                     .multiply(BigDecimal.valueOf(i.getQuantity()));
             orderTotal = orderTotal.add(itemTotal);
         }
-        //Add shipping tax
-        orderTotal = orderTotal.add(shippingEstimate);
         return orderTotal;
     }
 
