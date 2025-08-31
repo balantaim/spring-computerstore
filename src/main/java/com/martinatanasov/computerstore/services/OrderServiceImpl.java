@@ -25,6 +25,7 @@ import com.martinatanasov.computerstore.model.PaymentStatus;
 import com.martinatanasov.computerstore.model.PaymentType;
 import com.martinatanasov.computerstore.repositories.CartRepository;
 import com.martinatanasov.computerstore.repositories.OrderRepository;
+import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
     private final UserDao userDao;
     public static final BigDecimal shippingEstimate = BigDecimal.valueOf(5.00);
 
@@ -77,9 +79,26 @@ public class OrderServiceImpl implements OrderService {
     public Order updateOrderAndEntities(final User user, Order order, final Carrier carrier, final String trackingNumber) {
         final Iterable<Cart> cartItems = cartRepository.findAllByUserId(user.getId());
         if (cartItems != null) {
-            //Create Order Items
             AtomicInteger quantity = new AtomicInteger();
             Set<OrderItem> orderItems = new HashSet<>();
+
+            //Add carrier item to the cart items
+            Optional<Product> carrierProductItem = productRepository.findFirstByProductNameIgnoreCase(carrier.name());
+            log.info("\n\t PRODUCT ---> {}", carrierProductItem.get().getProductName());
+            carrierProductItem.ifPresent(product -> {
+                        orderItems.add(
+                                OrderItem.builder()
+                                        .order(order)
+                                        .product(product)
+                                        .quantity(1)
+                                        .pricePerUnit(product.getPrice())
+                                        .build()
+                        );
+                        quantity.getAndIncrement();
+                    }
+            );
+
+            //Add all cartItems to the OrderItems
             cartItems.forEach(i -> {
                 orderItems.add(OrderItem.builder()
                         .order(order)
@@ -89,6 +108,7 @@ public class OrderServiceImpl implements OrderService {
                         .build());
                 quantity.getAndIncrement();
             });
+
             //Check OrderItems count
             if (orderItems.isEmpty()) {
                 log.error("\n\tOrder items count equal to zero!");

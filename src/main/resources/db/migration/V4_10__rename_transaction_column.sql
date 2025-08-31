@@ -1,0 +1,1 @@
+ALTER TABLE payments RENAME COLUMN `transaction_id` to `payment_session_id`;

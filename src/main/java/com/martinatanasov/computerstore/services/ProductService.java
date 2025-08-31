@@ -39,4 +39,6 @@ public interface ProductService {
 
     Optional<Product> getProductById(Integer id);
 
+    Optional<Product> getProductByName(String productName);
+
 }

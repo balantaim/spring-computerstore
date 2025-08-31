@@ -179,7 +179,7 @@ public class CheckoutController {
     public String getFailureCheckoutConfirmation(Model model,
                                                  @PathVariable("orderId") Long orderId,
                                                  @RequestParam(value = "payment_intent_id", required = false) String paymentIntendId,
-                                                 HttpSession session) {
+                                                 HttpSession session) throws StripeException {
         Optional<Order> order = orderService.getOrderById(orderId);
         if (order.isPresent()) {
             if (order.get().getStatus() == OrderStatus.PAYMENT_REQUIRED) {
@@ -191,6 +191,10 @@ public class CheckoutController {
                 order.get().setPayment(payment);
                 //Save updated order
                 orderService.abortOrder(order.get());
+                //Expire the session
+                if (payment.getPaymentSessionId() != null) {
+                    sessionPaymentService.expireCheckoutSession(payment.getPaymentSessionId());
+                }
 
                 session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
             }

@@ -65,4 +65,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByIsVisibleTrue(PageRequest pageRequest);
 
+    Optional<Product> findFirstByProductNameIgnoreCase(String productName);
+
 }

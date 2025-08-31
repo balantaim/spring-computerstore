@@ -51,8 +51,8 @@ public class Payment {
     @Column(name = "payment_status", length = 20)
     private PaymentStatus paymentStatus;
 
-    @Column(name = "transaction_id")
-    private String transactionId;
+    @Column(name = "payment_session_id")
+    private String paymentSessionId;
 
     @CreationTimestamp
     @Column(name = "creation_date", updatable = false)

@@ -85,6 +85,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductById(id);
     }
 
+    @Override
+    public Optional<Product> getProductByName(String productName) {
+        return productRepository.findFirstByProductNameIgnoreCase(productName);
+    }
+
     public PageRequest buildPageRequest(Integer pageNumber, Integer pageSize, String sortValue) {
         final int DEFAULT_PAGE_NUMBER = 0, DEFAULT_PAGE_SIZE = 25;
         int queryPageNumber, queryPageSize;
