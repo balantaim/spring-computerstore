@@ -19,7 +19,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
 <head th:replace="~{fragments/head :: head(~{::title})}">
-    <title>Management</title>
+    <title>Management-Products</title>
 </head>
 <body>
 <!-- NAVBAR -->
@@ -31,28 +31,28 @@
 <!--MAIN Content Start-->
 <div class="main">
 
-    <div class="columns is-centered is-gapless mt-6">
+    <div th:if="${#lists.isEmpty(products)}" class="has-text-centered">
+        <h1  class="is-size-1">[[#{product.not-found}]]</h1>
+        <div class="space"></div>
+        <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+    </div>
 
-        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+    <div th:unless="${#lists.isEmpty(products)}">
+        <div class="columns is-centered is-gapless mt-6">
 
-        <div class="column mr-1 ml-1">
-            <div class="img-container" th:if="${categories}" th:each="category : ${categories}">
-                <a th:href="@{ '/Management/' + ${category.name} }">
-                    <img style="max-height: 300px; object-fit: cover;"
-                         th:src="@{${category.imageUrl}}"
-                         th:alt="${category.description}"
-                         th:title="${category.name}"/>
-                    <!-- <div class="" style="display: flex; justify-content: center; align-items: center; min-height: 150px; width: 100%;">-->
-                    <div class="absolute-bottom-right" style="min-width: 40%; max-width: 80%; min-height: 44px;">
-                        <h2 class="is-size-2" style="display: inline-block; white-space: nowrap;" th:text="${category.name}"></h2>
-                    </div>
-                    <!-- </div>-->
-                </a>
+            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+
+            <div class="column mr-1 ml-1">
+                <div th:replace="~{fragments/pagination-options :: pagination-options}"></div>
+
+                <div th:replace="~{fragments/vertical-category-item :: vertical-category-item}"></div>
+
+                <div th:replace="~{fragments/pagination-nav :: pagination(${'/Management/' + categoryName})}"></div>
             </div>
+
+            <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+
         </div>
-
-        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
-
     </div>
 
     <div class="space"></div>

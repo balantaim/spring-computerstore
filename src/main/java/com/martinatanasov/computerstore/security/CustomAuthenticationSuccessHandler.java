@@ -15,20 +15,19 @@
 
 package com.martinatanasov.computerstore.security;
 
+import com.martinatanasov.computerstore.config.SessionRedirectionConfig;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.services.OrderService;
 import com.martinatanasov.computerstore.services.UserService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -37,21 +36,15 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Autowired
     private final UserService userService;
-    @Autowired
     private final OrderService orderService;
-    @Autowired
     private final CartService cartService;
-
-    //Save to cache the previous URL if login is required
-    @Bean
-    public HttpSessionRequestCache requestCache() {
-        return new HttpSessionRequestCache();
-    }
+    private final SessionRedirectionConfig sessionRedirectionConfig;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException {
         final String userName = authentication.getName();
         final User user = userService.findByUserName(userName);
 
@@ -65,10 +58,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         session.setAttribute("orders-count", orderCount > 0 ? orderCount : null);
         session.setAttribute("cart-items-count", cartCount > 0 ? cartCount : null);
 
-
         //Check if there is saved url in session request cache
-        HttpSessionRequestCache requestCache = requestCache();
-        var savedRequest = requestCache.getRequest(request, response);
+        HttpSessionRequestCache requestCache = sessionRedirectionConfig.requestCache();
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null) {
             // Redirect to saved URL
             String targetUrl = savedRequest.getRedirectUrl();

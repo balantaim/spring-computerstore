@@ -67,7 +67,7 @@ java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASS
 
 ## Prepare the cloud platform
 
-AWS Services: EC2, S3, VPC, Identity and Access Management (IAM), Optional(Elastic Load Balancing, CloudWatch, Route 53, Certificate Manager)
+AWS Services: EC2, S3, VPC, Identity and Access Management (IAM), Optional(Elastic Load Balancing, Web Application Firewall, CloudWatch, Route 53, Certificate Manager)
 
 1. Register and Login to AWS
 2. Search for Elastic Beanstalk

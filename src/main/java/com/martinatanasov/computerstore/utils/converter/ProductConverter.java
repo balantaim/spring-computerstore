@@ -19,6 +19,7 @@ package com.martinatanasov.computerstore.utils.converter;
 import com.martinatanasov.computerstore.entities.Gallery;
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.GalleryDTO;
+import com.martinatanasov.computerstore.model.ProductManagementDTO;
 import com.martinatanasov.computerstore.model.StoreItemDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -80,6 +81,28 @@ public class ProductConverter {
 
     public GalleryDTO convertToGalleryItem(final Gallery gallery){
         return new GalleryDTO(gallery.getId(), gallery.getImageUrl());
+    }
+
+    public Page<ProductManagementDTO> productToProductManagementDTO(final Page<Product> products) {
+        return products.map(product ->
+            new ProductManagementDTO(
+                product.getId(),
+                product.getProductName(),
+                product.getDescription(),
+                product.getProducer(),
+                product.getPrice(),
+                product.getStock(),
+                product.getImageUrl(),
+                product.getCreationDate(),
+                product.getModifyDate(),
+                product.getIsVisible(),
+                product.getIsSearchable(),
+                product.getProductNumber(),
+                product.getCompatibleWith(),
+                product.getBarcodeUtc(),
+                product.getCategory()
+            )
+        );
     }
 
 }

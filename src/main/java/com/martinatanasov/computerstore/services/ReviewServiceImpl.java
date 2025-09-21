@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,7 +23,6 @@ import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.ReviewRepository;
 import com.martinatanasov.computerstore.repositories.UserDaoImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -36,13 +35,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    @Autowired
     private final  ReviewRepository reviewRepository;
-
-    @Autowired
     private final  ProductRepository productRepository;
-
-    @Autowired
     private final  UserDaoImpl userRepository;
 
     @Override

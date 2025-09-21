@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.utils.converter;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 
+@Getter
 @Component
 public class TestNotificationsState {
 
@@ -35,10 +37,6 @@ public class TestNotificationsState {
                 Arrays.asList(environment.getActiveProfiles()).contains("default")) {
             isNotificationsActive = true;
         }
-    }
-
-    public boolean isNotificationsActive() {
-        return isNotificationsActive;
     }
 
 }

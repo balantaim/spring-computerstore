@@ -17,8 +17,6 @@ package com.martinatanasov.computerstore.security;
 
 import com.martinatanasov.computerstore.security.filters.BotDetectionFilter;
 import com.martinatanasov.computerstore.services.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
@@ -43,12 +41,7 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class GlobalSecurityConfig {
-
-    //Get Active Profile
-    @Autowired
-    private Environment environment;
 
     //bcrypt bean definition
     @Bean
@@ -79,7 +72,6 @@ public class GlobalSecurityConfig {
     @Bean
     @Order(1)
     SecurityFilterChain actuatorFilterChain(HttpSecurity http,
-                                            AuthenticationSuccessHandler customAuthenticationSuccessHandler,
                                             @Value("${management.endpoints.web.base-path}") String actuatorBasePath) throws Exception {
         return http
                 // Use current filter chain only specific paths
@@ -90,6 +82,8 @@ public class GlobalSecurityConfig {
                         .requestMatchers(EndpointRequest.to("info")).permitAll()
                         .requestMatchers(EndpointRequest.to("health", "metrics", "scheduledtasks")).hasRole("ADMIN")
                 )
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
@@ -104,6 +98,8 @@ public class GlobalSecurityConfig {
                 .authorizeHttpRequests(config -> config
                         .requestMatchers(HttpMethod.GET, staticResources).permitAll()
                 )
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
@@ -111,7 +107,8 @@ public class GlobalSecurityConfig {
     @Bean
     @Order(3)
     SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                            AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
+                                            AuthenticationSuccessHandler customAuthenticationSuccessHandler,
+                                            Environment environment) throws Exception {
         http
                 .authorizeHttpRequests(config -> config
                         .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
@@ -161,9 +158,10 @@ public class GlobalSecurityConfig {
                 )
                 .exceptionHandling(config -> config
                         .accessDeniedPage("/access-denied")
-                );
+                )
+                .httpBasic(AbstractHttpConfigurer::disable);
 
-        if (isTestProfile()) {
+        if (isTestProfile(environment)) {
             //Disable Cross Site Request Forgery (CSRF)
             http.csrf(AbstractHttpConfigurer::disable);
         } else {
@@ -174,7 +172,7 @@ public class GlobalSecurityConfig {
         return http.build();
     }
 
-    private boolean isTestProfile() {
+    private boolean isTestProfile(final Environment environment) {
         return Arrays.asList(environment.getActiveProfiles()).contains("test") ||
                 Arrays.asList(environment.getActiveProfiles()).contains("benc");
     }

@@ -1,12 +1,12 @@
 async function updateContent(cartId, locatorNumber, isIncrement) {
     // Update the Cart then get the new fragments from the back-end
     let data = "";
-    const inputId = document.getElementById(`input-number-${locatorNumber}`);
-    // Convert input value to integer (max 3 digets)
+    const inputId = await document.getElementById(`input-number-${locatorNumber}`);
+    // Convert input value to integer (max 3 digits)
     const inputValue = parseInt(inputId.value, 3);
     // Check if input is valid
-    if (inputValue !== null && isValidInput(inputValue)) {
-        const action = await isIncrement ? 'increment' : 'decrement';
+    if (isValidInput(inputValue)) {
+        const action = isIncrement ? 'increment' : 'decrement';
         const url = window.location.origin + `/Cart/${action}/` + cartId;
         data = await fetchContent(url);
     }
@@ -49,7 +49,7 @@ async function deleteContent(cartId) {
     // Update the Cart then get the new fragments from the back-end
     let data = "";
     const url = window.location.origin + '/Cart/delete/' + cartId;
-    
+
     data = await fetchContent(url);
 
     // Check if the content is valid then swap the old content with the new
@@ -63,15 +63,15 @@ async function deleteContent(cartId) {
 
 async function fetchContent(url) {
     let newData = "";
-    // csrf variable is get by model attribute
+    // csrf variable is got by model attribute
     await fetch(url, {
         method: "POST",
         redirect: "follow",
-        headers: { [csrfHeader]: csrfToken }
+        headers: {[csrfHeader]: csrfToken}
     })
-    .then((response) => response.text())
-    .then((content) => (newData = content))
-    .catch((error) => console.error("Error: " + error));
+        .then((response) => response.text())
+        .then((content) => (newData = content))
+        .catch((error) => console.error("Error: " + error));
     // console.log("data: " + data);
 
     return newData;
@@ -128,12 +128,12 @@ async function swapContent(data) {
     }
 }
 
-async function isValidInput(inputValue, isIncrement) {
-    const MIN_VALUE_INPUT = 1, MAX_VALUE_INPUT = 20;
-    if (isIncrement) {
-        inputValue++;
-    } else {
-        inputValue--;
+async function isValidInput(inputValue) {
+    if (inputValue !== null) {
+        const MIN_VALUE_INPUT = 1, MAX_VALUE_INPUT = 20;
+        if (inputValue > MIN_VALUE_INPUT && inputValue < MAX_VALUE_INPUT) {
+            return true;
+        }
     }
-    return await inputValue > MIN_VALUE_INPUT && inputValue <= MAX_VALUE_INPUT;
+    return false;
 }

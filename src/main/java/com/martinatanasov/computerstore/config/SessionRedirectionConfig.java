@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,19 +13,21 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.controllers;
+package com.martinatanasov.computerstore.config;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
-@Controller
-@PreAuthorize("hasRole('MANAGER')")
-public class ManagerController {
+@Configuration
+public class SessionRedirectionConfig {
 
-    @GetMapping("/Management")
-    public String manager(Model model){
-        return "Management/management";
+    /**
+     * Save to cache the previous URL if login is required
+     */
+    @Bean
+    public HttpSessionRequestCache requestCache() {
+        return new HttpSessionRequestCache();
     }
+
 }

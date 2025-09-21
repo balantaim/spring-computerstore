@@ -2,7 +2,7 @@
 const scrollToTopButton = document.getElementById('scrollToTopBtn');
 
 // Function to show the scroll-to-top button when scrolling down by more than 100vh
-window.onscroll = function() {
+window.onscroll = function () {
     if (scrollToTopButton !== null) {
         if (document.body.scrollTop > window.innerHeight || document.documentElement.scrollTop > window.innerHeight) {
             scrollToTopButton.style.display = 'block';

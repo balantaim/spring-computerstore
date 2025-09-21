@@ -22,7 +22,6 @@ import com.martinatanasov.computerstore.repositories.RoleDao;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,16 +38,9 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private final UserDao userDao;
-
-    @Autowired
     private final RoleDao roleDao;
-
-    @Autowired
     private final PaymentCustomerService paymentCustomerService;
-
-    @Autowired
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override

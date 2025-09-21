@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,7 +19,6 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.UserFailedAttempts;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +31,6 @@ public class BruteForceProtectionServiceImpl implements BruteForceProtectionServ
 
     @Value("${security.max.login.attempts}")
     private Byte maxFailedLogins;
-
-    @Autowired
     private final UserDao userDao;
 
     @Override

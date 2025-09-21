@@ -24,7 +24,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-//Enable logging only for test environment
+//Enable logging only for test and benc environment
 @Profile(value = {"test", "benc"})
 @Slf4j
 @Aspect

@@ -33,5 +33,4 @@ public class AuthenticationFailureEventListener implements ApplicationListener<A
         bruteForceProtectionService.registerLoginFailure(username);
     }
 
-
 }

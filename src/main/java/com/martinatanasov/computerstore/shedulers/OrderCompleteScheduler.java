@@ -53,8 +53,7 @@ public class OrderCompleteScheduler {
                 .toList();
         if (!orders.isEmpty()) {
             orders.forEach(index -> {
-                //Todo get last modified date instead of order created date
-                if(isOrderFinalized(index.getOrderDate())) {
+                if(isOrderFinalized(index.getModifyDate())) {
                     index.setStatus(OrderStatus.ORDER_COMPLETED);
                     final Order updatedOrder = orderRepository.save(index);
                     log.info("Updated order: Order completed: {}", updatedOrder.getId());
