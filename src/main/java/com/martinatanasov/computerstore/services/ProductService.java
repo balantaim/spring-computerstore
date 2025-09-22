@@ -41,4 +41,6 @@ public interface ProductService {
 
     Optional<Product> getProductByName(String productName);
 
+    Product updateProductFromManagement(Integer id, Boolean isVisible, Boolean isSearchable);
+
 }

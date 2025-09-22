@@ -18,7 +18,6 @@ package com.martinatanasov.computerstore.model;
 import com.martinatanasov.computerstore.entities.Category;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public record ProductManagementDTO(
@@ -27,7 +26,7 @@ public record ProductManagementDTO(
         String productName,
         String description,
         String producer,
-        BigDecimal price,
+        String price,
         @NotNull
         Integer stock,
         String imageUrl,

@@ -15,9 +15,10 @@
 
 package com.martinatanasov.computerstore.services;
 
-import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.entities.Product;
+import com.martinatanasov.computerstore.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,16 +29,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    //private final CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, CacheManager cacheManager) {
         this.productRepository = productRepository;
-        //this.cacheManager = cacheManager;
+        //Cache manager is used to update the cache properly
+        this.cacheManager = cacheManager;
     }
 
     @Override
@@ -88,6 +91,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> getProductByName(String productName) {
         return productRepository.findFirstByProductNameIgnoreCase(productName);
+    }
+
+    @Override
+    public Product updateProductFromManagement(final Integer id, final Boolean isVisible, final Boolean isSearchable) {
+        Optional<Product> product = productRepository.findProductById(id);
+        if (product.isPresent()) {
+            product.get().setIsVisible(isVisible);
+            product.get().setIsSearchable(isSearchable);
+            //Update the product
+            productRepository.save(product.get());
+            //Update the cache
+            cacheManager.getCache("productCache").evict(id);
+            cacheManager.getCache("productListCache").clear();
+            return product.get();
+        }
+        return null;
     }
 
     public PageRequest buildPageRequest(Integer pageNumber, Integer pageSize, String sortValue) {

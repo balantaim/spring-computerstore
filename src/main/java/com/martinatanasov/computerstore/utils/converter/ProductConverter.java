@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Component
 public class ProductConverter {
 
-    public List<StoreItemDTO> convertToStoreItems(final List<Product> products){
+    public List<StoreItemDTO> convertToStoreItems(final List<Product> products) {
         return products.stream()
                 .map(i -> new StoreItemDTO(i.getId(),
                         i.getProductName(),
@@ -47,7 +47,7 @@ public class ProductConverter {
                 .collect(Collectors.toList());
     }
 
-    public Page<StoreItemDTO> convertToStoreItems(final Page<Product> products){
+    public Page<StoreItemDTO> convertToStoreItems(final Page<Product> products) {
         return products
                 .map(i -> new StoreItemDTO(i.getId(),
                         i.getProductName(),
@@ -64,7 +64,7 @@ public class ProductConverter {
                 ));
     }
 
-    public StoreItemDTO convertToSingleItem(final Product product){
+    public StoreItemDTO convertToSingleItem(final Product product) {
         return new StoreItemDTO(product.getId(),
                 product.getProductName(),
                 product.getDescription(),
@@ -79,29 +79,29 @@ public class ProductConverter {
                 product.getProductSpecifications());
     }
 
-    public GalleryDTO convertToGalleryItem(final Gallery gallery){
+    public GalleryDTO convertToGalleryItem(final Gallery gallery) {
         return new GalleryDTO(gallery.getId(), gallery.getImageUrl());
     }
 
     public Page<ProductManagementDTO> productToProductManagementDTO(final Page<Product> products) {
         return products.map(product ->
-            new ProductManagementDTO(
-                product.getId(),
-                product.getProductName(),
-                product.getDescription(),
-                product.getProducer(),
-                product.getPrice(),
-                product.getStock(),
-                product.getImageUrl(),
-                product.getCreationDate(),
-                product.getModifyDate(),
-                product.getIsVisible(),
-                product.getIsSearchable(),
-                product.getProductNumber(),
-                product.getCompatibleWith(),
-                product.getBarcodeUtc(),
-                product.getCategory()
-            )
+                new ProductManagementDTO(
+                        product.getId(),
+                        product.getProductName(),
+                        product.getDescription(),
+                        product.getProducer(),
+                        String.format("%.2f", product.getPrice()),
+                        product.getStock(),
+                        product.getImageUrl(),
+                        product.getCreationDate(),
+                        product.getModifyDate(),
+                        product.getIsVisible(),
+                        product.getIsSearchable(),
+                        product.getProductNumber(),
+                        product.getCompatibleWith(),
+                        product.getBarcodeUtc(),
+                        product.getCategory()
+                )
         );
     }
 

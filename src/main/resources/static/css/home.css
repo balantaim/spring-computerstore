@@ -1,17 +1,19 @@
-        body {
-            background-image: url('/images/home/home1140x640.jpg');
-            background-color: black;
-            background-repeat:no-repeat;
-            background-attachment:fixed;
-            background-size:100% 100%;
-        }
-        @media screen and (orientation:landscape){
-            body {
-                background-image: url('/images/home/home1140x640.jpg');
-            }
-        }
-        @media screen and (orientation:portrait){
-            body {
-                background-image: url('/images/home/home640x1140.jpg');
-            }
-        }
+body {
+    background-image: url('/images/home/home1140x640.jpg');
+    background-color: black;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+@media screen and (orientation: landscape) {
+    body {
+        background-image: url('/images/home/home1140x640.jpg');
+    }
+}
+
+@media screen and (orientation: portrait) {
+    body {
+        background-image: url('/images/home/home640x1140.jpg');
+    }
+}

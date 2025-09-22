@@ -111,7 +111,6 @@ public class AdministrationController {
     public String setPassword(@RequestParam final String email,
                               @RequestParam final String newPassword,
                               Model model) {
-
         boolean isNewPasswordCreated = userService.setNewPassword(email, newPassword);
         if (isNewPasswordCreated) {
             model.addAttribute("status", "success");

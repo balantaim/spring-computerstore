@@ -17,11 +17,9 @@ package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.Category;
 import com.martinatanasov.computerstore.entities.Product;
-import com.martinatanasov.computerstore.model.ProductManagementDTO;
 import com.martinatanasov.computerstore.services.CategoryService;
 import com.martinatanasov.computerstore.services.ProductService;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
 @Controller
@@ -77,35 +76,19 @@ public class ManagementController {
     }
 
     @PostMapping("/Management/update/{category}/{id}")
-    public String updateProduct(Model model,
-                                @PathVariable Integer id,
+    public String updateProduct(@PathVariable Integer id,
                                 @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
                                 @RequestParam(required = false, defaultValue = "3") Integer pageSize,
                                 @RequestParam(required = false, defaultValue = "asc") String sortValue,
                                 @PathVariable("category") String categoryName,
-                                @Valid @ModelAttribute("productManagementDTO") ProductManagementDTO productManagementDTO) {
-
-        //Todo Update Product
-
-        Optional<Category> category = categoryService.getCategoryByName(categoryName);
-        short categoryId;
-        if (category.isEmpty() || category.get().getIsVisible() == false) {
-            return NOT_FOUND_PAGE;
-        } else {
-            categoryId = category.get().getId();
+                                @RequestParam("isVisible") Boolean isVisible,
+                                @RequestParam("isSearchable") Boolean isSearchable) {
+        if (id != null && isVisible != null && isSearchable != null && categoryName != null) {
+            productService.updateProductFromManagement(id, isVisible, isSearchable);
+            //Redirect to previous page
+            return "redirect:/Management/" + categoryName + "?pageNumber=" + pageNumber + "&pageSize=" + pageSize + "&sortValue=" + sortValue;
         }
-        final Page<Product> products = productService.findAllByCategoryId(categoryId, pageNumber, pageSize, sortValue);
-
-        if (products != null) {
-            model.addAttribute("products", productConverter.productToProductManagementDTO(products));
-            model.addAttribute("categoryName", categoryName);
-            model.addAttribute("pageNumber", pageNumber);
-            model.addAttribute("pageSize", pageSize);
-            model.addAttribute("sortValue", sortValue);
-            model.addAttribute("totalPages", products.getTotalPages());
-            model.addAttribute("totalItems", products.getTotalElements());
-        }
-        return "Management/management-products";
+        return GLOBAL_ERROR_PAGE;
     }
 
 }
