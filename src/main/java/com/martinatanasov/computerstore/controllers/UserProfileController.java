@@ -19,12 +19,13 @@ package com.martinatanasov.computerstore.controllers;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.ProfileAddressDTO;
 import com.martinatanasov.computerstore.model.ProfilePasswordDTO;
+import com.martinatanasov.computerstore.model.ReviewDTO;
+import com.martinatanasov.computerstore.services.ReviewService;
 import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.utils.converter.AddressConverter;
+import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +35,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/Profile")
@@ -41,6 +44,8 @@ public class UserProfileController {
 
     private final UserService userService;
     private final AddressConverter addressConverter;
+    private final ReviewService reviewService;
+    private final UserAuthentication userAuthentication;
 
     @GetMapping("")
     public String profile(Model model){
@@ -57,8 +62,7 @@ public class UserProfileController {
     @GetMapping("/address")
     public String addressInfo(Model model){
         //Get username/email
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName(); // Get logged-in username
+        final String userName = userAuthentication.getUsernameFromAuthentication();
         User user = userService.findByUserName(userName);
 
         model.addAttribute("profileAddress", new ProfileAddressDTO());
@@ -72,8 +76,7 @@ public class UserProfileController {
                                      BindingResult bindingResult,
                                      Model model){
         //Get username/email
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final String userName = authentication.getName(); // Get logged-in username
+        final String userName = userAuthentication.getUsernameFromAuthentication();
         final User user = userService.findByUserName(userName);
         //Update user's data
         if(profileAddressDTO == null || bindingResult.hasErrors()){
@@ -120,8 +123,7 @@ public class UserProfileController {
             return "UserProfile/manage-password";
         }
         //Get username
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
+        final String userName = userAuthentication.getUsernameFromAuthentication();
         boolean isPasswordUpdated = userService.changePassword(userName, profilePasswordDTO.getOldPassword(), profilePasswordDTO.getNewPassword());
         //Check if the password is updated successfully
         if(!isPasswordUpdated){
@@ -131,5 +133,20 @@ public class UserProfileController {
         model.addAttribute("status", "pass-updated");
         return "UserProfile/profile";
     }
+
+    @GetMapping("/reviews")
+    public String getReviewsByUser(Model model) {
+        final String userName = userAuthentication.getUsernameFromAuthentication();
+        if (userName != null) {
+            // Retrieve all reviews from the database
+            final List<ReviewDTO> reviews = reviewService.findReviewsByUser(userName);
+            if (!reviews.isEmpty()) {
+                model.addAttribute("reviews", reviews);
+            }
+        }
+        return  "UserProfile/reviews";
+    }
+
+
 
 }

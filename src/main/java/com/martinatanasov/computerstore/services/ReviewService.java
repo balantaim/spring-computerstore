@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +17,9 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.ProductReviewsDTO;
+import com.martinatanasov.computerstore.model.ReviewDTO;
+
+import java.util.List;
 
 public interface ReviewService {
 
@@ -25,5 +28,7 @@ public interface ReviewService {
     ProductReviewsDTO getProductAverageRating(Product product);
 
     boolean voteForProduct(String username, Integer productId, Double vote);
+
+    List<ReviewDTO> findReviewsByUser(String email);
 
 }

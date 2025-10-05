@@ -15,7 +15,7 @@
 
 <div th:fragment="rating-value(showResult)">
   <h4 id="rating-value" class="pt-2 is-skeleton">
-    <span th:if="${showResult == 'true'}">[[#{vote.reviews.count}]] [[${reviews.reviewsCount}]], </span>
+    <span th:if="${showResult == 'true'}">[[#{vote.reviews.count}]]: [[${reviews.reviewsCount}]], </span>
     <span id="vote-number"></span> <span id="vote-suffix" class="is-hidden" th:text="#{vote.star.count}"></span>
   </h4>
 </div>

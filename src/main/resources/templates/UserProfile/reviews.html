@@ -1,0 +1,91 @@
+<!--
+  ~ Copyright 2024-2025 Martin Atanasov.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<!-- data-theme="light" -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
+<head th:replace="~{fragments/head :: head(~{::title})}">
+    <title>Reviews</title>
+</head>
+<body>
+<!-- NAVBAR -->
+<div th:replace="~{fragments/top-navigation-bar :: nav('')}"></div>
+
+<!-- Search Column -->
+<div th:replace="~{fragments/search-column :: search-column}"></div>
+
+<!--MAIN Content Start-->
+<div class="main">
+
+    <div class="columns is-centered is-gapless mt-6">
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+
+        <div class="column mr-1 ml-1">
+
+            <!-- Back button-->
+            <div>
+                <a th:href="@{/Profile}" class="is-info" role="button" aria-pressed="true" style="color: var(--txt-color);">
+                    <span class="icon is-small ml-3 mt-3"><i class="fas fa-reply fa-lg"></i></span>
+                </a>
+            </div>
+            <!-- Header -->
+            <h1 class="has-text-centered pt-5 pb-5 is-size-2"
+                th:text="#{vote.reviews.count}"
+                th:if="${reviews}"></h1>
+
+            <!-- Review content -->
+            <div th:if="${reviews}" th:each="review : ${reviews}" class="columns is-gapless">
+                <div class="column is-flex is-justify-content-center is-align-items-center">
+                    <span class="icon">
+                        <i class="fa-solid fa-star"></i>
+                    </span>
+                </div>
+
+                <div class="column mt-2 ml-1 is-11">
+                    <p><b>[[#{table.product.name}]]:</b> [[${review.productName}]]</p>
+                    <p><b>[[#{vote.star.header}]]:</b> [[${review.vote}]]</p>
+                    <p><b>[[#{table.user.created}]]</b> [[${#dates.format(review.creationDate, 'dd.MM.yyyy, HH:mm')}]]</p>
+                </div>
+            </div>
+
+            <!-- No data -->
+            <div th:unless="${reviews}" class="has-text-centered is-12">
+                <div>
+                    <h1 class="is-size-1">[[#{review.not-found}]]</h1>
+                    <div class="space"></div>
+                    <a th:href="@{/}" class="is-size-3">[[#{nav.home}]]</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="column is-mobile-1 is-table-3 is-desktop-4 is-widescreen-5 is-3"></div>
+    </div>
+
+    <div class="space"></div>
+
+    <button id="scrollToTopBtn" class="button is-primary" th:title="#{btn.title.go.top}"><i class="fa-solid fa-arrow-up"></i></button>
+</div>
+<!--MAIN Content End-->
+
+
+<!--FOOTER-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+</html>

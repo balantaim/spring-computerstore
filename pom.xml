@@ -25,11 +25,11 @@
 	</parent>
 	<groupId>com.martinatanasov</groupId>
 	<artifactId>computerstore</artifactId>
-	<version>1.1.5</version>
+	<version>1.2.6</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 
-	<url>http://computer-store.eu-north-1.elasticbeanstalk.com</url>
+	<url>http://computer-store-demo.eu-north-1.elasticbeanstalk.com</url>
 	<licenses>
 		<license>
 			<name>Apache 2.0</name>
@@ -41,7 +41,7 @@
 		<developer>
 			<name>Martin Atanasov</name>
 			<roles>
-				<role>Fullstack developer</role>
+				<role>Software Developer</role>
 			</roles>
 		</developer>
 	</developers>

@@ -19,25 +19,24 @@ import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.entities.Review;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.ProductReviewsDTO;
+import com.martinatanasov.computerstore.model.ReviewDTO;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.ReviewRepository;
 import com.martinatanasov.computerstore.repositories.UserDaoImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    private final  ReviewRepository reviewRepository;
-    private final  ProductRepository productRepository;
-    private final  UserDaoImpl userRepository;
+    private final ReviewRepository reviewRepository;
+    private final ProductRepository productRepository;
+    private final UserDaoImpl userRepository;
 
     @Override
     public ProductReviewsDTO getProductAverageRating(final String email, final Product product) {
@@ -87,7 +86,7 @@ public class ReviewServiceImpl implements ReviewService {
         if (user != null && product.isPresent() && vote != null) {
             //Check if user is already voted
             Optional<Review> getUserVote = reviewRepository.findByUserAndProduct(user, product.get());
-            if(getUserVote.isEmpty()){
+            if (getUserVote.isEmpty()) {
                 Review review = Review.builder()
                         .product(product.get())
                         .user(user)
@@ -101,7 +100,22 @@ public class ReviewServiceImpl implements ReviewService {
         return false;
     }
 
-    private double formatAverageVote(Set<Review> reviews){
+    @Override
+    public List<ReviewDTO> findReviewsByUser(final String email) {
+        final User user = userRepository.findByUserName(email);
+        if (user.getId() != null) {
+            List<Review> data = reviewRepository.findByUserId(user.getId());
+            return data.stream()
+                    .map(i -> new ReviewDTO(
+                            i.getVote(),
+                            i.getCreationDate(),
+                            i.getProduct().getProductName()
+                    )).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    private double formatAverageVote(Set<Review> reviews) {
         double vote = reviews.stream()
                 .mapToDouble(Review::getVote)
                 .average()
