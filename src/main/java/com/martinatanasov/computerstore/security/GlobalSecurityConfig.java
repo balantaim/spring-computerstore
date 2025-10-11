@@ -61,7 +61,7 @@ public class GlobalSecurityConfig {
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
             "form-action 'self' https://checkout.stripe.com; " +
             "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-            "connect-src 'self'; " +
+            "connect-src 'self' https://cdn.jsdelivr.net; " +
             "img-src 'self' https://img.icons8.com https://ardes.bg https://preview.redd.it data: ; " +
             "manifest-src 'self'; " +
             "font-src 'self' https://cdnjs.cloudflare.com data: https://cdn.jsdelivr.net; " +

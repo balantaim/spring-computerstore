@@ -53,7 +53,7 @@
 
                 <!--EMAIL-->
                 <div class="field ml-4 mr-4">
-                    <label class="label">[[#{form.label.email}]]<span class="has-text-danger">*</span></label>
+                    <label class="label" for="email">[[#{form.label.email}]]<span class="has-text-danger">*</span></label>
                     <div class="control has-icons-left has-icons-right">
                         <input th:field="*{email}"
                                class="input is-skeleton"
@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="field ml-4 mr-4">
-                    <label class="label">[[#{form.label.firstname}]]</label>
+                    <label class="label" for="firstName">[[#{form.label.firstname}]]</label>
                     <div class="control has-icons-left has-icons-right">
                         <input th:field="*{firstName}"
                                class="input is-skeleton"
@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="field ml-4 mr-4">
-                    <label class="label">[[#{form.label.lastname}]]</label>
+                    <label class="label" for="lastName">[[#{form.label.lastname}]]</label>
                     <div class="control has-icons-left has-icons-right">
                         <input th:field="*{lastName}"
                                class="input is-skeleton"
@@ -139,7 +139,7 @@
                 </div>
                 <!--PASS-->
                 <div class="field ml-4 mr-4">
-                    <label class="label">[[#{form.label.password}]]<span class="has-text-danger">*</span></label>
+                    <label class="label" for="password">[[#{form.label.password}]]<span class="has-text-danger">*</span></label>
                     <div class="control has-icons-left has-icons-right">
                         <input th:field="*{password}"
                                class="input is-skeleton"
@@ -168,7 +168,7 @@
                 </div>
 
                 <div class="field ml-4 mr-4">
-                    <label class="label">[[#{form.label.re-password}]]<span class="has-text-danger">*</span></label>
+                    <label class="label" for="repeatPassword">[[#{form.label.re-password}]]<span class="has-text-danger">*</span></label>
                     <div class="control has-icons-left has-icons-right">
                         <input th:field="*{repeatPassword}"
                                class="input is-skeleton"
@@ -176,7 +176,7 @@
                                type="password"
                                name="repeatPassword"
                                id="repeatPassword"
-                               autocomplete="confirm-password"
+                               autocomplete="new-password"
                                th:placeholder="#{form.placeholder.rePassword}">
                         <!--Left icon-->
                         <span class="icon is-small is-left">

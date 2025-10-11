@@ -415,6 +415,16 @@ div > .circle-count {
     user-select: none;
 }
 
+div.custom-image > figure {
+    aspect-ratio: 4 / 3;
+    background-color: var(--bulma-scheme-main);
+}
+
+.custom-image {
+    position: relative;
+    overflow: hidden;
+}
+
 @keyframes drop-anim {
     0% {
         transform: scaleY(.1) translateY(-100px);
@@ -473,11 +483,13 @@ div > .circle-count {
         max-width: 90%;
     }
 
+    .card-image {
+        max-height: 336px;
+    }
+
     .custom-image {
         min-height: calc(100vh * 0.36);
         max-height: calc(100vh * 0.36);
-        position: relative;
-        overflow: hidden;
     }
 
     .slider-container {
@@ -498,11 +510,18 @@ div > .circle-count {
         max-width: calc(100vw * 0.18);
     }
 
+    div.custom-image > figure {
+        aspect-ratio: 2 / 3;
+    }
+
+    .card > div.card-image {
+        min-height: 140px;
+        max-height: 320px;
+    }
+
     .custom-image {
-        min-height: calc(100vh * 0.36);
-        max-height: calc(100vh * 0.36);
-        position: relative;
-        overflow: hidden;
+        min-height: calc(100vh * 0.56);
+        max-height: calc(100vh * 0.66);
     }
 
     .slider-container {
@@ -523,11 +542,13 @@ div > .circle-count {
         max-width: calc(100vw * 0.19);
     }
 
+    .card > div.card-image {
+        min-height: 300px;
+    }
+
     .custom-image {
         min-height: calc(100vh * 0.33);
         max-height: calc(100vh * 0.33);
-        position: relative;
-        overflow: hidden;
     }
 
     .slider-container {
@@ -547,14 +568,9 @@ div > .circle-count {
     .custom-image {
         min-height: calc(100vh * 0.28);
         max-height: calc(100vh * 0.28);
-        position: relative;
-        overflow: hidden;
     }
 
     .slider-container {
         margin: 0 28px 0 28px;
     }
 }
-
-
-

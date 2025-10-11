@@ -1,5 +1,10 @@
 // View an image.
 const mainImage = new Viewer(document.getElementById('prime-image'), {
+    hidden() {
+        // Move focus back to a visible element (Manually reset focus when closing the image)
+        document.activeElement.blur();
+        document.body.focus();
+    },
     //zoomable: false,
     movable: false,
     navbar: false,
@@ -23,12 +28,17 @@ const mainImage = new Viewer(document.getElementById('prime-image'), {
 });
 // Then, show the image by clicking it, or call `viewer.show()`.
 
-//Check if the gallery container exist and the initiate the gallery
+//Check if the gallery container exist and then initiate the gallery
 const galleryLocator = document.getElementById('images');
 if (galleryLocator !== null) {
     // View a list of images.
     // Note: All images within the container will be found by calling `element.querySelectorAll('img')`.
     const gallery = new Viewer(galleryLocator, {
+        hidden() {
+            // Move focus back to a visible element (Manually reset focus when closing the image)
+            document.activeElement.blur();
+            document.body.focus();
+        },
         title: function (image) {
             return image.alt + ' (' + (this.index + 1) + '/' + this.length + ')';
         },

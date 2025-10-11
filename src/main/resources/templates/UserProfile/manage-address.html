@@ -44,7 +44,7 @@
             <form action="#" th:action="@{/Profile/update-address}" th:object="${profileAddress}" method="POST">
 
                 <div class="field ml-4 mr-4">
-                    <label class="label">[[#{form.firstname}]]</label>
+                    <label class="label" for="firstName">[[#{form.firstname}]]</label>
                     <div class="control has-icons-left has-icons-right">
                         <input class="input is-skeleton"
                                id="firstName"
@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="field ml-4 mr-4 pt-4">
-                    <label class="label">[[#{form.lastname}]]</label>
+                    <label class="label" for="lastName">[[#{form.lastname}]]</label>
                     <!--Left icon-->
                     <div class="control has-icons-left has-icons-right">
                         <input class="input is-skeleton"
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="field ml-4 mr-4 pt-4">
-                    <label class="label">[[#{form.phone}]]</label>
+                    <label class="label" for="phoneNumber">[[#{form.phone}]]</label>
                     <div class="control has-icons-left has-icons-right pb-2">
                         <input class="input is-skeleton"
                                id="phoneNumber"
@@ -124,9 +124,9 @@
                 </div>
 
                 <div class="field ml-4 mr-4 mt-6 field-select">
-                        <p class="form-text has-text-weight-bold pt-2 pb-2 mr-4 is-pulled-left">[[#{form.country}]]</p>
+                        <label for="countyCode" class="form-text has-text-weight-bold pt-2 pb-2 mr-4 is-pulled-left">[[#{form.country}]]</label>
                         <div class="select is-pulled-right">
-                            <select name="countyCode">
+                            <select name="countyCode" id="countyCode">
                                 <option th:each="country, iStat : ${countries}"
                                         th:id="${iStat.index}"
                                         th:text="${country.name}"
@@ -137,7 +137,7 @@
                 </div>
 
                 <div class="field ml-4 mr-4 pt-6">
-                    <p class="form-text has-text-weight-bold pt-2 pb-2 mr-4">[[#{form.address}]]</p>
+                    <label for="textarea" class="form-text has-text-weight-bold pt-2 pb-2 mr-4">[[#{form.address}]]</label>
                     <textarea id="textarea"
                               class="textarea is-skeleton"
                               maxlength="255"
