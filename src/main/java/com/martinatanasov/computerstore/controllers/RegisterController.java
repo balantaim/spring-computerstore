@@ -50,8 +50,8 @@ public class RegisterController {
     }
 
     @GetMapping("/RegisterForm")
-    public String register(Model model){
-        model.addAttribute("active","Register");
+    public String register(Model model) {
+        model.addAttribute("active", "Register");
         model.addAttribute("appUserDTO", new AppUserDTO());
         return "Register/register";
     }
@@ -66,21 +66,21 @@ public class RegisterController {
         String userName = appUserDTO.getEmail();
 
         String errorMessage = "";
-        if(appUserDTO.getPassword() != null && appUserDTO.getRepeatPassword() != null){
-            if(!appUserDTO.getRepeatPassword().equals(appUserDTO.getPassword())){
+        if (appUserDTO.getPassword() != null && appUserDTO.getRepeatPassword() != null) {
+            if (!appUserDTO.getRepeatPassword().equals(appUserDTO.getPassword())) {
                 errorMessage = "PassMatcher";
                 ObjectError error = new ObjectError("globalError", errorMessage);
                 bindingResult.addError(error);
             }
         }
         // form validation
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("status", "error");
             return "Register/register";
         }
         // check the database if user already exists
         User existing = userService.findByUserName(userName);
-        if (existing != null){
+        if (existing != null) {
             //model.addAttribute("webUser", new WebUser());
             errorMessage = "UserExist";
             ObjectError error = new ObjectError("globalError", errorMessage);

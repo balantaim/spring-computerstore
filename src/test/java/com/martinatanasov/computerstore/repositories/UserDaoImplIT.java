@@ -37,7 +37,7 @@ class UserDaoImplIT {
 
     @Test
     @DisplayName(value = "Get basic user")
-    void getCustomerDetails(){
+    void getCustomerDetails() {
         User user = userDao.findByUserName("abv@abv.bg");
 
         String role = user.getRoles().stream().findFirst().get().getAuthority();
@@ -48,7 +48,7 @@ class UserDaoImplIT {
 
     @Test
     @DisplayName(value = "Get manager user")
-    void getManagerDetails(){
+    void getManagerDetails() {
         User user = userDao.findByUserName("manager@abv.bg");
 
         String role = user.getRoles().stream().skip(1).findFirst().get().getAuthority();
@@ -59,7 +59,7 @@ class UserDaoImplIT {
 
     @Test
     @DisplayName(value = "Get admin user")
-    void getAdminDetails(){
+    void getAdminDetails() {
         User user = userDao.findByUserName("admin@abv.bg");
 
         String role = user.getRoles().stream().skip(2).findFirst().get().getAuthority();
@@ -71,7 +71,7 @@ class UserDaoImplIT {
     @Test
     @Order(1)
     @DisplayName(value = "Create customer user")
-    void createCustomerUser(){
+    void createCustomerUser() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         User user = new User();
         user.setEmail("testcustomer.default@abv.bg");
@@ -99,7 +99,7 @@ class UserDaoImplIT {
     @Test
     @Order(2)
     @DisplayName(value = "Delete customer account")
-    void deleteCustomerUser(){
+    void deleteCustomerUser() {
         final String email = "testcustomer.default@abv.bg";
         userDao.deleteByUserEmail(email);
         User returedUser = userDao.findByUserName(email);

@@ -39,7 +39,6 @@ import java.util.*;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
-
 @Controller
 @PreAuthorize("hasRole('CUSTOMER')")
 @RequestMapping("/Cart")
@@ -52,12 +51,12 @@ public class CartController {
     public final static BigDecimal SHIPPING_ESTIMATE = BigDecimal.valueOf(5.00);
 
     @GetMapping("")
-    public String cartItems(Model model, HttpServletRequest request){
+    public String cartItems(Model model, HttpServletRequest request) {
         String username = userAuthentication.getUsernameFromAuthentication();
 
         Iterable<Cart> cartItems = cartService.getAllItems(username);
 
-        if (cartItems != null && cartItems.iterator().hasNext()){
+        if (cartItems != null && cartItems.iterator().hasNext()) {
             //Convert Entities to DTOs
             final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
             //Add cart products
@@ -80,12 +79,12 @@ public class CartController {
 
     @PostMapping("")
     public String addToCard(Model model,
-                            @RequestParam(value = "promoCode", required = false) String promoCode,
-                            @RequestParam(value = "itemId") Integer itemId,
-                            HttpServletRequest request,
-                            HttpSession session){
+            @RequestParam(value = "promoCode", required = false) String promoCode,
+            @RequestParam(value = "itemId") Integer itemId,
+            HttpServletRequest request,
+            HttpSession session) {
         //Check if the product ID is valid
-        if(itemId == null){
+        if (itemId == null) {
             return GLOBAL_ERROR_PAGE;
         }
 
@@ -96,7 +95,7 @@ public class CartController {
         //Get all carts
         Iterable<Cart> cartItems = cartService.getAllItems(username);
 
-        if (cartItems != null && cartItems.iterator().hasNext()){
+        if (cartItems != null && cartItems.iterator().hasNext()) {
             //Convert Entities to DTOs
             final Set<CardItemDTO> products = cartConverter.convertCartEntityToCartDTO(cartItems);
             //Update session count
@@ -106,8 +105,8 @@ public class CartController {
             model.addAttribute("products", products);
             //Add order summary
             model.addAttribute("orderSummary", calculateOrderSummary(products));
-            if(promoCode != null){
-                if(promoCode.length() > 3){
+            if (promoCode != null) {
+                if (promoCode.length() > 3) {
                     model.addAttribute("promoCode", promoCode);
                 }
             }
@@ -117,7 +116,7 @@ public class CartController {
     }
 
     @PostMapping("/clear")
-    public String deleteAll(HttpSession session){
+    public String deleteAll(HttpSession session) {
         final String username = userAuthentication.getUsernameFromAuthentication();
         //Delete all Cart items
         cartService.deleteAllItems(username);
@@ -129,14 +128,14 @@ public class CartController {
 
     @PostMapping("/delete/{id}")
     public Collection<ModelAndView> deleteCartItem(@PathVariable("id") Long id,
-                                                   HttpServletRequest request,
-                                                   HttpSession session){
+            HttpServletRequest request,
+            HttpSession session) {
         final String username = userAuthentication.getUsernameFromAuthentication();
         //Delete all Cart items
         cartService.deleteSingleItem(username, id);
         //Return to the fragment views
         Iterable<Cart> cartItems = cartService.getAllItems(username);
-        if (cartItems != null && cartItems.iterator().hasNext()){
+        if (cartItems != null && cartItems.iterator().hasNext()) {
             //Update session count
             var cartCount = session.getAttribute("cart-items-count") == null ? 0 : (Integer) session.getAttribute("cart-items-count");
             session.setAttribute("cart-items-count", cartCount - 1);
@@ -153,33 +152,33 @@ public class CartController {
     }
 
     @PostMapping("/increment/{id}")
-    public Collection<ModelAndView> incrementCartQuantity(@PathVariable("id") Long id, HttpServletRequest request){
+    public Collection<ModelAndView> incrementCartQuantity(@PathVariable("id") Long id, HttpServletRequest request) {
         //Increment cart quantity
         cartService.updateCartQuantity(id, true);
 
         String username = userAuthentication.getUsernameFromAuthentication();
         Iterable<Cart> cartItems = cartService.getAllItems(username);
-        if(cartItems != null && cartItems.iterator().hasNext()){
+        if (cartItems != null && cartItems.iterator().hasNext()) {
             return getCartAndSummary(cartItems, request);
         }
         return null;
     }
 
     @PostMapping("/decrement/{id}")
-    public Collection<ModelAndView> decrementCartQuantity(@PathVariable("id") Long id, HttpServletRequest request){
+    public Collection<ModelAndView> decrementCartQuantity(@PathVariable("id") Long id, HttpServletRequest request) {
         //Decrement cart quantity
         cartService.updateCartQuantity(id, false);
 
         String username = userAuthentication.getUsernameFromAuthentication();
         Iterable<Cart> cartItems = cartService.getAllItems(username);
-        if(cartItems != null && cartItems.iterator().hasNext()){
+        if (cartItems != null && cartItems.iterator().hasNext()) {
             return getCartAndSummary(cartItems, request);
         }
         return null;
     }
 
     private OrderSummaryDTO calculateOrderSummary(Set<CardItemDTO> products) {
-        if (products.isEmpty()){
+        if (products.isEmpty()) {
             return null;
         } else {
             final DecimalFormat formatter = new DecimalFormat("#0.00");
@@ -192,7 +191,7 @@ public class CartController {
             }
             return new OrderSummaryDTO(
                     formatter.format(orderTotal.divide(new BigDecimal(products.size()), RoundingMode.CEILING)),
-                    SHIPPING_ESTIMATE != null ? formatter.format(SHIPPING_ESTIMATE):null,
+                    SHIPPING_ESTIMATE != null ? formatter.format(SHIPPING_ESTIMATE) : null,
                     //Show price without 20% DDS tax
                     formatter.format(orderTotal.multiply(new BigDecimal("0.80"))),
                     null,
@@ -215,7 +214,7 @@ public class CartController {
         );
     }
 
-    private CsrfToken getCSRFToken(HttpServletRequest request){
+    private CsrfToken getCSRFToken(HttpServletRequest request) {
         if (request != null) {
             if (request.getAttribute(CsrfToken.class.getName()) != null) {
                 return (CsrfToken) request.getAttribute(CsrfToken.class.getName());

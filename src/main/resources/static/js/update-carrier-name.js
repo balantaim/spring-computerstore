@@ -1,4 +1,3 @@
-
 function updateCarrierText() {
     //Get checked radio button
     const carrierRadioButton = document.querySelector('input[name="carrier"]:checked');

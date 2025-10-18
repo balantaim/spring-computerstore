@@ -119,8 +119,8 @@ public class CheckoutController {
 
     @PostMapping("/step-2")
     public String initiateCheckoutPayment(@RequestParam("carrier") String carrier,
-                                          Model model,
-                                          HttpSession session) {
+            Model model,
+            HttpSession session) {
         final Carrier carrierName = Objects.equals(carrier, Carrier.ECONT.name()) ? Carrier.ECONT : Carrier.SPEEDY;
         final User user = userDao.findByUserName(getUserName());
         final Optional<Order> order = getInitialOrder(user.getId());
@@ -177,9 +177,9 @@ public class CheckoutController {
 
     @GetMapping("/step-3-cancel/{orderId}")
     public String getFailureCheckoutConfirmation(Model model,
-                                                 @PathVariable("orderId") Long orderId,
-                                                 @RequestParam(value = "payment_intent_id", required = false) String paymentIntendId,
-                                                 HttpSession session) throws StripeException {
+            @PathVariable("orderId") Long orderId,
+            @RequestParam(value = "payment_intent_id", required = false) String paymentIntendId,
+            HttpSession session) throws StripeException {
         Optional<Order> order = orderService.getOrderById(orderId);
         if (order.isPresent()) {
             if (order.get().getStatus() == OrderStatus.PAYMENT_REQUIRED) {

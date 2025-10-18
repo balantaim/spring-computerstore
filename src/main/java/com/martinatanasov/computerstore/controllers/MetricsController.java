@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.lang.management.ManagementFactory;
 
-
 @PreAuthorize("hasRole('ADMIN')")
 @Controller
 public class MetricsController {

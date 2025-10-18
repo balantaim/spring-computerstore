@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -50,7 +49,7 @@ public class PaymentController {
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'MANAGER')")
     @GetMapping("/{customerId}")
-    public String getCustomerById (@PathVariable String customerId) {
+    public String getCustomerById(@PathVariable String customerId) {
         Customer customer = paymentCustomerService.getCustomerById(customerId);
         if (customer != null) {
             return customer.toString();
@@ -60,8 +59,8 @@ public class PaymentController {
 
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/search/{keyword}")
-    public String getCustomerByKeyword (@PathVariable String keyword){
-        if(keyword != null && keyword.length() >= 2 && keyword.length() <= 255) {
+    public String getCustomerByKeyword(@PathVariable String keyword) {
+        if (keyword != null && keyword.length() >= 2 && keyword.length() <= 255) {
             CustomerSearchResult customers = paymentCustomerService.getCustomersByKeyword(keyword);
             log.info(customers.toString());
             return customers.toString();
@@ -71,7 +70,7 @@ public class PaymentController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/create")
-    public String createCustomer(){
+    public String createCustomer() {
         String email = userAuthentication.getUsernameFromAuthentication();
         User user = userDao.findByUserName(email);
         if (user != null) {
@@ -88,7 +87,7 @@ public class PaymentController {
 
     @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping("/delete/{customerId}")
-    public String deleteCustomerById (@PathVariable String customerId) {
+    public String deleteCustomerById(@PathVariable String customerId) {
         if (customerId != null) {
             paymentCustomerService.deleteCustomerById(customerId);
             //Update user

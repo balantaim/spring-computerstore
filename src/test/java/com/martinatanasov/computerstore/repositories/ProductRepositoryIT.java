@@ -34,7 +34,7 @@ class ProductRepositoryIT {
     ProductRepository repository;
 
     @Test
-    void getCPU(){
+    void getCPU() {
         Page<Product> products = repository.findAllByCategory((short) 1, PageRequest.of(1, 3,
                 Sort.by(Sort.Order.asc("product_name"))));
 
@@ -44,7 +44,7 @@ class ProductRepositoryIT {
     }
 
     @Test
-    void getMonitors(){
+    void getMonitors() {
         Page<Product> products = repository.findAllByCategory((short) 2, PageRequest.of(1, 3,
                 Sort.by(Sort.Order.asc("product_name"))));
 
@@ -54,7 +54,7 @@ class ProductRepositoryIT {
     }
 
     @Test
-    void getVideoCards(){
+    void getVideoCards() {
         Page<Product> products = repository.findAllByCategory((short) 3, PageRequest.of(1, 3,
                 Sort.by(Sort.Order.asc("product_name"))));
 

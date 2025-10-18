@@ -34,7 +34,6 @@ import java.util.Set;
 
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
-
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/Orders")

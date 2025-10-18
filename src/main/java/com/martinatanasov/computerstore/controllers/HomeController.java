@@ -42,17 +42,17 @@ public class HomeController {
     private final ProductConverter productConverter;
 
     @Autowired
-    HomeController(ProductServiceImpl productService, ProductConverter productConverter){
+    HomeController(ProductServiceImpl productService, ProductConverter productConverter) {
         this.productService = productService;
         this.productConverter = productConverter;
     }
 
     @GetMapping
-    public String home(Model model){
+    public String home(Model model) {
         Page<Product> getProducts = productService.findByIsVisibleTrue();
         //Convert product items to StoreItems
         Page<StoreItemDTO> filteredProductsDTO = productConverter.convertToStoreItems(getProducts);
-        if (filteredProductsDTO != null){
+        if (filteredProductsDTO != null) {
             model.addAttribute("products", filteredProductsDTO);
         }
         return "Home/index";
@@ -60,19 +60,19 @@ public class HomeController {
 
     @GetMapping("/Search")
     public String filterByKeyword(Model model,
-                                  @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                                  @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                                  @RequestParam(required = false, defaultValue = "asc") String sortValue,
-                                  @RequestParam(required = false, defaultValue = "") String keyword){
+            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "asc") String sortValue,
+            @RequestParam(required = false, defaultValue = "") String keyword) {
         Page<Product> products;
-        if(keyword == null || keyword.isEmpty()){
+        if (keyword == null || keyword.isEmpty()) {
             keyword = "";
         }
         products = productService.findAllByKeywordAndIsSearchableTrue(keyword, pageNumber, pageSize, sortValue);
 
-        if(products != null){
+        if (products != null) {
             Page<StoreItemDTO> productsDTO = productConverter.convertToStoreItems(products);
-            if(pageNumber > productsDTO.getTotalElements() || pageNumber < 1){
+            if (pageNumber > productsDTO.getTotalElements() || pageNumber < 1) {
                 return GLOBAL_ERROR_PAGE;
             }
             model.addAttribute("keyword", keyword);
@@ -88,7 +88,7 @@ public class HomeController {
     }
 
     @GetMapping("/Live-search")
-    public String liveSearch(@RequestParam("query") String query, Model model){
+    public String liveSearch(@RequestParam("query") String query, Model model) {
         List<Product> getProducts = productService.getAllByKeyword(query)
                 .stream()
                 .filter(product -> product.getIsSearchable() == true)
@@ -100,7 +100,7 @@ public class HomeController {
 
     //Remove white spaces
     @InitBinder
-    public void initBinder(WebDataBinder webDataBinder){
+    public void initBinder(WebDataBinder webDataBinder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }

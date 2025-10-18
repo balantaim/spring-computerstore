@@ -28,7 +28,6 @@ import lombok.*;
 @Builder
 public class Cart {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

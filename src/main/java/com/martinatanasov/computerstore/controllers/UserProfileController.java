@@ -15,7 +15,6 @@
 
 package com.martinatanasov.computerstore.controllers;
 
-
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.ProfileAddressDTO;
 import com.martinatanasov.computerstore.model.ProfilePasswordDTO;
@@ -48,19 +47,19 @@ public class UserProfileController {
     private final UserAuthentication userAuthentication;
 
     @GetMapping("")
-    public String profile(Model model){
-        model.addAttribute("active","Profile");
+    public String profile(Model model) {
+        model.addAttribute("active", "Profile");
         return "UserProfile/profile";
     }
 
     @GetMapping("/manage-password")
-    public String managePassword(Model model){
+    public String managePassword(Model model) {
         model.addAttribute("profilePassword", new ProfilePasswordDTO());
         return "UserProfile/manage-password";
     }
 
     @GetMapping("/address")
-    public String addressInfo(Model model){
+    public String addressInfo(Model model) {
         //Get username/email
         final String userName = userAuthentication.getUsernameFromAuthentication();
         User user = userService.findByUserName(userName);
@@ -73,15 +72,15 @@ public class UserProfileController {
 
     @PostMapping("/update-address")
     public String updateOrderAddress(@Valid @ModelAttribute("profileAddress") ProfileAddressDTO profileAddressDTO,
-                                     BindingResult bindingResult,
-                                     Model model){
+            BindingResult bindingResult,
+            Model model) {
         //Get username/email
         final String userName = userAuthentication.getUsernameFromAuthentication();
         final User user = userService.findByUserName(userName);
         //Update user's data
-        if(profileAddressDTO == null || bindingResult.hasErrors()){
+        if (profileAddressDTO == null || bindingResult.hasErrors()) {
             model.addAttribute("status", "error");
-        }else{
+        } else {
             userService.updateAddressInformation(
                     userName,
                     profileAddressDTO.getFirstName(),
@@ -103,21 +102,21 @@ public class UserProfileController {
 
     @PostMapping("/change-password")
     public String changePassword(@Valid @ModelAttribute("profilePassword") ProfilePasswordDTO profilePasswordDTO,
-                                     BindingResult bindingResult,
-                                     Model model){
+            BindingResult bindingResult,
+            Model model) {
         //Check for validation errors or global errors
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("status", "error");
             return "UserProfile/manage-password";
         }
         //Check if the newPassword is different from the oldPassword
-        if(profilePasswordDTO.getNewPassword().equals(profilePasswordDTO.getOldPassword())) {
+        if (profilePasswordDTO.getNewPassword().equals(profilePasswordDTO.getOldPassword())) {
             ObjectError error = new ObjectError("globalError", "SameAsOld");
             bindingResult.addError(error);
             return "UserProfile/manage-password";
         }
         //Check if newPassword and confirmPassword are not equal
-        if(!profilePasswordDTO.getNewPassword().equals(profilePasswordDTO.getConfirmPassword())){
+        if (!profilePasswordDTO.getNewPassword().equals(profilePasswordDTO.getConfirmPassword())) {
             ObjectError error = new ObjectError("globalError", "ConfirmPass");
             bindingResult.addError(error);
             return "UserProfile/manage-password";
@@ -126,7 +125,7 @@ public class UserProfileController {
         final String userName = userAuthentication.getUsernameFromAuthentication();
         boolean isPasswordUpdated = userService.changePassword(userName, profilePasswordDTO.getOldPassword(), profilePasswordDTO.getNewPassword());
         //Check if the password is updated successfully
-        if(!isPasswordUpdated){
+        if (!isPasswordUpdated) {
             model.addAttribute("status", "PassMatcher");
             return "UserProfile/manage-password";
         }
@@ -144,9 +143,8 @@ public class UserProfileController {
                 model.addAttribute("reviews", reviews);
             }
         }
-        return  "UserProfile/reviews";
+        return "UserProfile/reviews";
     }
-
 
 
 }

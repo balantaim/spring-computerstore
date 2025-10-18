@@ -39,7 +39,7 @@
     <li>Enabled XSS protection.</li>
 </ul>
 
-## Setup the project
+## Set up the project
 
 1. Install Java 21 LTS (OpenJDK Corretto)
 2. Connect to your MySQL DB or use Docker to run it locally via script:
@@ -51,15 +51,16 @@ TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
 3. Connect to Stripe via api key (The demo uses test key for all environments)
 4. Select profile from `application.properties` (test/benc/prod profile)
 5. Optional: Add Database url, user and pass as VM options to prod profile: ` --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret`
-6. Test the project in your favorite IDE
-7. Use prod profile in the application.properties: `spring.profiles.active=prod`
-8. Create execution jar from the terminal by using:
+6. Optional: Add default timezone to the Database (`UTC` or `Europe/Sofia`) example: `spring.datasource.url=jdbc:mysql://localhost:3306/computer_store?serverTimezone=Europe/Sofia`
+7. Test the project in your favorite IDE
+8. Use prod profile in the application.properties: `spring.profiles.active=prod`
+9. Create execution jar from the terminal by using:
 
 ```bash
 mvn clean package -Pproduction
 ```
 
-9. Test the jar on locale environment from `./target` directory
+10. Test the jar on locale environment from `./target` directory
 
 ```bash
 java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret
@@ -136,7 +137,7 @@ stripe trigger checkout.session.completed \
 
 ## Override the default GC (Optional)
 
-> [!NOTE]  
+> [!NOTE]
 > ZGC and Generational ZGC are used for low latency application. Choice what works for you better.
 
 <p><b>Path:</b> Elastic Beanstalk > Environments > {Your env name} > Configuration</p>
@@ -163,13 +164,13 @@ Optionally you could add RAM limit with value: `-XX:MaxRAMPercentage=80.0`
 1. development: default profile, use with the following command
 
 ```bash
-mvn clean package 
+mvn clean package
 ```
 
 2. production: optimized profile for production, use with the following command
 
 ```bash
-mvn clean package -Pproduction 
+mvn clean package -Pproduction
 ```
 
 ### Spring Environment profiles
@@ -208,7 +209,7 @@ mvn clean package -Pproduction
 1. Download Zipkin jar
 
 ```bash
-curl -sSL https://zipkin.io/quickstart.sh | bash -s 
+curl -sSL https://zipkin.io/quickstart.sh | bash -s
 ```
 
 2. Execute the following bash script from the jar's folder in new terminal window

@@ -80,7 +80,7 @@ public class GlobalSecurityConfig {
                         //EndpointRequest manage the actuator endpoint
                         .requestMatchers(HttpMethod.GET, actuatorBasePath).permitAll()
                         .requestMatchers(EndpointRequest.to("info")).permitAll()
-                        .requestMatchers(EndpointRequest.to("health", "metrics", "scheduledtasks")).hasRole("ADMIN")
+                        .requestMatchers(EndpointRequest.to("health", "metrics", "scheduledtasks", "caches", "flyway", "loggers")).hasRole("ADMIN")
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)

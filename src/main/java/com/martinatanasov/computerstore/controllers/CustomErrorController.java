@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,7 +14,6 @@
  */
 
 package com.martinatanasov.computerstore.controllers;
-
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -38,7 +37,7 @@ public class CustomErrorController implements ErrorController {
 
     //Add request mapping for access denied - 401
     @GetMapping("/access-denied")
-    public String showAccessDenied(){
+    public String showAccessDenied() {
         return "error/access-denied";
     }
 
