@@ -9,7 +9,7 @@
 ## Software Stack
 
 <p><b>Software architecture:</b> Layered (n-tier) architecture using the MVC design pattern in the presentation layer</p>
-<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Zipkin, Stripe API, Stripe CLI, Maven</p>
+<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Payment provider:</b> Stripe</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>

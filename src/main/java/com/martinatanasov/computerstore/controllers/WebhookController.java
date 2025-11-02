@@ -44,7 +44,7 @@ public class WebhookController {
         this.orderService = orderService;
     }
 
-    //Add stripe webhook IPs as origins
+    //Add stripe webhook IPs as origins https://docs.stripe.com/ips
     @CrossOrigin(origins = {
             "3.18.12.63", "3.130.192.231", "13.235.14.237",
             "13.235.122.149", "18.211.135.69", "35.154.171.200",

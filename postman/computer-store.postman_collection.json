@@ -11,6 +11,9 @@
 			"item": [
 				{
 					"name": "Register",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -96,30 +99,16 @@
 									"});"
 								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "test",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "abv@abv.bg",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/authenticateTheUser?username=abv@abv.bg&password=test",
+							"raw": "http://localhost:5000/authenticateTheUser?username=admin@abv.bg&password=test",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -131,7 +120,7 @@
 							"query": [
 								{
 									"key": "username",
-									"value": "abv@abv.bg"
+									"value": "admin@abv.bg"
 								},
 								{
 									"key": "password",
@@ -154,7 +143,8 @@
 									"});"
 								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -512,7 +502,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Stripe Customer Copy",
+					"name": "Create Stripe Customer",
 					"request": {
 						"method": "GET",
 						"header": [],

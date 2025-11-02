@@ -30,6 +30,14 @@ import org.springframework.web.bind.annotation.*;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
+/**
+ * Do not use in production! Use it only for testing purposes.
+ * PaymentController class handles all the operations related to payments via REST API.
+ * It provides methods to get all customers, create a new customer, and delete an existing customer.
+ *
+ * @author Martin Anatanov
+ */
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
