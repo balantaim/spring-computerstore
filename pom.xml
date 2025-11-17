@@ -25,7 +25,7 @@
 	</parent>
 	<groupId>com.martinatanasov</groupId>
 	<artifactId>computerstore</artifactId>
-	<version>1.2.7</version>
+	<version>1.3.8</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 
@@ -49,6 +49,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<stripe.version>28.3.1</stripe.version>
+        <spotbugs.plugin.version>4.9.8.0</spotbugs.plugin.version>
 	</properties>
 
 	<!-- Global dependencies -->
@@ -79,6 +80,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
+
+        <!-- Caffeine - Cache library - add-->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
 
 		<!-- Thymeleaf - Java template-->
 		<dependency>
@@ -186,6 +193,13 @@
 					<artifactId>zipkin-reporter-brave</artifactId>
 				</dependency>
 
+                <!-- Required dependency for SpotBug -->
+                <dependency>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                    <optional>true</optional>
+                </dependency>
+
 			</dependencies>
 		</profile>
 
@@ -263,6 +277,26 @@
 					</execution>
 				</executions>
 			</plugin>
+
+            <!-- Code checker for potential bugs and bad practices -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.plugin.version}</version>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Low</threshold>
+                    <xmlOutput>true</xmlOutput>
+                    <xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 			<!-- Skip integration tests in build (with IT keyword) -->
 			<plugin>

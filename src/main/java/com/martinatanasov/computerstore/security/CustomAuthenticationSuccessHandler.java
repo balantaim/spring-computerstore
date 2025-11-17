@@ -20,6 +20,7 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.services.OrderService;
 import com.martinatanasov.computerstore.services.UserService;
+import com.martinatanasov.computerstore.utils.converter.UserConverter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -40,6 +41,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     private final OrderService orderService;
     private final CartService cartService;
     private final SessionRedirectionConfig sessionRedirectionConfig;
+    private final UserConverter userConverter;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -51,7 +53,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         //Place in the session
         HttpSession session = request.getSession();
         //Set user in the session
-        session.setAttribute("user", user);
+        session.setAttribute("user", userConverter.userToSessionUserDTO(user));
         //Set Cart count and Order count required in top navigation bar to the session
         final int orderCount = orderService.getUnfinishedOrdersCount(userName);
         final int cartCount = cartService.getCartItemsCount(user.getId());

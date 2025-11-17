@@ -25,6 +25,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; /* Needed for absolute positioning of text */
+}
+
+.slide-text {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 44px;
+    color: var(--accent);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    padding: 1% 2%;
+    border-radius: 4px;
+    text-shadow: 2px 2px 5px #000000;
 }
 
 .swiper-slide img {
@@ -63,4 +80,16 @@
     stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
     stroke-dasharray: 125.6;
     transform: rotate(-90deg);
+}
+
+@media only screen and (max-width: 480px) {
+    .slide-text {
+        font-size: 24px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .slide-text {
+        font-size: 32px;
+    }
 }

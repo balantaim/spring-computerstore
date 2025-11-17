@@ -19,6 +19,7 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.AppUserDTO;
 import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.utils.converter.TestNotificationsState;
+import com.martinatanasov.computerstore.utils.converter.UserConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,13 @@ public class RegisterController {
 
     private final UserService userService;
     private final TestNotificationsState testNotificationsState;
+    private final UserConverter userConverter;
 
     @Autowired
-    public RegisterController(UserService userService, TestNotificationsState testNotificationsState) {
+    public RegisterController(UserService userService, TestNotificationsState testNotificationsState, UserConverter userConverter) {
         this.userService = userService;
         this.testNotificationsState = testNotificationsState;
+        this.userConverter = userConverter;
     }
 
     @InitBinder
@@ -96,7 +99,7 @@ public class RegisterController {
         userService.save(appUserDTO);
 
         // place user in the web http session for later use
-        session.setAttribute("user", appUserDTO);
+        session.setAttribute("user", userConverter.userDtoToSessionUserDTO(appUserDTO));
         return "Register/register-confirm";
     }
 

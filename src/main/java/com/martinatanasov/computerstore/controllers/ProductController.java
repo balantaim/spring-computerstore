@@ -119,7 +119,7 @@ public class ProductController {
         product.ifPresent(value -> {
             String username = userAuthentication.getUsernameFromAuthentication();
             ProductReviewsDTO reviews;
-            if (username.equals("anonymousUser") || username == null) {
+            if (username.equals("anonymousUser")) {
                 reviews = reviewService.getProductAverageRating(product.get());
                 if (reviews != null && reviews.reviewsCount() > 0) {
                     model.addAttribute("reviews", reviews);
@@ -147,7 +147,7 @@ public class ProductController {
         boolean isSaved = false;
         if (starsVote != null) {
             String username = userAuthentication.getUsernameFromAuthentication();
-            if (username.equals("anonymousUser") || username == null) {
+            if (username.equals("anonymousUser")) {
                 return GLOBAL_ERROR_PAGE;
             }
             isSaved = reviewService.voteForProduct(username, productId, starsVote);

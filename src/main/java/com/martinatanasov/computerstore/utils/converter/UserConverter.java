@@ -15,8 +15,9 @@
 
 package com.martinatanasov.computerstore.utils.converter;
 
-
 import com.martinatanasov.computerstore.entities.User;
+import com.martinatanasov.computerstore.model.AppUserDTO;
+import com.martinatanasov.computerstore.model.SessionUserDTO;
 import com.martinatanasov.computerstore.model.UserDetailsDTO;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +42,22 @@ public class UserConverter {
                 .modifyDate(user.getModifyDate())
                 .lockDate(user.getLockDate())
                 .roles(user.getRoles())
+                .build();
+    }
+
+    public SessionUserDTO userToSessionUserDTO(final User user) {
+        return SessionUserDTO.builder()
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .build();
+    }
+
+    public SessionUserDTO userDtoToSessionUserDTO(final AppUserDTO appUserDTO) {
+        return SessionUserDTO.builder()
+                .email(appUserDTO.getEmail())
+                .firstName(appUserDTO.getFirstName())
+                .lastName(appUserDTO.getLastName())
                 .build();
     }
 

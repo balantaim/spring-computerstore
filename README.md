@@ -9,7 +9,7 @@
 ## Software Stack
 
 <p><b>Software architecture:</b> Layered (n-tier) architecture using the MVC design pattern in the presentation layer</p>
-<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP), Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, Maven</p>
+<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP)), Caffeine Cache, Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, SpotBugs, Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Payment provider:</b> Stripe</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
@@ -53,14 +53,28 @@ TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
 5. Optional: Add Database url, user and pass as VM options to prod profile: ` --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret`
 6. Optional: Add default timezone to the Database (`UTC` or `Europe/Sofia`) example: `spring.datasource.url=jdbc:mysql://localhost:3306/computer_store?serverTimezone=Europe/Sofia`
 7. Test the project in your favorite IDE
-8. Use prod profile in the application.properties: `spring.profiles.active=prod`
-9. Create execution jar from the terminal by using:
+8. Check for potential bugs and bad practices via SpotBugs (Optional)
+
+* Generate a report of SpotBugs issues by running the following command in your terminal:
+
+```bash
+mvn spotbugs:spotbugs
+```
+
+* Open SpotBugs GUI to view issues by running the following command in your terminal:
+
+```bash
+mvn spotbugs:gui
+```
+
+9. Use prod profile in the application.properties: `spring.profiles.active=prod`
+10. Create execution jar from the terminal by using:
 
 ```bash
 mvn clean package -Pproduction
 ```
 
-10. Test the jar on locale environment from `./target` directory
+11. Test the jar on locale environment from `./target` directory
 
 ```bash
 java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret

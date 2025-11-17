@@ -26,9 +26,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Cacheable(cacheNames = "productListCache")
     @Override
-    public Page<Product> findAllByCategoryId(Short categoryId, Integer pageNumber, Integer pageSize, String sortValue){
+    public Page<Product> findAllByCategoryId(Short categoryId, Integer pageNumber, Integer pageSize, String sortValue) {
         return productRepository.findAllByCategory(categoryId, buildPageRequest(pageNumber, pageSize, sortValue));
     }
 
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Cacheable(cacheNames = "productCache", key = "#id")
     @Override
-    public Optional<Product> getProductById(Integer id){
+    public Optional<Product> getProductById(Integer id) {
         return productRepository.findProductById(id);
     }
 
@@ -102,8 +102,8 @@ public class ProductServiceImpl implements ProductService {
             //Update the product
             productRepository.save(product.get());
             //Update the cache
-            cacheManager.getCache("productCache").evict(id);
-            cacheManager.getCache("productListCache").clear();
+            Objects.requireNonNull(cacheManager.getCache("productCache")).evict(id);
+            Objects.requireNonNull(cacheManager.getCache("productListCache")).clear();
             return product.get();
         }
         return null;
@@ -127,18 +127,17 @@ public class ProductServiceImpl implements ProductService {
                 queryPageSize = pageSize;
             }
         }
-        Sort sort;
-        if(sortValue.equals("asc") || sortValue == null){
-            sort = Sort.by(Sort.Order.asc("product_name"));
-        } else if (sortValue.equals("desc")){
-            sort = Sort.by(Sort.Order.desc("product_name"));
-        } else if (sortValue.equals("0-9")) {
-            sort = Sort.by(Sort.Order.asc("price"));
-        } else {
-            sort = Sort.by(Sort.Order.desc("price"));
-        }
+        Sort sort = getProductSort(sortValue);
         return PageRequest.of(queryPageNumber, queryPageSize, sort);
     }
 
+    private Sort getProductSort(String sortValue) {
+        return switch (sortValue) {
+            case "asc" -> Sort.by(Sort.Order.asc("product_name"));
+            case "desc" -> Sort.by(Sort.Order.desc("product_name"));
+            case "0-9" -> Sort.by(Sort.Order.asc("price"));
+            default -> Sort.by(Sort.Order.desc("price"));
+        };
+    }
 
 }

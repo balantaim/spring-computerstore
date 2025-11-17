@@ -32,7 +32,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
 @Slf4j
 @Service
 public class SessionPaymentServiceImpl implements SessionPaymentService {
@@ -171,7 +170,7 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
 
     private Map<String, String> getCarrierMetadata(final Shipment shipment) {
         Map<String, String> metadata = new HashMap<>();
-        if(shipment != null) {
+        if (shipment != null) {
             metadata.put("carrier", shipment.getCarrier().name());
             metadata.put("tracking_number", shipment.getTrackingNumber());
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2025 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,12 +22,19 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUserDTO {
+public class SessionUserDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @NotBlank
     @NotNull(message = "Email is required")
@@ -40,19 +47,5 @@ public class AppUserDTO {
 
     @Size(max = 30, message = "Lastname maximum 30 characters")
     private String lastName;
-
-    @NotBlank
-    @NotNull(message = "Valid Password is required")
-    @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
-            message = "Password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")
-    private String password;
-
-    @NotBlank
-    @NotNull(message = "Valid Re-password is required")
-    @Pattern(regexp = "^(?=.*?[a-zA-Z0-9#?!@$%^&*-]).{4,50}$",
-            message = "Repeat password should be at least 4 characters between a-z, uppercase letters or special symbols: #?!@$%^&*-")
-    //This regex is for password with minimal 8 characters and at least 1 lower case, 1 upper case letter and at least 1 special symbol
-    //@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
-    private String repeatPassword;
 
 }
