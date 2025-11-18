@@ -287,7 +287,7 @@ java -jar zipkin.jar
 
 You could check the latest changes online on the production link below.
 
-AWS Elastic Beanstalk production link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com">computer-store.eu-north-1.elasticbeanstalk.com</a>
+AWS Elastic Beanstalk production link: <a href="http://computer-store-demo.eu-north-1.elasticbeanstalk.com">computer-store.eu-north-1.elasticbeanstalk.com</a>
 
 ## Gallery
 
