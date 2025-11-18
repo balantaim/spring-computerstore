@@ -52,7 +52,23 @@ TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
 4. Select profile from `application.properties` (test/benc/prod profile)
 5. Optional: Add Database url, user and pass as VM options to prod profile: ` --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret`
 6. Optional: Add default timezone to the Database (`UTC` or `Europe/Sofia`) example: `spring.datasource.url=jdbc:mysql://localhost:3306/computer_store?serverTimezone=Europe/Sofia`
-7. Test the project in your favorite IDE
+7. Test the project in your favorite IDE or via command line with:
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.arguments="\
+--STRIPE_SECRET_KEY=<YOUR_KEY> \
+--STRIPE_WEBHOOK_SECRET=<YOUR_SECRET> \
+--DB_NAME=<YOUR_NAME> \
+--DB_PASSWORD=<YOUR_PASS> \
+--DB_URL=<YOUR_URL>?serverTimezone=Europe/Sofia \
+--TEST_DB_NAME=<TEST_DB> \
+--TEST_DB_PASSWORD=<TEST_PASS> \
+--TEST_DB_URL=<TEST_DB_URL> \
+-spring.profiles.active=test"
+```
+
+- Replace `<YOUR_VALE>` with your actual values!
+
 8. Check for potential bugs and bad practices via SpotBugs (Optional)
 
 * Generate a report of SpotBugs issues by running the following command in your terminal:
@@ -77,8 +93,16 @@ mvn clean package -Pproduction
 11. Test the jar on locale environment from `./target` directory
 
 ```bash
-java -jar computerstore-1.0.0-SNAPSHOT.jar --DB_URL=url --DB_NAME=user --DB_PASSWORD=pass --STRIPE_SECRET_KEY=key --STRIPE_WEBHOOK_SECRET=secret
+ java -jar computerstore-1.0.0.jar -XX:MaxRAMPercentage=80.0 \
+  --spring.profiles.active="test" \
+  --spring.datasource.username="<YOUR_DB_NAME>" \
+  --spring.datasource.password="<YOUR_DB_PASS>" \
+  --spring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+  --stripe.secret.key="<YOUR_KEY>" \
+  --stripe.webhook.secret="<YOUR_SECRET>"
 ```
+
+- Replace `<YOUR_VALE>` with your actual values!
 
 ## Prepare the cloud platform
 
@@ -138,7 +162,7 @@ stripe trigger checkout.session.completed
 
 - Override the test data
 - Use real customer_id from stripe
-- Use `\\` for a new line
+- Use `\` for a new line
 - Use `--override` to set a new parameter's value, format: `RESOURCE:PROPERTY=VALUE`
 - Use `--add` to add a new parameter, format: `RESOURCE:PROPERTY=VALUE`
 - Docs: https://docs.stripe.com/stripe-cli/triggers
