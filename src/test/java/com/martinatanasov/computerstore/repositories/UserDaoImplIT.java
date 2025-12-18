@@ -88,12 +88,12 @@ class UserDaoImplIT {
         user.setLockDate(timestamp);
 
         userDao.save(user);
-        User returedUser = userDao.findByUserName(user.getEmail());
+        User returnedUser = userDao.findByUserName(user.getEmail());
 
-        assertThat(returedUser).isNotNull();
-        assertThat(returedUser.getEnabled()).isTrue();
-        assertThat(user.getEmail()).isEqualTo(returedUser.getEmail());
-        assertThat(returedUser.getId()).isNotNull();
+        assertThat(returnedUser).isNotNull();
+        assertThat(returnedUser.getEnabled()).isTrue();
+        assertThat(user.getEmail()).isEqualTo(returnedUser.getEmail());
+        assertThat(returnedUser.getId()).isNotNull();
     }
 
     @Test

@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.controllers;
 
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.repositories.UserDaoImpl;
+import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import com.stripe.model.Customer;
@@ -46,7 +46,7 @@ public class PaymentController {
 
     private final PaymentCustomerService paymentCustomerService;
     private final UserAuthentication userAuthentication;
-    private final UserDaoImpl userDao;
+    private final UserService userService;
 
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/get-all")
@@ -80,12 +80,12 @@ public class PaymentController {
     @PostMapping("/create")
     public String createCustomer() {
         String email = userAuthentication.getUsernameFromAuthentication();
-        User user = userDao.findByUserName(email);
+        User user = userService.findByUserName(email);
         if (user != null) {
             Customer paymentCustomer = paymentCustomerService.createCustomer(user);
             if (user.getCustomerId() == null) {
                 user.setCustomerId(paymentCustomer.getId());
-                userDao.save(user);
+                userService.save(user);
             }
             log.info("\n\t Result {}", paymentCustomer);
             return "data: " + paymentCustomer;
@@ -100,9 +100,9 @@ public class PaymentController {
             paymentCustomerService.deleteCustomerById(customerId);
             //Update user
             String email = userAuthentication.getUsernameFromAuthentication();
-            User user = userDao.findByUserName(email);
+            User user = userService.findByUserName(email);
             user.setCustomerId(null);
-            userDao.save(user);
+            userService.save(user);
         }
         return "customerId";
     }

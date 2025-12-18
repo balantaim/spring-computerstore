@@ -22,10 +22,10 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.Carrier;
 import com.martinatanasov.computerstore.model.OrderStatus;
 import com.martinatanasov.computerstore.model.PaymentStatus;
-import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.services.DeliveryService;
 import com.martinatanasov.computerstore.services.OrderService;
+import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import com.martinatanasov.computerstore.services.payments.SessionPaymentService;
 import com.martinatanasov.computerstore.utils.converter.AddressConverter;
@@ -57,7 +57,7 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 @RequiredArgsConstructor
 public class CheckoutController {
 
-    private final UserDao userDao;
+    private final UserService userService;
     private final AddressConverter addressConverter;
     private final PaymentCustomerService paymentCustomerService;
     private final SessionPaymentService sessionPaymentService;
@@ -68,7 +68,7 @@ public class CheckoutController {
 
     @PostMapping("/step-1")
     public String initiateCheckoutInformation(Model model) {
-        User user = userDao.findByUserName(getUserName());
+        User user = userService.findByUserName(getUserName());
         if (user != null) {
             //Verify user's customerId
             if (user.getCustomerId() == null || user.getCustomerId().isEmpty()) {
@@ -77,7 +77,7 @@ public class CheckoutController {
                     throw new RuntimeException("Customer is not created!");
                 } else {
                     user.setCustomerId(customer.getId());
-                    userDao.save(user);
+                    userService.save(user);
                     log.info("Customer ID is set to the user. Customer ID: {}", customer.getId());
                 }
             }
@@ -105,7 +105,7 @@ public class CheckoutController {
 
     @GetMapping("/step-1")
     public String refreshCheckoutInformation(Model model) {
-        final User user = userDao.findByUserName(getUserName());
+        final User user = userService.findByUserName(getUserName());
         //Check if user has a new order
         if (user != null) {
             Optional<Order> order = getInitialOrder(user.getId());
@@ -122,7 +122,7 @@ public class CheckoutController {
             Model model,
             HttpSession session) {
         final Carrier carrierName = Objects.equals(carrier, Carrier.ECONT.name()) ? Carrier.ECONT : Carrier.SPEEDY;
-        final User user = userDao.findByUserName(getUserName());
+        final User user = userService.findByUserName(getUserName());
         final Optional<Order> order = getInitialOrder(user.getId());
         if (order.isPresent()) {
             final String trackingNumber = deliveryService.createDelivery().toString();
@@ -153,7 +153,7 @@ public class CheckoutController {
     @PostMapping("/initiate-payment")
     public String initiatePaymentSession(@RequestParam("orderId") Long orderId) throws StripeException {
         if (orderId != null) {
-            final User user = userDao.findByUserName(getUserName());
+            final User user = userService.findByUserName(getUserName());
             final Session session = sessionPaymentService.createCheckoutSession(user, orderId);
             if (session != null) {
                 return "redirect:" + session.getUrl();
@@ -164,7 +164,7 @@ public class CheckoutController {
 
     @GetMapping("/step-3")
     public String getCheckoutConfirmation(HttpSession session) {
-        final User user = userDao.findByUserName(getUserName());
+        final User user = userService.findByUserName(getUserName());
         //Update Cart count and Order count required in top navigation bar to the session
         final int cartCount = cartService.getCartItemsCount(user.getId());
         //Update Cart count
@@ -177,7 +177,7 @@ public class CheckoutController {
 
     @GetMapping("/step-3-cancel/{orderId}")
     public String getFailureCheckoutConfirmation(Model model,
-            @PathVariable("orderId") Long orderId,
+            @PathVariable Long orderId,
             @RequestParam(value = "payment_intent_id", required = false) String paymentIntendId,
             HttpSession session) throws StripeException {
         Optional<Order> order = orderService.getOrderById(orderId);

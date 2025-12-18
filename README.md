@@ -9,7 +9,7 @@
 ## Software Stack
 
 <p><b>Software architecture:</b> Layered (n-tier) architecture using the MVC design pattern in the presentation layer</p>
-<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP)), Caffeine Cache, Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, SpotBugs, Maven</p>
+<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP)), Caffeine Cache, Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, SpotBugs, ArchUnit, JUnit, Maven</p>
 <p><b>Database:</b> MySQL</p>
 <p><b>Payment provider:</b> Stripe</p>
 <p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
@@ -94,7 +94,7 @@ mvn clean package -Pproduction
 
 ```bash
  java -jar computerstore-1.0.0.jar -XX:MaxRAMPercentage=80.0 \
-  --spring.profiles.active="test" \
+  --spring.profiles.active="prod" \
   --spring.datasource.username="<YOUR_DB_NAME>" \
   --spring.datasource.password="<YOUR_DB_PASS>" \
   --spring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
@@ -238,6 +238,20 @@ mvn clean package -Pproduction
 > Use only for `test` profile! Be sure CSRF is disabled!
 
 <p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
+
+### Unit testing
+
+Run the following command to run unit tests:
+
+```bash
+ mvn test \
+  -Dspring.profiles.active="test" \
+  -Dspring.datasource.username="<YOUR_DB_NAME>" \
+  -Dspring.datasource.password="<YOUR_DB_PASS>" \
+  -Dspring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+  -Dstripe.secret.key="<YOUR_KEY>" \
+  -Dstripe.webhook.secret="<YOUR_SECRET>"
+```
 
 ### Tracing and Latency testing
 

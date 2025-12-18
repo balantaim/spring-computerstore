@@ -31,6 +31,8 @@ public interface UserService extends UserDetailsService {
 
     void save(AppUserDTO appUserDTO);
 
+    void save(User user);
+
     boolean changePassword(final String userName, final String oldPassword, final String newPassword);
 
     boolean setNewPassword(final String userName, final String newPassword);

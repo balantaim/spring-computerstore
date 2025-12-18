@@ -20,12 +20,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
+		<version>3.5.8</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.martinatanasov</groupId>
 	<artifactId>computerstore</artifactId>
-	<version>1.3.8</version>
+	<version>1.3.9</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 
@@ -50,6 +50,7 @@
 		<java.version>21</java.version>
 		<stripe.version>28.3.1</stripe.version>
         <spotbugs.plugin.version>4.9.8.0</spotbugs.plugin.version>
+        <archunit.version>1.4.1</archunit.version>
 	</properties>
 
 	<!-- Global dependencies -->
@@ -144,7 +145,15 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Lombok - Getters/Setters with annotation-->
+        <!-- Architecture testing -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit</artifactId>
+            <version>${archunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Lombok - Getters/Setters with annotation-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -222,6 +231,13 @@
                                 <!-- PaymentController should not exist in production -->
 								<exclude>**/PaymentController.java</exclude>
 							</excludes>
+                            <!-- Lombok Annotation Processor -->
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </path>
+                            </annotationProcessorPaths>
 						</configuration>
 					</plugin>
 				</plugins>
