@@ -36,15 +36,16 @@ public class UpdateCustomersInfo implements CommandLineRunner {
     public void run(String... args) {
         log.info("\n\tInitiate update customer_id values to the database");
         CustomerCollection customerCollection = paymentCustomerService.getAllCustomers();
-        if(customerCollection != null && customerCollection.getData() != null) {
+        if (customerCollection != null && customerCollection.getData() != null) {
             customerCollection
                     .getData()
                     .forEach(index -> {
-                User user = userDao.findByUserName(index.getEmail());
-                if(user != null && user.getCustomerId() != null)
-                    user.setCustomerId(index.getId());
-                userDao.save(user);
-            });
+                        User user = userDao.findByUserName(index.getEmail());
+                        if (user != null && user.getCustomerId() != null) {
+                            user.setCustomerId(index.getId());
+                            userDao.save(user);
+                        }
+                    });
         }
         log.info("\n\tAll customer_id values are updated!");
     }

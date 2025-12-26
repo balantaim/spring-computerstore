@@ -101,8 +101,10 @@ public class PaymentController {
             //Update user
             String email = userAuthentication.getUsernameFromAuthentication();
             User user = userService.findByUserName(email);
-            user.setCustomerId(null);
-            userService.save(user);
+            if (user != null) {
+                user.setCustomerId(null);
+                userService.save(user);
+            }
         }
         return "customerId";
     }
