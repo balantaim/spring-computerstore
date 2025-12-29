@@ -15,9 +15,6 @@
 
 package com.martinatanasov.computerstore.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.martinatanasov.computerstore.entities.*;
 import com.martinatanasov.computerstore.model.Carrier;
 import com.martinatanasov.computerstore.model.OrderStatus;
@@ -31,9 +28,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final UserDao userDao;
+    private final JsonMapper jsonMapper;
 
     @Override
     public Set<Order> getAllByUserEmail(final String email) {
@@ -153,11 +156,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public boolean updateOrderAndPaymentAfterPaymentComplete(final String rawJson) throws JsonProcessingException {
+    public boolean updateOrderAndPaymentAfterPaymentComplete(final String rawJson) {
         log.trace("\n\tData as string: {}", rawJson);
 
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final JsonNode root = objectMapper.readTree(rawJson);
+        final JsonNode root = jsonMapper.readTree(rawJson);
 
         final JsonNode metadataNode = root.get("metadata");
         //Check if the payment status is equal to paid

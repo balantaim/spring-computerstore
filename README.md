@@ -67,7 +67,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments="\
 -spring.profiles.active=test"
 ```
 
-- Replace `<YOUR_VALE>` with your actual values!
+- Replace `<YOUR_VALUE>` with your actual values!
 
 8. Check for potential bugs and bad practices via SpotBugs (Optional)
 
@@ -102,7 +102,7 @@ mvn clean package -Pproduction
   --stripe.webhook.secret="<YOUR_SECRET>"
 ```
 
-- Replace `<YOUR_VALE>` with your actual values!
+- Replace `<YOUR_VALUE>` with your actual values!
 
 ## Prepare the cloud platform
 

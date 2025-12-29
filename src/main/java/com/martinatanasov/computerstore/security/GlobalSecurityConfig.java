@@ -18,7 +18,7 @@ package com.martinatanasov.computerstore.security;
 import com.martinatanasov.computerstore.security.filters.BotDetectionFilter;
 import com.martinatanasov.computerstore.services.UserService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -71,8 +71,7 @@ public class GlobalSecurityConfig {
 
     @Bean
     @Order(1)
-    SecurityFilterChain actuatorFilterChain(HttpSecurity http,
-                                            @Value("${management.endpoints.web.base-path}") String actuatorBasePath) throws Exception {
+    SecurityFilterChain actuatorFilterChain(HttpSecurity http, @Value("${management.endpoints.web.base-path}") String actuatorBasePath) {
         return http
                 // Use current filter chain only specific paths
                 .securityMatcher(actuatorBasePath + "/**")
@@ -90,7 +89,7 @@ public class GlobalSecurityConfig {
 
     @Bean
     @Order(2)
-    SecurityFilterChain staticAssetsFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain staticAssetsFilterChain(HttpSecurity http) {
         final String[] staticResources = {"/favicon.ico", "/other/**", "/css/**", "/images/**", "/js/**", "/robots.txt"};
         return http
                 // Use current filter chain only specific paths
@@ -108,7 +107,7 @@ public class GlobalSecurityConfig {
     @Order(3)
     SecurityFilterChain securityFilterChain(HttpSecurity http,
                                             AuthenticationSuccessHandler customAuthenticationSuccessHandler,
-                                            Environment environment) throws Exception {
+                                            Environment environment) {
         http
                 .authorizeHttpRequests(config -> config
                         .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
@@ -137,7 +136,7 @@ public class GlobalSecurityConfig {
                         )
                 )
                 .formLogin(form -> form
-                        //Redirect to login form if no authorisation
+                        //Redirect to login form if no authorization
                         .loginPage("/Login")
                         //.defaultSuccessUrl("/Profile", true)
                         //Login method used in the html

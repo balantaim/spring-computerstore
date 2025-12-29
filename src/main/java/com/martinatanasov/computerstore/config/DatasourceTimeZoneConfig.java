@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.config;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,11 +35,16 @@ public class DatasourceTimeZoneConfig {
      */
 
     private final JdbcTemplate jdbcTemplate;
+    @Value("${application.timezone:UTC}")
+    private String applicationTimeZone;
 
     @PostConstruct
     public void init() {
-        jdbcTemplate.execute("SET time_zone = 'Europe/Sofia'");
-        log.info("\n\tDatasource time zone set to Europe/Sofia!");
+        if (applicationTimeZone == null) {
+            throw new RuntimeException("Application timezone cannot be null!");
+        }
+        jdbcTemplate.execute("SET time_zone = '" + applicationTimeZone + "'");
+        log.info("\n\tDatasource time zone set to {}!", applicationTimeZone);
     }
 
 }

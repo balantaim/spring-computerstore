@@ -35,6 +35,9 @@ public class TimeZoneConfig {
 
     @PostConstruct
     public void init(){
+        if (applicationTimeZone == null) {
+            throw new RuntimeException("Application timezone cannot be null!");
+        }
         TimeZone.setDefault(TimeZone.getTimeZone(applicationTimeZone));
         log.info("\n\tApplication time zone set to {}!",
                 applicationTimeZone == null ? "UTC" : applicationTimeZone);

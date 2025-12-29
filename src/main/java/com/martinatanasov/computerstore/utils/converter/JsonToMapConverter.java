@@ -15,18 +15,21 @@
 
 package com.martinatanasov.computerstore.utils.converter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Converter(autoApply = false)
 public class JsonToMapConverter implements AttributeConverter<Map<String, Object>, String> {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    public JsonToMapConverter() {
+        this.jsonMapper = JsonMapper.builder().build();
+    }
+
+    private final JsonMapper jsonMapper;
 
     @Override
     public String convertToDatabaseColumn(Map<String, Object> attribute) {
@@ -34,8 +37,8 @@ public class JsonToMapConverter implements AttributeConverter<Map<String, Object
             return null;
         }
         try {
-            return objectMapper.writeValueAsString(attribute);
-        } catch (JsonProcessingException e) {
+            return jsonMapper.writeValueAsString(attribute);
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("Error converting Map to JSON string", e);
         }
     }
@@ -46,9 +49,10 @@ public class JsonToMapConverter implements AttributeConverter<Map<String, Object
             return null;
         }
         try {
-            return objectMapper.readValue(dbData, Map.class);
-        } catch (IOException e) {
+            return jsonMapper.readValue(dbData, Map.class);
+        } catch (JacksonException e) {
             throw new IllegalArgumentException("Error converting JSON string to Map", e);
         }
     }
+
 }
