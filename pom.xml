@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2024-2025 Martin Atanasov.
+  ~ Copyright 2024-2026 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -25,7 +25,7 @@
 	</parent>
 	<groupId>com.martinatanasov</groupId>
 	<artifactId>computerstore</artifactId>
-	<version>1.3.10</version>
+	<version>1.3.11</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 
@@ -125,6 +125,11 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
 		</dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
+        </dependency>
 
 		<!-- Stripe - payment library -->
 		<dependency>

@@ -276,12 +276,11 @@ java -jar zipkin.jar
 
 <p>Actuator link: <a href="http://computer-store.eu-north-1.elasticbeanstalk.com/page/actuator">/page/actuator</a></p>
 
-## Project optimisations
+## Project optimizations
 
 1. Gzip conversion
 2. Enable cacheable static assets: `*.js, *.css, image/**`
 3. Enable data caching with Spring: products
-
 
 ### Limitations
 
@@ -291,11 +290,17 @@ java -jar zipkin.jar
 
 ## Useful tools
 
+Software:
+
 <ul>
     <li>Postman - REST user interface tool URL: <a href="https://www.postman.com/downloads/">Postman</a></li>
     <li>MySQL Workbench - user interface tool URL: <a href="https://dev.mysql.com/downloads/workbench">MySQL Workbench</a></li>
     <li>DBeaver - multiple DB user interface tool URL: <a href="https://dbeaver.io/download">DBever - Universal Database Tool</a></li>
 </ul>
+
+Spring Boot 4.0 Migration Guide:
+
+- [Migration Guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
 
 ## Production Website
 
@@ -376,4 +381,41 @@ tree -d -A
                 └── computerstore
                     ├── controllers
                     └── repositories
+```
+
+### Flylay migration troubleshooting
+
+Use goal clean to erase the database:
+
+> [!IMPORTANT]
+> This will wipe out you database!
+
+```bash
+./mvnw flyway:clean \
+  -Dflyway.url=<YOUR_DB_URL> \
+  -Dflyway.user=<YOUR_DB_USER> \
+  -Dflyway.password=<YOUR_DB_PASS> \
+  -Dflyway.cleanDisabled=false
+```
+
+Use goal migrate to apply all migrations to the database:
+
+```bash
+./mvnw flyway:migrate \
+  -Dflyway.url=<YOUR_DB_URL> \
+  -Dflyway.user=<YOUR_DB_USER> \
+  -Dflyway.password=<YOUR_DB_PASS>
+```
+
+Use goal repair for:
+
+- Remove failed migration entries
+- Fix checksums for already applied migrations
+- Align Flyway metadata with the filesystem
+
+```bash
+./mvnw flyway:repair \
+  -Dflyway.url=<YOUR_DB_URL> \
+  -Dflyway.user=<YOUR_DB_USER> \
+  -Dflyway.password=<YOUR_DB_PASS>
 ```
