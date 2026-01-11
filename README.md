@@ -8,11 +8,22 @@
 
 ## Software Stack
 
-<p><b>Software architecture:</b> Layered (n-tier) architecture using the MVC design pattern in the presentation layer</p>
-<p><b>Software tools:</b> Java 21 (mandatory for Virtual Threads), Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP)), Caffeine Cache, Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, SpotBugs, ArchUnit, JUnit, Maven</p>
-<p><b>Database:</b> MySQL</p>
-<p><b>Payment provider:</b> Stripe</p>
-<p><b>Cloud Platform:</b> AWS Elastic Beanstalk</p>
+**Software architecture:** Layered (n-tier) architecture using the MVC design pattern in the presentation layer
+**Software tools:** Java, Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP)), Caffeine Cache, Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, SpotBugs, ArchUnit, JUnit, Maven
+**Database:** MySQL
+**Payment provider:** Stripe
+**Cloud Platform:** AWS Elastic Beanstalk
+
+## Software Requirements
+
+- Java 21+ (mandatory for Virtual Threads)
+- MySQL 8+ with Empty schema/database
+- Stripe active account:
+    - Generate secret key for testing
+    - Connect Stripe API version from `pom.xml` to Stripe Dashboard > Developers > Webhooks
+    - Generate webhook secret
+- AWS active account (Optional for cloud hosting):
+    - AWS Elastic Beanstalk instance
 
 ### Key Features:
 <ol>
@@ -323,8 +334,8 @@ AWS Elastic Beanstalk production link: <a href="http://computer-store-demo.eu-no
 
 **Application features:**
 
-![Home](images/home.png)
 ![Home with search](images/home-search.png)
+![Home](images/home.png)
 ![Result view](images/result-view.png)
 ![Cart](images/cart.png)
 ![Checkout delivery](images/checkout-delivery.png)
