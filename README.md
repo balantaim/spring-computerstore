@@ -26,7 +26,7 @@
     - Generate secret key for testing
     - Connect Stripe API version from `pom.xml` to Stripe Dashboard > Developers > Webhooks
     - Generate webhook secret
-- AWS active account (Optional for cloud hosting):
+- AWS active account (Required only for cloud hosting):
     - AWS Elastic Beanstalk instance
 
 ### Key Features:
