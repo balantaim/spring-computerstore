@@ -9,9 +9,13 @@
 ## Software Stack
 
 **Software architecture:** Layered (n-tier) architecture using the MVC design pattern in the presentation layer
+
 **Software tools:** Java, Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP)), Caffeine Cache, Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, SpotBugs, ArchUnit, JUnit, Maven
+
 **Database:** MySQL
+
 **Payment provider:** Stripe
+
 **Cloud Platform:** AWS Elastic Beanstalk
 
 ## Software Requirements
