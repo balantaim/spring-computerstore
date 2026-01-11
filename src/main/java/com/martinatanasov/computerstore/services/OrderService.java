@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,6 +21,7 @@ import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.Carrier;
 import com.martinatanasov.computerstore.model.OrderStatus;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.Set;
@@ -35,7 +36,7 @@ public interface OrderService {
 
     boolean createNewOrder(User user, Iterable<Cart> cartItems);
 
-    Order updateOrderAndEntities(User user, Order order, Carrier carrier, String trackingNumber);
+    @Nullable Order updateOrderAndEntities(User user, Order order, Carrier carrier, String trackingNumber);
 
     boolean updateOrderAndPaymentAfterPaymentComplete(String rawJson) throws JsonProcessingException;
 

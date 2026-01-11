@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,7 +36,7 @@ public class UpdateCustomersInfo implements CommandLineRunner {
     public void run(String... args) {
         log.info("\n\tInitiate update customer_id values to the database");
         CustomerCollection customerCollection = paymentCustomerService.getAllCustomers();
-        if (customerCollection != null && customerCollection.getData() != null) {
+        if (customerCollection.getData() != null) {
             customerCollection
                     .getData()
                     .forEach(index -> {

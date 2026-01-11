@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,9 +22,9 @@ import com.martinatanasov.computerstore.utils.converter.ProductConverter;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.cache.test.autoconfigure.AutoConfigureCache;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -37,6 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@WithMockUser(username = "abv@abv.bg", roles = {"CUSTOMER"})
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
+// Manage cache for testing purposes
+@AutoConfigureCache
 class ProductControllerTest {
 
     @Autowired
@@ -56,9 +58,6 @@ class ProductControllerTest {
 
     @MockitoBean
     private UserAuthentication userAuthentication;
-
-    @MockitoBean
-    private CacheManager cacheManager;
 
     @Test()
     public void shouldReturnProductsView() throws Exception {

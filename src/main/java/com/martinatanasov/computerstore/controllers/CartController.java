@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +24,7 @@ import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -79,8 +80,8 @@ public class CartController {
 
     @PostMapping("")
     public String addToCard(Model model,
-            @RequestParam(value = "promoCode", required = false) String promoCode,
-            @RequestParam(value = "itemId") Integer itemId,
+            @Nullable @RequestParam(value = "promoCode", required = false) String promoCode,
+            @Nullable @RequestParam(value = "itemId") Integer itemId,
             HttpServletRequest request,
             HttpSession session) {
         //Check if the product ID is valid
@@ -127,7 +128,7 @@ public class CartController {
     }
 
     @PostMapping("/delete/{id}")
-    public Collection<ModelAndView> deleteCartItem(@PathVariable("id") Long id,
+    public Collection<ModelAndView> deleteCartItem(@PathVariable Long id,
             HttpServletRequest request,
             HttpSession session) {
         final String username = userAuthentication.getUsernameFromAuthentication();
@@ -152,7 +153,7 @@ public class CartController {
     }
 
     @PostMapping("/increment/{id}")
-    public Collection<ModelAndView> incrementCartQuantity(@PathVariable("id") Long id, HttpServletRequest request) {
+    public @Nullable Collection<ModelAndView> incrementCartQuantity(@PathVariable Long id, HttpServletRequest request) {
         //Increment cart quantity
         cartService.updateCartQuantity(id, true);
 
@@ -165,7 +166,7 @@ public class CartController {
     }
 
     @PostMapping("/decrement/{id}")
-    public Collection<ModelAndView> decrementCartQuantity(@PathVariable("id") Long id, HttpServletRequest request) {
+    public @Nullable Collection<ModelAndView> decrementCartQuantity(@PathVariable Long id, HttpServletRequest request) {
         //Decrement cart quantity
         cartService.updateCartQuantity(id, false);
 
@@ -177,7 +178,7 @@ public class CartController {
         return null;
     }
 
-    private OrderSummaryDTO calculateOrderSummary(Set<CardItemDTO> products) {
+    private @Nullable OrderSummaryDTO calculateOrderSummary(Set<CardItemDTO> products) {
         if (products.isEmpty()) {
             return null;
         } else {
@@ -214,7 +215,7 @@ public class CartController {
         );
     }
 
-    private CsrfToken getCSRFToken(HttpServletRequest request) {
+    private CsrfToken getCSRFToken(@Nullable HttpServletRequest request) {
         if (request != null) {
             if (request.getAttribute(CsrfToken.class.getName()) != null) {
                 return (CsrfToken) request.getAttribute(CsrfToken.class.getName());

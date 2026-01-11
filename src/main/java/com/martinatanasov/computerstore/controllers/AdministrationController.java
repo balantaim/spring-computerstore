@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,6 +20,7 @@ import com.martinatanasov.computerstore.model.UserDetailsDTO;
 import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.utils.converter.UserConverter;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,8 +56,8 @@ public class AdministrationController {
     }
 
     @GetMapping("/profile/{id}")
-    public String userInfoPage(@PathVariable(value = "id") Long id,
-                               Model model) {
+    public String userInfoPage(@PathVariable Long id,
+            Model model) {
         final User user = userService.findByUserId(id);
         if (user != null) {
             model.addAttribute("user", userConverter.userToUserAdministrationDTO(user));
@@ -65,7 +66,7 @@ public class AdministrationController {
     }
 
     @DeleteMapping("")
-    public String deleteUser(@RequestParam final String email, Model model) {
+    public String deleteUser(@Nullable @RequestParam final String email, Model model) {
         if (email != null && email.length() > 3 && email.length() <= 50) {
             userService.delete(email);
             model.addAttribute("status", "success");
@@ -76,9 +77,10 @@ public class AdministrationController {
     }
 
     @PatchMapping("/status")
-    public String updateUserAccount(@RequestParam final String email,
-                                    @RequestParam final Boolean enabled,
-                                    Model model) {
+    public String updateUserAccount(
+            @RequestParam final String email,
+            @RequestParam final Boolean enabled,
+            Model model) {
 
         userService.setAccountStatus(email, enabled);
         model.addAttribute("status", "success");
@@ -86,10 +88,11 @@ public class AdministrationController {
     }
 
     @PostMapping("/disableOrEnableUser")
-    public String disableOrEnableUser(@RequestParam("userId") Long userId,
-                                      @RequestParam("enabled") Boolean enabled,
-                                      @RequestParam("verified") Boolean verified,
-                                      Model model) {
+    public String disableOrEnableUser(
+            @Nullable @RequestParam("userId") Long userId,
+            @Nullable @RequestParam("enabled") Boolean enabled,
+            @Nullable @RequestParam("verified") Boolean verified,
+            Model model) {
         if (userId != null && enabled != null && verified != null) {
             userService.disableOrEnableUser(userId, enabled, verified);
 
@@ -109,8 +112,8 @@ public class AdministrationController {
 
     @PutMapping("/new-password")
     public String setPassword(@RequestParam final String email,
-                              @RequestParam final String newPassword,
-                              Model model) {
+            @RequestParam final String newPassword,
+            Model model) {
         boolean isNewPasswordCreated = userService.setNewPassword(email, newPassword);
         if (isNewPasswordCreated) {
             model.addAttribute("status", "success");
@@ -119,6 +122,5 @@ public class AdministrationController {
         }
         return "Administration/administration";
     }
-
 
 }

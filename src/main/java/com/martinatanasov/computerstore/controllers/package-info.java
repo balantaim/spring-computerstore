@@ -1,5 +1,5 @@
 /*
- * Copyright 2025-2026 Martin Atanasov.
+ * Copyright 2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,12 +13,7 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.model;
+@NullMarked
+package com.martinatanasov.computerstore.controllers;
 
-import org.jspecify.annotations.Nullable;
-
-public record OrderSummaryDTO (String subtotal,
-                               String shippingEstimate,
-                               String taxEstimate,
-                               @Nullable String voucher,
-                               String orderTotal){}
+import org.jspecify.annotations.NullMarked;

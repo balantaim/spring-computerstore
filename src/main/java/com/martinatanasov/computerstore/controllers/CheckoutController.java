@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,13 +29,14 @@ import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import com.martinatanasov.computerstore.services.payments.SessionPaymentService;
 import com.martinatanasov.computerstore.utils.converter.AddressConverter;
-import com.martinatanasov.computerstore.utils.converter.TestNotificationsState;
+import com.martinatanasov.computerstore.config.TestNotificationsState;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.checkout.Session;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -151,7 +152,7 @@ public class CheckoutController {
     }
 
     @PostMapping("/initiate-payment")
-    public String initiatePaymentSession(@RequestParam("orderId") Long orderId) throws StripeException {
+    public String initiatePaymentSession(@Nullable @RequestParam("orderId") Long orderId) throws StripeException {
         if (orderId != null) {
             final User user = userService.findByUserName(getUserName());
             final Session session = sessionPaymentService.createCheckoutSession(user, orderId);
@@ -178,7 +179,7 @@ public class CheckoutController {
     @GetMapping("/step-3-cancel/{orderId}")
     public String getFailureCheckoutConfirmation(Model model,
             @PathVariable Long orderId,
-            @RequestParam(value = "payment_intent_id", required = false) String paymentIntendId,
+            @Nullable @RequestParam(value = "payment_intent_id", required = false) String paymentIntendId,
             HttpSession session) throws StripeException {
         Optional<Order> order = orderService.getOrderById(orderId);
         if (order.isPresent()) {
@@ -208,6 +209,7 @@ public class CheckoutController {
 
     private String getUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        assert authentication != null;
         return authentication.getName();
     }
 

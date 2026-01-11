@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,6 +27,7 @@ import com.martinatanasov.computerstore.repositories.UserDao;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -78,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public Order updateOrderAndEntities(final User user, Order order, final Carrier carrier, final String trackingNumber) {
+    public @Nullable Order updateOrderAndEntities(final User user, Order order, final Carrier carrier, final String trackingNumber) {
         final Iterable<Cart> cartItems = cartRepository.findAllByUserId(user.getId());
         if (cartItems != null) {
             AtomicInteger quantity = new AtomicInteger();

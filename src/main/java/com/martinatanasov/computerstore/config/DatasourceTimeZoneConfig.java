@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.config;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -35,6 +36,7 @@ public class DatasourceTimeZoneConfig {
      */
 
     private final JdbcTemplate jdbcTemplate;
+    @Nullable
     @Value("${application.timezone:UTC}")
     private String applicationTimeZone;
 

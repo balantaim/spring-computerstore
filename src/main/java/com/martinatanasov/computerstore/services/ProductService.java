@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,6 +16,7 @@
 package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.Product;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -41,6 +42,6 @@ public interface ProductService {
 
     Optional<Product> getProductByName(String productName);
 
-    Product updateProductFromManagement(Integer id, Boolean isVisible, Boolean isSearchable);
+    @Nullable Product updateProductFromManagement(Integer id, Boolean isVisible, Boolean isSearchable);
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RoleDaoImpl implements RoleDao {
 
-
     private final EntityManager entityManager;
 
     @Autowired
@@ -47,4 +46,5 @@ public class RoleDaoImpl implements RoleDao {
         }
         return role;
     }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -40,8 +40,6 @@ import java.util.stream.Collectors;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
-
-
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/Products")
@@ -62,10 +60,10 @@ public class ProductController {
 
     @GetMapping("/{category}")
     public String categoryItems(Model model,
-                                @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                                @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                                @RequestParam(required = false, defaultValue = "asc") String sortValue,
-                                @PathVariable("category") String categoryName) {
+            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "asc") String sortValue,
+            @PathVariable("category") String categoryName) {
         Optional<Category> category = categoryService.getCategoryByName(categoryName);
         short categoryId;
         if (category.isEmpty() || category.get().getIsVisible() == false) {
@@ -93,9 +91,9 @@ public class ProductController {
     }
 
     @GetMapping("/item/{productId}")
-    public String itemReview(@PathVariable(value = "productId") Integer productId,
-                             @RequestParam(required = false, defaultValue = "false") Boolean vote,
-                             Model model) {
+    public String itemReview(@PathVariable Integer productId,
+            @RequestParam(required = false, defaultValue = "false") Boolean vote,
+            Model model) {
         Optional<Product> product = productService.getProductById(productId);
         if (product.isEmpty() || product.get().getIsVisible() == false) {
             return NOT_FOUND_PAGE;
@@ -141,9 +139,9 @@ public class ProductController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/add-stars-vote/{productId}")
-    public String voteForProduct(@PathVariable(value = "productId") Integer productId,
-                                 @RequestParam(value = "rating", required = false) Double starsVote,
-                                 RedirectAttributes redirectAttributes) {
+    public String voteForProduct(@PathVariable Integer productId,
+            @RequestParam(value = "rating", required = false) Double starsVote,
+            RedirectAttributes redirectAttributes) {
         boolean isSaved = false;
         if (starsVote != null) {
             String username = userAuthentication.getUsernameFromAuthentication();
@@ -158,10 +156,10 @@ public class ProductController {
 
     @GetMapping("/compatible-with")
     public String getCompatibleWithItems(Model model,
-                                @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                                @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                                @RequestParam(required = false, defaultValue = "asc") String sortValue,
-                                @RequestParam("compatibleWith") String compatibleWith) {
+            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "asc") String sortValue,
+            @RequestParam("compatibleWith") String compatibleWith) {
         if (compatibleWith != null && !compatibleWith.isEmpty()) {
             Page<Product> products = productService.findAllByCompatibleWithAndIsSearchableTrue(compatibleWith, pageNumber, pageSize, sortValue);
             if (!products.isEmpty()) {

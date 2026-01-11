@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,6 +26,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -39,9 +40,9 @@ public class UserDaoImpl implements UserDao {
     private final EntityManager entityManager;
 
     @Override
-    public User findByUserName(final String email) {
+    public @Nullable User findByUserName(final String email) {
         User user = null;
-        if (email == null || email.length() < 3 || email.length() > 50){
+        if (email == null || email.length() < 3 || email.length() > 50) {
             return user;
         }
         // retrieve/read from database using username
@@ -103,7 +104,7 @@ public class UserDaoImpl implements UserDao {
         TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE email=:userEmail", User.class);
         theQuery.setParameter("userEmail", email);
         User user = theQuery.getSingleResult();
-        if(user != null){
+        if (user != null) {
             entityManager.remove(user);
         }
     }
@@ -144,7 +145,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Object[] getUserLoginAttempts(final String email) {
-        if(email == null || email.length() < 3 || email.length() > 50){
+        if (email == null || email.length() < 3 || email.length() > 50) {
             return null;
         }
         Query query = entityManager.createQuery(
@@ -157,11 +158,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void setLoginFailedAttempt(final String email, UserFailedAttempts info) throws EmptyResultDataAccessException {
-        if(email == null || email.length() < 3 || email.length() > 50){
+        if (email == null || email.length() < 3 || email.length() > 50) {
             return;
         }
         User user = findByUserName(email);
-        if(user != null){
+        if (user != null) {
             Query query = entityManager.createNativeQuery(
                     "UPDATE users SET attempts = :attempts, enabled = :enabled, lock_date = :lock_date WHERE email = :email"
             );

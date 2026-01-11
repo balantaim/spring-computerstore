@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,6 +21,7 @@ import com.martinatanasov.computerstore.services.CategoryService;
 import com.martinatanasov.computerstore.services.ProductService;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -50,10 +51,10 @@ public class ManagementController {
 
     @GetMapping("/Management/{category}")
     public String getProductsByCategory(Model model,
-                                        @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                                        @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                                        @RequestParam(required = false, defaultValue = "asc") String sortValue,
-                                        @PathVariable("category") String categoryName) {
+            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "asc") String sortValue,
+            @PathVariable("category") String categoryName) {
         Optional<Category> category = categoryService.getCategoryByName(categoryName);
         short categoryId;
         if (category.isEmpty() || category.get().getIsVisible() == false) {
@@ -76,13 +77,14 @@ public class ManagementController {
     }
 
     @PostMapping("/Management/update/{category}/{id}")
-    public String updateProduct(@PathVariable Integer id,
-                                @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                                @RequestParam(required = false, defaultValue = "3") Integer pageSize,
-                                @RequestParam(required = false, defaultValue = "asc") String sortValue,
-                                @PathVariable("category") String categoryName,
-                                @RequestParam("isVisible") Boolean isVisible,
-                                @RequestParam("isSearchable") Boolean isSearchable) {
+    public String updateProduct(
+            @Nullable @PathVariable Integer id,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "asc") String sortValue,
+            @Nullable @PathVariable("category") String categoryName,
+            @Nullable @RequestParam("isVisible") Boolean isVisible,
+            @Nullable @RequestParam("isSearchable") Boolean isSearchable) {
         if (id != null && isVisible != null && isSearchable != null && categoryName != null) {
             productService.updateProductFromManagement(id, isVisible, isSearchable);
             //Redirect to previous page

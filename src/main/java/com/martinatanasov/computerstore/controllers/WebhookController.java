@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,6 +23,7 @@ import com.stripe.model.EventDataObjectDeserializer;
 import com.stripe.model.StripeObject;
 import com.stripe.net.Webhook;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class WebhookController {
     private final String STRIPE_WEBHOOK_SECRET;
     private final OrderService orderService;
 
-    public WebhookController(@Value("${stripe.webhook.secret}") String webhookSecret, OrderService orderService) {
+    public WebhookController(@Nullable @Value("${stripe.webhook.secret}") String webhookSecret, OrderService orderService) {
         if (webhookSecret == null) {
             throw new RuntimeException("\n\tStripe webhook secret is not initialized!");
         }
@@ -52,7 +53,7 @@ public class WebhookController {
             "54.187.174.169", "54.187.205.235", "54.187.216.72"})
     @PostMapping("/payment-complete")
     public ResponseEntity<String> updatePaymentStatus(@RequestBody String payload,
-                                                      @RequestHeader("Stripe-Signature") String sigHeader) throws JsonProcessingException {
+            @RequestHeader("Stripe-Signature") String sigHeader) throws JsonProcessingException {
         Event event = null;
         try {
             log.trace("\n\tPayload: {}", payload);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,29 +13,28 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.utils.converter;
+package com.martinatanasov.computerstore.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-
 @Getter
-@Component
+@Configuration
 public class TestNotificationsState {
 
     private boolean isNotificationsActive = false;
 
     @Autowired
     public TestNotificationsState(Environment environment) {
-        if(Arrays.asList(environment.getActiveProfiles()).contains("test") ||
+        if (Arrays.asList(environment.getActiveProfiles()).contains("test") ||
                 Arrays.asList(environment.getActiveProfiles()).contains("benc") ||
                 Arrays.asList(environment.getActiveProfiles()).contains("prod") ||
                 Arrays.asList(environment.getActiveProfiles()).contains("default")) {
-            isNotificationsActive = true;
+            isNotificationsActive = environment.getProperty("application.test.notifications", Boolean.class, false);
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,10 +18,11 @@ package com.martinatanasov.computerstore.services.payments;
 import com.martinatanasov.computerstore.entities.User;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
+import org.jspecify.annotations.Nullable;
 
 public interface SessionPaymentService {
 
-    Session createCheckoutSession(User user, Long orderId) throws StripeException;
+    @Nullable Session createCheckoutSession(User user, Long orderId) throws StripeException;
 
     Session retrieveCheckoutSession(String sessionId) throws StripeException;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -37,7 +37,6 @@ import org.springframework.security.web.header.writers.XXssProtectionHeaderWrite
 
 import java.util.Arrays;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -53,7 +52,8 @@ public class GlobalSecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserService userService) {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider(userService);
-        auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
+        //set the password encoder - bcrypt
+        auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
 
@@ -106,8 +106,8 @@ public class GlobalSecurityConfig {
     @Bean
     @Order(3)
     SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                            AuthenticationSuccessHandler customAuthenticationSuccessHandler,
-                                            Environment environment) {
+            AuthenticationSuccessHandler customAuthenticationSuccessHandler,
+            Environment environment) {
         http
                 .authorizeHttpRequests(config -> config
                         .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")

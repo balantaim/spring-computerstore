@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +17,7 @@ package com.martinatanasov.computerstore.model;
 
 import com.martinatanasov.computerstore.entities.Role;
 import lombok.Builder;
+import org.jspecify.annotations.Nullable;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -31,7 +32,7 @@ public record UserDetailsDTO(
         String address,
         String phoneNumber,
         String customerId,
-        Long voucherId,
+        @Nullable Long voucherId,
         Byte attempts,
         Boolean enabled,
         Boolean verifiedProfile,

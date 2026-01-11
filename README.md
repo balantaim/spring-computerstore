@@ -4,7 +4,7 @@
 
 ## Description
 
-<b>Computer Store</b> is a cutting-edge e-commerce platform built using Java Spring framework, hosted on the reliable AWS (Amazon Web Services) cloud platform and integrated with Stripe payments. Designed to cater to tech-savvy consumers, this demo project showcases a seamless online shopping experience for computer hardware and accessories enthusiasts.
+**Computer Store** is a cutting-edge e-commerce platform built using Java Spring framework, hosted on the reliable AWS (Amazon Web Services) cloud platform and integrated with Stripe payments. Designed to cater to tech-savvy consumers, this demo project showcases a seamless online shopping experience for computer hardware and accessories enthusiasts.
 
 ## Software Stack
 
@@ -54,8 +54,11 @@ TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
 6. Optional: Add default timezone to the Database (`UTC` or `Europe/Sofia`) example: `spring.datasource.url=jdbc:mysql://localhost:3306/computer_store?serverTimezone=Europe/Sofia`
 7. Test the project in your favorite IDE or via command line with:
 
+> [!NOTE]
+> If Maven 3.9.0+ is installed you could use `mvn` instead of `./mvnw` that represents the Maven wrapper.
+
 ```bash
-mvn spring-boot:run -Dspring-boot.run.arguments="\
+./mvnw spring-boot:run -Dspring-boot.run.arguments="\
 --STRIPE_SECRET_KEY=<YOUR_KEY> \
 --STRIPE_WEBHOOK_SECRET=<YOUR_SECRET> \
 --DB_NAME=<YOUR_NAME> \
@@ -74,20 +77,20 @@ mvn spring-boot:run -Dspring-boot.run.arguments="\
 * Generate a report of SpotBugs issues by running the following command in your terminal:
 
 ```bash
-mvn spotbugs:spotbugs
+./mvnw spotbugs:spotbugs
 ```
 
 * Open SpotBugs GUI to view issues by running the following command in your terminal:
 
 ```bash
-mvn spotbugs:gui
+./mvnw spotbugs:gui
 ```
 
 9. Use prod profile in the application.properties: `spring.profiles.active=prod`
 10. Create execution jar from the terminal by using:
 
 ```bash
-mvn clean package -Pproduction
+./mvnw clean package -Pproduction
 ```
 
 11. Test the jar on locale environment from `./target` directory
@@ -202,13 +205,13 @@ Optionally you could add RAM limit with value: `-XX:MaxRAMPercentage=80.0`
 1. development: default profile, use with the following command
 
 ```bash
-mvn clean package
+./mvnw clean package
 ```
 
 2. production: optimized profile for production, use with the following command
 
 ```bash
-mvn clean package -Pproduction
+./mvnw clean package -Pproduction
 ```
 
 ### Spring Environment profiles
@@ -244,7 +247,7 @@ mvn clean package -Pproduction
 Run the following command to run unit tests:
 
 ```bash
- mvn test \
+ ./mvnw test \
   -Dspring.profiles.active="test" \
   -Dspring.datasource.username="<YOUR_DB_NAME>" \
   -Dspring.datasource.password="<YOUR_DB_PASS>" \
@@ -310,8 +313,25 @@ AWS Elastic Beanstalk production link: <a href="http://computer-store-demo.eu-no
 
 ## Gallery
 
+**EER Diagram:**
+
 ![EER diagram](images/EER-diagram.PNG)
+
+**SEO Metrics:**
+
 ![SEO Optimisations](images/seo.PNG)
+
+**Application features:**
+
+![Home](images/home.png)
+![Home with search](images/home-search.png)
+![Result view](images/result-view.png)
+![Cart](images/cart.png)
+![Checkout delivery](images/checkout-delivery.png)
+![Checkout payment](images/checkout-payment.png)
+![Stripe test](images/stripe-test.png)
+![Order](images/order.png)
+![Register](images/register.png)
 
 ### Analytics
 
@@ -357,7 +377,8 @@ tree -d -A
 │       │   ├── images
 │       │   │   ├── carriers
 │       │   │   ├── category
-│       │   │   └── home
+│       │   │   ├── home
+│       │   │   └── maskable
 │       │   ├── js
 │       │   └── other
 │       └── templates
@@ -370,6 +391,7 @@ tree -d -A
 │           ├── Home
 │           ├── Login
 │           ├── Management
+│           ├── Metrics
 │           ├── Orders
 │           ├── Products
 │           ├── Register
@@ -385,10 +407,10 @@ tree -d -A
 
 ### Flylay migration troubleshooting
 
-Use goal clean to erase the database:
+Use goal `clean` to erase the database:
 
 > [!IMPORTANT]
-> This will wipe out you database!
+> This will wipe out your database!
 
 ```bash
 ./mvnw flyway:clean \
@@ -398,7 +420,7 @@ Use goal clean to erase the database:
   -Dflyway.cleanDisabled=false
 ```
 
-Use goal migrate to apply all migrations to the database:
+Use goal `migrate` to apply all migrations to the database:
 
 ```bash
 ./mvnw flyway:migrate \
@@ -407,7 +429,7 @@ Use goal migrate to apply all migrations to the database:
   -Dflyway.password=<YOUR_DB_PASS>
 ```
 
-Use goal repair for:
+Use goal `repair` for:
 
 - Remove failed migration entries
 - Fix checksums for already applied migrations

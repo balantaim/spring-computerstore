@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,6 +20,7 @@ import com.martinatanasov.computerstore.model.StoreItemDTO;
 import com.martinatanasov.computerstore.services.ProductService;
 import com.martinatanasov.computerstore.services.ProductServiceImpl;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
@@ -63,9 +64,9 @@ public class HomeController {
             @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "3") Integer pageSize,
             @RequestParam(required = false, defaultValue = "asc") String sortValue,
-            @RequestParam(required = false, defaultValue = "") String keyword) {
+            @Nullable @RequestParam(required = false, defaultValue = "") String keyword) {
         Page<Product> products;
-        if (keyword == null || keyword.isEmpty()) {
+        if (keyword == null) {
             keyword = "";
         }
         products = productService.findAllByKeywordAndIsSearchableTrue(keyword, pageNumber, pageSize, sortValue);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,6 +20,7 @@ import com.martinatanasov.computerstore.entities.OrderItem;
 import com.martinatanasov.computerstore.services.OrderService;
 import com.martinatanasov.computerstore.utils.converter.OrderConverter;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,7 +58,7 @@ public class OrderController {
     }
 
     @GetMapping("/order-details/{orderId}")
-    public String orderDetails(@PathVariable(name = "orderId") Long orderId, Model model) {
+    public String orderDetails(@Nullable @PathVariable Long orderId, Model model) {
         if (orderId != null) {
             final String email = getUserName();
             if (email != null) {
@@ -73,10 +74,10 @@ public class OrderController {
         return NOT_FOUND_PAGE;
     }
 
-    private String getUserName() {
+    private @Nullable String getUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        assert authentication != null;
         return authentication.getName();
     }
-
 
 }

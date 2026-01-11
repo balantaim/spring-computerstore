@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +18,7 @@ package com.martinatanasov.computerstore.controllers;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.AppUserDTO;
 import com.martinatanasov.computerstore.services.UserService;
-import com.martinatanasov.computerstore.utils.converter.TestNotificationsState;
+import com.martinatanasov.computerstore.config.TestNotificationsState;
 import com.martinatanasov.computerstore.utils.converter.UserConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +24,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.stripe.param.checkout.SessionExpireParams;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +54,7 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
     }
 
     @Override
-    public Session createCheckoutSession(final User user, final Long orderId) throws StripeException {
+    public @Nullable Session createCheckoutSession(final User user, final Long orderId) throws StripeException {
         Optional<Order> order = orderRepository.getOrderById(orderId);
         if (user != null && order.isPresent()) {
             if (order.get().getStatus() != OrderStatus.ORDER_ABORTED) {

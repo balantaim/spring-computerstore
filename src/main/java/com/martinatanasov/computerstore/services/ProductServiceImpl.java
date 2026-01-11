@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,7 +17,8 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -30,18 +31,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CacheManager cacheManager;
-
-    @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CacheManager cacheManager) {
-        this.productRepository = productRepository;
-        //Cache manager is used to update the cache properly
-        this.cacheManager = cacheManager;
-    }
 
     @Override
     public Page<Product> getAllProducts() {
@@ -94,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProductFromManagement(final Integer id, final Boolean isVisible, final Boolean isSearchable) {
+    public @Nullable Product updateProductFromManagement(final Integer id, final Boolean isVisible, final Boolean isSearchable) {
         Optional<Product> product = productRepository.findProductById(id);
         if (product.isPresent()) {
             product.get().setIsVisible(isVisible);

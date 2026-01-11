@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +24,7 @@ import com.stripe.model.CustomerCollection;
 import com.stripe.model.CustomerSearchResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,6 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
  *
  * @author Martin Anatanov
  */
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -67,7 +67,7 @@ public class PaymentController {
 
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/search/{keyword}")
-    public String getCustomerByKeyword(@PathVariable String keyword) {
+    public String getCustomerByKeyword(@Nullable @PathVariable String keyword) {
         if (keyword != null && keyword.length() >= 2 && keyword.length() <= 255) {
             CustomerSearchResult customers = paymentCustomerService.getCustomersByKeyword(keyword);
             log.info(customers.toString());
@@ -95,7 +95,7 @@ public class PaymentController {
 
     @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping("/delete/{customerId}")
-    public String deleteCustomerById(@PathVariable String customerId) {
+    public String deleteCustomerById(@Nullable @PathVariable String customerId) {
         if (customerId != null) {
             paymentCustomerService.deleteCustomerById(customerId);
             //Update user

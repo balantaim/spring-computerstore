@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,6 +23,7 @@ import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -135,7 +136,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public int getCartItemsCount(final Long userId) {
+    public int getCartItemsCount(@Nullable final Long userId) {
         if (userId != null) {
             final Integer count = cartRepository.countByUserId(userId);
             return count == null ? 0:count;
@@ -147,7 +148,7 @@ public class CartServiceImpl implements CartService {
         return quantity > 0 && quantity <= PURCHASE_LIMIT_COUNT;
     }
 
-    private Long getUserId(final String username) {
+    private @Nullable Long getUserId(final String username) {
         final User user = userDao.findByUserName(username);
         return user != null ? user.getId() : null;
     }
