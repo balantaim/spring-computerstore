@@ -25,6 +25,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -49,26 +50,31 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Cacheable(cacheNames = "productListCache")
+    @Transactional(readOnly = true)
     @Override
     public Page<Product> findAllByCategoryId(Short categoryId, Integer pageNumber, Integer pageSize, String sortValue) {
         return productRepository.findAllByCategory(categoryId, buildPageRequest(pageNumber, pageSize, sortValue));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<Product> getAllByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortValue) {
         return productRepository.findAllByKeyword(keyword, buildPageRequest(pageNumber, pageSize, sortValue));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<Product> findAllByKeywordAndIsSearchableTrue(String keyword, Integer pageNumber, Integer pageSize, String sortValue) {
         return productRepository.findAllByKeywordAndIsSearchableTrue(keyword, buildPageRequest(pageNumber, pageSize, sortValue));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<Product> findAllByCompatibleWithAndIsSearchableTrue(String compatibleWith, Integer pageNumber, Integer pageSize, String sortValue) {
         return productRepository.findAllByCompatibleWithAndIsSearchableTrue(compatibleWith, buildPageRequest(pageNumber, pageSize, sortValue));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Product> getAllByKeyword(String keyword) {
         return productRepository.findAllByKeyword(keyword)
@@ -88,6 +94,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findFirstByProductNameIgnoreCase(productName);
     }
 
+    @Transactional
     @Override
     public @Nullable Product updateProductFromManagement(final Integer id, final Boolean isVisible, final Boolean isSearchable) {
         Optional<Product> product = productRepository.findProductById(id);

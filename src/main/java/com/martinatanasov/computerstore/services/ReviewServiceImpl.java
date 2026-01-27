@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,6 +25,7 @@ import com.martinatanasov.computerstore.repositories.ReviewRepository;
 import com.martinatanasov.computerstore.repositories.UserDaoImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,6 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ProductRepository productRepository;
     private final UserDaoImpl userRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public ProductReviewsDTO getProductAverageRating(final String email, final Product product) {
         User user;
@@ -70,6 +72,7 @@ public class ReviewServiceImpl implements ReviewService {
         return new ProductReviewsDTO(averageVote, reviews.size(), isAlreadyVoted.get());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ProductReviewsDTO getProductAverageRating(final Product product) {
         Set<Review> reviews = reviewRepository.findByProduct(product);
@@ -79,6 +82,7 @@ public class ReviewServiceImpl implements ReviewService {
         return new ProductReviewsDTO(averageVote, reviews.size(), false);
     }
 
+    @Transactional
     @Override
     public boolean voteForProduct(final String username, final Integer productId, final Double vote) {
         User user = userRepository.findByUserName(username);
@@ -100,6 +104,7 @@ public class ReviewServiceImpl implements ReviewService {
         return false;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ReviewDTO> findReviewsByUser(final String email) {
         final User user = userRepository.findByUserName(email);

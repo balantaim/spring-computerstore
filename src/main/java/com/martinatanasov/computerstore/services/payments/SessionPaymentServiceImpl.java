@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -53,8 +54,9 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
         log.trace("\n\tPayment currency: {}", PAYMENT_CURRENCY);
     }
 
+    @Transactional
     @Override
-    public @Nullable Session createCheckoutSession(final User user, final Long orderId) throws StripeException {
+    public @Nullable Session createCheckoutSession(@Nullable final User user, final Long orderId) throws StripeException {
         Optional<Order> order = orderRepository.getOrderById(orderId);
         if (user != null && order.isPresent()) {
             if (order.get().getStatus() != OrderStatus.ORDER_ABORTED) {
@@ -169,7 +171,7 @@ public class SessionPaymentServiceImpl implements SessionPaymentService {
                 .build();
     }
 
-    private Map<String, String> getCarrierMetadata(final Shipment shipment) {
+    private Map<String, String> getCarrierMetadata(@Nullable final Shipment shipment) {
         Map<String, String> metadata = new HashMap<>();
         if (shipment != null) {
             metadata.put("carrier", shipment.getCarrier().name());

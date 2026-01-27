@@ -21,11 +21,11 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.repositories.CartRepository;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -55,6 +55,7 @@ public class CartServiceImpl implements CartService {
         return null;
     }
 
+    @Transactional
     @Override
     public void createCart(final String username, final Integer productId, final Integer quantity) {
         final User user = getUser(username);
@@ -73,6 +74,7 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Transactional
     @Override
     public void updateCart(final String username, final Integer productId, final Integer quantity) {
         if (isTransactionValid(quantity)) {
@@ -88,6 +90,7 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Transactional
     @Override
     public void deleteSingleItem(final String username, final Long cartId) {
         Long userId = getUserId(username);
@@ -121,6 +124,7 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Transactional
     @Override
     public void updateCartQuantity(final Long cartId, final Boolean isIncrement) {
         Optional<Cart> item = cartRepository.findById(cartId);

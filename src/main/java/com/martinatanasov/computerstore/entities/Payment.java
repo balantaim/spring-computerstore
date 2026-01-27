@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,25 +41,25 @@ public class Payment {
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "payment_type", length = 20)
+    @Column(name = "payment_type", nullable = false, length = 20)
     private PaymentType paymentType;
 
     @Column(name = "amount", precision = 9, scale = 2)
     private BigDecimal amount;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "payment_status", length = 20)
+    @Column(name = "payment_status", nullable = false, length = 20)
     private PaymentStatus paymentStatus;
 
     @Column(name = "payment_session_id")
     private String paymentSessionId;
 
     @CreationTimestamp
-    @Column(name = "creation_date", updatable = false)
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;
 
     @UpdateTimestamp
-    @Column(name = "modify_date")
+    @Column(name = "modify_date", nullable = false)
     private Timestamp modifyDate;
 
     @OneToOne

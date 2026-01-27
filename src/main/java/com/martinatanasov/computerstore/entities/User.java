@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -66,10 +66,10 @@ public class User {
     @Column(name = "voucher_id")
     private Long voucherId;
 
-    @Column(name = "attempts")
+    @Column(name = "attempts", nullable = false)
     private Byte attempts;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
     @Column(name = "verified_profile")
@@ -83,7 +83,7 @@ public class User {
     @UpdateTimestamp
     private Timestamp modifyDate;
 
-    @Column(name = "lock_date")
+    @Column(name = "lock_date", nullable = false)
     private Timestamp lockDate;
 
     @ManyToMany(fetch = FetchType.EAGER,

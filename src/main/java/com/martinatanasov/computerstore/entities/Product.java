@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,30 +41,30 @@ public class Product {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "product_name")
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "producer", length = 50)
+    @Column(name = "producer", nullable = false, length = 50)
     private String producer;
 
     @Column(name = "price", precision = 9, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "stock")
+    @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
     @CreationTimestamp
-    @Column(name = "creation_date", updatable = false)
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;
 
     @UpdateTimestamp
-    @Column(name = "modify_date")
+    @Column(name = "modify_date", nullable = false)
     private Timestamp modifyDate;
 
     @Column(name = "is_visible", nullable = false)
@@ -89,7 +89,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     @ToString.Exclude
     private Category category;
 

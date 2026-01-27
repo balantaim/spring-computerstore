@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,7 +34,7 @@ public class Role {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "authority", length = 50)
+    @Column(name = "authority", nullable = false, length = 50)
     private String authority;
 
     public Role(String authority) {

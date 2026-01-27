@@ -21,6 +21,7 @@ import com.martinatanasov.computerstore.repositories.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 
@@ -32,6 +33,7 @@ public class BruteForceProtectionServiceImpl implements BruteForceProtectionServ
     private Byte maxFailedLogins;
     private final UserDao userDao;
 
+    @Transactional
     @Override
     public void registerLoginFailure(final String username) {
         User user = userDao.findByUserName(username);
@@ -50,6 +52,7 @@ public class BruteForceProtectionServiceImpl implements BruteForceProtectionServ
         }
     }
 
+    @Transactional
     @Override
     public void resetLoginFailureCounter(final String username) {
         userDao.setLoginFailedAttempt(username, new UserFailedAttempts((byte) 0,

@@ -24,11 +24,11 @@ import com.martinatanasov.computerstore.repositories.CartRepository;
 import com.martinatanasov.computerstore.repositories.OrderRepository;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -200,11 +200,13 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
+    @Transactional
     @Override
     public void abortOrder(final Order order) {
         orderRepository.save(order);
     }
 
+    @Transactional
     @Override
     public void delete(final Order order) {
         orderRepository.delete(order);

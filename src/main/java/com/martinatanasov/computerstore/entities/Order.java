@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -54,18 +54,18 @@ public class Order {
     }
 
     @CreationTimestamp
-    @Column(name = "order_date", updatable = false)
+    @Column(name = "order_date", nullable = false, updatable = false)
     private Timestamp orderDate;
 
     @UpdateTimestamp
-    @Column(name = "modify_date")
+    @Column(name = "modify_date", nullable = false)
     private Timestamp modifyDate;
 
     @Column(name = "total_amount", precision = 9, scale = 2)
     private BigDecimal totalAmount;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private OrderStatus status;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -39,31 +39,31 @@ public class Shipment {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @Column(name = "tracking_number")
     private String trackingNumber;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "carrier", length = 20)
+    @Column(name = "carrier", nullable = false, length = 20)
     private Carrier carrier;
 
-    @Column(name = "country", length = 50)
+    @Column(name = "country", nullable = false, length = 50)
     private String country;
 
-    @Column(name = "address", length = 150)
+    @Column(name = "address", nullable = false, length = 150)
     private String address;
 
-    @Column(name = "phone_number", length = 20)
+    @Column(name = "phone_number", nullable = false, length = 20)
     private String phoneNumber;
 
     @CreationTimestamp
-    @Column(name = "creation_date", updatable = false)
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;
 
     @UpdateTimestamp
-    @Column(name = "modify_date")
+    @Column(name = "modify_date", nullable = false)
     private Timestamp modifyDate;
 
     @OneToOne

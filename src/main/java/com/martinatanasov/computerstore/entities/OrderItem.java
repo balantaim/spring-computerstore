@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -38,18 +38,18 @@ public class OrderItem {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @Column(name = "price_per_unit", precision = 9, scale = 2)
     private BigDecimal pricePerUnit;
 
     @CreationTimestamp
-    @Column(name = "creation_date", updatable = false)
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;
 
     @UpdateTimestamp
-    @Column(name = "modify_date")
+    @Column(name = "modify_date", nullable = false)
     private Timestamp modifyDate;
 
     //FK referencing Order
