@@ -27,6 +27,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -77,7 +78,7 @@ public class ManagementController {
     }
 
     @PostMapping("/Management/update/{category}/{id}")
-    public String updateProduct(
+    public String updateProduct(RedirectAttributes redirectAttributes,
             @Nullable @PathVariable Integer id,
             @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "3") Integer pageSize,
@@ -87,6 +88,8 @@ public class ManagementController {
             @Nullable @RequestParam("isSearchable") Boolean isSearchable) {
         if (id != null && isVisible != null && isSearchable != null && categoryName != null) {
             productService.updateProductFromManagement(id, isVisible, isSearchable);
+            //Add Redirect Flash Attribute
+            redirectAttributes.addFlashAttribute("status", "success");
             //Redirect to previous page
             return "redirect:/Management/" + categoryName + "?pageNumber=" + pageNumber + "&pageSize=" + pageSize + "&sortValue=" + sortValue;
         }
