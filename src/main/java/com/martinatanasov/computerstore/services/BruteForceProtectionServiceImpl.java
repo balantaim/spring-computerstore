@@ -30,7 +30,7 @@ import java.sql.Timestamp;
 public class BruteForceProtectionServiceImpl implements BruteForceProtectionService {
 
     @Value("${security.max.login.attempts}")
-    private Byte maxFailedLogins;
+    private Byte MAX_FAILED_LOGIN_ATTEMPTS;
     private final UserDao userDao;
 
     @Transactional
@@ -38,16 +38,16 @@ public class BruteForceProtectionServiceImpl implements BruteForceProtectionServ
     public void registerLoginFailure(final String username) {
         User user = userDao.findByUserName(username);
         if (user != null) {
-            boolean enabled = true;
-            Byte count = user.getAttempts();
-            if (count < maxFailedLogins) {
-                count++;
+            boolean accountNonLocked = true;
+            Byte failedLoginAttempts = user.getAttempts();
+            if (failedLoginAttempts < MAX_FAILED_LOGIN_ATTEMPTS) {
+                failedLoginAttempts++;
             }
-            if (count >= maxFailedLogins) {
-                enabled = false;
+            if (failedLoginAttempts >= MAX_FAILED_LOGIN_ATTEMPTS) {
+                accountNonLocked = false;
             }
-            userDao.setLoginFailedAttempt(username, new UserFailedAttempts(count,
-                    enabled,
+            userDao.setLoginFailedAttempt(username, new UserFailedAttempts(failedLoginAttempts,
+                    accountNonLocked,
                     new Timestamp(System.currentTimeMillis())));
         }
     }

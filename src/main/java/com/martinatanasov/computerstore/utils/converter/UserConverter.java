@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -37,6 +37,7 @@ public class UserConverter {
                 .voucherId(user.getVoucherId())
                 .attempts(user.getAttempts())
                 .enabled(user.getEnabled())
+                .accountNonLocked(user.getAccountNonLocked())
                 .verifiedProfile(user.getVerifiedProfile())
                 .creationDate(user.getCreationDate())
                 .modifyDate(user.getModifyDate())

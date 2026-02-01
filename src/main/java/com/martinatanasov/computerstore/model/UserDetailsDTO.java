@@ -35,6 +35,7 @@ public record UserDetailsDTO(
         @Nullable Long voucherId,
         Byte attempts,
         Boolean enabled,
+        Boolean accountNonLocked,
         Boolean verifiedProfile,
         Timestamp creationDate,
         Timestamp modifyDate,

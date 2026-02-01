@@ -100,9 +100,9 @@ button {
     border-radius: 6px;
 }
 
-input {
-    height: 30px;
-    min-width: 145px;
+/* Checkbox background checked */
+.checkbox input[type="checkbox"]:checked {
+    accent-color: var(--primary);
 }
 
 .space {

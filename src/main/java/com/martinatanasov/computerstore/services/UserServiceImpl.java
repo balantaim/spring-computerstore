@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(appUserDTO.getFirstName());
         user.setLastName(appUserDTO.getLastName());
         user.setEnabled(true);
+        user.setAccountNonLocked(true);
         user.setAttempts((byte) 0);
         //The default new profile is set to verified by email
         user.setVerifiedProfile(true);
@@ -111,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void disableOrEnableUser(final Long userId, final boolean enabled, final boolean verified) {
+    public void disableOrEnableUser(final Long userId, final boolean enabled, boolean accountNonLocked, final boolean verified) {
         User user = findByUserId(userId);
         if (user != null) {
             if (user.getEnabled() != enabled) {
@@ -119,6 +120,9 @@ public class UserServiceImpl implements UserService {
                 if (enabled) {
                     user.setAttempts((byte) 0);
                 }
+            }
+            if (user.getAccountNonLocked() != accountNonLocked) {
+                user.setAccountNonLocked(accountNonLocked);
             }
             if (user.getVerifiedProfile() != verified) {
                 user.setVerifiedProfile(verified);

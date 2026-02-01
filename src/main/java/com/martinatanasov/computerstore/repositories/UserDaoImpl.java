@@ -45,10 +45,9 @@ public class UserDaoImpl implements UserDao {
         if (email == null || email.length() < 3 || email.length() > 50) {
             return user;
         }
-        // retrieve/read from database using username
-        TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE email=:userEmail AND enabled=true", User.class);
+        // Retrieve/read from database using username
+        TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE email = :userEmail AND enabled = true AND accountNonLocked = true", User.class);
         theQuery.setParameter("userEmail", email);
-
         try {
             user = theQuery.getSingleResult();
         } catch (Exception e) {
@@ -149,7 +148,7 @@ public class UserDaoImpl implements UserDao {
             return null;
         }
         Query query = entityManager.createQuery(
-                "SELECT attempts, enabled, lockDate FROM User u WHERE u.email=:email"
+                "SELECT attempts, accountNonLocked, lockDate FROM User u WHERE u.email=:email"
         );
         query.setParameter("email", email);
         return (Object[]) query.getSingleResult();
@@ -164,10 +163,10 @@ public class UserDaoImpl implements UserDao {
         User user = findByUserName(email);
         if (user != null) {
             Query query = entityManager.createNativeQuery(
-                    "UPDATE users SET attempts = :attempts, enabled = :enabled, lock_date = :lock_date WHERE email = :email"
+                    "UPDATE users SET attempts = :attempts, account_non_locked = :accountNonLocked, lock_date = :lock_date WHERE email = :email"
             );
             query.setParameter("attempts", info.attempts());
-            query.setParameter("enabled", info.enabled());
+            query.setParameter("accountNonLocked", info.accountNonLocked());
             query.setParameter("lock_date", info.lockDate());
             query.setParameter("email", email);
             // Execute the update to insert the record

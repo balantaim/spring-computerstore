@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024-2025 Martin Atanasov.
+  ~ Copyright 2024-2026 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -47,6 +47,7 @@
                         <th><abbr th:title="#{form.placeholder.email}">[[#{form.placeholder.email}]]</abbr></th>
                         <th><abbr th:title="#{table.user.id}">[[#{table.user.id}]]</abbr></th>
                         <th><abbr th:title="#{table.user.enabled}">[[#{table.user.enabled}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.non.locked}">[[#{table.user.non.locked}]]</abbr></th>
                         <th><abbr th:title="#{table.user.verified}">[[#{table.user.verified}]]</abbr></th>
                         <th><abbr th:title="#{table.user.created}">[[#{table.user.created}]]</abbr></th>
                         <th><abbr th:title="#{table.user.modified}">[[#{table.user.modified}]]</abbr></th>
@@ -60,6 +61,7 @@
                         <th><abbr th:title="#{form.placeholder.email}">[[#{form.placeholder.email}]]</abbr></th>
                         <th><abbr th:title="#{table.user.id}">[[#{table.user.id}]]</abbr></th>
                         <th><abbr th:title="#{table.user.enabled}">[[#{table.user.enabled}]]</abbr></th>
+                        <th><abbr th:title="#{table.user.non.locked}">[[#{table.user.non.locked}]]</abbr></th>
                         <th><abbr th:title="#{table.user.verified}">[[#{table.user.verified}]]</abbr></th>
                         <th><abbr th:title="#{table.user.created}">[[#{table.user.created}]]</abbr></th>
                         <th><abbr th:title="#{table.user.modified}">[[#{table.user.modified}]]</abbr></th>
@@ -80,6 +82,15 @@
                                             <select name="enabled" th:id="'enabled-' + ${user.id}">
                                                 <option th:value="true"  th:selected="${user.enabled} == true">True</option>
                                                 <option th:value="false" th:selected="${user.enabled} == false">False</option>
+                                            </select>
+                                        </div>
+
+                                    </td>
+                                                                        <td>
+                                        <div class="select">
+                                            <select name="accountNonLocked" th:id="'accountNonLocked-' + ${user.id}">
+                                                <option th:value="true"  th:selected="${user.accountNonLocked} == true">True</option>
+                                                <option th:value="false" th:selected="${user.accountNonLocked} == false">False</option>
                                             </select>
                                         </div>
 

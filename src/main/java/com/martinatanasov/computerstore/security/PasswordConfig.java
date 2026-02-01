@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2026 Martin Atanasov.
+ * Copyright 2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,11 +13,18 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.model;
+package com.martinatanasov.computerstore.security;
 
-import java.sql.Timestamp;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+@Configuration
+public class PasswordConfig {
 
-public record UserFailedAttempts (Byte attempts,
-                                  Boolean accountNonLocked,
-                                  Timestamp lockDate){}
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+}

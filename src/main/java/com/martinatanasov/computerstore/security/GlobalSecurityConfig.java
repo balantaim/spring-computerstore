@@ -36,24 +36,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class GlobalSecurityConfig {
 
-    //bcrypt bean definition
+    //AuthenticationProvider bean definition
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    //authenticationProvider bean definition
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserService userService) {
+    public DaoAuthenticationProvider authenticationProvider(UserService userService, BCryptPasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider(userService);
-        //set the password encoder - bcrypt
-        auth.setPasswordEncoder(passwordEncoder());
+        //Set the password encoder - bcrypt
+        auth.setPasswordEncoder(passwordEncoder);
         return auth;
     }
 
@@ -107,7 +102,8 @@ public class GlobalSecurityConfig {
     @Order(3)
     SecurityFilterChain securityFilterChain(HttpSecurity http,
             AuthenticationSuccessHandler customAuthenticationSuccessHandler,
-            Environment environment) {
+            Environment environment,
+            UserService userService) {
         http
                 .authorizeHttpRequests(config -> config
                         .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
@@ -157,6 +153,13 @@ public class GlobalSecurityConfig {
                 )
                 .exceptionHandling(config -> config
                         .accessDeniedPage("/access-denied")
+                )
+                .rememberMe(remember -> remember
+                        //Add String key
+                        .key(environment.getProperty("security.remember-me.key"))
+                        //Add validity seconds
+                        .tokenValiditySeconds(Integer.parseInt(Objects.requireNonNull(environment.getProperty("security.remember-me.validity"))))
+                        .userDetailsService(userService)
                 )
                 .httpBasic(AbstractHttpConfigurer::disable);
 

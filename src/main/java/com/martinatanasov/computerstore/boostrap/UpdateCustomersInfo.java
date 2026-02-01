@@ -37,11 +37,10 @@ public class UpdateCustomersInfo implements CommandLineRunner {
         log.info("\n\tInitiate update customer_id values to the database");
         CustomerCollection customerCollection = paymentCustomerService.getAllCustomers();
         if (customerCollection.getData() != null) {
-            customerCollection
-                    .getData()
+            customerCollection.getData()
                     .forEach(index -> {
                         User user = userDao.findByUserName(index.getEmail());
-                        if (user != null && user.getCustomerId() != null) {
+                        if (user != null) {
                             user.setCustomerId(index.getId());
                             userDao.save(user);
                         }

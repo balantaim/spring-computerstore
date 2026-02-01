@@ -91,10 +91,11 @@ public class AdministrationController {
     public String disableOrEnableUser(
             @Nullable @RequestParam("userId") Long userId,
             @Nullable @RequestParam("enabled") Boolean enabled,
+            @Nullable @RequestParam("accountNonLocked") Boolean accountNonLocked,
             @Nullable @RequestParam("verified") Boolean verified,
             Model model) {
-        if (userId != null && enabled != null && verified != null) {
-            userService.disableOrEnableUser(userId, enabled, verified);
+        if (userId != null && enabled != null && accountNonLocked != null && verified != null) {
+            userService.disableOrEnableUser(userId, enabled, accountNonLocked, verified);
 
             final List<User> users = userService.getUsersDetailsInfo();
             if (users != null) {

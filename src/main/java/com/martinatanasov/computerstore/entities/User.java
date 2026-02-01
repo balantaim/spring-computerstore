@@ -69,6 +69,9 @@ public class User {
     @Column(name = "attempts", nullable = false)
     private Byte attempts;
 
+    @Column(name = "account_non_locked", nullable = false)
+    private Boolean accountNonLocked = true;
+
     @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
@@ -112,16 +115,17 @@ public class User {
     @ToString.Exclude
     private Set<Review> reviews = new HashSet<>();
 
-    public User(String email, String firstName, String lastName, String password, Boolean enabled, Boolean verifiedProfile) {
+    public User(String email, String firstName, String lastName, String password, Boolean enabled, Boolean accountNonLocked, Boolean verifiedProfile) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.enabled = enabled;
+        this.accountNonLocked = accountNonLocked;
         this.verifiedProfile = verifiedProfile;
     }
 
-    public User(String email, String firstName, String lastName, String password, String country, String address, String phoneNumber, Boolean enabled, Boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
+    public User(String email, String firstName, String lastName, String password, String country, String address, String phoneNumber, Boolean enabled, Boolean accountNonLocked, Boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -130,6 +134,7 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.enabled = enabled;
+        this.accountNonLocked = accountNonLocked;
         this.verifiedProfile = verifiedProfile;
         this.creationDate = creationDate;
         this.roles = roles;
