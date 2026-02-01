@@ -18,8 +18,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:with="lang=${#locale.language == 'bg' ? 'bg':'en'}" th:lang="${lang}">
-<head th:replace="~{fragments/head :: head(~{::title})}">
+<head th:replace="~{fragments/head-js-extras :: head(~{::title}, ~{::script})}">
     <title>Login Form</title>
+    <script defer th:src="@{/js/remember-me.js}"></script>
 </head>
 <body>
 <!-- NAVBAR -->

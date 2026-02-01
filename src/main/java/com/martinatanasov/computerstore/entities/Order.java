@@ -74,6 +74,7 @@ public class Order {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @Builder.Default
     @ToString.Exclude
     private Set<OrderItem> orderItems = new HashSet<>();
 
