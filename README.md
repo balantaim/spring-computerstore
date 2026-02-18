@@ -330,7 +330,7 @@ AWS Elastic Beanstalk production link: <a href="http://computer-store-demo.eu-no
 
 **EER Diagram:**
 
-![EER diagram](sql-scripts/model.svg)
+![EER diagram](images/EER-diagram.PNG)
 
 **SEO Metrics:**
 
