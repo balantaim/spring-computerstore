@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024-2025 Martin Atanasov.
+  ~ Copyright 2024-2026 Martin Atanasov.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -22,6 +22,7 @@
                 <a th:href="@{/Products/item/{id}(id=${product.id})}">
                     <figure class="is-3by2 m-1 is-skeleton">
                         <img th:if="${product.imageUrl}"
+                             class="vertical-card-image"
                              height="150px"
                              width="200px"
                              th:src="@{${product.imageUrl}}"
