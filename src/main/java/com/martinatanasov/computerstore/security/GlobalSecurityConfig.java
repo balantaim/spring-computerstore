@@ -32,11 +32,13 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 @Configuration
 @EnableWebSecurity
@@ -68,7 +70,7 @@ public class GlobalSecurityConfig {
     @Order(1)
     SecurityFilterChain actuatorFilterChain(HttpSecurity http, @Value("${management.endpoints.web.base-path}") String actuatorBasePath) {
         return http
-                // Use current filter chain only specific paths
+                //Use current filter chain only specific paths
                 .securityMatcher(actuatorBasePath + "/**")
                 .authorizeHttpRequests(config -> config
                         //EndpointRequest manage the actuator endpoint
@@ -87,7 +89,7 @@ public class GlobalSecurityConfig {
     SecurityFilterChain staticAssetsFilterChain(HttpSecurity http) {
         final String[] staticResources = {"/favicon.ico", "/other/**", "/css/**", "/images/**", "/js/**", "/robots.txt"};
         return http
-                // Use current filter chain only specific paths
+                //Use current filter chain only specific paths
                 .securityMatcher(staticResources)
                 .authorizeHttpRequests(config -> config
                         .requestMatchers(HttpMethod.GET, staticResources).permitAll()
@@ -103,7 +105,8 @@ public class GlobalSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http,
             AuthenticationSuccessHandler customAuthenticationSuccessHandler,
             Environment environment,
-            UserService userService) {
+            UserService userService,
+            PersistentTokenRepository persistentTokenRepository) {
         http
                 .authorizeHttpRequests(config -> config
                         .requestMatchers("/Profile/**").hasAnyRole("CUSTOMER", "MANAGER", "ADMIN")
@@ -135,7 +138,7 @@ public class GlobalSecurityConfig {
                         //Redirect to login form if no authorization
                         .loginPage("/Login")
                         //.defaultSuccessUrl("/Profile", true)
-                        //Login method used in the html
+                        //Login method used in the HTML
                         .loginProcessingUrl("/authenticateTheUser")
                         .failureUrl("/Login?error=true")
                         .successHandler(customAuthenticationSuccessHandler)
@@ -154,12 +157,19 @@ public class GlobalSecurityConfig {
                 .exceptionHandling(config -> config
                         .accessDeniedPage("/access-denied")
                 )
+                //Remember me - Simple Hash-Based Token Approach
+                /*
                 .rememberMe(remember -> remember
                         //Add String key
                         .key(environment.getProperty("security.remember-me.key"))
                         //Add validity seconds
                         .tokenValiditySeconds(Integer.parseInt(Objects.requireNonNull(environment.getProperty("security.remember-me.validity"))))
                         .userDetailsService(userService)
+                )
+                */
+                //Remember me - Persistent Token Approach
+                .rememberMe(remember -> remember
+                        .rememberMeServices(persistentTokenRememberMeServices(userService, persistentTokenRepository, environment))
                 )
                 .httpBasic(AbstractHttpConfigurer::disable);
 
@@ -177,6 +187,20 @@ public class GlobalSecurityConfig {
     private boolean isTestProfile(final Environment environment) {
         return Arrays.asList(environment.getActiveProfiles()).contains("test") ||
                 Arrays.asList(environment.getActiveProfiles()).contains("benc");
+    }
+
+    @Bean
+    public RememberMeServices persistentTokenRememberMeServices(UserService userService,
+            PersistentTokenRepository persistentTokenRepository, Environment environment) {
+        PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices(
+                environment.getProperty("security.remember-me.key", "remember-me-secret"),
+                userService,
+                persistentTokenRepository
+        );
+        //Default value 3 days
+        services.setTokenValiditySeconds(Integer.parseInt(environment.getProperty("security.remember-me.validity", "259200")));
+        services.setAlwaysRemember(false);
+        return services;
     }
 
 }

@@ -47,21 +47,20 @@
 
 ### Additional Security Features
 
-<ul>
-    <li>Brute force protection for Login form (Locks account after three failed logins).</li>
-    <li>Bot detection for automation tools like Postman (prod build).</li>
-    <li>Added Content Security Policy (CSP) protection by adding specific response header.</li>
-    <li>Enabled XSS protection.</li>
-</ul>
+- Brute force protection for Login form (Locks account after three failed logins).
+- Bot detection for automation tools like Postman (prod build).
+- Added Content Security Policy (CSP) protection by adding specific response header.
+- Enabled XSS protection.
+- Customized remember me (Persistent Token Approach)
 
 ## Set up the project
 
 1. Install Java 21 LTS (OpenJDK Corretto)
 2. Connect to your MySQL DB or use Docker to run it locally via script:
 
-```bash
-TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
-```
+    ```bash
+    TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
+    ```
 
 3. Connect to Stripe via api key (The demo uses test key for all environments)
 4. Select profile from `application.properties` (test/benc/prod profile)
@@ -69,21 +68,21 @@ TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
 6. Optional: Add default timezone to the Database (`UTC` or `Europe/Sofia`) example: `spring.datasource.url=jdbc:mysql://localhost:3306/computer_store?serverTimezone=Europe/Sofia`
 7. Test the project in your favorite IDE or via command line with:
 
-> [!NOTE]
-> If Maven 3.9.0+ is installed you could use `mvn` instead of `./mvnw` that represents the Maven wrapper.
+    > [!NOTE]
+    > If Maven 3.9.0+ is installed you could use `mvn` instead of `./mvnw` that represents the Maven wrapper.
 
-```bash
-./mvnw spring-boot:run -Dspring-boot.run.arguments="\
---STRIPE_SECRET_KEY=<YOUR_KEY> \
---STRIPE_WEBHOOK_SECRET=<YOUR_SECRET> \
---DB_NAME=<YOUR_NAME> \
---DB_PASSWORD=<YOUR_PASS> \
---DB_URL=<YOUR_URL>?serverTimezone=Europe/Sofia \
---TEST_DB_NAME=<TEST_DB> \
---TEST_DB_PASSWORD=<TEST_PASS> \
---TEST_DB_URL=<TEST_DB_URL> \
--spring.profiles.active=test"
-```
+    ```bash
+    ./mvnw spring-boot:run -Dspring-boot.run.arguments="\
+    --STRIPE_SECRET_KEY=<YOUR_KEY> \
+    --STRIPE_WEBHOOK_SECRET=<YOUR_SECRET> \
+    --DB_NAME=<YOUR_NAME> \
+    --DB_PASSWORD=<YOUR_PASS> \
+    --DB_URL=<YOUR_URL>?serverTimezone=Europe/Sofia \
+    --TEST_DB_NAME=<TEST_DB> \
+    --TEST_DB_PASSWORD=<TEST_PASS> \
+    --TEST_DB_URL=<TEST_DB_URL> \
+    -spring.profiles.active=test"
+    ```
 
 - Replace `<YOUR_VALUE>` with your actual values!
 
@@ -91,34 +90,34 @@ TEST_DB_NAME=name TEST_DB_PASSWORD=pass docker compose up
 
 * Generate a report of SpotBugs issues by running the following command in your terminal:
 
-```bash
-./mvnw spotbugs:spotbugs
-```
+    ```bash
+    ./mvnw spotbugs:spotbugs
+    ```
 
 * Open SpotBugs GUI to view issues by running the following command in your terminal:
 
-```bash
-./mvnw spotbugs:gui
-```
+    ```bash
+    ./mvnw spotbugs:gui
+    ```
 
 9. Use prod profile in the application.properties: `spring.profiles.active=prod`
 10. Create execution jar from the terminal by using:
 
-```bash
-./mvnw clean package -Pproduction
-```
+    ```bash
+    ./mvnw clean package -Pproduction
+    ```
 
 11. Test the jar on locale environment from `./target` directory
 
-```bash
- java -jar computerstore-1.0.0.jar -XX:MaxRAMPercentage=80.0 \
-  --spring.profiles.active="prod" \
-  --spring.datasource.username="<YOUR_DB_NAME>" \
-  --spring.datasource.password="<YOUR_DB_PASS>" \
-  --spring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
-  --stripe.secret.key="<YOUR_KEY>" \
-  --stripe.webhook.secret="<YOUR_SECRET>"
-```
+    ```bash
+    java -jar computerstore-1.0.0.jar -XX:MaxRAMPercentage=80.0 \
+    --spring.profiles.active="prod" \
+    --spring.datasource.username="<YOUR_DB_NAME>" \
+    --spring.datasource.password="<YOUR_DB_PASS>" \
+    --spring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+    --stripe.secret.key="<YOUR_KEY>" \
+    --stripe.webhook.secret="<YOUR_SECRET>"
+    ```
 
 - Replace `<YOUR_VALUE>` with your actual values!
 
@@ -219,15 +218,15 @@ Optionally you could add RAM limit with value: `-XX:MaxRAMPercentage=80.0`
 
 1. development: default profile, use with the following command
 
-```bash
-./mvnw clean package
-```
+    ```bash
+    ./mvnw clean package
+    ```
 
 2. production: optimized profile for production, use with the following command
 
-```bash
-./mvnw clean package -Pproduction
-```
+    ```bash
+    ./mvnw clean package -Pproduction
+    ```
 
 ### Spring Environment profiles
 
@@ -278,15 +277,15 @@ Run the following command to run unit tests:
 
 1. Download Zipkin jar
 
-```bash
-curl -sSL https://zipkin.io/quickstart.sh | bash -s
-```
+    ```bash
+    curl -sSL https://zipkin.io/quickstart.sh | bash -s
+    ```
 
 2. Execute the following bash script from the jar's folder in new terminal window
 
-```bash
-java -jar zipkin.jar
-```
+    ```bash
+    java -jar zipkin.jar
+    ```
 
 3. Navigate browser to http://localhost:9411/
 

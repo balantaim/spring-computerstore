@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2026 Martin Atanasov.
+ * Copyright 2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,12 +13,17 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.repositories;
+package com.martinatanasov.computerstore.repositories.persistentlogin;
 
-import com.martinatanasov.computerstore.entities.Role;
+import com.martinatanasov.computerstore.entities.PersistentLogin;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoleDao {
+import java.util.List;
 
-    Role findRoleByName(String roleName);
+public interface PersistentLoginRepository extends JpaRepository<PersistentLogin, String> {
+
+    List<PersistentLogin> findByUsername(String username);
+
+    void deleteByUsername(String username);
 
 }

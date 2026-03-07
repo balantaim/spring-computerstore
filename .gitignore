@@ -2,6 +2,7 @@ HELP.md
 EXECUTION_CODE.txt
 FLYWAY_CLEAN.txt
 FLYWAY_REPAIR.txt
+FLYWAY_MIGRATE.txt
 /resources-backup
 target/
 !.mvn/wrapper/maven-wrapper.jar
