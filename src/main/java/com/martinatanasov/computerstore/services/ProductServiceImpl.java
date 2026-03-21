@@ -23,6 +23,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,8 +46,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findByIsVisibleTrue() {
-        return productRepository.findByIsVisibleTrue(PageRequest.of(1, 5));
+    public Page<Product> findByIsVisibleTrue(Pageable pageable) {
+        return productRepository.findByIsVisibleTrue(pageable);
     }
 
     @Cacheable(cacheNames = "productListCache")

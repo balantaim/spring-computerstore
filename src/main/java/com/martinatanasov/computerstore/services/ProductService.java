@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.services;
 import com.martinatanasov.computerstore.entities.Product;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public interface ProductService {
 
     Page<Product> getAllProducts();
 
-    Page<Product> findByIsVisibleTrue();
+    Page<Product> findByIsVisibleTrue(Pageable pageable);
 
     Page<Product> findAllByCategoryId(Short categoryId, Integer pageNumber, Integer pageSize, String sortValue);
 

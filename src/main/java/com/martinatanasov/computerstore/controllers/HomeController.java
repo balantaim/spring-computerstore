@@ -24,6 +24,8 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -50,11 +52,13 @@ public class HomeController {
 
     @GetMapping
     public String home(Model model) {
-        Page<Product> getProducts = productService.findByIsVisibleTrue();
-        //Convert product items to StoreItems
-        Page<StoreItemDTO> filteredProductsDTO = productConverter.convertToStoreItems(getProducts);
-        if (filteredProductsDTO != null) {
-            model.addAttribute("products", filteredProductsDTO);
+        //Get the page with video carts
+        Pageable pageable = PageRequest.of(1, 5);
+        Page<Product> getProducts = productService.findByIsVisibleTrue(pageable);
+        //Convert product items to StoreItemsDTO
+        Page<StoreItemDTO> filteredProducts = productConverter.convertToStoreItems(getProducts);
+        if (filteredProducts != null) {
+            model.addAttribute("products", filteredProducts);
         }
         return "Home/index";
     }
