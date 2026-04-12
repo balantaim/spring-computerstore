@@ -55,7 +55,7 @@
 
 ## Set up the project
 
-1. Install Java 21 LTS (OpenJDK Corretto)
+1. Install Java 21+ LTS (OpenJDK Corretto)
 2. Connect to your MySQL DB or use Docker to run it locally via script:
 
     ```bash
@@ -193,22 +193,33 @@ stripe trigger checkout.session.completed \
 ## Override the default GC (Optional)
 
 > [!NOTE]
-> ZGC and Generational ZGC are used for low latency application. Choice what works for you better.
+> ZGC, Generational ZGC, and Shenandoah are used for low latency applications. Each has its strengths: ZGC excels with very large heaps, Generational ZGC improves on ZGC by reducing CPU overhead through generational collection, and Shenandoah offers ultra-low pause times with more predictable latency across smaller to medium heaps. Choose what works best for you.
 
 <p><b>Path:</b> Elastic Beanstalk > Environments > {Your env name} > Configuration</p>
 
 1. Find `Updates, monitoring, and logging` and click Edit button
 2. Click `Add environment properties` at the bottom of the view
-3. Fill the Name and Value with correct data
+3. Fill the `Name` and `Value` with correct data
 
+**Name:** `JVM Options`
 
-<b>Name:</b> `JVM Options`
+1. Z Garbage Collector (ZGC)
 
-<b>Value:</b> for regular ZGC use `-XX:+UseZGC`
+   - JVM version: `21`
 
-<p>OR</p>
+        <ol type="a">
+            <li><b>Value:</b> for regular ZGC use <code>-XX:+UseZGC</code></li>
+            <li><b>Value:</b> for Generational ZGC use <code>-XX:+UseZGC -XX:+ZGenerational</code></li>
+        </ol>
 
-<b>Value:</b> for Generational ZGC use `-XX:+UseZGC -XX:+ZGenerational`
+   - JVM version: `25+`
+
+       - **Value:** add parameter `-XX:+UseZGC` (non-generational ZGC is not available from Java 24+)
+
+2. Shenandoah GC
+    - JVM version: `17+`
+
+        - **Value:** add parameter `-XX:+UseShenandoahGC` (Not available in the Oracle JVM)
 
 Optionally you could add RAM limit with value: `-XX:MaxRAMPercentage=80.0`
 

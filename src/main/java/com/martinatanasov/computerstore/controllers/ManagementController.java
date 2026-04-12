@@ -58,7 +58,7 @@ public class ManagementController {
             @PathVariable("category") String categoryName) {
         Optional<Category> category = categoryService.getCategoryByName(categoryName);
         short categoryId;
-        if (category.isEmpty() || category.get().getIsVisible() == false) {
+        if (category.isEmpty() || !category.get().getIsVisible()) {
             return NOT_FOUND_PAGE;
         } else {
             categoryId = category.get().getId();

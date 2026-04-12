@@ -159,43 +159,49 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean updateOrderAndPaymentAfterPaymentComplete(final String rawJson) {
         log.trace("\n\tData as string: {}", rawJson);
-
         final JsonNode root = jsonMapper.readTree(rawJson);
-
         final JsonNode metadataNode = root.get("metadata");
+
         //Check if the payment status is equal to paid
-        if (Objects.equals(root.get("payment_status") != null ? root.get("payment_status").asText() : null, "paid")) {
+        if (Objects.equals(root.get("payment_status") != null ? root.get("payment_status").asString() : null, "paid")) {
             final JsonNode customer = root.get("customer");
-            final String customerId = customer != null ? customer.asText() : null;
+            final String customerId = customer != null ? customer.asString() : null;
             log.info("\n\tCustomerId: {}", customerId);
 
             final Long orderId = root.get("client_reference_id") != null ? root.get("client_reference_id").asLong() : null;
             log.info("\n\tOrder ID: {}", orderId);
 
             if (metadataNode != null) {
-                final String carrier = metadataNode.get("carrier") != null ? metadataNode.get("carrier").asText() : null;
-                final String trackingNumber = metadataNode.get("tracking_number") != null ? metadataNode.get("tracking_number").asText() : null;
-                log.trace("\n\tCarrier provider: {}", carrier);
-                log.trace("\n\tTracking number: {}", trackingNumber);
+                printCarrierAndTrackingNumber(metadataNode);
             }
 
             final User user = userDao.findByCustomerId(customerId);
             Optional<Order> order = orderRepository.getOrderById(orderId);
-            if (user != null && order.isPresent()) {
-                //Check if customerId and orderId match the JSON's data
-                if (Objects.equals(user.getCustomerId(), customerId) && Objects.equals(order.get().getId(), orderId)) {
-                    Payment payment = order.get().getPayment();
-                    //Update the payment status and order status
-                    if (payment.getPaymentStatus() == PaymentStatus.NONE) {
-                        payment.setPaymentStatus(PaymentStatus.COMPLETED);
-                        order.get().setPayment(payment);
-                        order.get().setStatus(OrderStatus.PAYMENT_SUCCESS);
-                        //Save the data
-                        orderRepository.save(order.get());
-                        return true;
-                    }
-                }
+            //Check if customerId and orderId match the JSON's data
+            if (user != null && order.isPresent() && Objects.equals(user.getCustomerId(), customerId) && Objects.equals(order.get().getId(), orderId)) {
+                return updatePaymentAndOrder(order.get());
             }
+        }
+        return false;
+    }
+
+    private static void printCarrierAndTrackingNumber(JsonNode metadataNode) {
+        final String carrier = metadataNode.get("carrier") != null ? metadataNode.get("carrier").asString() : null;
+        final String trackingNumber = metadataNode.get("tracking_number") != null ? metadataNode.get("tracking_number").asString() : null;
+        log.trace("\n\tCarrier provider: {}", carrier);
+        log.trace("\n\tTracking number: {}", trackingNumber);
+    }
+
+    private boolean updatePaymentAndOrder(Order order) {
+        Payment payment = order.getPayment();
+        //Update the payment status and order status
+        if (payment.getPaymentStatus() == PaymentStatus.NONE) {
+            payment.setPaymentStatus(PaymentStatus.COMPLETED);
+            order.setPayment(payment);
+            order.setStatus(OrderStatus.PAYMENT_SUCCESS);
+            //Save the Order to the database
+            orderRepository.save(order);
+            return true;
         }
         return false;
     }

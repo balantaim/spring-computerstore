@@ -16,6 +16,7 @@
 package com.martinatanasov.computerstore.security;
 
 import com.martinatanasov.computerstore.security.filters.BotDetectionFilter;
+import com.martinatanasov.computerstore.security.filters.RememberMeSessionPopulationFilter;
 import com.martinatanasov.computerstore.services.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
@@ -36,6 +37,7 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 import java.util.Arrays;
@@ -44,6 +46,12 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class GlobalSecurityConfig {
+
+    private final RememberMeSessionPopulationFilter rememberMeSessionPopulationFilter;
+
+    public GlobalSecurityConfig(RememberMeSessionPopulationFilter rememberMeSessionPopulationFilter) {
+        this.rememberMeSessionPopulationFilter = rememberMeSessionPopulationFilter;
+    }
 
     //AuthenticationProvider bean definition
     @Bean
@@ -54,7 +62,7 @@ public class GlobalSecurityConfig {
         return auth;
     }
 
-    private static final String getContentSecurityPolicyAsString = "default-src 'none'; " +
+    private static final String CONTENT_SECURITY_POLICY = "default-src 'none'; " +
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
             "form-action 'self' https://checkout.stripe.com; " +
             "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
@@ -131,7 +139,7 @@ public class GlobalSecurityConfig {
                         //Block form data from unknown origin
                         //If you want to use script inside the body use 'unsafe-inline', this will add you a new vulnerability
                         .contentSecurityPolicy(contentSecurityPolicyConfig -> contentSecurityPolicyConfig
-                                .policyDirectives(getContentSecurityPolicyAsString)
+                                .policyDirectives(CONTENT_SECURITY_POLICY)
                         )
                 )
                 .formLogin(form -> form
@@ -171,7 +179,9 @@ public class GlobalSecurityConfig {
                 .rememberMe(remember -> remember
                         .rememberMeServices(persistentTokenRememberMeServices(userService, persistentTokenRepository, environment))
                 )
-                .httpBasic(AbstractHttpConfigurer::disable);
+                .httpBasic(AbstractHttpConfigurer::disable)
+                //Add session initializer filter
+                .addFilterAfter(rememberMeSessionPopulationFilter, RememberMeAuthenticationFilter.class);
 
         if (isTestProfile(environment)) {
             //Disable Cross Site Request Forgery (CSRF)

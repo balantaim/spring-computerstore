@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,7 +15,6 @@
 
 package com.martinatanasov.computerstore.utils.converter;
 
-
 import com.martinatanasov.computerstore.entities.Gallery;
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.GalleryDTO;
@@ -25,7 +24,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ProductConverter {
@@ -44,7 +42,7 @@ public class ProductConverter {
                         i.getCompatibleWith(),
                         i.getBarcodeUtc(),
                         i.getProductSpecifications()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Page<StoreItemDTO> convertToStoreItems(final Page<Product> products) {

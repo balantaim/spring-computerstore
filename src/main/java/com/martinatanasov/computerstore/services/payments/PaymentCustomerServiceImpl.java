@@ -43,8 +43,7 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
     @Override
     public CustomerCollection getAllCustomers() {
         CustomerListParams params = CustomerListParams.builder().build();
-        // Create parameters with count limit
-        //CustomerListParams params = CustomerListParams.builder().setLimit(10L).build();
+        // Create parameters with count limit `CustomerListParams.builder().setLimit(10L).build();`
         CustomerCollection customers;
         try {
             customers = Customer.list(params);

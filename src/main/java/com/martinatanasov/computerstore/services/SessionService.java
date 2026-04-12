@@ -1,5 +1,5 @@
 /*
- * Copyright 2025-2026 Martin Atanasov.
+ * Copyright 2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,21 +13,13 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.utils.converter;
+package com.martinatanasov.computerstore.services;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
-@Component
-public class UserAuthentication {
+public interface SessionService {
 
-    public String getUsernameFromAuthentication() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication.getName();
-        }
-        return null;
-    }
+    void initializeUserSession(Authentication authentication, HttpSession session);
 
 }

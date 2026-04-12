@@ -92,7 +92,7 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void deleteSingleItem(final String username, final Long cartId) {
+    public void deleteSingleItem(final String username, @Nullable final Long cartId) {
         Long userId = getUserId(username);
         if (userId != null && cartId != null) {
             //Perform single delete

@@ -22,6 +22,7 @@ import com.martinatanasov.computerstore.repositories.RoleDao;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService {
         return userDao.findByUserName(email);
     }
 
+    @Nullable
     @Override
     public User findByUserId(final Long id) {
         return userDao.findByUserId(id);
@@ -136,15 +138,14 @@ public class UserServiceImpl implements UserService {
     public boolean changePassword(final String userName, final String oldPassword, final String newPassword) {
         //Get the current user
         User user = userDao.findByUserName(userName);
-        if (user != null) {
-            if (passwordEncoder.matches(oldPassword, user.getPassword())) {
-                //Set the new password with bcrypt to the object
-                user.setPassword(passwordEncoder.encode(newPassword));
-                //Save the object to the DB
-                userDao.save(user);
-                return true;
-            }
+        if (user != null && passwordEncoder.matches(oldPassword, user.getPassword())) {
+            //Set the new password with bcrypt to the object
+            user.setPassword(passwordEncoder.encode(newPassword));
+            //Save the object to the DB
+            userDao.save(user);
+            return true;
         }
+
         return false;
     }
 

@@ -16,11 +16,7 @@
 package com.martinatanasov.computerstore.security;
 
 import com.martinatanasov.computerstore.config.SessionRedirectionConfig;
-import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.services.CartService;
-import com.martinatanasov.computerstore.services.OrderService;
-import com.martinatanasov.computerstore.services.UserService;
-import com.martinatanasov.computerstore.utils.converter.UserConverter;
+import com.martinatanasov.computerstore.services.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -37,29 +33,15 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final UserService userService;
-    private final OrderService orderService;
-    private final CartService cartService;
+    private final SessionService sessionService;
     private final SessionRedirectionConfig sessionRedirectionConfig;
-    private final UserConverter userConverter;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request,
-            HttpServletResponse response,
-            Authentication authentication) throws IOException {
-        final String userName = authentication.getName();
-        final User user = userService.findByUserName(userName);
-
-        //Place in the session
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        //Get the session or create new
         HttpSession session = request.getSession();
-        //Set user in the session
-        session.setAttribute("user", userConverter.userToSessionUserDTO(user));
-        //Set Cart count and Order count required in top navigation bar to the session
-        final int orderCount = orderService.getUnfinishedOrdersCount(userName);
-        final int cartCount = cartService.getCartItemsCount(user.getId());
-        session.setAttribute("orders-count", orderCount > 0 ? orderCount : null);
-        session.setAttribute("cart-items-count", cartCount > 0 ? cartCount : null);
-
+        //Initialize the session for the current user
+        sessionService.initializeUserSession(authentication, session);
         //Check if there is saved url in session request cache
         HttpSessionRequestCache requestCache = sessionRedirectionConfig.requestCache();
         SavedRequest savedRequest = requestCache.getRequest(request, response);
@@ -68,7 +50,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             String targetUrl = savedRequest.getRedirectUrl();
             response.sendRedirect(targetUrl);
         } else {
-            // Forward to home page
+            // Forward to Profile page
             response.sendRedirect(request.getContextPath() + "/Profile");
         }
     }

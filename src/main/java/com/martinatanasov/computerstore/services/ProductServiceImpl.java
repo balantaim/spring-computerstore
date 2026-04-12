@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -80,8 +79,8 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllByKeyword(String keyword) {
         return productRepository.findAllByKeyword(keyword)
                 .stream()
-                .filter(i -> i.getIsSearchable() == true)
-                .collect(Collectors.toList());
+                .filter(Product::getIsSearchable)
+                .toList();
     }
 
     @Cacheable(cacheNames = "productCache", key = "#id")
@@ -112,7 +111,7 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-    public PageRequest buildPageRequest(Integer pageNumber, Integer pageSize, String sortValue) {
+    public PageRequest buildPageRequest(@Nullable Integer pageNumber, @Nullable Integer pageSize, String sortValue) {
         final int DEFAULT_PAGE_NUMBER = 0, DEFAULT_PAGE_SIZE = 25;
         int queryPageNumber, queryPageSize;
 

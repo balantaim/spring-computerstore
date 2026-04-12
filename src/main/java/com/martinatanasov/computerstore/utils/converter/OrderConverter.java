@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -56,9 +56,7 @@ public class OrderConverter {
 
     public Set<OrderItemDTO> convertOrderItemsToDTO(final Set<OrderItem> orderItems) {
         Set<OrderItemDTO> orderItemsDto = new HashSet<>();
-        orderItems.forEach(i -> {
-            orderItemsDto.add(orderItemToOrderItemDTO(i));
-        });
+        orderItems.forEach(i -> orderItemsDto.add(orderItemToOrderItemDTO(i)));
         return orderItemsDto;
     }
 

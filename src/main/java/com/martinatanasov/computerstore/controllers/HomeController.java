@@ -34,9 +34,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
+import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
 @Controller
 public class HomeController {
@@ -78,7 +77,7 @@ public class HomeController {
         if (products != null) {
             Page<StoreItemDTO> productsDTO = productConverter.convertToStoreItems(products);
             if (pageNumber > productsDTO.getTotalElements() || pageNumber < 1) {
-                return GLOBAL_ERROR_PAGE;
+                return NOT_FOUND_PAGE;
             }
             model.addAttribute("keyword", keyword);
             model.addAttribute("pageNumber", pageNumber);
@@ -96,8 +95,8 @@ public class HomeController {
     public String liveSearch(@RequestParam("query") String query, Model model) {
         List<Product> getProducts = productService.getAllByKeyword(query)
                 .stream()
-                .filter(product -> product.getIsSearchable() == true)
-                .collect(Collectors.toList());
+                .filter(Product::getIsSearchable)
+                .toList();
         //Convert Product items to StoreItems
         model.addAttribute("products", productConverter.convertToStoreItems(getProducts));
         return "Home/liveSearch";

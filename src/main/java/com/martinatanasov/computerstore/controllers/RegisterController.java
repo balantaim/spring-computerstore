@@ -69,13 +69,13 @@ public class RegisterController {
         String userName = appUserDTO.getEmail();
 
         String errorMessage = "";
-        if (appUserDTO.getPassword() != null && appUserDTO.getRepeatPassword() != null) {
-            if (!appUserDTO.getRepeatPassword().equals(appUserDTO.getPassword())) {
-                errorMessage = "PassMatcher";
-                ObjectError error = new ObjectError("globalError", errorMessage);
-                bindingResult.addError(error);
-            }
+        if (appUserDTO.getPassword() != null && appUserDTO.getRepeatPassword() != null &&
+                !appUserDTO.getRepeatPassword().equals(appUserDTO.getPassword())) {
+            errorMessage = "PassMatcher";
+            ObjectError error = new ObjectError("globalError", errorMessage);
+            bindingResult.addError(error);
         }
+
         // form validation
         if (bindingResult.hasErrors()) {
             model.addAttribute("status", "error");
@@ -84,7 +84,6 @@ public class RegisterController {
         // check the database if user already exists
         User existing = userService.findByUserName(userName);
         if (existing != null) {
-            //model.addAttribute("webUser", new WebUser());
             errorMessage = "UserExist";
             ObjectError error = new ObjectError("globalError", errorMessage);
             bindingResult.addError(error);
@@ -94,10 +93,8 @@ public class RegisterController {
             }
             return "Register/register";
         }
-
         // create user account and store in the database
         userService.save(appUserDTO);
-
         // place user in the web http session for later use
         session.setAttribute("user", userConverter.userDtoToSessionUserDTO(appUserDTO));
         return "Register/register-confirm";

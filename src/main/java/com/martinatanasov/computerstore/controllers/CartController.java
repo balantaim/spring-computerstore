@@ -49,7 +49,7 @@ public class CartController {
     private final CartService cartService;
     private final UserAuthentication userAuthentication;
     private final CartConverter cartConverter;
-    public final static BigDecimal SHIPPING_ESTIMATE = BigDecimal.valueOf(5.00);
+    public static final BigDecimal SHIPPING_ESTIMATE = BigDecimal.valueOf(5.00);
 
     @GetMapping("")
     public String cartItems(Model model, HttpServletRequest request) {

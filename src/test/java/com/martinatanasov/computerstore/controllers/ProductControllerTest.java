@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.controllers;
 
+import com.martinatanasov.computerstore.security.filters.RememberMeSessionPopulationFilter;
 import com.martinatanasov.computerstore.services.CategoryService;
 import com.martinatanasov.computerstore.services.ProductService;
 import com.martinatanasov.computerstore.services.ReviewService;
@@ -59,8 +60,11 @@ class ProductControllerTest {
     @MockitoBean
     private UserAuthentication userAuthentication;
 
+    @MockitoBean
+    private RememberMeSessionPopulationFilter rememberMeSessionPopulationFilter;
+
     @Test()
-    public void shouldReturnProductsView() throws Exception {
+    void shouldReturnProductsView() throws Exception {
         mockMvc.perform(get("/Products").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(view().name("Products/products"))

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,7 +25,7 @@ import java.util.Locale;
 @Configuration
 public class LocaleResolverConfig {
 
-    @Bean("MyLocaleResolver")
+    @Bean("defaultLocaleResolver")
     public LocaleResolver localeResolver(){
         AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
         localeResolver.setDefaultLocale(Locale.ENGLISH);

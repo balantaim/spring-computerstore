@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,7 +41,7 @@ public class OrderCompleteScheduler {
      */
 
     private final OrderRepository orderRepository;
-    private final static long DAYS_AFTER_ORDER_IS_COMPLETED = 14;
+    private static final long DAYS_AFTER_ORDER_IS_COMPLETED = 14;
 
     //Run every day of the mount at midnight
     @Scheduled(cron = "0 0 0 * * *")

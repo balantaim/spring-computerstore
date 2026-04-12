@@ -21,10 +21,10 @@ import com.martinatanasov.computerstore.entities.Shipment;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.UserFailedAttempts;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -33,11 +33,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private final EntityManager entityManager;
+    //Use PersistenceContext instead of constructor to inject EntityManager (field should not be final)
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public @Nullable User findByUserName(final String email) {

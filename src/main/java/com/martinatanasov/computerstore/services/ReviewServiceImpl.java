@@ -24,12 +24,12 @@ import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.ReviewRepository;
 import com.martinatanasov.computerstore.repositories.UserDaoImpl;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -41,7 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional(readOnly = true)
     @Override
-    public ProductReviewsDTO getProductAverageRating(final String email, final Product product) {
+    public ProductReviewsDTO getProductAverageRating(@Nullable final String email, final Product product) {
         User user;
         //Find user by email
         if (email != null && !email.isBlank()) {
@@ -84,7 +84,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional
     @Override
-    public boolean voteForProduct(final String username, final Integer productId, final Double vote) {
+    public boolean voteForProduct(final String username, final Integer productId, @Nullable final Double vote) {
         User user = userRepository.findByUserName(username);
         Optional<Product> product = productRepository.findProductById(productId);
         if (user != null && product.isPresent() && vote != null) {
@@ -108,16 +108,16 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewDTO> findReviewsByUser(final String email) {
         final User user = userRepository.findByUserName(email);
-        if (user.getId() != null) {
+        if (user != null && user.getId() != null) {
             List<Review> data = reviewRepository.findByUserId(user.getId());
             return data.stream()
                     .map(i -> new ReviewDTO(
                             i.getVote(),
                             i.getCreationDate(),
                             i.getProduct().getProductName()
-                    )).collect(Collectors.toList());
+                    )).toList();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     private double formatAverageVote(Set<Review> reviews) {

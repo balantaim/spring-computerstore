@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -63,11 +63,12 @@ public class AddressConverter {
         }
     }
 
-    public Set<Country> getSupportedCountries(){
+    public Set<Country> getSupportedCountries() {
         Set<Country> countries = new LinkedHashSet<>();
         countries.add(new Country("Bulgaria", "BG"));
         countries.add(new Country("USA", "US"));
         countries.add(new Country("England", "EN"));
         return countries;
     }
+
 }
