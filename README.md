@@ -68,8 +68,8 @@
 6. Optional: Add default timezone to the Database (`UTC` or `Europe/Sofia`) example: `spring.datasource.url=jdbc:mysql://localhost:3306/computer_store?serverTimezone=Europe/Sofia`
 7. Test the project in your favorite IDE or via command line with:
 
-    > [!NOTE]
-    > If Maven 3.9.0+ is installed you could use `mvn` instead of `./mvnw` that represents the Maven wrapper.
+> [!NOTE]
+> If Maven 3.9.0+ is installed you could use `mvn` instead of `./mvnw` that represents the Maven wrapper.
 
     ```bash
     ./mvnw spring-boot:run -Dspring-boot.run.arguments="\
