@@ -430,7 +430,7 @@ tree -d -A
                     └── repositories
 ```
 
-### Flylay migration troubleshooting
+### Flyway migration troubleshooting
 
 Use goal `clean` to erase the database:
 
