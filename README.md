@@ -71,18 +71,18 @@
 > [!NOTE]
 > If Maven 3.9.0+ is installed you could use `mvn` instead of `./mvnw` that represents the Maven wrapper.
 
-    ```bash
-    ./mvnw spring-boot:run -Dspring-boot.run.arguments="\
-    --STRIPE_SECRET_KEY=<YOUR_KEY> \
-    --STRIPE_WEBHOOK_SECRET=<YOUR_SECRET> \
-    --DB_NAME=<YOUR_NAME> \
-    --DB_PASSWORD=<YOUR_PASS> \
-    --DB_URL=<YOUR_URL>?serverTimezone=Europe/Sofia \
-    --TEST_DB_NAME=<TEST_DB> \
-    --TEST_DB_PASSWORD=<TEST_PASS> \
-    --TEST_DB_URL=<TEST_DB_URL> \
-    -spring.profiles.active=test"
-    ```
+```bash
+./mvnw spring-boot:run -Dspring-boot.run.arguments="\
+--STRIPE_SECRET_KEY=<YOUR_KEY> \
+--STRIPE_WEBHOOK_SECRET=<YOUR_SECRET> \
+--DB_NAME=<YOUR_NAME> \
+--DB_PASSWORD=<YOUR_PASS> \
+--DB_URL=<YOUR_URL>?serverTimezone=Europe/Sofia \
+--TEST_DB_NAME=<TEST_DB> \
+--TEST_DB_PASSWORD=<TEST_PASS> \
+--TEST_DB_URL=<TEST_DB_URL> \
+-spring.profiles.active=test"
+```
 
 - Replace `<YOUR_VALUE>` with your actual values!
 
