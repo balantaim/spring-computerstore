@@ -266,6 +266,7 @@
 			<id>production</id>
 			<build>
 				<plugins>
+                    <!-- Profile production: Compiler plugin -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -342,6 +343,20 @@
 					</execution>
 				</executions>
 			</plugin>
+
+            <!-- Default Compiler plugin for Lombok Annotation Processor -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
 
             <!-- Code checker for potential bugs and bad practices -->
             <plugin>
