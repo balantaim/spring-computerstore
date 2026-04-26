@@ -25,7 +25,7 @@
 	</parent>
 	<groupId>com.martinatanasov</groupId>
 	<artifactId>computerstore</artifactId>
-	<version>1.6.22</version>
+	<version>1.6.24</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 
@@ -47,11 +47,11 @@
 	</developers>
 
 	<properties>
-		<java.version>21</java.version>
+		<java.version>25</java.version>
 		<stripe.version>28.3.1</stripe.version>
-        <spotbugs.plugin.version>4.9.8.2</spotbugs.plugin.version>
-        <archunit.version>1.4.1</archunit.version>
-        <datasource.micrometer.spring.version>2.0.1</datasource.micrometer.spring.version>
+        <spotbugs.plugin.version>4.9.8.3</spotbugs.plugin.version>
+        <archunit.version>1.4.2</archunit.version>
+        <datasource.micrometer.spring.version>2.2.1</datasource.micrometer.spring.version>
 	</properties>
 
 	<!-- Global dependencies -->
