@@ -33,10 +33,7 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -56,6 +53,17 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.getAllByUserEmail(email).stream()
                 .filter(item -> item.getStatus() != OrderStatus.NEW_ORDER)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public Order save(Order order) {
+        return orderRepository.save(order);
     }
 
     @Override

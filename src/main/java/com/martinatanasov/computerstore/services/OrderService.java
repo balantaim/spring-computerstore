@@ -23,12 +23,17 @@ import com.martinatanasov.computerstore.model.Carrier;
 import com.martinatanasov.computerstore.model.OrderStatus;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface OrderService {
 
     Set<Order> getAllByUserEmail(String email);
+
+    List<Order> findAll();
+
+    Order save(Order order);
 
     Optional<Order> getFirstByStatusAndUserId(Long userId, OrderStatus status);
 

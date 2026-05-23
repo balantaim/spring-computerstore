@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,10 +15,9 @@
 
 package com.martinatanasov.computerstore.shedulers;
 
-
 import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.model.OrderStatus;
-import com.martinatanasov.computerstore.repositories.OrderRepository;
+import com.martinatanasov.computerstore.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -39,20 +38,20 @@ public class OrderTransportationScheduler {
      * It will update the order status after X period of time.
      */
 
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     //Run on every 12 hours
     @Scheduled(cron = "0 0 */12 * * *")
     public void initiateOrderTransport() {
         log.info("\n\t---> Scheduler init delivery");
-        List<Order> orders = orderRepository.findAll()
+        List<Order> orders = orderService.findAll()
                 .stream()
                 .filter(order -> order.getStatus() == OrderStatus.PAYMENT_SUCCESS)
                 .toList();
         if (!orders.isEmpty()) {
             orders.forEach(index -> {
                 index.setStatus(OrderStatus.SHIPPING_IN_PROGRESS);
-                final Order updatedOrder = orderRepository.save(index);
+                final Order updatedOrder = orderService.save(index);
                 log.info("Updated order: Shipping in progress: {}", updatedOrder.getId());
             });
         }
@@ -62,14 +61,14 @@ public class OrderTransportationScheduler {
     @Scheduled(cron = "0 0 */6 * * *")
     public void finishOrderTransport() {
         log.info("\n\t---> Scheduler finish delivery");
-        List<Order> orders = orderRepository.findAll()
+        List<Order> orders = orderService.findAll()
                 .stream()
                 .filter(order -> order.getStatus() == OrderStatus.SHIPPING_IN_PROGRESS)
                 .toList();
         if (!orders.isEmpty()) {
             orders.forEach(index -> {
                 index.setStatus(OrderStatus.SHIPPING_DELIVERED);
-                final Order updatedOrder = orderRepository.save(index);
+                final Order updatedOrder = orderService.save(index);
                 log.info("Updated order: Shipping delivered: {}", updatedOrder.getId());
             });
         }
@@ -80,7 +79,7 @@ public class OrderTransportationScheduler {
     public void removeNotConsumedOrders() {
         log.info("\n\t---> Scheduler remove not consumed orders");
         final Timestamp timeSixHoursAgo = Timestamp.from(Instant.now().minus(6, ChronoUnit.HOURS));
-        List<Order> orders = orderRepository.findAll()
+        List<Order> orders = orderService.findAll()
                 .stream()
                 //Check if we have new Orders older than 6 hour
                 .filter(order -> order.getStatus() == OrderStatus.NEW_ORDER &&
@@ -92,7 +91,7 @@ public class OrderTransportationScheduler {
         if (!orders.isEmpty()) {
             //Remove the old Orders
             orders.forEach(index -> {
-                orderRepository.delete(index);
+                orderService.delete(index);
                 log.info("Delete order: New order with id: {}", index.getId());
             });
         }

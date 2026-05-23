@@ -17,14 +17,18 @@ package com.martinatanasov.computerstore.repositories;
 
 import com.martinatanasov.computerstore.entities.Role;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+@Slf4j
 @Repository
 public class RoleDaoImpl implements RoleDao {
 
-    private final EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     RoleDaoImpl(EntityManager entityManager) {
@@ -42,7 +46,7 @@ public class RoleDaoImpl implements RoleDao {
         try {
             role = theQuery.getSingleResult();
         } catch (Exception e) {
-            role = null;
+            log.error("Current role is not found: {}", roleName);
         }
         return role;
     }

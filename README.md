@@ -8,7 +8,7 @@
 
 ## Software Stack
 
-**Software architecture:** Layered (n-tier) architecture using the MVC design pattern in the presentation layer
+**Software architecture:** Monolithic application based on layered (n-tier) architecture using the MVC design pattern in the presentation layer.
 
 **Software tools:** Java, Spring (Web MVC, JPA, Validation, Actuator, Data REST, Security, Caching, Aspect Oriented Programming (AOP)), Caffeine Cache, Thymeleaf, Lombok, Flyway, JavaScript, Bulma (Boostrap competitor), Swiper.js, Viewer.js, Chart.js, Micrometer, Zipkin, Stripe API, Stripe CLI, SpotBugs, ArchUnit, JUnit, Maven
 
@@ -267,9 +267,9 @@ Optionally you could add RAM limit with value: `-XX:MaxRAMPercentage=80.0`
 
 <p>Postman collection: <a href="https://github.com/balantaim/spring-computerstore/blob/master/postman/computer-store.postman_collection.json">postman.json</a></p>
 
-### Unit testing
+### Testing
 
-Run the following command to run unit tests:
+Run the following command to run `unit` tests:
 
 ```bash
  ./mvnw test \
@@ -280,6 +280,33 @@ Run the following command to run unit tests:
   -Dstripe.secret.key="<YOUR_KEY>" \
   -Dstripe.webhook.secret="<YOUR_SECRET>"
 ```
+
+Run the following command to run `integration` tests:
+
+```bash
+ ./mvnw clean compile -e \
+  -Dspring.profiles.active="test" \
+  -Dspring.datasource.username="<YOUR_DB_NAME>" \
+  -Dspring.datasource.password="<YOUR_DB_PASS>" \
+  -Dspring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+  -Dstripe.secret.key="<YOUR_KEY>" \
+  -Dstripe.webhook.secret="<YOUR_SECRET>"
+```
+
+Run the following command to run `ArchUnit` tests for architecture:
+
+```bash
+ ./mvnw clean test "-DTest=src/test/java/com/martinatanasov/computerstore/ArchitectureTests" \
+  -Dspring.profiles.active="test" \
+  -Dspring.datasource.username="<YOUR_DB_NAME>" \
+  -Dspring.datasource.password="<YOUR_DB_PASS>" \
+  -Dspring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+  -Dstripe.secret.key="<YOUR_KEY>" \
+  -Dstripe.webhook.secret="<YOUR_SECRET>"
+```
+
+> [!WARNING]
+> `ArchitectureTests` will fail if java version is greater than `21`!
 
 ### Tracing and Latency testing
 
