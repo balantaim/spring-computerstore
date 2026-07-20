@@ -36,14 +36,14 @@ import java.util.*;
 
 @Slf4j
 @Service
-public class SessionPaymentServiceImpl implements SessionPaymentService {
+class SessionPaymentServiceImpl implements SessionPaymentService {
 
     private final String APP_DOMAIN_NAME;
     private final String PAYMENT_CURRENCY;
     private final PaymentPriceConverter paymentPriceConverter;
     private final OrderRepository orderRepository;
 
-    public SessionPaymentServiceImpl(@Value("${application.domain}") String appDomainName,
+    SessionPaymentServiceImpl(@Value("${application.domain}") String appDomainName,
             @Value("${application.payment.currency}") String paymentCurrency,
             PaymentPriceConverter paymentPriceConverter,
             OrderRepository orderRepository) {

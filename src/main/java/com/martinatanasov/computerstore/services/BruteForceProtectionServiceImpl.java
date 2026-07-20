@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.services;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.UserFailedAttempts;
 import com.martinatanasov.computerstore.repositories.UserDao;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Service("bruteForceProtectionService")
-public class BruteForceProtectionServiceImpl implements BruteForceProtectionService {
+class BruteForceProtectionServiceImpl implements BruteForceProtectionService {
 
     @Value("${security.max.login.attempts}")
     private Byte MAX_FAILED_LOGIN_ATTEMPTS;

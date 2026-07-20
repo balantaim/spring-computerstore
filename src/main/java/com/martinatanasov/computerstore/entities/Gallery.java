@@ -38,6 +38,10 @@ public class Gallery {
     @Column(name = "image_url", nullable = false, columnDefinition = "VARCHAR(255)")
     private String imageUrl;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;

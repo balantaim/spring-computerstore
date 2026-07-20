@@ -17,6 +17,7 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.cache.CacheManager;
@@ -32,9 +33,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Service
-public class ProductServiceImpl implements ProductService {
+class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CacheManager cacheManager;

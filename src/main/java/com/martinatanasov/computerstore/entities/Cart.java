@@ -36,6 +36,10 @@ public class Cart {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

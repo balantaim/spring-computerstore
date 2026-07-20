@@ -21,6 +21,7 @@ import com.martinatanasov.computerstore.model.AppUserDTO;
 import com.martinatanasov.computerstore.repositories.RoleDao;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,9 +37,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Service
-public class UserServiceImpl implements UserService {
+class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final RoleDao roleDao;

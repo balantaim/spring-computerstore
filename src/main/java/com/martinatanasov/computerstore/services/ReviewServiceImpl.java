@@ -22,7 +22,8 @@ import com.martinatanasov.computerstore.model.ProductReviewsDTO;
 import com.martinatanasov.computerstore.model.ReviewDTO;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.ReviewRepository;
-import com.martinatanasov.computerstore.repositories.UserDaoImpl;
+import com.martinatanasov.computerstore.repositories.UserDao;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Service
-public class ReviewServiceImpl implements ReviewService {
+class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
-    private final UserDaoImpl userRepository;
+    private final UserDao userRepository;
 
     @Transactional(readOnly = true)
     @Override

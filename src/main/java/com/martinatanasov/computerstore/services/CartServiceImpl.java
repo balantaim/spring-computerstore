@@ -21,6 +21,7 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.repositories.CartRepository;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,8 +36,8 @@ import java.util.stream.Collectors;
 
 
 @Service
-@RequiredArgsConstructor
-public class CartServiceImpl implements CartService {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class CartServiceImpl implements CartService {
 
     private final UserDao userDao;
     private final CartRepository cartRepository;

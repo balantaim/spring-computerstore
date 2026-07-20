@@ -44,6 +44,10 @@ public class OrderItem {
     @Column(name = "price_per_unit", precision = 9, scale = 2)
     private BigDecimal pricePerUnit;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;

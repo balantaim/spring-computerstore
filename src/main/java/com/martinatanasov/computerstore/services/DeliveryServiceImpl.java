@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class DeliveryServiceImpl implements DeliveryService {
+class DeliveryServiceImpl implements DeliveryService {
 
     /**
      * This service generate fake tracking number required for Shipment.

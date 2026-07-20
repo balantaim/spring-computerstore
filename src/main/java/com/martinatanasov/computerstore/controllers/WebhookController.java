@@ -15,7 +15,6 @@
 
 package com.martinatanasov.computerstore.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.martinatanasov.computerstore.services.OrderService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
@@ -53,7 +52,7 @@ public class WebhookController {
             "54.187.174.169", "54.187.205.235", "54.187.216.72"})
     @PostMapping("/payment-complete")
     public ResponseEntity<String> updatePaymentStatus(@RequestBody String payload,
-            @RequestHeader("Stripe-Signature") String sigHeader) throws JsonProcessingException {
+            @RequestHeader("Stripe-Signature") String sigHeader) {
         Event event = null;
         try {
             log.trace("\n\tPayload: {}", payload);
@@ -92,7 +91,7 @@ public class WebhookController {
         }
     }
 
-    private void updateOrderAndPayment(final EventDataObjectDeserializer dataObjectDeserializer) throws JsonProcessingException {
+    private void updateOrderAndPayment(final EventDataObjectDeserializer dataObjectDeserializer) {
         if (dataObjectDeserializer.getObject().isPresent()) {
             StripeObject stripeObject = null;
             stripeObject = dataObjectDeserializer.getObject().get();

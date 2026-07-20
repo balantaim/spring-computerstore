@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class PaymentCustomerServiceImpl implements PaymentCustomerService {
+class PaymentCustomerServiceImpl implements PaymentCustomerService {
 
     @Override
     public CustomerCollection getAllCustomers() {

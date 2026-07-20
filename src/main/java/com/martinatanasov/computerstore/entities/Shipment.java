@@ -58,6 +58,10 @@ public class Shipment {
     @Column(name = "phone_number", nullable = false, length = 20)
     private String phoneNumber;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;

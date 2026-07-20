@@ -53,6 +53,10 @@ public class Order {
         }
     }
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @CreationTimestamp
     @Column(name = "order_date", nullable = false, updatable = false)
     private Timestamp orderDate;

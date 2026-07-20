@@ -25,7 +25,7 @@ import org.springframework.stereotype.Repository;
 
 @Slf4j
 @Repository
-public class RoleDaoImpl implements RoleDao {
+class RoleDaoImpl implements RoleDao {
 
     @PersistenceContext
     private EntityManager entityManager;

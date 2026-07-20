@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,14 +17,16 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.Category;
 import com.martinatanasov.computerstore.repositories.CategoryRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
+
 @Service
-public class CategoryServiceImpl implements CategoryService{
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
 

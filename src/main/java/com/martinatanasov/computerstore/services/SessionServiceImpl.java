@@ -23,6 +23,7 @@ import com.martinatanasov.computerstore.repositories.OrderRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.utils.converter.UserConverter;
 import jakarta.servlet.http.HttpSession;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class SessionServiceImpl implements SessionService {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class SessionServiceImpl implements SessionService {
 
     private final UserDao userDao;
     private final OrderRepository orderRepository;

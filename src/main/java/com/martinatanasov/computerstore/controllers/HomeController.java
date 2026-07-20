@@ -18,7 +18,6 @@ package com.martinatanasov.computerstore.controllers;
 import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.model.StoreItemDTO;
 import com.martinatanasov.computerstore.services.ProductService;
-import com.martinatanasov.computerstore.services.ProductServiceImpl;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ public class HomeController {
     private final ProductConverter productConverter;
 
     @Autowired
-    HomeController(ProductServiceImpl productService, ProductConverter productConverter) {
+    HomeController(ProductService productService, ProductConverter productConverter) {
         this.productService = productService;
         this.productConverter = productConverter;
     }

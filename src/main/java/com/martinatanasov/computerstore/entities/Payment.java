@@ -54,6 +54,10 @@ public class Payment {
     @Column(name = "payment_session_id")
     private String paymentSessionId;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;

@@ -78,6 +78,10 @@ public class User {
     @Column(name = "verified_profile")
     private Boolean verifiedProfile;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @Column(name = "creation_date", nullable = false, updatable = false)
     @CreationTimestamp
     private Timestamp creationDate;

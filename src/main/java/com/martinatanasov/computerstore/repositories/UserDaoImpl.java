@@ -34,7 +34,7 @@ import java.util.List;
 
 @Slf4j
 @Repository
-public class UserDaoImpl implements UserDao {
+class UserDaoImpl implements UserDao {
 
     //Use PersistenceContext instead of constructor to inject EntityManager (field should not be final)
     @PersistenceContext
