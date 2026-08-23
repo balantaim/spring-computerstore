@@ -1,0 +1,8 @@
+ALTER TABLE orders
+    MODIFY COLUMN order_identifier VARCHAR(255) NOT NULL;
+
+ALTER TABLE users
+    MODIFY COLUMN enabled BIT NOT NULL;
+
+ALTER TABLE shipments
+    MODIFY COLUMN carrier VARCHAR(20) NOT NULL;

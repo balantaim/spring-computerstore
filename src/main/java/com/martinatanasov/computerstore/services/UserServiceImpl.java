@@ -31,7 +31,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -78,7 +78,7 @@ class UserServiceImpl implements UserService {
         //The default new profile is set to verified by email
         user.setVerifiedProfile(true);
         //Set lock date
-        user.setLockDate(new Timestamp(System.currentTimeMillis()));
+        user.setLockDate(LocalDateTime.now());
         //Give user default role of "employee"
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
         //Save user in the database

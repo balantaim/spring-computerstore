@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +18,7 @@ package com.martinatanasov.computerstore.model;
 import com.martinatanasov.computerstore.entities.Category;
 import jakarta.validation.constraints.NotNull;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public record ProductManagementDTO(
         @NotNull
@@ -30,8 +30,8 @@ public record ProductManagementDTO(
         @NotNull
         Integer stock,
         String imageUrl,
-        Timestamp creationDate,
-        Timestamp modifyDate,
+        LocalDateTime creationDate,
+        LocalDateTime modifyDate,
         @NotNull
         Boolean isVisible,
         @NotNull

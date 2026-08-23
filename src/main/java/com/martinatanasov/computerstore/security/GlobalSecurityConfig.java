@@ -38,6 +38,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 import java.util.Arrays;
@@ -86,6 +87,11 @@ public class GlobalSecurityConfig {
                         .requestMatchers(EndpointRequest.to("info")).permitAll()
                         .requestMatchers(EndpointRequest.to("health", "metrics", "scheduledtasks", "caches", "flyway", "loggers")).hasRole("ADMIN")
                 )
+                .headers(headers -> headers
+                        .referrerPolicy(referrerPolicy -> referrerPolicy
+                                .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+                        )
+                )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -101,6 +107,11 @@ public class GlobalSecurityConfig {
                 .securityMatcher(staticResources)
                 .authorizeHttpRequests(config -> config
                         .requestMatchers(HttpMethod.GET, staticResources).permitAll()
+                )
+                .headers(headers -> headers
+                        .referrerPolicy(referrerPolicy -> referrerPolicy
+                                .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+                        )
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -135,11 +146,16 @@ public class GlobalSecurityConfig {
                         //Enable Iframe for the same origin (default value is disabled)
                         // .frameOptions(frameOptions -> frameOptions.sameOrigin())
                         //Block XSS attacks
-                        .xssProtection(xxs -> xxs.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                        .xssProtection(xxs -> xxs
+                                .headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
+                        )
                         //Block form data from unknown origin
                         //If you want to use script inside the body use 'unsafe-inline', this will add you a new vulnerability
                         .contentSecurityPolicy(contentSecurityPolicyConfig -> contentSecurityPolicyConfig
                                 .policyDirectives(CONTENT_SECURITY_POLICY)
+                        )
+                        .referrerPolicy(referrerPolicy -> referrerPolicy
+                                .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
                         )
                 )
                 .formLogin(form -> form

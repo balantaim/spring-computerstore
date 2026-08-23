@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Service("bruteForceProtectionService")
@@ -49,7 +49,7 @@ class BruteForceProtectionServiceImpl implements BruteForceProtectionService {
             }
             userDao.setLoginFailedAttempt(username, new UserFailedAttempts(failedLoginAttempts,
                     accountNonLocked,
-                    new Timestamp(System.currentTimeMillis())));
+                    LocalDateTime.now()));
         }
     }
 
@@ -58,7 +58,7 @@ class BruteForceProtectionServiceImpl implements BruteForceProtectionService {
     public void resetLoginFailureCounter(final String username) {
         userDao.setLoginFailedAttempt(username, new UserFailedAttempts((byte) 0,
                 Boolean.TRUE,
-                new Timestamp(System.currentTimeMillis())));
+                LocalDateTime.now()));
     }
 
 }

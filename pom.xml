@@ -49,8 +49,9 @@
 	<properties>
 		<java.version>25</java.version>
 		<stripe.version>28.3.1</stripe.version>
-        <spotbugs.plugin.version>4.10.2.0</spotbugs.plugin.version>
         <archunit.version>1.4.2</archunit.version>
+        <bootui.version>1.14.0</bootui.version>
+        <spotbugs.plugin.version>4.10.2.0</spotbugs.plugin.version>
         <datasource.micrometer.spring.version>2.2.1</datasource.micrometer.spring.version>
 	</properties>
 
@@ -202,14 +203,6 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Devtools for fast project reload -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-
 	</dependencies>
 
 	<profiles>
@@ -255,6 +248,21 @@
                 <dependency>
                     <groupId>com.google.code.gson</groupId>
                     <artifactId>gson</artifactId>
+                    <optional>true</optional>
+                </dependency>
+
+                <!-- https://www.julien-dubois.com/boot-ui/setup -->
+                <dependency>
+                    <groupId>com.julien-dubois.bootui</groupId>
+                    <artifactId>bootui-spring-boot-starter</artifactId>
+                    <version>${bootui.version}</version>
+                </dependency>
+
+                <!-- Devtools for fast project reload -->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-devtools</artifactId>
+                    <scope>runtime</scope>
                     <optional>true</optional>
                 </dependency>
 

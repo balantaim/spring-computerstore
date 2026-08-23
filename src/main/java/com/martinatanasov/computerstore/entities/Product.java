@@ -22,7 +22,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -38,7 +38,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Column(name = "product_name", nullable = false)
@@ -65,11 +65,11 @@ public class Product {
 
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private LocalDateTime creationDate;
 
     @UpdateTimestamp
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private LocalDateTime modifyDate;
 
     @Column(name = "is_visible", nullable = false)
     private Boolean isVisible;

@@ -22,7 +22,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -39,7 +39,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "order_identifier", columnDefinition = "varchar(255)", nullable = false, updatable = false)
@@ -59,11 +59,11 @@ public class Order {
 
     @CreationTimestamp
     @Column(name = "order_date", nullable = false, updatable = false)
-    private Timestamp orderDate;
+    private LocalDateTime orderDate;
 
     @UpdateTimestamp
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private LocalDateTime modifyDate;
 
     @Column(name = "total_amount", precision = 9, scale = 2)
     private BigDecimal totalAmount;
@@ -82,11 +82,11 @@ public class Order {
     @ToString.Exclude
     private Set<OrderItem> orderItems = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private Shipment shipment;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private Payment payment;
 

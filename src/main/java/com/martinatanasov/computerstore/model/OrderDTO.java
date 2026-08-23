@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,11 +16,11 @@
 package com.martinatanasov.computerstore.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public record OrderDTO(Long id,
-                       Timestamp orderDate,
-                       Timestamp modifyDate,
+                       LocalDateTime orderDate,
+                       LocalDateTime modifyDate,
                        BigDecimal totalAmount,
                        String status,
                        String orderIdentifier) {

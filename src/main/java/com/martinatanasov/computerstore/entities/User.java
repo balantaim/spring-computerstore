@@ -20,7 +20,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,7 +36,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "email", length = 50, unique = true, nullable = false)
@@ -84,14 +84,14 @@ public class User {
 
     @Column(name = "creation_date", nullable = false, updatable = false)
     @CreationTimestamp
-    private Timestamp creationDate;
+    private LocalDateTime creationDate;
 
     @Column(name = "modify_date", nullable = false)
     @UpdateTimestamp
-    private Timestamp modifyDate;
+    private LocalDateTime modifyDate;
 
     @Column(name = "lock_date", nullable = false)
-    private Timestamp lockDate;
+    private LocalDateTime lockDate;
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -119,7 +119,13 @@ public class User {
     @ToString.Exclude
     private Set<Review> reviews = new HashSet<>();
 
-    public User(String email, String firstName, String lastName, String password, Boolean enabled, Boolean accountNonLocked, Boolean verifiedProfile) {
+    public User(String email,
+            String firstName,
+            String lastName,
+            String password,
+            Boolean enabled,
+            Boolean accountNonLocked,
+            Boolean verifiedProfile) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -129,7 +135,18 @@ public class User {
         this.verifiedProfile = verifiedProfile;
     }
 
-    public User(String email, String firstName, String lastName, String password, String country, String address, String phoneNumber, Boolean enabled, Boolean accountNonLocked, Boolean verifiedProfile, Timestamp creationDate, Collection<Role> roles) {
+    public User(String email,
+            String firstName,
+            String lastName,
+            String password,
+            String country,
+            String address,
+            String phoneNumber,
+            Boolean enabled,
+            Boolean accountNonLocked,
+            Boolean verifiedProfile,
+            LocalDateTime creationDate,
+            Collection<Role> roles) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

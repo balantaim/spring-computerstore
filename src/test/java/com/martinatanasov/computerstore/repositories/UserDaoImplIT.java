@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -72,7 +72,7 @@ class UserDaoImplIT {
     @Order(1)
     @DisplayName(value = "Create customer user")
     void createCustomerUser() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        LocalDateTime timeNow = LocalDateTime.now();
         User user = new User();
         user.setEmail("testcustomer.default@abv.bg");
         user.setPassword(passwordEncoder.encode("1234"));
@@ -83,9 +83,9 @@ class UserDaoImplIT {
         //The default new profile is set to verified by email
         user.setVerifiedProfile(true);
         //Set creation date
-        user.setCreationDate(timestamp);
-        user.setModifyDate(timestamp);
-        user.setLockDate(timestamp);
+        user.setCreationDate(timeNow);
+        user.setModifyDate(timeNow);
+        user.setLockDate(timeNow);
 
         userDao.save(user);
         User returnedUser = userDao.findByUserName(user.getEmail());

@@ -23,8 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -78,14 +77,12 @@ public class OrderTransportationScheduler {
     @Scheduled(cron = "0 0 */8 * * *")
     public void removeNotConsumedOrders() {
         log.info("\n\t---> Scheduler remove not consumed orders");
-        final Timestamp timeSixHoursAgo = Timestamp.from(Instant.now().minus(6, ChronoUnit.HOURS));
+        final LocalDateTime timeSixHoursAgo = LocalDateTime.now().minus(6, ChronoUnit.HOURS);
         List<Order> orders = orderService.findAll()
                 .stream()
                 //Check if we have new Orders older than 6 hour
                 .filter(order -> order.getStatus() == OrderStatus.NEW_ORDER &&
-                        order.getOrderDate()
-                                .toInstant()
-                                .isBefore(timeSixHoursAgo.toInstant())
+                        order.getOrderDate().isBefore(timeSixHoursAgo)
                 )
                 .toList();
         if (!orders.isEmpty()) {

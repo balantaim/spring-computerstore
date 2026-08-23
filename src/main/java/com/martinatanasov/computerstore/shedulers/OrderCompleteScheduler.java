@@ -15,7 +15,6 @@
 
 package com.martinatanasov.computerstore.shedulers;
 
-
 import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.model.OrderStatus;
 import com.martinatanasov.computerstore.repositories.OrderRepository;
@@ -24,9 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.time.Duration;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -63,8 +61,8 @@ public class OrderCompleteScheduler {
         }
     }
 
-    private boolean isOrderFinalized(final Timestamp orderDate) {
-        final long duration = Duration.between(orderDate.toInstant(), Instant.now()).toDays();
+    private boolean isOrderFinalized(final LocalDateTime orderDate) {
+        final long duration = Duration.between(orderDate, LocalDateTime.now()).toDays();
         return duration > DAYS_AFTER_ORDER_IS_COMPLETED;
     }
 
