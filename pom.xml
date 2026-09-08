@@ -25,7 +25,7 @@
 	</parent>
 	<groupId>com.martinatanasov</groupId>
 	<artifactId>computerstore</artifactId>
-	<version>1.6.27</version>
+	<version>1.6.28</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 
@@ -51,7 +51,7 @@
 		<stripe.version>28.3.1</stripe.version>
         <archunit.version>1.4.2</archunit.version>
         <bootui.version>1.14.0</bootui.version>
-        <spotbugs.plugin.version>4.10.2.0</spotbugs.plugin.version>
+        <spotbugs.plugin.version>4.10.4.0</spotbugs.plugin.version>
         <datasource.micrometer.spring.version>2.2.1</datasource.micrometer.spring.version>
 	</properties>
 
@@ -71,11 +71,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
 
 		<!-- Enable Cached Data with Spring-->
