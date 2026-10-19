@@ -42,6 +42,7 @@ public class User {
     @Column(name = "email", length = 50, unique = true, nullable = false)
     private String email;
 
+    @ToString.Exclude
     @Column(name = "password", length = 60, columnDefinition = "CHAR(60)", nullable = false)
     private String password;
 
@@ -75,7 +76,7 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
-    @Column(name = "verified_profile")
+    @Column(name = "verified_profile", nullable = false)
     private Boolean verifiedProfile;
 
     @Version
@@ -93,7 +94,7 @@ public class User {
     @Column(name = "lock_date", nullable = false)
     private LocalDateTime lockDate;
 
-    @ManyToMany(fetch = FetchType.EAGER,
+    @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;

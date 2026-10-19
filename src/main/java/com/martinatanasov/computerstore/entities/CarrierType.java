@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,23 +13,10 @@
  * limitations under the License.
  */
 
-package com.martinatanasov.computerstore.model;
+package com.martinatanasov.computerstore.entities;
 
-public enum OrderStatus {
+public enum CarrierType {
 
-    //Init status for new order
-    NEW_ORDER,
-    //Carrier is set. Require payment
-    PAYMENT_REQUIRED,
-    //Payment created successfully
-    PAYMENT_SUCCESS,
-    //Order canceled by the customer
-    ORDER_ABORTED,
-    //Transport in progress
-    SHIPPING_IN_PROGRESS,
-    //Product successfully delivered
-    SHIPPING_DELIVERED,
-    //Order completed. This step skip the delivery
-    ORDER_COMPLETED
+    ECONT, SPEEDY
 
 }

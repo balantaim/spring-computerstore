@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,16 +16,24 @@
 package com.martinatanasov.computerstore.repositories;
 
 import com.martinatanasov.computerstore.entities.Category;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Short> {
 
+    @EntityGraph(attributePaths = {"products"})
     Optional<Category> findCategoryByName(String name);
 
     Iterable<Category> findAllByIsVisibleTrue();
+
+    @EntityGraph(attributePaths = {"products"})
+    @Query("select c from Category c")
+    Set<Category> findAllWithProducts();
 
 }

@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.services.payments;
 
 import com.martinatanasov.computerstore.entities.*;
-import com.martinatanasov.computerstore.model.OrderStatus;
+import com.martinatanasov.computerstore.entities.OrderStatus;
 import com.martinatanasov.computerstore.repositories.OrderRepository;
 import com.martinatanasov.computerstore.utils.converter.PaymentPriceConverter;
 import com.stripe.exception.StripeException;

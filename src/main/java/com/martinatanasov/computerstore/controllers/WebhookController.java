@@ -31,12 +31,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/Status")
-public class WebhookController {
+class WebhookController {
 
     private final String STRIPE_WEBHOOK_SECRET;
     private final OrderService orderService;
 
-    public WebhookController(@Nullable @Value("${stripe.webhook.secret}") String webhookSecret, OrderService orderService) {
+    WebhookController(@Nullable @Value("${stripe.webhook.secret}") String webhookSecret, OrderService orderService) {
         if (webhookSecret == null) {
             throw new RuntimeException("\n\tStripe webhook secret is not initialized!");
         }

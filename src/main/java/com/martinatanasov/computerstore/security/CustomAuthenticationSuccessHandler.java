@@ -20,6 +20,7 @@ import com.martinatanasov.computerstore.services.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -29,9 +30,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Component
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final SessionService sessionService;
     private final SessionRedirectionConfig sessionRedirectionConfig;

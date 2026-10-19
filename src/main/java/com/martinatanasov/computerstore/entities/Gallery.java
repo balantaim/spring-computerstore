@@ -51,7 +51,8 @@ public class Gallery {
     @Column(name = "modify_date", nullable = false)
     private LocalDateTime modifyDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
+    @ToString.Exclude
     private Product product;
 }

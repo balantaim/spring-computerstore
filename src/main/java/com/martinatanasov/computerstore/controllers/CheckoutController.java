@@ -19,9 +19,9 @@ import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.entities.Payment;
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.Carrier;
-import com.martinatanasov.computerstore.model.OrderStatus;
-import com.martinatanasov.computerstore.model.PaymentStatus;
+import com.martinatanasov.computerstore.entities.CarrierType;
+import com.martinatanasov.computerstore.entities.OrderStatus;
+import com.martinatanasov.computerstore.entities.PaymentStatus;
 import com.martinatanasov.computerstore.services.CartService;
 import com.martinatanasov.computerstore.services.DeliveryService;
 import com.martinatanasov.computerstore.services.OrderService;
@@ -34,6 +34,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.checkout.Session;
 import jakarta.servlet.http.HttpSession;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
@@ -55,8 +56,8 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 @Controller
 @PreAuthorize("hasRole('CUSTOMER')")
 @RequestMapping("/Checkout")
-@RequiredArgsConstructor
-public class CheckoutController {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class CheckoutController {
 
     private final UserService userService;
     private final AddressConverter addressConverter;
@@ -122,12 +123,12 @@ public class CheckoutController {
     public String initiateCheckoutPayment(@RequestParam("carrier") String carrier,
             Model model,
             HttpSession session) {
-        final Carrier carrierName = Objects.equals(carrier, Carrier.ECONT.name()) ? Carrier.ECONT : Carrier.SPEEDY;
+        final CarrierType carrierType = Objects.equals(carrier, CarrierType.ECONT.name()) ? CarrierType.ECONT : CarrierType.SPEEDY;
         final User user = userService.findByUserName(getUserName());
         final Optional<Order> order = getInitialOrder(user.getId());
         if (order.isPresent()) {
             final String trackingNumber = deliveryService.createDelivery().toString();
-            final Order updatedOrder = orderService.updateOrderAndEntities(user, order.get(), carrierName, trackingNumber);
+            final Order updatedOrder = orderService.updateOrderAndEntities(user, order.get(), carrierType, trackingNumber);
             if (updatedOrder != null) {
                 //Clear user's cart
                 cartService.deleteAllItems(user.getEmail());
@@ -137,7 +138,7 @@ public class CheckoutController {
                 session.setAttribute("orders-count", orderService.getUnfinishedOrdersCount(getUserName()));
 
                 final DecimalFormat formatter = new DecimalFormat("#0.00");
-                model.addAttribute("carrier", carrierName);
+                model.addAttribute("carrier", carrierType);
                 model.addAttribute("finalPrice", formatter.format(updatedOrder.getTotalAmount()));
                 model.addAttribute("orderId", updatedOrder.getId());
                 model.addAttribute("orderCreated", true);

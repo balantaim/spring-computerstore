@@ -34,7 +34,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class CartServiceImpl implements CartService {
@@ -77,22 +76,6 @@ class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void updateCart(final String username, final Integer productId, final Integer quantity) {
-        if (isTransactionValid(quantity)) {
-            Long userId = getUserId(username);
-            if (userId != null) {
-                //Perform update
-                Optional<Cart> item = cartRepository.findFirstByProductId(productId);
-                if (item.isPresent()) {
-                    item.get().setQuantity(quantity);
-                    cartRepository.save(item.get());
-                }
-            }
-        }
-    }
-
-    @Transactional
-    @Override
     public void deleteSingleItem(final String username, @Nullable final Long cartId) {
         Long userId = getUserId(username);
         if (userId != null && cartId != null) {
@@ -127,17 +110,20 @@ class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void updateCartQuantity(final Long cartId, final Boolean isIncrement) {
+    public boolean updateCartQuantity(final Long cartId, final Boolean isIncrement) {
         Optional<Cart> item = cartRepository.findById(cartId);
         if (item.isPresent()) {
             //Save the updated cart object
             int newQuantity = isIncrement ? (item.get().getQuantity() + 1) : (item.get().getQuantity() - 1);
             //Check if the quantity is valid
             if (isTransactionValid(newQuantity)) {
-                item.get().setQuantity(newQuantity);
-                cartRepository.save(item.get());
+                Cart cart = item.get();
+                cart.setQuantity(newQuantity);
+                cartRepository.saveAndFlush(cart);
+                return true;
             }
         }
+        return false;
     }
 
     @Override

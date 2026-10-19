@@ -25,6 +25,7 @@ import com.martinatanasov.computerstore.services.ProductService;
 import com.martinatanasov.computerstore.services.ReviewService;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,10 +41,10 @@ import java.util.stream.Collectors;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Controller
 @RequestMapping("/Products")
-public class ProductController {
+class ProductController {
 
     private final CategoryService categoryService;
     private final ProductService productService;

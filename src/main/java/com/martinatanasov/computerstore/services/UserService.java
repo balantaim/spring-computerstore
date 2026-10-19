@@ -27,6 +27,8 @@ public interface UserService extends UserDetailsService {
 
     User findByUserId(final Long id);
 
+    User findByUserIdWithRoles(final Long id);
+
     User findByCustomerId(final String customerId);
 
     void save(AppUserDTO appUserDTO);

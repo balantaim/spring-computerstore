@@ -19,6 +19,7 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.UserDetailsDTO;
 import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.utils.converter.UserConverter;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,10 +35,10 @@ import java.util.stream.Collectors;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.GLOBAL_ERROR_PAGE;
 
 @Controller
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/Administration")
-public class AdministrationController {
+class AdministrationController {
 
     private final UserService userService;
     private final UserConverter userConverter;
@@ -58,7 +59,7 @@ public class AdministrationController {
     @GetMapping("/profile/{id}")
     public String userInfoPage(@PathVariable Long id,
             Model model) {
-        final User user = userService.findByUserId(id);
+        final User user = userService.findByUserIdWithRoles(id);
         if (user != null) {
             model.addAttribute("user", userConverter.userToUserAdministrationDTO(user));
         }

@@ -15,8 +15,6 @@
 
 package com.martinatanasov.computerstore.entities;
 
-import com.martinatanasov.computerstore.model.PaymentStatus;
-import com.martinatanasov.computerstore.model.PaymentType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -66,7 +64,7 @@ public class Payment {
     @Column(name = "modify_date", nullable = false)
     private LocalDateTime modifyDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     @ToString.Exclude
     private Order order;

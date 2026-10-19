@@ -2,10 +2,10 @@ async function updateContent(cartId, locatorNumber, isIncrement) {
     // Update the Cart then get the new fragments from the back-end
     let data = "";
     const inputId = await document.getElementById(`input-number-${locatorNumber}`);
-    // Convert input value to integer (max 3 digits)
-    const inputValue = parseInt(inputId.value, 3);
+    // Convert input value to integer (max 10 digits)
+    const inputValue = parseInt(inputId.value, 10);
     // Check if input is valid
-    if (isValidInput(inputValue)) {
+    if (isValidInput(inputValue, isIncrement)) {
         const action = isIncrement ? 'increment' : 'decrement';
         const url = window.location.origin + `/Cart/${action}/` + cartId;
         data = await fetchContent(url);
@@ -62,19 +62,34 @@ async function deleteContent(cartId) {
 }
 
 async function fetchContent(url) {
-    let newData = "";
-    // csrf variable is got by model attribute
-    await fetch(url, {
-        method: "POST",
-        redirect: "follow",
-        headers: {[csrfHeader]: csrfToken}
-    })
-        .then((response) => response.text())
-        .then((content) => (newData = content))
-        .catch((error) => console.error("Error: " + error));
-    // console.log("data: " + data);
-
-    return newData;
+    try {
+        // csrfHeader and csrfToken come from the model attributes
+        const response = await fetch(url, {
+            method: "POST",
+            redirect: "follow",
+            headers: {[csrfHeader]: csrfToken}
+        });
+        // 4xx/5xx: log it and leave the page alone
+        if (!response.ok) {
+            console.error(`Cart request failed: ${response.status} ${response.statusText}`);
+            return null;
+        }
+        // The session expired and Spring Security redirected to the login page
+        if (response.redirected) {
+            console.warn("Cart request was redirected to: " + response.url);
+            return null;
+        }
+        // 204 No Content or an empty body: nothing to swap
+        if (response.status === 204) {
+            return null;
+        }
+        const text = await response.text();
+        return text.trim() === "" ? null : text;
+    } catch (error) {
+        // Network failure (server down, connection lost)
+        console.error("Error: " + error);
+        return null;
+    }
 }
 
 async function swapContent(data) {
@@ -128,12 +143,10 @@ async function swapContent(data) {
     }
 }
 
-async function isValidInput(inputValue) {
-    if (inputValue !== null) {
-        const MIN_VALUE_INPUT = 1, MAX_VALUE_INPUT = 20;
-        if (inputValue > MIN_VALUE_INPUT && inputValue < MAX_VALUE_INPUT) {
-            return true;
-        }
+function isValidInput(inputValue, isIncrement) {
+    const MIN_VALUE_INPUT = 1, MAX_VALUE_INPUT = 20;
+    if (Number.isNaN(inputValue)) {
+        return false;
     }
-    return false;
+    return isIncrement ? inputValue < MAX_VALUE_INPUT : inputValue > MIN_VALUE_INPUT;
 }

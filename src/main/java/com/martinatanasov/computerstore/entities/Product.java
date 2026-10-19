@@ -92,7 +92,7 @@ public class Product {
     private Map<String, Object> productSpecifications;
 
     @ManyToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "category_id", nullable = false)
     @ToString.Exclude
     private Category category;

@@ -20,12 +20,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.1.0</version>
+		<version>4.1.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.martinatanasov</groupId>
 	<artifactId>computerstore</artifactId>
-	<version>1.6.28</version>
+	<version>1.6.28-revision-1</version>
 	<name>spring-computerstore</name>
 	<description>Computer Store - Demo project for e-commerce platform</description>
 
@@ -50,7 +50,7 @@
 		<java.version>25</java.version>
 		<stripe.version>28.3.1</stripe.version>
         <archunit.version>1.4.2</archunit.version>
-        <bootui.version>1.14.0</bootui.version>
+        <bootui.version>2.1.0</bootui.version>
         <spotbugs.plugin.version>4.10.4.0</spotbugs.plugin.version>
         <datasource.micrometer.spring.version>2.2.1</datasource.micrometer.spring.version>
 	</properties>

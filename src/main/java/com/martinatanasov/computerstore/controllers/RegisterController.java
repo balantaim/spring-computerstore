@@ -33,14 +33,16 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/register")
-public class RegisterController {
+class RegisterController {
 
     private final UserService userService;
     private final TestNotificationsState testNotificationsState;
     private final UserConverter userConverter;
 
     @Autowired
-    public RegisterController(UserService userService, TestNotificationsState testNotificationsState, UserConverter userConverter) {
+    RegisterController(UserService userService,
+            TestNotificationsState testNotificationsState,
+            UserConverter userConverter) {
         this.userService = userService;
         this.testNotificationsState = testNotificationsState;
         this.userConverter = userConverter;
@@ -66,7 +68,7 @@ public class RegisterController {
             HttpSession session,
             Model model) {
 
-        String userName = appUserDTO.getEmail();
+        String userName = appUserDTO.getEmail().toLowerCase();
 
         String errorMessage = "";
         if (appUserDTO.getPassword() != null && appUserDTO.getRepeatPassword() != null &&

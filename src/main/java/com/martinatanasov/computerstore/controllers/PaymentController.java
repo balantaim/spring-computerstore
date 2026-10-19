@@ -22,6 +22,7 @@ import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import com.stripe.model.Customer;
 import com.stripe.model.CustomerCollection;
 import com.stripe.model.CustomerSearchResult;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
@@ -39,10 +40,10 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
  * @author Martin Anatanov
  */
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @RestController
 @RequestMapping("/Payments")
-public class PaymentController {
+class PaymentController {
 
     private final PaymentCustomerService paymentCustomerService;
     private final UserAuthentication userAuthentication;

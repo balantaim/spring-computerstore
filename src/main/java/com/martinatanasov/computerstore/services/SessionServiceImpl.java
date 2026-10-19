@@ -17,7 +17,7 @@ package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.OrderStatus;
+import com.martinatanasov.computerstore.entities.OrderStatus;
 import com.martinatanasov.computerstore.repositories.CartRepository;
 import com.martinatanasov.computerstore.repositories.OrderRepository;
 import com.martinatanasov.computerstore.repositories.UserDao;

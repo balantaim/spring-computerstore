@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,7 +16,11 @@
 package com.martinatanasov.computerstore.repositories;
 
 import com.martinatanasov.computerstore.entities.Cart;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -25,12 +29,21 @@ import java.util.Set;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
+    @EntityGraph(attributePaths = {"product", "product.category"})
     Set<Cart> findAllByUserId(final Long userId);
 
+    @EntityGraph(attributePaths = {"product"})
     Optional<Cart> findFirstByProductId(final Integer productId);
 
-    void deleteAllByUserId(final Long userId);
+    //Use Modifying for Insert, Update or Delete
+    @Modifying
+    @Query("delete from Cart c where c.user.id = :userId")
+    void deleteAllByUserId(@Param("userId") Long userId);
 
     Integer countByUserId(final Long userId);
+
+    @Override
+    @EntityGraph(attributePaths = {"product"})
+    Optional<Cart> findById(Long id);
 
 }

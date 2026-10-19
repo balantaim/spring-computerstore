@@ -15,7 +15,6 @@
 
 package com.martinatanasov.computerstore.entities;
 
-import com.martinatanasov.computerstore.model.Carrier;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,7 +45,7 @@ public class Shipment {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "carrier", nullable = false, length = 20)
-    private Carrier carrier;
+    private CarrierType carrier;
 
     @Column(name = "country", nullable = false, length = 50)
     private String country;
@@ -69,7 +68,7 @@ public class Shipment {
     @Column(name = "modify_date", nullable = false)
     private LocalDateTime modifyDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     @ToString.Exclude
     private Order order;

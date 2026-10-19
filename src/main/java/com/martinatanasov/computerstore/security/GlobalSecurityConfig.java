@@ -46,11 +46,11 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class GlobalSecurityConfig {
+class GlobalSecurityConfig {
 
     private final RememberMeSessionPopulationFilter rememberMeSessionPopulationFilter;
 
-    public GlobalSecurityConfig(RememberMeSessionPopulationFilter rememberMeSessionPopulationFilter) {
+    GlobalSecurityConfig(RememberMeSessionPopulationFilter rememberMeSessionPopulationFilter) {
         this.rememberMeSessionPopulationFilter = rememberMeSessionPopulationFilter;
     }
 
