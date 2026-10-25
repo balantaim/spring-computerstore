@@ -16,37 +16,37 @@
 package com.martinatanasov.computerstore.config;
 
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-
 @Profile("prod")
 @Slf4j
-@RequiredArgsConstructor
 @Configuration
-public class DatasourceTimeZoneConfig {
+class DatasourceTimeZoneConfig {
 
     /**
      * Set the timezone of the datasource. This is important for date and time operations.
      */
 
     private final JdbcTemplate jdbcTemplate;
-    @Nullable
-    @Value("${application.timezone:UTC}")
-    private String applicationTimeZone;
+    private final String APPLICATION_TIME_ZONE;
+
+    DatasourceTimeZoneConfig(JdbcTemplate jdbcTemplate,
+            @Value("${application.timezone:UTC}") String applicationTimeZone) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.APPLICATION_TIME_ZONE = applicationTimeZone;
+    }
 
     @PostConstruct
     public void init() {
-        if (applicationTimeZone == null) {
-            throw new RuntimeException("Application timezone cannot be null!");
+        if (APPLICATION_TIME_ZONE.isEmpty()) {
+            throw new RuntimeException("Application timezone is not set!");
         }
-        jdbcTemplate.execute("SET time_zone = '" + applicationTimeZone + "'");
-        log.info("\n\tDatasource time zone set to {}!", applicationTimeZone);
+        jdbcTemplate.execute("SET time_zone = '" + APPLICATION_TIME_ZONE + "'");
+        log.info("\n\tDatasource time zone set to {}!", APPLICATION_TIME_ZONE);
     }
 
 }

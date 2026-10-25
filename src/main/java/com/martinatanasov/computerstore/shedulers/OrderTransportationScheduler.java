@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.shedulers;
 
 import com.martinatanasov.computerstore.entities.Order;
-import com.martinatanasov.computerstore.model.OrderStatus;
+import com.martinatanasov.computerstore.entities.OrderStatus;
 import com.martinatanasov.computerstore.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

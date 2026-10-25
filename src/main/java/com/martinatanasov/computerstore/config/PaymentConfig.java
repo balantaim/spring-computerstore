@@ -15,32 +15,30 @@
 
 package com.martinatanasov.computerstore.config;
 
-
 import com.stripe.Stripe;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-public class PaymentConfig {
+class PaymentConfig {
 
-    @Nullable
-    @Value("${stripe.secret.key}")
-    private String PAYMENT_SECRET_KEY;
+    private final String PAYMENT_SECRET_KEY;
+
+    PaymentConfig(@Value("${stripe.secret.key}") String PAYMENT_SECRET_KEY) {
+        this.PAYMENT_SECRET_KEY = PAYMENT_SECRET_KEY;
+    }
 
     //Initiate Stripe API key configuration
     @PostConstruct
     public void init() {
-        if (PAYMENT_SECRET_KEY == null || PAYMENT_SECRET_KEY.isEmpty()) {
+        if (PAYMENT_SECRET_KEY.isEmpty()) {
             throw new RuntimeException("Stripe Secret key is not set!");
         } else {
             Stripe.apiKey = PAYMENT_SECRET_KEY;
             log.info("\n\tStripe Secret Key is set!");
-            //Release unneeded value
-            PAYMENT_SECRET_KEY = null;
         }
     }
 
