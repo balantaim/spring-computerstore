@@ -16,10 +16,6 @@
 package com.martinatanasov.computerstore.services;
 
 import com.martinatanasov.computerstore.entities.*;
-import com.martinatanasov.computerstore.model.Carrier;
-import com.martinatanasov.computerstore.model.OrderStatus;
-import com.martinatanasov.computerstore.model.PaymentStatus;
-import com.martinatanasov.computerstore.model.PaymentType;
 import com.martinatanasov.computerstore.repositories.CartRepository;
 import com.martinatanasov.computerstore.repositories.OrderRepository;
 import com.martinatanasov.computerstore.repositories.ProductRepository;
@@ -35,7 +31,6 @@ import tools.jackson.databind.json.JsonMapper;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -77,6 +72,12 @@ class OrderServiceImpl implements OrderService {
         return orderRepository.getOrderById(orderId);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Order> getOrderDetails(Long orderId, String email) {
+        return orderRepository.findDetailedByIdAndUserEmail(orderId, email);
+    }
+
     @Transactional
     @Override
     public boolean createNewOrder(final User user, final Iterable<Cart> cartItems) {
@@ -88,80 +89,94 @@ class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public @Nullable Order updateOrderAndEntities(final User user, Order order, final Carrier carrier, final String trackingNumber) {
-        final Iterable<Cart> cartItems = cartRepository.findAllByUserId(user.getId());
-        if (cartItems != null) {
-            AtomicInteger quantity = new AtomicInteger();
-            Set<OrderItem> orderItems = new HashSet<>();
-
-            //Add carrier item to the cart items
-            Optional<Product> carrierProductItem = productRepository.findFirstByProductNameIgnoreCase(carrier.name());
-            carrierProductItem.ifPresent(product -> {
-                        orderItems.add(
-                                OrderItem.builder()
-                                        .order(order)
-                                        .product(product)
-                                        .quantity(1)
-                                        .pricePerUnit(product.getPrice())
-                                        .build()
-                        );
-                        quantity.getAndIncrement();
-                    }
-            );
-
-            //Add all cartItems to the OrderItems
-            cartItems.forEach(i -> {
-                orderItems.add(OrderItem.builder()
-                        .order(order)
-                        .product(i.getProduct())
-                        .quantity(i.getQuantity())
-                        .pricePerUnit(i.getProduct().getPrice())
-                        .build());
-                quantity.getAndIncrement();
-            });
-
-            //Check OrderItems count
-            if (orderItems.isEmpty()) {
-                log.error("\n\tOrder items count equal to zero!");
-                return null;
-            }
-
-            //Create total amount variable
-            final BigDecimal totalAmount = getTotalAmount(orderItems);
-
-            //Create a new Payment
-            final Payment payment = Payment.builder()
-                    .order(order)
-                    .amount(totalAmount)
-                    .paymentType(PaymentType.CARD)
-                    .paymentStatus(PaymentStatus.NONE)
-                    .build();
-
-            //Create shipment
-            final Shipment shipment = Shipment.builder()
-                    .order(order)
-                    .carrier(carrier)
-                    .trackingNumber(trackingNumber)
-                    .quantity(quantity.get())
-                    .country(user.getCountry())
-                    .address(user.getAddress())
-                    .phoneNumber(user.getPhoneNumber())
-                    .build();
-            //Update order columns
-            order.setTotalAmount(totalAmount);
-            order.setPayment(payment);
-            order.setShipment(shipment);
-            //Clear OrderItems set
-            order.getOrderItems().clear();
-            order.setOrderItems(orderItems);
-            //Update Order status
-            order.setStatus(OrderStatus.PAYMENT_REQUIRED);
-            //Save Order
-            final Order updatedOrder = orderRepository.save(order);
-            log.info("\n\t Update Order: {}", updatedOrder);
-            return updatedOrder;
+    public @Nullable Order updateOrderAndEntities(
+            final User user,
+            final Order detachedOrder,
+            final CarrierType carrier,
+            final String trackingNumber) {
+        // Reload the order inside this transaction (managed entity, items loaded, owned by the user)
+        Order order = orderRepository.findWithOrderItemsByIdAndUserId(detachedOrder.getId(), user.getId())
+                .orElse(null);
+        if (order == null) {
+            log.error("\n\tOrder not found for the current user");
+            return null;
         }
-        return null;
+
+        Set<Cart> cartItems = cartRepository.findAllByUserId(user.getId());
+        Set<OrderItem> newItems = new HashSet<>();
+        int quantity = 0;
+
+        // Add the carrier as an order item
+        final Optional<Product> carrierProduct = productRepository.findFirstByProductNameIgnoreCase(carrier.name());
+        if (carrierProduct.isPresent()) {
+            final Product product = carrierProduct.get();
+            newItems.add(
+                    //Default carrier product
+                    generateOrderItem(order, product, 1, product.getPrice())
+            );
+            quantity++;
+        }
+        // Add all cart items as order items
+        for (final Cart cart : cartItems) {
+            newItems.add(
+                    generateOrderItem(order, cart.getProduct(), cart.getQuantity(), cart.getProduct().getPrice())
+            );
+            quantity++;
+        }
+
+        if (newItems.isEmpty()) {
+            log.error("\n\tOrder items count equal to zero!");
+            return null;
+        }
+        final BigDecimal totalAmount = getTotalAmount(newItems);
+
+        // Reuse the existing payment on repeated attempts, otherwise create one
+        final Payment payment = getPayment(order, totalAmount);
+        // Reuse the existing shipment on repeated attempts, otherwise create one
+        final Shipment shipment = getShipment(order, user, carrier, trackingNumber, quantity);
+
+        // Update the order. Modify the existing collection, never replace it
+        // (required with orphanRemoval = true).
+        order.setTotalAmount(totalAmount);
+        order.setPayment(payment);
+        order.setShipment(shipment);
+        order.getOrderItems().clear();
+        order.getOrderItems().addAll(newItems);
+        order.setStatus(OrderStatus.PAYMENT_REQUIRED);
+
+        // No save() needed: the order is managed and changes are flushed at commit
+        log.info("\n\t Updated Order id: {}", order.getId());
+        return order;
+    }
+
+    private OrderItem generateOrderItem(Order order, Product product, Integer quantity, BigDecimal price) {
+        return OrderItem.builder()
+                .order(order)
+                .product(product)
+                .quantity(quantity)
+                .pricePerUnit(price)
+                .build();
+    }
+
+    private Payment getPayment(Order order, BigDecimal totalAmount) {
+        Payment payment = order.getPayment() != null ? order.getPayment() : new Payment();
+        payment.setOrder(order);
+        payment.setAmount(totalAmount);
+        payment.setPaymentType(PaymentType.CARD);
+        payment.setPaymentStatus(PaymentStatus.NONE);
+        return payment;
+    }
+
+    private Shipment getShipment(Order order, User user, CarrierType carrier, String trackingNumber, Integer quantity) {
+        Shipment shipment = order.getShipment() != null ? order.getShipment() : new Shipment();
+        shipment.setOrder(order);
+        shipment.setCarrier(carrier);
+        shipment.setTrackingNumber(trackingNumber);
+        shipment.setQuantity(quantity);
+        shipment.setCountry(user.getCountry());
+        shipment.setAddress(user.getAddress());
+        shipment.setPhoneNumber(user.getPhoneNumber());
+        return shipment;
     }
 
     @Transactional
