@@ -18,6 +18,7 @@ package com.martinatanasov.computerstore.utils.converter;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.AppUserDTO;
 import com.martinatanasov.computerstore.model.SessionUserDTO;
+import com.martinatanasov.computerstore.model.UserAddressDTO;
 import com.martinatanasov.computerstore.model.UserDetailsDTO;
 import org.springframework.stereotype.Component;
 
@@ -59,6 +60,16 @@ public class UserConverter {
                 .email(appUserDTO.getEmail())
                 .firstName(appUserDTO.getFirstName())
                 .lastName(appUserDTO.getLastName())
+                .build();
+    }
+
+    public UserAddressDTO userToUserAddressDTO(final User user) {
+        return UserAddressDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .phoneNumber(user.getPhoneNumber())
+                .country(user.getCountry())
+                .address(user.getAddress())
                 .build();
     }
 

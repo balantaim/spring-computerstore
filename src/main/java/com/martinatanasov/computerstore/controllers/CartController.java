@@ -23,8 +23,10 @@ import com.martinatanasov.computerstore.utils.converter.CartConverter;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -43,8 +45,8 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 @Controller
 @PreAuthorize("hasRole('CUSTOMER')")
 @RequestMapping("/Cart")
-@RequiredArgsConstructor
-public class CartController {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class CartController {
 
     private final CartService cartService;
     private final UserAuthentication userAuthentication;
@@ -153,29 +155,43 @@ public class CartController {
     }
 
     @PostMapping("/increment/{id}")
-    public @Nullable Collection<ModelAndView> incrementCartQuantity(@PathVariable Long id, HttpServletRequest request) {
+    public Collection<ModelAndView> incrementCartQuantity(@PathVariable Long id, HttpServletRequest request) {
         //Increment cart quantity
-        cartService.updateCartQuantity(id, true);
-
-        String username = userAuthentication.getUsernameFromAuthentication();
-        Iterable<Cart> cartItems = cartService.getAllItems(username);
-        if (cartItems != null && cartItems.iterator().hasNext()) {
-            return getCartAndSummary(cartItems, request);
+        boolean isCartUpdated;
+        try {
+            isCartUpdated = cartService.updateCartQuantity(id, true);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            isCartUpdated = false;
         }
-        return null;
+
+        if (isCartUpdated) {
+            String username = userAuthentication.getUsernameFromAuthentication();
+            Iterable<Cart> cartItems = cartService.getAllItems(username);
+            if (cartItems != null && cartItems.iterator().hasNext()) {
+                return getCartAndSummary(cartItems, request);
+            }
+        }
+        return Collections.emptyList();
     }
 
     @PostMapping("/decrement/{id}")
-    public @Nullable Collection<ModelAndView> decrementCartQuantity(@PathVariable Long id, HttpServletRequest request) {
+    public Collection<ModelAndView> decrementCartQuantity(@PathVariable Long id, HttpServletRequest request) {
         //Decrement cart quantity
-        cartService.updateCartQuantity(id, false);
-
-        String username = userAuthentication.getUsernameFromAuthentication();
-        Iterable<Cart> cartItems = cartService.getAllItems(username);
-        if (cartItems != null && cartItems.iterator().hasNext()) {
-            return getCartAndSummary(cartItems, request);
+        boolean isCartUpdated;
+        try {
+            isCartUpdated = cartService.updateCartQuantity(id, false);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            isCartUpdated = false;
         }
-        return null;
+
+        if (isCartUpdated) {
+            String username = userAuthentication.getUsernameFromAuthentication();
+            Iterable<Cart> cartItems = cartService.getAllItems(username);
+            if (cartItems != null && cartItems.iterator().hasNext()) {
+                return getCartAndSummary(cartItems, request);
+            }
+        }
+        return Collections.emptyList();
     }
 
     private @Nullable OrderSummaryDTO calculateOrderSummary(Set<CardItemDTO> products) {

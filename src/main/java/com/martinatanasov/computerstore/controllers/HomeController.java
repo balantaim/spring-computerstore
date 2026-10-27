@@ -37,7 +37,7 @@ import java.util.List;
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
 @Controller
-public class HomeController {
+class HomeController {
 
     private final ProductService productService;
     private final ProductConverter productConverter;

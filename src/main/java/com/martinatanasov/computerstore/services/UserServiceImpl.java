@@ -31,11 +31,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Service
@@ -58,6 +55,12 @@ class UserServiceImpl implements UserService {
         return userDao.findByUserId(id);
     }
 
+    @Nullable
+    @Override
+    public User findByUserIdWithRoles(final Long id) {
+        return userDao.findByUserIdWithRoles(id);
+    }
+
     @Override
     public User findByCustomerId(final String customerId) {
         return userDao.findByCustomerId(customerId);
@@ -68,7 +71,7 @@ class UserServiceImpl implements UserService {
     public void save(AppUserDTO appUserDTO) {
         User user = new User();
         //Assign user details to the user object
-        user.setEmail(appUserDTO.getEmail());
+        user.setEmail(appUserDTO.getEmail().toLowerCase());
         user.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
         user.setFirstName(appUserDTO.getFirstName());
         user.setLastName(appUserDTO.getLastName());
@@ -78,9 +81,9 @@ class UserServiceImpl implements UserService {
         //The default new profile is set to verified by email
         user.setVerifiedProfile(true);
         //Set lock date
-        user.setLockDate(new Timestamp(System.currentTimeMillis()));
+        user.setLockDate(LocalDateTime.now());
         //Give user default role of "employee"
-        user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
+        user.setRoles(Collections.singletonList(roleDao.findRoleByName("ROLE_CUSTOMER")));
         //Save user in the database
         userDao.save(user);
     }
@@ -115,7 +118,11 @@ class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void disableOrEnableUser(final Long userId, final boolean enabled, boolean accountNonLocked, final boolean verified) {
+    public void disableOrEnableUser(
+            final Long userId,
+            final boolean enabled,
+            final boolean verified,
+            boolean accountNonLocked) {
         User user = findByUserId(userId);
         if (user != null) {
             if (user.getEnabled() != enabled) {

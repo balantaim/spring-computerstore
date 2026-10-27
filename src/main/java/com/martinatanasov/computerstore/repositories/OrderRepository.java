@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Martin Atanasov.
+ * Copyright 2025-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,7 +16,8 @@
 package com.martinatanasov.computerstore.repositories;
 
 import com.martinatanasov.computerstore.entities.Order;
-import com.martinatanasov.computerstore.model.OrderStatus;
+import com.martinatanasov.computerstore.entities.OrderStatus;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +32,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Optional<Order> getFirstByStatusAndUserId(OrderStatus status, Long userId);
 
     Optional<Order> getOrderById(Long id);
+
+    @EntityGraph(attributePaths = {"orderItems"})
+    Optional<Order> findWithOrderItemsByIdAndUserId(Long id, Long userId);
+
+    @EntityGraph(attributePaths = {"orderItems", "orderItems.product", "payment", "shipment"})
+    Optional<Order> findDetailedByIdAndUserEmail(Long id, String email);
 
 }

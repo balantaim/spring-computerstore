@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class CustomErrorController implements ErrorController {
+class CustomErrorController implements ErrorController {
 
     public static final String NOT_FOUND_PAGE = "error/404";
     public static final String GLOBAL_ERROR_PAGE = "error/global-error";

@@ -15,18 +15,16 @@
 
 package com.martinatanasov.computerstore.shedulers;
 
-
 import com.martinatanasov.computerstore.entities.Order;
-import com.martinatanasov.computerstore.model.OrderStatus;
-import com.martinatanasov.computerstore.repositories.OrderRepository;
+import com.martinatanasov.computerstore.entities.OrderStatus;
+import com.martinatanasov.computerstore.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.time.Duration;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -40,14 +38,14 @@ public class OrderCompleteScheduler {
      * After completing the order, a refund is not possible!
      */
 
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
     private static final long DAYS_AFTER_ORDER_IS_COMPLETED = 14;
 
     //Run every day of the mount at midnight
     @Scheduled(cron = "0 0 0 * * *")
     public void orderComplete() {
         log.info("\n\t---> Scheduler order complete");
-        List<Order> orders = orderRepository.findAll()
+        List<Order> orders = orderService.findAll()
                 .stream()
                 .filter(order -> order.getStatus() == OrderStatus.SHIPPING_DELIVERED)
                 .toList();
@@ -55,7 +53,7 @@ public class OrderCompleteScheduler {
             orders.forEach(index -> {
                 if(isOrderFinalized(index.getModifyDate())) {
                     index.setStatus(OrderStatus.ORDER_COMPLETED);
-                    final Order updatedOrder = orderRepository.save(index);
+                    final Order updatedOrder = orderService.save(index);
                     log.info("Updated order: Order completed: {}", updatedOrder.getId());
                 }
             });
@@ -63,8 +61,8 @@ public class OrderCompleteScheduler {
         }
     }
 
-    private boolean isOrderFinalized(final Timestamp orderDate) {
-        final long duration = Duration.between(orderDate.toInstant(), Instant.now()).toDays();
+    private boolean isOrderFinalized(final LocalDateTime orderDate) {
+        final long duration = Duration.between(orderDate, LocalDateTime.now()).toDays();
         return duration > DAYS_AFTER_ORDER_IS_COMPLETED;
     }
 

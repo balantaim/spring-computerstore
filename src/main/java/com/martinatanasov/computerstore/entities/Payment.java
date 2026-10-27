@@ -15,15 +15,13 @@
 
 package com.martinatanasov.computerstore.entities;
 
-import com.martinatanasov.computerstore.model.PaymentStatus;
-import com.martinatanasov.computerstore.model.PaymentType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "payments")
@@ -37,7 +35,7 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
@@ -60,13 +58,13 @@ public class Payment {
 
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private LocalDateTime creationDate;
 
     @UpdateTimestamp
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private LocalDateTime modifyDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     @ToString.Exclude
     private Order order;

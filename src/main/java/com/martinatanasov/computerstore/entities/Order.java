@@ -15,14 +15,13 @@
 
 package com.martinatanasov.computerstore.entities;
 
-import com.martinatanasov.computerstore.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -39,7 +38,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "order_identifier", columnDefinition = "varchar(255)", nullable = false, updatable = false)
@@ -59,11 +58,11 @@ public class Order {
 
     @CreationTimestamp
     @Column(name = "order_date", nullable = false, updatable = false)
-    private Timestamp orderDate;
+    private LocalDateTime orderDate;
 
     @UpdateTimestamp
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private LocalDateTime modifyDate;
 
     @Column(name = "total_amount", precision = 9, scale = 2)
     private BigDecimal totalAmount;
@@ -72,8 +71,10 @@ public class Order {
     @Column(name = "status", nullable = false)
     private OrderStatus status;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order",

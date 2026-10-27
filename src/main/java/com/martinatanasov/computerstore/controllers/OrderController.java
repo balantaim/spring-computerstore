@@ -19,6 +19,7 @@ import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.entities.OrderItem;
 import com.martinatanasov.computerstore.services.OrderService;
 import com.martinatanasov.computerstore.utils.converter.OrderConverter;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,11 +36,11 @@ import java.util.Set;
 
 import static com.martinatanasov.computerstore.controllers.CustomErrorController.NOT_FOUND_PAGE;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Controller
 @RequestMapping("/Orders")
 @PreAuthorize("hasRole('CUSTOMER')")
-public class OrderController {
+class OrderController {
 
     private final OrderService orderService;
     private final OrderConverter orderConverter;
@@ -62,7 +63,7 @@ public class OrderController {
         if (orderId != null) {
             final String email = getUserName();
             if (email != null) {
-                final Optional<Order> order = orderService.getOrderById(orderId);
+                final Optional<Order> order = orderService.getOrderDetails(orderId, email);
                 if (order.isPresent()) {
                     final Set<OrderItem> orderItems = order.get().getOrderItems();
                     model.addAttribute("order", orderConverter.convertOrderToOrderDTO(order.get()));

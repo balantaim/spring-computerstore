@@ -19,6 +19,7 @@ import com.martinatanasov.computerstore.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,38 +31,50 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value = "SELECT * FROM products p WHERE p.category_id = :id", nativeQuery = true)
-    Page<Product> findAllByCategory(Short id, PageRequest pageRequest);
+    @EntityGraph(attributePaths = {"category"})
+    @Query("SELECT p FROM Product p WHERE p.category.id = :id")
+    Page<Product> findAllByCategory(@Param("id") Short id, Pageable pageable);
 
-    @Query(value = "SELECT * FROM products p WHERE p.product_name LIKE %:keyword% " +
-            "OR p.description LIKE %:keyword% " +
-            "OR p.producer LIKE %:keyword% " +
-            "OR p.price LIKE %:keyword%",
-            nativeQuery = true)
-    Page<Product> findAllByKeyword(@Param("keyword") String keyword, PageRequest pageRequest);
+    //Old native query method
+//    @Query(value = "SELECT * FROM products p WHERE p.product_name LIKE %:keyword% " +
+//            "OR p.description LIKE %:keyword% " +
+//            "OR p.producer LIKE %:keyword% " +
+//            "OR p.price LIKE %:keyword%",
+//            nativeQuery = true)
+//    Page<Product> findAllByKeyword(@Param("keyword") String keyword, PageRequest pageRequest);
 
-    @Query(value = "SELECT * FROM products p WHERE p.product_name LIKE %:keyword% " +
-            "OR p.description LIKE %:keyword% " +
-            "OR p.producer LIKE %:keyword% " +
-            "OR p.price LIKE %:keyword%",
-            nativeQuery = true)
+    @EntityGraph(attributePaths = {"category"})
+    @Query("SELECT p FROM Product p WHERE " +
+            "p.productName LIKE CONCAT('%', :keyword, '%') " +
+            "OR p.description LIKE CONCAT('%', :keyword, '%') " +
+            "OR p.producer LIKE CONCAT('%', :keyword, '%') " +
+            "OR CAST(p.price AS string) LIKE CONCAT('%', :keyword, '%')")
+    Page<Product> findAllByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"category"})
+    @Query("SELECT p FROM Product p WHERE " +
+            "p.productName LIKE CONCAT('%', :keyword, '%') " +
+            "OR p.description LIKE CONCAT('%', :keyword, '%') " +
+            "OR p.producer LIKE CONCAT('%', :keyword, '%') " +
+            "OR CAST(p.price AS string) LIKE CONCAT('%', :keyword, '%')")
     List<Product> findAllByKeyword(@Param("keyword") String keyword);
 
-    @Query(value = "SELECT * FROM products p WHERE " +
-            "(p.product_name LIKE %:keyword% " +
-            "OR p.description LIKE %:keyword% " +
-            "OR p.producer LIKE %:keyword% " +
-            "OR p.price LIKE %:keyword%) " +
-            "AND p.is_searchable = 1",
-            nativeQuery = true)
+    @EntityGraph(attributePaths = {"category"})
+    @Query("SELECT p FROM Product p WHERE " +
+            "(p.productName LIKE CONCAT('%', :keyword, '%') " +
+            "OR p.description LIKE CONCAT('%', :keyword, '%') " +
+            "OR p.producer LIKE CONCAT('%', :keyword, '%') " +
+            "OR CAST(p.price AS string) LIKE CONCAT('%', :keyword, '%')) " +
+            "AND p.isSearchable = true")
     Page<Product> findAllByKeywordAndIsSearchableTrue(@Param("keyword") String keyword, PageRequest pageRequest);
 
-    @Query(value = "SELECT * FROM products p WHERE " +
-            "p.compatible_with LIKE %:compatibleWith% " +
-            "AND p.is_searchable = 1",
-            nativeQuery = true)
+    @EntityGraph(attributePaths = {"category"})
+    @Query("SELECT p FROM Product p WHERE " +
+            "p.compatibleWith LIKE CONCAT('%', :compatibleWith, '%') " +
+            "AND p.isSearchable = true")
     Page<Product> findAllByCompatibleWithAndIsSearchableTrue(@Param("compatibleWith") String compatibleWith, PageRequest pageRequest);
 
+    @EntityGraph(attributePaths = {"category", "galleries"})
     Optional<Product> findProductById(Integer id);
 
     Page<Product> findByIsVisibleTrue(PageRequest pageRequest);

@@ -15,14 +15,12 @@
 
 package com.martinatanasov.computerstore.entities;
 
-import com.martinatanasov.computerstore.model.Carrier;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "shipments")
@@ -36,7 +34,7 @@ public class Shipment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "quantity", nullable = false)
@@ -47,7 +45,7 @@ public class Shipment {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "carrier", nullable = false, length = 20)
-    private Carrier carrier;
+    private CarrierType carrier;
 
     @Column(name = "country", nullable = false, length = 50)
     private String country;
@@ -64,13 +62,13 @@ public class Shipment {
 
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private LocalDateTime creationDate;
 
     @UpdateTimestamp
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private LocalDateTime modifyDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     @ToString.Exclude
     private Order order;

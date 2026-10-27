@@ -15,9 +15,8 @@
 
 package com.martinatanasov.computerstore.model;
 
-import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 
 public record UserFailedAttempts (Byte attempts,
                                   Boolean accountNonLocked,
-                                  Timestamp lockDate){}
+                                  LocalDateTime lockDate){}

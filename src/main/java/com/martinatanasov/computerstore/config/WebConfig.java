@@ -15,6 +15,7 @@
 
 package com.martinatanasov.computerstore.config;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -32,8 +33,8 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableWebMvc
 @Profile(value = "prod")
-@RequiredArgsConstructor
-public class WebConfig implements WebMvcConfigurer {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class WebConfig implements WebMvcConfigurer {
 
     private final Environment environment;
 

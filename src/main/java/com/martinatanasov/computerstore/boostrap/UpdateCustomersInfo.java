@@ -19,6 +19,7 @@ import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.repositories.UserDao;
 import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
 import com.stripe.model.CustomerCollection;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -26,8 +27,8 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
-public class UpdateCustomersInfo implements CommandLineRunner {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class UpdateCustomersInfo implements CommandLineRunner {
 
     private final PaymentCustomerService paymentCustomerService;
     private final UserDao userDao;

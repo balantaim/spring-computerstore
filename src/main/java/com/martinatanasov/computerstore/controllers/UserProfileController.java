@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 Martin Atanasov.
+ * Copyright 2024-2026 Martin Atanasov.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,7 +23,9 @@ import com.martinatanasov.computerstore.services.ReviewService;
 import com.martinatanasov.computerstore.services.UserService;
 import com.martinatanasov.computerstore.utils.converter.AddressConverter;
 import com.martinatanasov.computerstore.utils.converter.UserAuthentication;
+import com.martinatanasov.computerstore.utils.converter.UserConverter;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,12 +38,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Controller
 @RequestMapping("/Profile")
-public class UserProfileController {
+class UserProfileController {
 
     private final UserService userService;
+    private final UserConverter userConverter;
     private final AddressConverter addressConverter;
     private final ReviewService reviewService;
     private final UserAuthentication userAuthentication;
@@ -66,7 +69,7 @@ public class UserProfileController {
 
         model.addAttribute("profileAddress", new ProfileAddressDTO());
         model.addAttribute("countries", addressConverter.getSupportedCountries());
-        model.addAttribute("user", user);
+        model.addAttribute("user", userConverter.userToUserAddressDTO(user));
         return "UserProfile/manage-address";
     }
 
@@ -76,7 +79,6 @@ public class UserProfileController {
             Model model) {
         //Get username/email
         final String userName = userAuthentication.getUsernameFromAuthentication();
-        final User user = userService.findByUserName(userName);
         //Update user's data
         if (profileAddressDTO == null || bindingResult.hasErrors()) {
             model.addAttribute("status", "error");
@@ -92,11 +94,12 @@ public class UserProfileController {
             //Add status success to model
             model.addAttribute("status", "success");
         }
-
         //Redirect to manage-address
         model.addAttribute("profileAddress", new ProfileAddressDTO());
         model.addAttribute("countries", addressConverter.getSupportedCountries());
-        model.addAttribute("user", user);
+        model.addAttribute("user", userConverter.userToUserAddressDTO(
+                userService.findByUserName(userName)
+        ));
         return "UserProfile/manage-address";
     }
 

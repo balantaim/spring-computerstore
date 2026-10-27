@@ -17,7 +17,6 @@ package com.martinatanasov.computerstore.config;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,24 +24,24 @@ import java.util.TimeZone;
 
 @Slf4j
 @Configuration
-public class TimeZoneConfig {
+class TimeZoneConfig {
 
     /**
      * Set the timezone of the Java application. This is important for date and time operations.
      */
+    private final String APPLICATION_TIME_ZONE;
 
-    @Nullable
-    @Value("${application.timezone:UTC}")
-    private String applicationTimeZone;
+    TimeZoneConfig(@Value("${application.timezone:UTC}") String applicationTimeZone) {
+        this.APPLICATION_TIME_ZONE = applicationTimeZone;
+    }
 
     @PostConstruct
     public void init(){
-        if (applicationTimeZone == null) {
-            throw new RuntimeException("Application timezone cannot be null!");
+        if (APPLICATION_TIME_ZONE.isEmpty()) {
+            throw new RuntimeException("Application timezone is not set!");
         }
-        TimeZone.setDefault(TimeZone.getTimeZone(applicationTimeZone));
-        log.info("\n\tApplication time zone set to {}!",
-                applicationTimeZone == null ? "UTC" : applicationTimeZone);
+        TimeZone.setDefault(TimeZone.getTimeZone(APPLICATION_TIME_ZONE));
+        log.info("\n\tApplication time zone set to {}!", APPLICATION_TIME_ZONE);
     }
 
 }

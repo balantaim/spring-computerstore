@@ -19,7 +19,7 @@ import com.martinatanasov.computerstore.entities.Role;
 import lombok.Builder;
 import org.jspecify.annotations.Nullable;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Builder
@@ -37,9 +37,9 @@ public record UserDetailsDTO(
         Boolean enabled,
         Boolean accountNonLocked,
         Boolean verifiedProfile,
-        Timestamp creationDate,
-        Timestamp modifyDate,
-        Timestamp lockDate,
+        LocalDateTime creationDate,
+        LocalDateTime modifyDate,
+        LocalDateTime lockDate,
         Collection<Role> roles
 ) {
 }

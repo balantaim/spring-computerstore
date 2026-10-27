@@ -85,6 +85,7 @@ class ProductServiceImpl implements ProductService {
     }
 
     @Cacheable(cacheNames = "productCache", key = "#id")
+    @Transactional(readOnly = true)
     @Override
     public Optional<Product> getProductById(Integer id) {
         return productRepository.findProductById(id);
@@ -136,8 +137,8 @@ class ProductServiceImpl implements ProductService {
 
     private Sort getProductSort(String sortValue) {
         return switch (sortValue) {
-            case "asc" -> Sort.by(Sort.Order.asc("product_name"));
-            case "desc" -> Sort.by(Sort.Order.desc("product_name"));
+            case "asc" -> Sort.by(Sort.Order.asc("productName"));
+            case "desc" -> Sort.by(Sort.Order.desc("productName"));
             case "0-9" -> Sort.by(Sort.Order.asc("price"));
             default -> Sort.by(Sort.Order.desc("price"));
         };

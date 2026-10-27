@@ -20,6 +20,7 @@ import com.martinatanasov.computerstore.entities.Product;
 import com.martinatanasov.computerstore.services.CategoryService;
 import com.martinatanasov.computerstore.services.ProductService;
 import com.martinatanasov.computerstore.utils.converter.ProductConverter;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
@@ -36,8 +37,8 @@ import static com.martinatanasov.computerstore.controllers.CustomErrorController
 
 @Controller
 @PreAuthorize("hasRole('MANAGER')")
-@RequiredArgsConstructor
-public class ManagementController {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class ManagementController {
 
     private final ProductService productService;
     private final ProductConverter productConverter;

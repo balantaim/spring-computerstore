@@ -20,10 +20,7 @@ import com.martinatanasov.computerstore.entities.Payment;
 import com.martinatanasov.computerstore.entities.Shipment;
 import com.martinatanasov.computerstore.entities.User;
 import com.martinatanasov.computerstore.model.UserFailedAttempts;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
@@ -47,12 +44,19 @@ class UserDaoImpl implements UserDao {
             return user;
         }
         // Retrieve/read from database using username
-        TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE email = :userEmail AND enabled = true AND accountNonLocked = true", User.class);
+        TypedQuery<User> theQuery = entityManager.createQuery(
+                "SELECT u FROM User u " +
+                        "LEFT JOIN FETCH u.roles " +
+                        "WHERE u.email = :userEmail " +
+                        "AND u.enabled = true " +
+                        "AND u.accountNonLocked = true", User.class);
         theQuery.setParameter("userEmail", email);
         try {
             user = theQuery.getSingleResult();
+        } catch (NoResultException e) {
+            log.warn("No user found with email {}", email);
         } catch (Exception e) {
-            log.error(e.toString());
+            log.error(e.getMessage());
         }
         return user;
     }
@@ -69,6 +73,27 @@ class UserDaoImpl implements UserDao {
             log.error(e.toString());
         }
         return user;
+    }
+
+    @Override
+    public @Nullable User findByUserIdWithRoles(final Long id) {
+        if (id == null) {
+            return null;
+        }
+        TypedQuery<User> theQuery = entityManager.createQuery(
+                "SELECT u FROM User u " +
+                        "LEFT JOIN FETCH u.roles " +
+                        "WHERE u.id = :userId", User.class);
+        theQuery.setParameter("userId", id);
+
+        try {
+            return theQuery.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            log.error("Failed to load user by id", e);
+            return null;
+        }
     }
 
     @Override

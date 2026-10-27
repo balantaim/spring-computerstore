@@ -19,8 +19,8 @@ package com.martinatanasov.computerstore.services;
 import com.martinatanasov.computerstore.entities.Cart;
 import com.martinatanasov.computerstore.entities.Order;
 import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.model.Carrier;
-import com.martinatanasov.computerstore.model.OrderStatus;
+import com.martinatanasov.computerstore.entities.CarrierType;
+import com.martinatanasov.computerstore.entities.OrderStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -39,9 +39,11 @@ public interface OrderService {
 
     Optional<Order> getOrderById(Long orderId);
 
+    Optional<Order> getOrderDetails(Long orderId, String email);
+
     boolean createNewOrder(User user, Iterable<Cart> cartItems);
 
-    @Nullable Order updateOrderAndEntities(User user, Order order, Carrier carrier, String trackingNumber);
+    @Nullable Order updateOrderAndEntities(User user, Order order, CarrierType carrier, String trackingNumber);
 
     boolean updateOrderAndPaymentAfterPaymentComplete(String rawJson);
 

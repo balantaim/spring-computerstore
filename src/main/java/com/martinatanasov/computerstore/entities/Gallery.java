@@ -20,7 +20,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "galleries")
@@ -33,6 +33,7 @@ public class Gallery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "image_url", nullable = false, columnDefinition = "VARCHAR(255)")
@@ -44,13 +45,14 @@ public class Gallery {
 
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private LocalDateTime creationDate;
 
     @UpdateTimestamp
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private LocalDateTime modifyDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
+    @ToString.Exclude
     private Product product;
 }
