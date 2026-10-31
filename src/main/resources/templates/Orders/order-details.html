@@ -53,10 +53,8 @@
                 <section th:if="${order.status}" th:replace="~{fragments/order-status :: order-status}"></section>
 
                 <!-- Order registration date -->
-                <p class="mr-4 mt-2 has-skeleton" th:if="${order.orderDate}">[[#{order.date}]] [[${#temporals.format(order.orderDate,
-                    'dd.MM.yyyy, HH:mm')}]]</p>
-                <p class="mr-4 mt-2 has-skeleton" th:if="${order.modifyDate}">[[#{order.modify}]] [[${#temporals.format(order.modifyDate,
-                    'dd.MM.yyyy, HH:mm')}]]</p>
+                <p class="mr-4 mt-2 has-skeleton" th:if="${order.orderDate}">[[#{order.date}]] [[${{order.orderDate}}]]</p>
+                <p class="mr-4 mt-2 has-skeleton" th:if="${order.modifyDate}">[[#{order.modify}]] [[${{order.modifyDate}}]]</p>
             </div>
 
         </div>

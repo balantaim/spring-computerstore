@@ -53,7 +53,7 @@
                     <section th:if="${order.status}" th:replace="~{fragments/order-status :: order-status}"></section>
 
                     <!-- Order registration date -->
-                    <p class="mr-4 mt-2 has-skeleton" th:if="${order.orderDate}">[[#{order.date}]] [[${#temporals.format(order.orderDate, 'dd.MM.yyyy, HH:mm')}]]</p>
+                    <p class="mr-4 mt-2 has-skeleton" th:if="${order.orderDate}">[[#{order.date}]] [[${{order.orderDate}}]]</p>
 
                      <form action="#" th:action="@{/Orders/order-details/{id}(id=${order.id})}" method="GET">
                           <button type="submit" class="button is-primary ml-4 mr-4 mt-6 is-rounded is-centered is-skeleton">

@@ -77,7 +77,7 @@
 --STRIPE_WEBHOOK_SECRET=<YOUR_SECRET> \
 --DB_NAME=<YOUR_NAME> \
 --DB_PASSWORD=<YOUR_PASS> \
---DB_URL=<YOUR_URL>?serverTimezone=Europe/Sofia \
+--DB_URL=<YOUR_URL>?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true \
 --TEST_DB_NAME=<TEST_DB> \
 --TEST_DB_PASSWORD=<TEST_PASS> \
 --TEST_DB_URL=<TEST_DB_URL> \
@@ -114,7 +114,7 @@
     --spring.profiles.active="prod" \
     --spring.datasource.username="<YOUR_DB_NAME>" \
     --spring.datasource.password="<YOUR_DB_PASS>" \
-    --spring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+    --spring.datasource.url="<YOUR_DB_URL>?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true" \
     --stripe.secret.key="<YOUR_KEY>" \
     --stripe.webhook.secret="<YOUR_SECRET>"
     ```
@@ -276,7 +276,7 @@ Run the following command to run `unit` tests:
   -Dspring.profiles.active="test" \
   -Dspring.datasource.username="<YOUR_DB_NAME>" \
   -Dspring.datasource.password="<YOUR_DB_PASS>" \
-  -Dspring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+  -Dspring.datasource.url="<YOUR_DB_URL>?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true" \
   -Dstripe.secret.key="<YOUR_KEY>" \
   -Dstripe.webhook.secret="<YOUR_SECRET>"
 ```
@@ -288,7 +288,7 @@ Run the following command to run `integration` tests:
   -Dspring.profiles.active="test" \
   -Dspring.datasource.username="<YOUR_DB_NAME>" \
   -Dspring.datasource.password="<YOUR_DB_PASS>" \
-  -Dspring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+  -Dspring.datasource.url="<YOUR_DB_URL>?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true" \
   -Dstripe.secret.key="<YOUR_KEY>" \
   -Dstripe.webhook.secret="<YOUR_SECRET>"
 ```
@@ -300,7 +300,7 @@ Run the following command to run `ArchUnit` tests for architecture:
   -Dspring.profiles.active="test" \
   -Dspring.datasource.username="<YOUR_DB_NAME>" \
   -Dspring.datasource.password="<YOUR_DB_PASS>" \
-  -Dspring.datasource.url="<YOUR_DB_URL>?serverTimezone=Europe/Sofia" \
+  -Dspring.datasource.url="<YOUR_DB_URL>?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true" \
   -Dstripe.secret.key="<YOUR_KEY>" \
   -Dstripe.webhook.secret="<YOUR_SECRET>"
 ```

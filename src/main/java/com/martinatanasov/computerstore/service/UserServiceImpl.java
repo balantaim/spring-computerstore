@@ -121,8 +121,8 @@ class UserServiceImpl implements UserService {
     public void disableOrEnableUser(
             final Long userId,
             final boolean enabled,
-            final boolean verified,
-            boolean accountNonLocked) {
+            final boolean accountNonLocked,
+            final boolean verified) {
         User user = findByUserId(userId);
         if (user != null) {
             if (user.getEnabled() != enabled) {

@@ -76,7 +76,7 @@
                                     <th th:text="${iterStat.count}" ></th>
                                     <td><a th:href="@{/Administration/profile/{id}(id=${user.id})}" th:text="${user.email}"></a></td>
                                     <td th:text="${user.id}"></td>
-                                                        <!-- Enabled -->
+                                    <!-- Enabled -->
                                     <td>
                                         <div class="select">
                                             <select name="enabled" th:id="'enabled-' + ${user.id}">
@@ -86,7 +86,7 @@
                                         </div>
 
                                     </td>
-                                                                        <td>
+                                    <td>
                                         <div class="select">
                                             <select name="accountNonLocked" th:id="'accountNonLocked-' + ${user.id}">
                                                 <option th:value="true"  th:selected="${user.accountNonLocked} == true">True</option>
@@ -104,8 +104,9 @@
                                         </div>
 
                                     </td>
-                                    <td th:text="${#temporals.format(user.creationDate, 'dd.MM.yyyy, HH:mm')}"></td>
-                                    <td th:text="${#temporals.format(user.modifyDate, 'dd.MM.yyyy, HH:mm')}"></td>
+                                    <!-- Use double {{}} for date! -->
+                                    <td th:text="${{user.creationDate}}"></td>
+                                    <td th:text="${{user.modifyDate}}"></td>
                                     <td>
                                         <button type="submit"
                                                 class="button is-text is-rounded p-0 is-skeleton"
