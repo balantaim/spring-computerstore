@@ -15,9 +15,9 @@
 
 package com.martinatanasov.computerstore.security;
 
-import com.martinatanasov.computerstore.security.filters.BotDetectionFilter;
-import com.martinatanasov.computerstore.security.filters.RememberMeSessionPopulationFilter;
-import com.martinatanasov.computerstore.services.UserService;
+import com.martinatanasov.computerstore.security.filter.BotDetectionFilter;
+import com.martinatanasov.computerstore.security.filter.RememberMeSessionPopulationFilter;
+import com.martinatanasov.computerstore.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;

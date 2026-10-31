@@ -31,13 +31,13 @@ import org.springframework.stereotype.Component;
 @Component
 class LoggingAspect {
 
-    @Pointcut("execution(* com.martinatanasov.computerstore.controllers.*.*(..))")
+    @Pointcut("execution(* com.martinatanasov.computerstore.controller.*.*(..))")
     private void forControllersPackage(){}
 
-    @Pointcut("execution(* com.martinatanasov.computerstore.services.*.*(..))")
+    @Pointcut("execution(* com.martinatanasov.computerstore.service.*.*(..))")
     private void forServicesPackage(){}
 
-    @Pointcut("execution(* com.martinatanasov.computerstore.repositories.*.*(..))")
+    @Pointcut("execution(* com.martinatanasov.computerstore.repository.*.*(..))")
     private void forRepositoriesPackage(){}
 
     @Pointcut("forControllersPackage() || forServicesPackage() || forRepositoriesPackage()")

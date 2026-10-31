@@ -15,7 +15,7 @@
 
 package com.martinatanasov.computerstore.model;
 
-import com.martinatanasov.computerstore.entities.Category;
+import com.martinatanasov.computerstore.entity.Category;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;

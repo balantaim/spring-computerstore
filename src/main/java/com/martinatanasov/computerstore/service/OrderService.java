@@ -1,0 +1,57 @@
+/*
+ * Copyright 2025-2026 Martin Atanasov.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.martinatanasov.computerstore.service;
+
+
+import com.martinatanasov.computerstore.entity.Cart;
+import com.martinatanasov.computerstore.entity.Order;
+import com.martinatanasov.computerstore.entity.User;
+import com.martinatanasov.computerstore.entity.CarrierType;
+import com.martinatanasov.computerstore.entity.OrderStatus;
+import org.jspecify.annotations.Nullable;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+public interface OrderService {
+
+    Set<Order> getAllByUserEmail(String email);
+
+    List<Order> findAll();
+
+    Order save(Order order);
+
+    Optional<Order> getFirstByStatusAndUserId(Long userId, OrderStatus status);
+
+    Optional<Order> getOrderById(Long orderId);
+
+    Optional<Order> getOrderDetails(Long orderId, String email);
+
+    boolean createNewOrder(User user, Iterable<Cart> cartItems);
+
+    @Nullable Order updateOrderAndEntities(User user, Order order, CarrierType carrier, String trackingNumber);
+
+    boolean updateOrderAndPaymentAfterPaymentComplete(String rawJson);
+
+    void abortOrder(Order order);
+
+    void delete(Order order);
+
+    int getUnfinishedOrdersCount(String email);
+
+}
+

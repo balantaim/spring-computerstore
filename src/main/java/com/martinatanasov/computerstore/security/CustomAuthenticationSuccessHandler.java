@@ -16,7 +16,7 @@
 package com.martinatanasov.computerstore.security;
 
 import com.martinatanasov.computerstore.config.SessionRedirectionConfig;
-import com.martinatanasov.computerstore.services.SessionService;
+import com.martinatanasov.computerstore.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

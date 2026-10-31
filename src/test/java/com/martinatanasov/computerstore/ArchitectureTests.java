@@ -37,9 +37,9 @@ public class ArchitectureTests {
     public void mvcLayersTest() {
         layeredArchitecture()
                 .consideringOnlyDependenciesInLayers()
-                .layer("Controller").definedBy("..controllers..")
-                .layer("Service").definedBy("..services..")
-                .layer("Repository").definedBy("..repositories..")
+                .layer("Controller").definedBy("..controller..")
+                .layer("Service").definedBy("..service..")
+                .layer("Repository").definedBy("..repository..")
                 //Controller → Service
                 .whereLayer("Controller").mayOnlyAccessLayers("Service")
                 //Service → Repository
@@ -55,7 +55,7 @@ public class ArchitectureTests {
     @Test
     void controllersShouldBeAnnotatedAndContainCorrectName() {
         classes()
-                .that().resideInAPackage("..controllers..")
+                .that().resideInAPackage("..controller..")
                 //Ignore inner / anonymous
                 .and().areTopLevelClasses()
                 //Skip package-info
@@ -70,7 +70,7 @@ public class ArchitectureTests {
     @Test
     void servicesShouldBeAnnotatedAndContainCorrectName() {
         classes()
-                .that().resideInAPackage("..services..")
+                .that().resideInAPackage("..service..")
                 //Ignore inner / anonymous
                 .and().areTopLevelClasses()
                 //Ignore interfaces
@@ -84,7 +84,7 @@ public class ArchitectureTests {
     @Test
     void repositoriesShouldBeAnnotatedAndContainCorrectName() {
         classes()
-                .that().resideInAPackage("..repositories..")
+                .that().resideInAPackage("..repository..")
                 //Ignore inner / anonymous
                 .and().areTopLevelClasses()
                 //Ignore interfaces

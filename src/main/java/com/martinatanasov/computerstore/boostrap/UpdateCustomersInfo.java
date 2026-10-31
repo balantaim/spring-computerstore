@@ -15,9 +15,9 @@
 
 package com.martinatanasov.computerstore.boostrap;
 
-import com.martinatanasov.computerstore.entities.User;
-import com.martinatanasov.computerstore.repositories.UserDao;
-import com.martinatanasov.computerstore.services.payments.PaymentCustomerService;
+import com.martinatanasov.computerstore.entity.User;
+import com.martinatanasov.computerstore.repository.UserDao;
+import com.martinatanasov.computerstore.service.payments.PaymentCustomerService;
 import com.stripe.model.CustomerCollection;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

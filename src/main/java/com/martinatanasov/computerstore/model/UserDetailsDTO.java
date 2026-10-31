@@ -15,7 +15,7 @@
 
 package com.martinatanasov.computerstore.model;
 
-import com.martinatanasov.computerstore.entities.Role;
+import com.martinatanasov.computerstore.entity.Role;
 import lombok.Builder;
 import org.jspecify.annotations.Nullable;
 
